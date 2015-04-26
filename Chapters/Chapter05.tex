@@ -3,32 +3,85 @@
 %************************************************
 
 
+%%%%%%%%% BODY TEXT
 \section{Introduction}
 
+In the present work we study the hypothesis of the existence of a mechanism to mimic place cells from appearance information in order to provide localization within an indoor context. In other words, our research question could be enunciated as ``given a series of images, is there a way we can generate a place cell response that can be used to localize a subject with respect to previously visited places?''.
 
-Place cells are a special type of neurons located in the hippocampus which fire when an animal ``recognises'' a particular place in the environment. These cells were discovered by John O'Keefe, and together with Edvard and May-Britt Moser for their discovery of grid cells received the 2014 Nobel Prize in Physiology or Medicine. This award highlights the importance of the discovery,let alone because these cells are located in one of the least known but more attractive areas of our brains: the hippocampus, with a key role in memory.
+The topic of biologically inspired visual localization has not been explored to the extent of visual localization on its own. To the best of our knowledge, Milford and colleagues have extensively studied the matter, remarkably setting a seminal precedent with the publication of RatSLAM \cite{milford2004ratslam}, a persistent navigation and mapping model based on the hippocampus of rodents that continuously performed SLAM while simultaneously interacting with other navigation systems, such as odometry and landmark detection. Their recent work has been focused on taking RatSLAM to larger scales and incorporating more complex visual landmark detection models. However, we believe those vision models do not capture all the information bandwidth that is required in the same proportion by our brains to provide localization.
+
+\subsection{Summary of contributions}
+
+Our approach to indoor localization is novel for several reasons. In first place, we use those appearance-based methods that, among others, best mimic the biological visual sensory inputs. In second place, we contribute a model for appearance-based localization based on hippocampal place cells mimicry that is able to encode distinctive information from unseen queries based on the recall of previously visited places. In third place, we provide a complete pipeline of visual localization by incorporating a decoder of the place cell localization model in the form of a generalized neural network (GNN). Finally, we provide an evaluation of the method by testing the system with a publicly available database of indoor sequences of more than 120,000 frames and 3 km of length. We demonstrate that an achievable error of less than X m is possible. Finally, we provide a discussion on the potential advantages and pitfalls of this type of localization system.
+
+
 
 \section{Biological background}
 
+Navigation is one of the most complex tasks performed by animals, as it involves integration of multiple sensory inputs, requires combined processing with past information (memory) and the execution of physical actions to perform navigation movements.
+
+John O'Keefe, together with Edvard and May-Britt Moser, received the Nobel Prize in Physiology or Medicine for their discovery of the place and grid cells in the brain, respectively. This award highlights the importance of the discovery, let alone because these cells are located in one of the least known but more attractive areas of our brains: the hippocampus, with a key role in memory, and its adjacent areas.
+
+Humans, like other animals, need a sense of position to perform basic interaction with the environment. This interaction is often finding our way from one place to another and place awareness is integrated with distance and direction information to navigate.
+
+Early findings in the topic suggested that a cognitive map of the environment with a set of landmarks is created and that spatial relationships between them are used to navigate \cite{keefe1978hippocampus}. It was the pioneering ability of O'Keefe and colleagues to carry out experiments to record nerve cells firing rates in moving animals that it was found that these maps originate in the hippocampus and surrounding areas.
+
 \subsection{Place cells}
 
-\subsubsection{Place fields}
 
-\subsubsection{Cognitive map}
+Place cells are a special type of neurons located in the hippocampus which fire when an animal ``recognises'' a particular place in the environment. Grid cells, located next to the hippocampus in the entorhinal cortex, provides the brain with a reference system for navigation, a ``grid'' that is used as a form of coordinates for the creation of spatial maps. The combination of place and grid cells neural circuitry is crucial for the execution of navigation tasks.
 
-\subsubsection{Misplace cells}
+The area in the environment at which the place cells show intense firing patterns is called place field. The combination of multiple place fields yields a spatial map of the environment, and multiple spatial maps formed by combination of different place cell activity patterns -- with repetition -- are thought to be stored in the hippocampus. It is the unique combination of a specific number of place cell firing patterns in a specific order what gives place to a unique environment representation \cite{okeefe1971hippocampus}.
 
-\subsection{Allocentric representation}
+It was when studying the entorhinal cortex looking for similar place coding cells when the Mosers discovered the grid cell type, with unprecedented properties \cite{hafting2005microstructure}. Specially, they present multiple-locations firing pattern with hexagonal shape, thought to be part of a navigation or path integration system with distance measuring and coordinate system properties. Apart from grid cells, there are other cells in the entorhinal cortex that have a spatial function. These are head direction cells, which act similarly to a compass; border cells, active in reference to boundaries; and combined cells. The Mosers demonstrated that all these cells project to the hippocampus, concretely to the CA1 area where place cells are located \cite{zhang2013optogenetic}. This corroborates the studies that show that entorhinal cortex cells that encode spatial information, specially	 border cells, play a role in the firing activity of place cells \cite{bush2014grid}.
 
-\subsection{Sensory input}
+\subsection{Appearance-based methods as models of sensory inputs to place cell models}
 
-\subsubsection{Metric vs contextual}
+\subsubsection{Gradient operators as V1 receptive field models}
 
-\subsubsection{Visuospatial cues}
+In \cite{bush2014grid}, Bush et al. establish the idea that grid cells and place cells are not successive links of a chain when performing localization and navigation tasks, but complementary and interconnected processing units to encode spatial maps. Importantly, they claim that place cell spatial firing is determined by sensory inputs, among which vision plays a major role.
 
-\subsection{Population encoding}
+This motivated us to create models of place cell encoding patterns from elements of the computer vision research that modelled visual cortex representation. An exceptional case is the one of gradient operations, present in SIFT and SIFT-like descriptors, as models of the pyramidal neurons in the primary visual cortex (V1), which exhibit strong direction selectivity, spatial phase invariance and response inhibition \cite{hubel1962receptive, dhruv2014cascaded,carandini2006simple}.
 
-\section{Modelling a single place cell}
+The seminal work of Hubel and Wiesel \cite{hubel1962receptive} proposed that the response of V1 neurons is produced by stimuly of higher complexity than ganglion cells in the retina and the lateral geniculate nucleus (LGN). In particular, it is known that simple and complex cells in the V1 display orientation selectivity produced by bars or edge stimuli \cite{payne2001cat}.
+
+This orientation selective simple cells can be modelled as the output of a 2D Gabor function \cite{daugman1985uncertainty}, and through tuning their parameters, different combinations of orientation and phase can be achieved. In particular, the steerability of the Gabor filter can represent the orientation selectivity of these neurons, whilst the phase parameter of the filter can be viewed as their shape selectivity. 
+
+We have therefore studied the use of 2D Gabor-like filters, which have been used for a great variety of applications in Computer Vision, from action recognition \cite{shu2014bio} to face recognition \cite{liao2013partial} and appearance-based indoor localization \cite{rivera2015appearance}, and often as part of a biologically inspired system \cite{shu2014bio}. Mathematically, the over-completeness of Gabor outputs, i.e. multiple Gabor output values to a single pixel, provides advantageous invariance properties for descriptors computed on local image patches. In particular, the main benefit of using Gabor filters resides in the combination of symmetric and antisymmetric responses that yields a description of local regions in an image that are either phase selective or phase invariant. The real part of these filters presents the simple cell receptive fields behavior described above \cite{jones1987evaluation}. In Fig. \ref{fig:simple_cell} we illustrate the orientation selectivity of V1 simple cell receptive fields, and an example 2D Gabor fit spatial and 2D views.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{./gfx/Chapter05//simple_cell_gabor.pdf}
+\caption{Orientation sensitive simple cells which only respond to a bar of certain size and orientation.}
+\label{fig:simple_cell}
+\end{figure}
+
+Also relevant to this study, the difference of Gaussians (DoG) space representation found in the scale invariant feature transform (SIFT) keypoint detection \cite{lowe2004distinctive} may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behavior of complex cells in V1. In particular, each bin of the histogram of oriented gradients (HOG) can be seen as a single orientation-selective neuron.
+
+We have seen that we can use 2D Gabor like features as a biologically plausible input to place cells models to provide localization. Though differently inspired, we also used SIFT in order to constitute a baseline for our experiments.
+
+\subsubsection{BOVW model spatial binning as a form of population encoding}
+
+Here we need to include the notions of the spatial binning achieved during clustering as a form of population encoding: close locations in space correspond to close positions in V1 receptive fields. Expand.
+
+\section{Overview of the system}
+
+Here I have added a draft of the pipeline only for training. I need to talk about the testing (decoding too).
+
+
+\subsection{System Pipeline}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{./gfx/Chapter05//nn_pipeline.pdf}
+\caption{Overview of the training pipeline. The diagram of the neural network is merely illustrative, it does not represent the real architecture used.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Data}
+
+\section{Modelling a single place cell: the tuning curve encoder}
 
 We refer to place cells, according to the previous section, as a biological term to denominate a special type of neurons sensitive to specific spatial locations. This point forward, the term ``place cell'' will also be used not only to describe a biological entity but to refer to the output of a series of algorithms that mimic the behaviour of their biological counterparts.
 
@@ -38,60 +91,76 @@ Given the nature of image matching techniques, one would expect high scores when
 
 If we take an unseen query frame from one of the passes of the RSM dataset and use one of the similarty metrics described in Section \ref{sec:metrics}
 
+\section{Decoding location representations: a neural network approach}
+
+
+\section{Experiments}
+
+\subsection{Hippocampal modelling experiments}
+
+\subsection{Localization experiments}
 
 \section{Results}
 
 \begin{figure}
 	\centering
-	\setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\textwidth}
-		\input{./gfx/Chapter05/tikz/single_tuning_curve_no_smooth.tikz}
-	\caption{Single tuning curve without smoothing}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\textwidth}
-		\input{./gfx/Chapter05/tikz/single_tuning_curve_smooth.tikz}
-	\caption{Single tuning curve without smoothing}
+	\setlength\figureheight{0.3\textwidth}
+	\setlength\figurewidth{0.4\textwidth}
+		\input{./gfx/Chapter05//tikz/single_tuning_curve.tex}
+	\caption{Single tuning curve with and without smoothing}
 \end{figure}
 
 \subsection{Features of a place cell}
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{./gfx/Chapter05/dragoi_et_al_place_cell.png}
+\includegraphics[width=\linewidth]{./gfx/Chapter05//dragoi_et_al_place_cell.png}
 \caption{Caption}
 \label{}
 \end{figure}
 
-\section{Modelling a place field}
+\subsection{Modelling a place field}
 
 \begin{figure}
 	\centering
-	\setlength\figureheight{0.6\textwidth}
+	\setlength\figureheight{0.3\textwidth}
 	\setlength\figurewidth{0.8\textwidth}
-		\input{./gfx/Chapter05/tikz/receptive_place_field.tikz}
-	\caption{Single tuning curve without smoothing}
+		\input{./gfx/Chapter05//tikz/receptive_place_field.tex}
+	\caption{Single tuning curve with smoothing}
 \end{figure}
 
 
 
-\section{Modelling a visual path}
+\subsection{Modelling a trajectory}
 
-\input{./gfx/Chapter05/tikz/tuning_curves.tex}
+\begin{figure*}
+	\centering
+	\setlength\figureheight{0.3\linewidth}
+	\setlength\figurewidth{0.8\linewidth}
+\input{./gfx/Chapter05//tikz/tuning_curves.tex}
+\caption{Place cells responses to training observations on training pass 4}
+\label{}
+\end{figure*}
 
-\subsection{Spatial intuition}
+\begin{figure}
+	\centering
+	\setlength\figureheight{0.5\linewidth}
+	\setlength\figurewidth{0.7\linewidth}
+		\input{./gfx/Chapter05//tikz/2x2comp.tex}
+	\caption{Location estimate comparison}
+\end{figure}
+
+\subsection{Sublocalization}
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{./gfx/Chapter05/placeCellsExperiment_withDetection_5px.png}
+\includegraphics[width=.6\linewidth]{./gfx/Chapter05//placeCellsExperiment_withDetection_5px.png}
 \caption{Caption}
 \label{}
 \end{figure}
 
 \section{Conclusion}
+
 
 %*****************************************
 %*****************************************
