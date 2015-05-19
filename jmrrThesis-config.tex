@@ -124,6 +124,17 @@
 \captionsetup{format=hang,font=small}
 \usepackage{subfig}
 \usepackage{multirow}
+\usepackage{adjustbox}
+
+\usepackage{array}
+
+\newcolumntype{R}[2]{%
+    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+    l%
+    <{\egroup}%
+}
+\newcommand*\rot{\multicolumn{1}{R{60}{1em}}}% no optional argument here, please!
+
 
 % ****************************************************************************************************
 
@@ -302,3 +313,8 @@
 \usepgfplotslibrary{external} 
 \newlength\figureheight 
 \newlength\figurewidth 
+
+% Some math stuff
+\def\tens#1{\ensuremath{\mathsf{#1}}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}

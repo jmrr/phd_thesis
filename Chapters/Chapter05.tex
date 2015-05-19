@@ -5,93 +5,478 @@
 
 \section{Introduction}
 
+The present work is motivated by the potential of location-sensitive computational units to achieve self-localization from visual information captured by wearable or hand-held cameras.  Studies of biological vision suggest that in many species, several strategies are simultaneously employed to help an animal localize itself, from visual horizon and path integration in ants~\cite{narendra2013mapping} to the use of optic flow in insects and birds \cite{krapp2000neuronal, bhagavatula2011optic}. This is even the case of a single sensing modality such as vision, where optic flow and image descriptors have been combined to produce a visual homing system that mimics such of insects~\cite{vardy2005biologically}.
 
-Place cells are a special type of neurons located in the hippocampus which fire when an animal ``recognises'' a particular place in the environment. These cells were discovered by John O'Keefe, and together with Edvard and May-Britt Moser for their discovery of grid cells received the 2014 Nobel Prize in Physiology or Medicine. This award highlights the importance of the discovery,let alone because these cells are located in one of the least known but more attractive areas of our brains: the hippocampus, with a key role in memory.
+Particularly in this work, we have developed a mechanism to mimic hippoccampal place cells from appearance information to provide localization within an indoor context. In other words, our research question could be enunciated as ``given a series of images taken during human navigation, is there a way we can generate a place cell response that can be used to localize a subject with respect to previously visited places?''.
+\vspace{-0.5cm}
 
-\section{Biological background}
+\subsection{Summary of Contributions}
 
-\subsection{Place cells}
-
-\subsubsection{Place fields}
-
-\subsubsection{Cognitive map}
-
-\subsubsection{Misplace cells}
-
-\subsection{Allocentric representation}
-
-\subsection{Sensory input}
-
-\subsubsection{Metric vs contextual}
-
-\subsubsection{Visuospatial cues}
-
-\subsection{Population encoding}
-
-\section{Modelling a single place cell}
-
-We refer to place cells, according to the previous section, as a biological term to denominate a special type of neurons sensitive to specific spatial locations. This point forward, the term ``place cell'' will also be used not only to describe a biological entity but to refer to the output of a series of algorithms that mimic the behaviour of their biological counterparts.
-
-Given the nature of image matching techniques, one would expect high scores when two images are visually similar, and low ones when they are dissimilar. 
-
-%Additionally, as the visual paths datasets analysed in this work present a sequential
-
-If we take an unseen query frame from one of the passes of the RSM dataset and use one of the similarty metrics described in Section \ref{sec:metrics}
+Our approach to indoor localization is novel for several reasons. In the first place, we contribute a model for appearance-based localization based on hippocampal place cells mimicry that is able to encode distinctive information from unseen queries based on the recall of previously visited places. In second place, we provide a complete pipeline of visual localization by incorporating a decoder of the place cell localization model in the form of a generalized regression neural network (GRNN). Finally, we provide an evaluation of the method by testing the system with a publicly available database of indoor sequences of more than 120,000 frames and 3 km of length. We demonstrate that sub-meter localization errors are achievable. Finally, we provide a discussion on the potential advantages and pitfalls of this type of localization system.
 
 
-\section{Results}
+\section{Background}
 
-\begin{figure}
-	\centering
-	\setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\textwidth}
-		\input{./gfx/Chapter05/tikz/single_tuning_curve_no_smooth.tikz}
-	\caption{Single tuning curve without smoothing}
+Navigation is one of the most complex tasks performed by animals, as it involves integration of multiple sensory inputs, requires combined processing with past information (memory) and the execution of physical actions to perform navigation movements.
+
+John O'Keefe, together with Edvard and May-Britt Moser, received the Nobel Prize in Physiology or Medicine for their discovery of the place and grid cells in the brain, respectively. This award highlights the importance of the discovery, let alone because these cells are located in one of the least known areas of our brains: the hippocampus, with a key role in memory, and its adjacent areas. Early findings in the topic suggested that a cognitive map of the environment with a set of landmarks is created and that spatial relationships between them are used to navigate \cite{keefe1978hippocampus}.
+
+Humans, like other animals, need a sense of position to perform basic interaction with the environment. This interaction is often finding our way from one place to another and place awareness is integrated with distance and direction information to navigate. 
+
+
+\subsection{Biological Place Cells (BPC)}
+
+
+Place cells are a special type of neurons located in the hippocampus which fire when an animal ``recognises'' a particular place in the environment. Grid cells, located next to the hippocampus in the entorhinal cortex, provides the brain with a reference system for navigation, a ``grid'' that is used as a form of coordinates for the creation of spatial maps. The combination of place and grid cells neural circuitry is crucial for the execution of navigation tasks.
+
+The area in the environment at which the place cells show intense firing patterns is called place field. The combination of multiple place fields yields a spatial map of the environment, and multiple spatial maps formed by combination of different place cell activity patterns -- with repetition -- are thought to be stored in the hippocampus. It is the unique combination of a specific number of place cell firing patterns in a specific order what gives place to a unique environment representation \cite{okeefe1971hippocampus}.
+
+It was when studying the entorhinal cortex looking for similar place coding cells when the Mosers discovered the grid cell type, with unprecedented properties \cite{hafting2005microstructure}. Specially, they present multiple-locations firing pattern with hexagonal shape, thought to be part of a navigation or path integration system with distance measuring and coordinate system properties. Apart from grid cells, there are other cells in the entorhinal cortex that have a spatial function. These are head direction cells, which act similarly to a compass; border cells, active in reference to boundaries; and combined cells. The Mosers demonstrated that all these cells project to the hippocampus, concretely to the CA1 area where place cells are located \cite{zhang2013optogenetic}. This corroborates the studies that show that entorhinal cortex cells that encode spatial information, specially	 border cells, play a role in the firing activity of place cells \cite{bush2014grid}.
+
+The evidence is that many cues, and perhaps even self-motion itself, may be involved in forming the observed location-selective response of biological place-cells.  The visual information captured by the eyes should be seen as only one of the many sensory and internal cues that lead to the spatially selective nature of biological place-cell responses \cite{hassabis2009decoding}. Nevertheless, in many animals, and certainly in humans and primates, vision is a particularly strong environmental cue to one's position \cite{epstein1998cortical}.
+
+
+\subsection{Appearance-based methods as models of sensory inputs to place cell models}
+
+\subsubsection{Gradient operators as V1 receptive field models}
+
+In \cite{bush2014grid}, Bush et al. establish the idea that grid cells and place cells are not successive links of a chain when performing localization and navigation tasks, but complementary and interconnected processing units to encode spatial maps. Importantly, they claim that place cell spatial firing is determined by sensory inputs, among which vision plays a major role.
+
+This motivated us to create models of place cell encoding patterns from elements of the computer vision research that modelled visual cortex representation. An exceptional case is the one of gradient operations, present in SIFT and SIFT-like descriptors, as models of the pyramidal neurons in the primary visual cortex (V1), which exhibit strong direction selectivity, spatial phase invariance and response inhibition \cite{hubel1962receptive, dhruv2014cascaded,carandini2006simple}.
+
+The seminal work of Hubel and Wiesel \cite{hubel1962receptive} proposed that the response of V1 neurons is produced by stimuly of higher complexity than ganglion cells in the retina and the lateral geniculate nucleus (LGN). In particular, it is known that simple and complex cells in the V1 display orientation selectivity produced by bars or edge stimuli \cite{payne2001cat}.
+
+This orientation selective simple cells can be modelled as the output of a 2D Gabor function \cite{daugman1985uncertainty}, and through tuning their parameters, different combinations of orientation and phase can be achieved. In particular, the steerability of the Gabor filter can represent the orientation selectivity of these neurons, whilst the phase parameter of the filter can be viewed as their shape selectivity. 
+
+We have therefore studied the use of 2D Gabor-like filters, which have been used for a great variety of applications in Computer Vision, from action recognition \cite{shu2014bio} to face recognition \cite{liao2013partial} and appearance-based indoor localization \cite{rivera2015appearance}, and often as part of a biologically inspired system \cite{shu2014bio}. Mathematically, the over-completeness of Gabor outputs, i.e. multiple Gabor output values to a single pixel, provides advantageous invariance properties for descriptors computed on local image patches. In particular, the main benefit of using Gabor filters resides in the combination of symmetric and antisymmetric responses that yields a description of local regions in an image that are either phase selective or phase invariant. The real part of these filters presents the simple cell receptive fields behavior described above. In Fig. \ref{fig:simple_cell} we illustrate the orientation selectivity of V1 simple cell receptive fields, and an example 2D Gabor fit spatial and 2D views.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{gfx/Chapter05/simple_cell_gabor.pdf}
+\caption{Orientation sensitive simple cells which only respond to a bar of certain size and orientation.}
+\label{fig:simple_cell}
 \end{figure}
 
-\begin{figure}
-	\centering
-	\setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\textwidth}
-		\input{./gfx/Chapter05/tikz/single_tuning_curve_smooth.tikz}
-	\caption{Single tuning curve without smoothing}
+Also relevant to this study, the difference of Gaussians (DoG) space representation found in the scale invariant feature transform (SIFT) keypoint detection \cite{lowe2004distinctive} may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behavior of complex cells in V1. In particular, each bin of the histogram of oriented gradients (HOG) can be seen as a single orientation-selective neuron.
+
+We have seen that we can use 2D Gabor like features as a biologically plausible input to place cells models to provide localization. Though differently inspired, we also used SIFT in order to constitute a baseline for our experiments.
+
+
+\subsection{Biologically Inspired Visual Localization}
+
+The topic of biologically inspired visual localization has not been explored to the extent of visual localization on its own. Some computational models for place-cell behaviour exist, but they often focus on dynamical systems models \cite{blair2008conversion},\cite{bechtel2013investigating}. Some models of place-cell behaviour have used exploited attractor properties of recurrent networks \cite{stringer2002self}, \cite{moser2008place}.  Whilst interesting and valuable, the role of sensory input is marginalized in these models, a key differentiator of the model we propose in this paper.
+
+The boundary vector cell model is a popular model for describing place-cell response \cite{barry2006boundary}, and predictions have been made and tested on these mechanisms \cite{burgess2000predictions}. Whilst of substantial interest in computational neuroscience, one criticism of these models is -- again -- a lack of detail in explaining how sensory processing feeds into these predictions. The closest work to the current model is Strosslin's \cite{strosslin2005robust}, which uses a low-cost and computationally efficient model to navigate a robot.  However, place-cell behaviour -- in terms of varying firing rates with position to some reference location -- is not demonstrated except through the policy of a robot and its navigation attempts.  The visual processing is also rather limited, using techniques that are also employed in SLAM algorithms \cite{alcantarilla2010visual} to track specific scene locations. 
+
+Milford and colleagues have also applied SLAM techniques to biologically inspired localization systems, remarkably setting a seminal precedent with RatSLAM \cite{milford2004ratslam}, a persistent navigation and mapping model based on the hippocampus of rodents that continuously performs SLAM while simultaneously interacting with other navigation systems, such as odometry and landmark detection. Their recent work \cite{milford2012seqslam} has been focused on taking RatSLAM to larger scales and incorporating more complex visual landmark detection models. 
+%However, we believe those vision models do not capture all the information bandwidth that is required in the same proportion by our brains to provide localization.
+
+
+
+\section{Artificial Place Cells (APC)}
+
+\subsection{Modelling a Single Place Cell: the Tuning Curve Encoder}
+
+%We refer to place cells, according to the previous section, as a biological term to denominate a special type of neurons sensitive to specific spatial locations. This point forward, we will call them ``biologicall place cell'' (BPC), to differentiate them from the artificial place cells (APC) model, output of a series of algorithms that mimic the behaviour of their biological counterparts.
+
+Given a series of video frames extracted from video footage recorded during indoor navigation, we make use of the visual path concept \cite{rivera2014bmvc, matsumoto1996visual, ohno1996autonomous}, to describe the matching, or association between locations of the environment being traversed and a database of similar views contributed by other users with different devices and at other moments in time.
+
+We observed that appearance-based methods defining features to be used to associate these locations not only were useful from the point of view of using them as \textit{visual beacons} to retrieve locations, but also from the point that the responses from different appearance-based methods along the different frames of a journey exhibited a behavior similar to the one recorded in mammalian place cells (Fig. \ref{fig:BPCdragoi}). In order words, given the nature of image matching techniques, one would expect high scores when two images are visually similar, and low ones when they are dissimilar. 
+
+For this paper, we used a set of publicly available keypoint and patch-based descriptor techniques: keypoint-SIFT (SIFT) \cite{lowe2004distinctive}, dense-SIFT (DSIFT)~\cite{vedaldi2010vlfeat}, single-frame (SF-GABOR) and spatio-temporal (ST-GABOR) Gabor-based descriptors, and spatio-temporal Gaussian-based descriptors~\cite{rivera2014bmvc}. Table \ref{table:methods} summarizes this information and shows the number of elements of each descriptor. For the comparison with a state-of-the-art SLAM method, we chose Engel's LSD-SLAM~\cite{engel2014lsd}.
+
+
+\begin{figure}[]
+\includegraphics[width=\linewidth]{gfx/Chapter05/dragoi_et_al_place_cell.pdf}
+\caption{Firing rates of five BPC recordings covering different place fields of moving rats. Different colors represent different place cells. Adapted from \citep{dragoi2014selection}.}
+\label{fig:BPCdragoi}
 \end{figure}
 
-\subsection{Features of a place cell}
+\begin{table}
+\centering
+   \begin{tabular}{lccccc}
+    Method          & \rot{SIFT} & \rot{DSIFT} & \rot{SF-GABOR} & \rot{ST-GABOR} & \rot{ST-GAUSS} \\ \hline
+    ST			   & No   & No    & No       & Yes      & Yes      \\ \hline
+    Dense           & No   & Yes   & Yes      & Yes      & Yes      \\ \hline
+    Dim.       & 128  & 128   & 136      & 221      & 136      \\
+    \end{tabular}
+\label{table:methods}
+\caption{Summary of the main properties of the different descriptors used. \textbf{ST}: Spatio-temporal, \textbf{SF}: Single-Frame.}
+\end{table}
+
+%\begin{table}[h]
+%\centering
+%    \begin{tabular}{lccccc}
+%    Method          & SIFT & DSIFT & SF-GABOR & ST-GABOR & ST-GAUSS \\ \hline
+%    Spatio-temporal & No   & No    & No       & Yes      & Yes      \\ \hline
+%    Dense           & No   & Yes   & Yes      & Yes      & Yes      \\ \hline
+%    Dimension       & 128  & 128   & 136      & 221      & 136      \\
+%    \end{tabular}
+%    \caption {Summary of the main properties of the different descriptors used.}
+%    \label{table:methods}
+%\end{table}
+
+
+In order to model place cells based on the visual input provided by a camera, we need a way of describing the collection of patches, and comparing two images through their individual patch similarities. 
+%When there are several frames involved, the encoding can be computationally expensive, and clumsy to search and compare one frame vs many.  This is the topic we now address.
+
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=.7\linewidth]{gfx/Chapter05/dragoi_et_al_place_cell.pdf}
+%\caption{Firing rates of five BPC recordings covering different place fields of moving rats. Different colors represent different place cells. Adapted from \citep{dragoi2014selection}}
+%\label{fig:BPCdragoi}
+%\end{figure}
+
+
+\subsection{Encoding Frames of Video}
+Given a sequence of video frames which are encoded as a set of descriptor vectors the problem of comparing frames can be done by comparing individual vector pairs.  Whilst a pair of frames captured in two different journeys might differ for a number of reasons that include partial occlusion, motion blur, lighting changes and object/scene changes, one would expect that there might be some patches that are similar.  Patch-based comparisons attempt to perform exactly this.  However, in a 1 minute video, one might capture 1,500 frames, with each frame containing several thousand descriptors, each of them a high-dimensional vector.
+
+One solution to this ``curse of dimensionality'' is to use vector quantization (VQ, 4th module of our pipeline described in Fig. \ref{fig:pipeline}), creating a mapping that reduces each of the descriptors to a single number that describes common visual patterns more succinctly.  We applied the $k-$means algorithm with $k = 400$ to samples of video data acquired from corridors in order to generate the codebook; descriptors were first $L_2$ normalized prior to applying the $k-$means algorithm. 
+
+
+\subsection{Comparing Frames}
+In order to model place-cell behaviour, we should find a way to map pairs of frames onto a scalar value. Consider two image frames that are captured at positions $P$ and $Q$, and are spaced a variable distance, $\ell_{PQ}$, apart (Fig. \ref{fig:creatingAPCs}). The mapping should be such that as the distance $\ell_{PQ}$ varies, the comparison yields a smoothly varying result. In addition, biological place cell (BPC) behaviour in terms of firing rate, as illustrated by Fig.~\ref{fig:BPCdragoi}, may be described as having a concave behaviour with distance. %A good comparison should also have this property.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gfx/Chapter05/APCResponses.pdf}
+\label{fig:APC}
+\caption{Each curve represents the response -- modelling the firing rate -- of an individual place cell to position along a path. Using the maximum response as an indicator of location allows a simple decoding of place cell responses, localizing a person as being within the ``receptive field'' of a place cell (coloured horizontal bars).}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gfx/Chapter05/tuning_curves_creation.pdf}
+\caption{Illustration of first prototypes of place cell behavior extraction from image descriptor similarities.}
+\label{fig:creatingAPCs}
+\end{figure}
+
+One way to replicate this behaviour is to introduce a {\it kernel} function that maps a pair of vector-quantized descriptors onto a positive scalar value. We used the following mapping between two descriptors $\mathbf{v}_a$ and $\mathbf{v}_b$:
+\be
+\centering
+\kappa_{\chi^2}(\mathbf{v}_a,\mathbf{v}_b) = \frac{\mathbf{v}_a\cdot \mathbf{v}_b}{|\mathbf{v}_a+\mathbf{v}_b|}
+\ee
+This maps the two vectors onto a scalar value that takes a maximum when the two vectors are identical.  This mapping is related to the negative of the $\kappa_{\chi^2}$ distance between two histograms, but is calculated in what is sometimes described as ``kernelized'' form. The behaviour of this kernel mapping between a fixed frame and a series of frames from a sequence is shown in Fig.~\ref{fig:APCSingleNoisy}.  As one moves along the horizontal axis from left to right, each frame in a series from a video sequence is compared against a {\em reference} frame from another sequence.  The location of the reference frame corresponds to the location in the new sequence at which one observes the peak in the curve (around frame 675).  The variability of responses is high, but it is not unlike the types of variation found in biological place cell behaviour.  
+
+%\begin{figure}
+%  \centering
+%  %\includegraphics[width=.7\textwidth]{gfx/Chapter05/single_tuning_curve.pdf}
+%   \setlength\figureheight{0.3\textwidth}
+%	\setlength\figurewidth{0.7\textwidth}
+%		\input{gfx/Chapter05/tikz/single_tuning_curve.tex}
+%  \caption{Single APC tuning curve (raw measurements in red) and a smoothed version (blue trace).  The reference frame is located around frame 675. The APC response must be thresholded before using it for accurate position inference; suprathreshold responses from a number of APCs at different positions in the same corridor are shown in Fig.~\ref{fig:APCMany}.}
+%  \label{fig:APCSingleNoisy}
+%\end{figure}
+
+\begin{figure}[t]
+\centering
+ \setlength\figureheight{0.6\textwidth}
+	\setlength\figurewidth{0.8\textwidth}
+		\input{gfx/Chapter05/tikz/single_tuning_curve.tex}
+		\label{fig:APCSingleNoisy}
+\caption{Single APC tuning curve (raw measurements in red) and a smoothed version (blue trace).  The reference frame is located around frame 675. The APC response must be thresholded before using it for accurate position inference.}
+\end{figure}
+
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{./gfx/Chapter05/dragoi_et_al_place_cell.png}
-\caption{Caption}
-\label{}
-\end{figure}
-
-\section{Modelling a place field}
-
-\begin{figure}
-	\centering
-	\setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\textwidth}
-		\input{./gfx/Chapter05/tikz/receptive_place_field.tikz}
-	\caption{Single tuning curve without smoothing}
+  \includegraphics[width=\linewidth]{gfx/Chapter05/tuning_curve-thresh.pdf}
+\caption{Sub-threshold and supra-threshold regions can be identified by setting a threshold on the amplitude of the $\kappa_{\chi^2}$ similarity measure; the height of the threshold controls the support region of supra-threshold region of an artificial place cell.}
+\label{fig:Supra}
 \end{figure}
 
 
 
-\section{Modelling a visual path}
 
-\input{./gfx/Chapter05/tikz/tuning_curves.tex}
+%
+%\begin{figure}
+%  \centering
+%  %\setlength\figureheight{0.2\textwidth}
+%  %\setlength\figurewidth{0.4\textwidth}
+%  %\input{INCFIGS/receptive_place_field.tex}
+%  \includegraphics[width=4.5in]{gfx/Chapter05/receptive_place_field.pdf}
+%  \caption{The variability of individual artificial place field (APC) responses, displayed using mean and standard deviation (envelopes) of response over ensembles. \textbf{Jose to change to mean $\pm$ 1 s.d.}.}
+%  \label{fig:APCVariability}
+%\end{figure}
 
-\subsection{Spatial intuition}
+
+
+\section{Creating Place Fields}
+The similarity function $\kappa_{\chi^2}$ contains some similarity to place field behaviour.  However, regions of the curve which are almost flat contain very little information from the point of inferring the position of a stimulus -- along the horizontal axis -- that elicits some response. In other words, regions of the curve where the gradient with respect to distance to the peak of the curve, $\ell$, convey relatively little information about the distance to the peak of the curve (see Fig. \ref{fig:Supra}). In contrast, the region around the peak of the curve shows rapid change with distance from the peak. In order to synthesize useful ``tuning curves'' for APCs, we should define sub- and supra-threshold regions for each place cell that we wish to define (Fig. \ref{fig:Supra})
+
+%\begin{figure}
+%  \centering
+%  %\setlength\figureheight{0.2\textwidth}
+%  %\setlength\figurewidth{0.4\textwidth}
+%  %\input{INCFIGS/receptive_place_field.tex}
+%  \includegraphics[width=3.5in]{gfx/Chapter05/tuning_curve-thresh.pdf}
+%  \caption{Sub-threshold and supra-threshold regions can be identified by setting a threshold on the amplitude of the $\kappa_{\chi^2}$ similarity measure; the height of the threshold controls the support region of supra-threshold region of an artificial place cell.}
+%  \label{fig:Supra}
+%\end{figure}
+
+To model the response of a place cell to an image stimulus with respect to some reference location, $\ell_i$, the result of the $\kappa_{\chi^2}$ function is thresholded.  The place-cell is then modelled by extracting the frame population code, $\mathbf{v}_{r_i}$ when the camera is at position $\ell_i$ within a corridor from one or more reference journeys and calculating a supra-threshold response to some frame $\mathbf{v}_{\ell}$ acquired at location $\ell$. As $\ell$ is varied, $\kappa(\mathbf{v}_{\ell},\mathbf{v}_{r_i})$ varies.  By noting the maximum value of the response and setting a threshold $T$ relative to each response curve, a set of supra-thresholded response curves, $r_i(\ell)$ can be generated, each as illustrated in Fig.~\ref{fig:Supra}. This defines the {\em average} response of one artificial place cell, or APC:
+\be
+r_i(\ell) = U(\kappa(\mathbf{v}_{\ell},\mathbf{v}_{r_i}) - T)\cdot \kappa(\mathbf{v}_{\ell},\mathbf{v}_{r_i})
+\ee
+We refer to this as an APC {\em tuning curve}.
+
+By defining APCs at regular intervals along a corridor, a simple population coding for location can be constructed. In Fig.~\ref{fig:APCMany}, the average response from each of several such APC cell responses is plotted along a length of corridor in one corridor.  These curves are produced by setting place cell locations to be spaced every 4 m within a single corridor, and constructing the average APC responses using the $\kappa_{\chi^2}$ similarity between dictionary-encoded population codes.
+
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{./gfx/Chapter05/placeCellsExperiment_withDetection_5px.png}
-\caption{Caption}
-\label{}
+  \setlength\figureheight{0.6\linewidth}
+  \setlength\figurewidth{.8\linewidth}
+  \input{gfx/Chapter05/tikz/APCRealResponses.tex}
+%\includegraphics[width=4in]{gfx/Chapter05/APCRealResponses.pdf}
+\caption{Responses from APCs.  The APCs are defined every 4 $m$ within a corridor, using ground truth information described in the experimental section.  Once defined, these APCs provide two different methods of localization.}
+\label{fig:APCMany}
 \end{figure}
+
+The responses of the collection of APCs provide important information as a population code \cite{pouget2000information}.  By changing the threshold level, the support region of the population code can be altered, leading to greater or lesser degrees of overlap, and as we will see in Section \ref{sec:experiments}, different performance.
+
+%
+%\subsection{Multiple APCs}
+%
+%
+%\label{sec:APC}
+%Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, we now aim to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Fig.~\ref{fig:HistEncodings}).
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=3.5in]{gfx/Chapter05/HistogramEncodings.pdf}
+%\caption{Two image frames should have similar representations along the fibre in the order 2 tensor that contains an encoded image sequence.  Here, two similar frames are shown with (diagrammatic) representations taken from along the fibre corresponding to particular frames.  The elements of the fibre correspond to dictionary terms, and the occurrence of each term is recorded.  We used the $\chi^2$ similarity measure.}
+%\label{fig:HistEncodings}
+%\end{figure}
+%
+%
+%We found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms. That is, individual fibres, one a single order 1 tensor $\mathbf{q}$ and a second drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to to methods of localization that are discussed in the next section.  
+
+
+
+\subsection{Location from APC Activations}
+Conceptually, given a series of APC responses that respond to visual cues of a person's location along some physical journey -- illustrated in Fig.~\ref{fig:APC} -- there are two obvious ways of estimating location, $l$.  The first is simply to use the place cell which displays maximum activation (firing rate) as a rough indicator of where the person is. That is, given a set of activations $p(r_i|\ell)$, the location of a person observing a particular image frame is provided by the index, $i$ associated with maximizing $p(r_i|l)$. This provides a precision that is limited by the width of each APC, but requires little more than ensuring that place cell responses are reasonably well-separated. 
+
+The second technique to infer location achieves more accurate localization of a camera from its captured visual data by using the joint distribution $p(\mathbf{r}|\ell)$, of APC response, $r$ to infer location $\ell$ relative to some designated ground truth.  We use a single index to refer to the response of a unique place cell, $r_i$.
+
+ First, a rough location may be identified by using the $\max()$ operator; then, within the place cells of maximum activation, the responses of neighbouring place cells is used to obtain sub-cell localization.  In order to apply this principle, one needs sufficiently accurate estimates of $p(\mathbf{r}|\ell) = p(r_1,r_2,r_3,...,r_C|\ell)$, where $r_C$ is the total number of place cells in some region of a path.   Given several active cells that are a subset of all place cells in a location, sub-APC localization is possible using APC responses from previous journeys using -- for example -- empirical Bayes' techniques. To illustrate this, if three cells are active, the chain rule can be used to obtain successively refined estimates of $\ell$:
+\begin{eqnarray}
+p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
+&\propto& p(r_3|r_4,r_5,\ell)\times p(r_4|r_5,\ell)\times p(r_5|\ell)\times p(\ell)
+\end{eqnarray}
+ so that the responses of spatially proximal APCs can be used to infer sub-APC position.  If the width of an APC is set to around 2 m, localization of the order of tens of centimeters is plausible. 
+
+%\subsubsection{BOVW model spatial binning as a form of population encoding}
+
+%Here we need to include the notions of the spatial binning achieved during clustering as a form of population encoding: close locations in space correspond to close positions in V1 receptive fields. Expand.
+
+
+
+\subsection{Overview of the System}
+
+In the experimental work to be discussed in the next section, a generalized regression network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and used radial-basis functions.  The responses from $r_C =$ 16 place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the place cell responses used for regression network training.  Performance will be discussed in Section \ref{sec:experiments}.
+
+In Fig. \ref{fig:pipeline} the overview of this pipeline is shown.
+
+%\subsection{System Pipeline}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{gfx/Chapter05/nn_pipeline.pdf}
+\caption{Overview of the training pipeline. The diagram of the neural network is merely illustrative, it does not represent the real architecture used.}
+\label{fig:pipeline}
+\end{figure}
+
+%\section{Decoding location representations: a neural network approach}
+
+
+
+\section{Experiments and Results}
+\label{sec:experiments}
+
+In order to test the APC concept, we performed a series of experiments using the publicly available RSM dataset~\cite{RiveraWearable}. This dataset contains visual data of more than 3 km of indoor journeys acquired with two devices: a hand-held Nexus 4 and a wearable Google Glass. Corridors varied in length between 32 m and 60 m and the sequences comprise more than 120,000 frames with ground truth acquired with surveying equipment. The original resolution of the dataset is $1280 \times 720$ pixels per frame which we down-sampled to $208 \times 117$. 
+
+
+%within one building of the Royal School of Mines at Imperial College.  Using a surveyor's wheel, we mapped out a number of one-dimensional corridors, measuring distance travelled and location within a corridor whilst simultaneously recording video-sequences from either a hand-held or a wearable camera. The surveyors wheel was modified to connect it directly to a data acquisition system (Raspberry Pi), which was synchronized to network time. Different human subjects held or wore the equipment, and walked at different rates along the corridors selected for the experiment. The video sequences were captured at between 25 to 30 frames per second at a resolution of $1280 \times 720$ pixels per frame, and were down-sampled to a pixel size of $208 \times 117$ per frame.  In total, over 100,000 frames of data were collected, corresponding to over $3 km$ of journey information.  Corridors varied in length between 32 m and 60 m.
+
+%Using the network architecture, dictionary encoding and APC models described in earlier sections, the APC responses are generated from real data sequences.
+
+%\subsection{APC modelling experiments}
+
+%In Fig.~\ref{fig:APCSingleNoisy}, we show place cell responses from a single location, captured with multiple journeys.  The variability of responses is significant, but not unlike the types of variation found in biological variability, where multiple trials are usually required, together with averaging, in order to tease out average firing rate curves.
+
+%\begin{figure}
+%	\centering
+%%	\setlength\figureheight{0.3\textwidth}
+%%	\setlength\figurewidth{0.4\textwidth}
+%%		\input{gfx/Chapter05/tikz/single_tuning_curve.tex}
+%	\includegraphics[width=.4\textwidth, height=.3\textwidth]{gfx/Chapter05/single_tuning_curve.pdf}
+%	\caption{Single APC tuning curve (raw measurements in red) and a smoothed
+%version (blue trace). The APC response must be thresholded before using it
+%for accurate position inference; super-threshold responses from a number of
+%APCs at different positions in the same corridor are shown in Fig. ~\ref{fig:multipleAPCs}.}
+%\label{fig:APCSingleNoisy}
+%\end{figure}
+
+%In Fig.~\ref{fig:APCMany}, the average responses from each of several APC cell responses is plotted along a length of corridor in one corridor.  These curves are produced by setting place cell locations to be spaced every 4 m within a single corridor, and constructing the average APC responses using the $\kappa_{\chi^2}$ distance metric between dictionary-encoded population codes.
+
+
+
+\subsection{APC-level Localization}
+\label{subsec:inferloc}
+
+
+The first method used to infer location -- based on identifying the artificial place cell with maximum activity -- was tested in several corridors of the experimental data.  First, a visualization of the place cells showing the location of place cells with maximum activation is shown in Fig.~\ref{fig:floorplan}; these are indicated on the actual floor plan of one of the building sections that were used to conduct the experiment.  Locations are staggered across the width of the corridor in order to be able to visualize the actual activations of 8 place cells defined within this corridor. The second technique to estimate location relies on the overlap of the responses from place cells and the use of a GRNN. Table \ref{table:methodComparison} compares the two localization techniques for all the methods. A single-device dictionary was used but all the combinations of remaining passes were submitted as queries. The neural network regressor shows better results, achieving errors as low as 2.49 m for SF-GABOR, even under the challenging scenario of the majority of the queries coming from a different device that was not used to learn the dictionary. Lower errors were observed using single device and are depicted in Fig.~\ref{fig:sublocMethodComp}. The performance of LSD-SLAM when tested on the same sequences is also reported, but it is worth noting that roughly in the 40\% of the sequences tracking was lost, so a tracking recovery exception catch was implemented. This  semi-dense SLAM method is known to perform best on sequences acquired with global-shutter fish-eye lenses. The RSM dataset devices do not meet such criteria, hence the frequent loss of tracking.
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{lcccccc}
+    ~		 & \multicolumn{3}{c}{\textbf{Sub-APC localization}} & \multicolumn{3}{c}{\textbf{APC-level localization}} \\ \hline
+    \textbf{Method}        & $\mu_{|\epsilon|}$ (m) & Min (m) & Max (m) & $\mu_{|\epsilon|}$ (m) &  Min (m) & Max (m) \\ \hline
+    SIFT     & 3.42   & 0.38 & 6.47 & 4.48   & 0. 34 &  7.56\\ \hline
+    DSIFT    & 2.78   & 0.47 & 6.54  & 4.10   & 0.31 & 6.10 \\ \hline
+    SF-GABOR & 2.49   & 0.46 & 5.60 & 4.81   & 0.68  & 8.47 \\ \hline
+    ST-GABOR & 7.94   & 2.63 & 10.45 & 9.65   & 3.67 & 13.13\\ \hline
+    ST-GAUSS & 3.18   & 0.45 & 7.17 & 3.79   & 0.69  & 8.12 \\ \hline
+    LSD-SLAM & \multicolumn{2}{c}{$\mu_{|\epsilon|}$ = 2.48 m } & \multicolumn{2}{c}{$\sigma_{|\epsilon|}$ = 2.37 m} & 1.21 & 3.20 \\ \hline
+    \end{tabular}
+    \caption {Absolute error evaluation when using small widths of place cells (0.61 m) and therefore many place cells (40) and take a max() activation vs less (16) but larger place cells which overlap and use the regression network. The comparison with a state of the art SLAM method (LSD-SLAM) is also included.}
+    \label{table:methodComparison}
+\end{table}
+
+
+%\begin{figure}
+%\begin{center}
+%\includegraphics[width=.8\linewidth]{gfx/Chapter05/placeCellsExperiment_withDetection_5px_horiz.png}
+%\caption{Using ground truth from a surveyor's wheel, activations from APCs are overlaid onto the floor plan in which video data was acquired. Different colours refer to individual APCs, and activations are staggered across the width of the corridor to allow visualization.}
+%\label{fig:floorplan}
+%\end{center}
+%\end{figure}
+
+
+
+\subsection{Sub-APC Localization}
+
+
+By arranging for place cell responses to be up to 4 m in width, the responses from several cells can be used to perform accurate inference of spatial position using a single section of corridor.  The success of this technique is illustrated in Fig. \ref{fig:sublocMethodComp}. Note that average absolute errors are very small compared to distances traversed.
+
+
+\begin{figure}
+\centering
+	\setlength\figureheight{0.6\linewidth}
+	\setlength\figurewidth{0.8\linewidth}
+		\input{gfx/Chapter05/tikz/2x2comp.tex}
+%\includegraphics[width=.5\textwidth]{gfx/Chapter05/2x2comp.pdf}
+\caption{Sub-APC location estimate comparison. Using broad place-cell tuning curves, very accurate localization can
+be achieved within a section of corridor. For this corridor and for this journey,
+absolute localization errors range from below one metre to 1.49 m. Ground truth is shown in red.}
+\label{fig:sublocMethodComp}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=\linewidth]{gfx/Chapter05/placeCellsExperiment_withDetection_5px.png}
+\caption{Using ground truth from a surveyor's wheel, activations from APCs are overlaid onto the floor plan in which video data was acquired. Different colours refer to individual APCs.}
+\label{fig:floorplan}
+\end{figure}
+
+\subsection{Parameter Tuning}
+
+%% Subfigure in tikz
+%\begin{figure}[t]
+%\begin{subfigure}[]{
+%%\includegraphics[width=.4\textwidth, height=.3\textwidth]{gfx/Chapter05/errorWidthEvalDSIFT_16pc.pdf}
+%	\setlength\figureheight{0.25\linewidth}
+%	\setlength\figurewidth{0.35\linewidth}
+%		\input{gfx/Chapter05/tikz/errorWidthEvalDSIFT_16pc.tex}
+%
+%}\label{fig:threshEval}
+%\end{subfigure}
+%~
+%\begin{subfigure}[]{
+%	\setlength\figureheight{0.25\linewidth}
+%	\setlength\figurewidth{0.35\linewidth}
+%		\input{gfx/Chapter05/tikz/nexusVsGlass_sf_gabor_C2.tex}
+%		}
+%\label{fig:multiDevice}
+%\end{subfigure}
+%\caption{Multi}
+%\label{fig:}
+%\end{figure}
+
+The GRNN used as a localization regressor relied on the overlap of the responses of the place cells. By varying the threshold beyond which place-cells are considered active, it is is possible to have very long-tailed responses, spanning several meters, to the position at which cameras yield supra-threshold responses.  This yields APC behaviour that is similar to behaviour of rate-coding in place cells observed in biology. The blue trace on Fig. \ref{fig:threshEval} shows an example of the average cell width in meters when varying the threshold on the $\kappa_{\chi^2}$ comparison metric. The red trace illustrates the average error, also in meters, that is yielded by the regressor. Very little overlap deprives the network of enough training values that are able to generalize with unseen queries, hence the increase in the error.
+
+One of the key problems with using different devices -- even if calibrated -- is the difference in field of view of one imaging device with respect to another.  A Nexus 4 smartphone and a wearable Google Glass were used to conduct experiments into the effect of the dictionary  on the localization using sub-cell localization. 
+
+A set of 10 journeys through one of the corridors of the RSM building with different devices was taken for this experiment.  Some of the journeys were included in the database, others were used to conduct queries.  The partitioning of the data was permuted, varying the number of journeys in the database and the number of query journeys kept out of the database.  Journeys which were used for queries did not contribute to the learning of a dictionary, which was varied for each permutation. Fig. \ref{fig:multiDevice} shows the difference in absolute error of Nexus and Glass queries when only passes from one device (in this case the Nexus) have been used for the dictionary learning. 
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{gfx/Chapter05/errorWidthEvalDSIFT_16pc.pdf}
+\caption{Effect of varying the threshold on place cell width, and therefore overlap and average absolute error in meters.}
+\label{fig:threshEval}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{gfx/Chapter05/nexusVsGlass_sf_gabor_C2.pdf}
+\caption{Multi-device sub-APC localization test.}
+\label{fig:multiDevice}
+\end{figure}
+
+
+
+\begin{figure}[t]
+\centering
+\subfloat[][Our figure]{\setlength\figureheight{0.6\textwidth}
+	\setlength\figurewidth{0.8\linewidth} \input{gfx/Chapter05/tikz/errorWidthEvalDSIFT_16pc.tex}
+}\label{fig:threshEval}
+\subfloat[][Our figure]{\setlength\figureheight{0.6\textwidth}
+	\setlength\figurewidth{0.8\linewidth}
+		\input{gfx/Chapter05/tikz/nexusVsGlass_sf_gabor_C2.tex}
+}
+\label{fig:multiDevice}
+\caption{Effect of different parameters.}
+\label{fig:}
+\end{figure}
+
+
+
+%\begin{figure}[t]
+%\setlength\figureheight{0.6\textwidth}
+%	\setlength\figurewidth{0.8\linewidth} 
+%	\input{gfx/Chapter05/tikz/errorWidthEvalDSIFT_16pc.tex}
+%\label{fig:threshEval}
+%\end{figure}
+%
+%\begin{figure}
+%\setlength\figureheight{0.6\textwidth}
+%	\setlength\figurewidth{0.8\linewidth}
+%		\input{gfx/Chapter05/tikz/nexusVsGlass_sf_gabor_C2.tex}
+%\label{fig:multiDevice}
+%\caption{Effect of different parameters.}
+%\end{figure}
+
+\subsection{Computational load metrics}
+The main computational load for the place-cell computation is due to the dictionary learning, which enables fast lookup of individual frames -- encoded as a single vector of terms from the vocabulary.  The dictionary is built by randomly selecting 200 frames from each sequence, and randomly selecting 800 examples of the joint spatial-temporal encoding, which consists of $D$-dimensional vectors (see Table~\ref{table:methods}). Dictionary learning takes around 1 hour for approximately 50 video sequences of the whole corridor dataset on a 64 GB machine using 400 words. Once learned, encoding a new frame and looking it up takes less than 200 ms using unoptimized {\it Matlab} code. 
+
+
 
 \section{Conclusion}
+
+Place cell physiology and function is of immense interest for a number of reasons. To our knowledge, there is no computational architecture that reproduces place-cell responses in the form of tuning curves artificially from video sequences, and there is no biologically plausible model for place cell encoding that can be applied to the recorded video sequences we have used in this work.  Furthermore, competing camera-based localization techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate location: motion is a requirement.  The place cell model we propose and evaluated in this paper does not require motion at location estimation time: a single frame gives a possible response.
+
+A number of questions observed from this study motivates further work in the search of a plausible biological answer. First, it is the nature of the place cells what defines their width after thresholding, and thus their sensitivity to locations. In biology, neurons are known to reach a certain threshold potential before they fire an action potential or impulse that can propagate along the axon and eventually trigger similar responses on other cells. We are planning to study this effect and extend the model of the place cell by also incorporating a model of its firing that takes into account the shape of the firing envelope and the causes of the activity.
+
+
+Perhaps a greater problem, from a biological perspective, is that it is unclear how grid cells might fit into the model we have proposed in this paper.  One intriguing prediction is that grid cells are implicit in the existence of place cells; in other words, place cells are not entirely formed from grid cells, but working place cells create a grid-like pattern of activation if one grid cell is wired to several spaced place cells.  This observation may be related to observed loop-like connectivity observed between hippocampus and entorhinal cortex. 
+
+In third place, we have found that the best performing methods are SF-GABOR and SIFT (sparse and dense). This poses another question worth investigating and is that of the relationship of better performance with the closeness of the local patch description method with models of early vision. It is known that the 2D Gabor filters in SF/ST-GABOR descriptors present the orientation-selective simple cell receptive fields behavior of the primary visual cortex (V1). Similarly, the difference of Gaussians (DoG) space representation found in Lowe's SIFT keypoint detection may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behavior of complex cells in V1.
+
+
+In conclusion, the present work aims to demonstrate the ability of computational models of place cells to provide an effective visual localization that does not rely on tracking and at the same time motivate further work to create biologically inspired methods that albeit simple can match and complement sophisticated inference models.
 
 %*****************************************
 %*****************************************

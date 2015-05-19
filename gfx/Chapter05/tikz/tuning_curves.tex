@@ -16,21 +16,21 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=4.520833in,
-height=3.565625in,
-at={(0.758333in,0.48125in)},
+width=\figurewidth,
+height=\figureheight,
+%at={(0.758333in,0.48125in)},
 scale only axis,
 xmin=-1193.72122445853,
 xmax=1199.71982357641,
 xlabel={Target: shifted ground truth location (cm)},
 ymin=6,
 ymax=16.9407386779785,
-ylabel={Thresholded chi2 score.},
+ylabel={Thresholded $\chi^2$ score.},
 title style={font=\bfseries},
-title={Place cells responses to training observations on training pass 4},
+%title={},
 axis x line*=bottom,
 axis y line*=left,
-legend style={legend cell align=left,align=left,draw=white!15!black}
+legend style={legend cell align=left,align=left,at={(1.15,1)},draw=white!15!black}
 ]
 \addplot [color=mycolor1,solid,line width=1.5pt]
   table[row sep=crcr]{%
