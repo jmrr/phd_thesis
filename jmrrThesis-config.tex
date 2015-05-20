@@ -107,6 +107,7 @@
 \usepackage[]{enumerate}
 \usepackage{dsfont} % DS fonts
 \usepackage{siunitx}
+\usepackage{adjustbox}
 
 
 % ****************************************************************************************************
@@ -123,17 +124,7 @@
 \usepackage{caption}
 \captionsetup{format=hang,font=small}
 \usepackage{subfig}
-\usepackage{multirow}
-\usepackage{adjustbox}
 
-\usepackage{array}
-
-\newcolumntype{R}[2]{%
-    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
-    l%
-    <{\egroup}%
-}
-\newcommand*\rot{\multicolumn{1}{R{60}{1em}}}% no optional argument here, please!
 
 
 % ****************************************************************************************************
@@ -318,3 +309,21 @@
 \def\tens#1{\ensuremath{\mathsf{#1}}}
 \newcommand{\be}{\begin{equation}}
 \newcommand{\ee}{\end{equation}}
+
+% ******************************************************************** 
+% Multicolumn and cell size adjustment
+% ******************************************************************** 
+
+\usepackage{multirow}
+
+\usepackage{array}
+
+\newcolumntype{R}[2]{%
+    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+    l%
+    <{\egroup}%
+}
+\newcommand*\rot{\multicolumn{1}{R{60}{1em}}}% no optional argument here, please!
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
