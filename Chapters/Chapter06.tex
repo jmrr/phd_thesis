@@ -1,3 +1,511 @@
-%************************************************
-\chapter{}\label{ch:chapter6} % 
-%************************************************
+\chapter{An assistive haptic interface for appearnace-based indoor navigation}\label{ch:assistiveapp}
+
+\section{Introduction}
+\label{sec:Intro}
+
+\subsection{The problem of navigation}
+
+Navigation might seem a very natural task: usually, it involves travelling along a path that we have previously visited and learned. At other times, navigation might require us to follow a new and unseen path, creating uncertainty that triggers the need for planning and evaluating possible directions and movements as we progress along an unfamiliar route towards a destination. Finding our way in unfamiliar environments requires certain skills~\citep{foulke1982perception}, such as map reading and/or using a compass. At other times, external cues can help us find our way to a destination: signs, indications from other people, etc. Nowadays, the Internet and mobile technologies have gathered many instruments and knowledge to the point where location information and path planning is almost immediate, and can be made available on a single device: the problem of navigation is reduced, in outdoor contexts, to the simple act of following the indications of a ``GPS Navigator'' or ``SatNav''~\citep{spirkovska2005summary}.
+
+Indoors, the problem can be more complex and the technologies that make navigation an easy task outdoors do not always work inside buildings. Navigation can be more ambiguous (corridors, halls), and despite the fact that, in global terms, we are restricted to moving over a relatively small region of the surface of the earth, some buildings can have vast internal dimensions, e.g. universities, museums, government buildings and ministries, shopping centres, airports and many others. The nature of the navigation problem is different to outdoor navigation, and the frustration of getting lost in indoor environments increases since the immediacy that is achieved outdoors with automotive and naval navigation cannot be easily matched.
+ 
+Regardless of whether one is outdoors or indoors, navigation in sighted humans relies heavily on the sense of vision~\citep{kalia2008learning,tsuji2005landmarks}. When vision is deteriorated or deprived, a person's ability to navigate -- particularly in unfamiliar settings -- is greatly diminished. Indeed, a significant proportion of individuals who experience sight loss late in life find navigation in unfamiliar environments challenging. This is one of the main reasons that more than half (55\%) of blind and partially sighted in the UK do not venture outside of their homes \citep{Worsfold2010}.
+
+%\td{Improve}{The importance of accessible design is also a concern to the blind and partially sighted community. Most applications do not take into account universal design patterns at the very earliest stages of the development, ending up with an exclusive application \citep{Alcantarilla2011a}te{AndroidHackathon}. It is key, therefore, to study the accessibility requirements for ``apps'' in the navigation context, a topic that has not been explored yet.}
+
+
+\subsection{Structure of the paper}
+
+In Section \ref{sec:2} we will review the state of the art on assistive technology for navigation. An overview of the system will be described in Section \ref{sec:overview}. In Sections \ref{sec:visualproc} and \ref{sec:tactile} respectively, we describe the elements of visual processing and tactile feedback involved in this work; with Section \ref{sec:5} summarizing the structure of the client/server application that was developed to allow the experiments of Section \ref{sec:experiments}. Finally, in Section \ref{sec:results} we analyze the results of the experiments to later conclude with final remarks in Section \ref{sec:conclusion}.
+
+\section{Background on assistive devices: accessible technology}
+\label{sec:2}
+
+\subsection{The impact of sight loss in navigation}
+
+Although the ultimate goal of our society would be to prevent people losing their sight unnecessarily and healing sight loss, supporting independent living and creating an inclusive society for people with cognitive impairment are key goals for both governmental agencies and charities. In the UK, for example, the leading sight loss charity, the RNIB (Royal National Institute of Blind people), includes two aims: that a) \textit{more people are able to make journeys safely and independently}; and b) \textit{more people achieve independence through the use of ICT and mobile technologies} \citep{RNIB2009}.
+
+The importance of navigation for visually impaired people has always been a priority, due to its impact on independence. Nowadays, studies have found that less than half (45\%) of people with visual impairment go out every day, a fifth do not go out more than once a week, and nearly half (43\%) would like to go out more often \citep{douglas2006network}.  These needs have always been pointed out by organisations representing the interests of blind and partially-sighted people such as the RNIB and the EBU (European Blind Union). Additionally, a 2012 survey carried out during an accessibility event organised between the RNIB and Android London revealed that the most desired mobile application among the BPS community would be a navigation application with access to important information, found mainly in written format \citep{RNIB2012}. An engineering solution that supports navigational autonomy of the user whilst providing accurate positioning and access to information might be considered somewhat of a holy grail for visually impaired navigation. In the next sections, we will describe some of the more remarkable attempts that have approached the problem from different perspectives.
+
+
+
+
+\subsection{Non vision-based solutions for assistive navigation}
+
+\subsubsection{Classical aids}
+
+The two principal navigation aids for visually impaired people remain the guide dog and the white cane.  In addition to being good navigational aides outdoors and in complex environments, guide dogs can be a source of companionship. However, the cost of training dogs can be high, and the potential to get lost does still arise when the dog is unfamiliar with the environment, or when the user encounters obstacles that are above the height of the dog (such as low-hanging branches), which can present a hazard \citep{manduchi2011mobility}, annoyance or a source of embarrassment. 
+
+The other most successful piece of traditional navigation technology for visually impaired people remains the white cane \citep{roentgen2008inventory}.  Whilst it is known to allow more independence, it does not provide information on navigation on a scale greater than around a stride length \citep{maidenbaum2013increasing}. There are some navigation scenarios, those involving environments that are unfamiliar or too complex, which are avoided by some white cane users. In particular, public transport usage remains extremely low among the community with just 11\% of the blind and partially sighted boarding a train or a bus regularly \citep{Pey2006}.
+
+\subsubsection{Modern approaches}
+\label{sec:modernapproaches}
+\paragraph{Radio frequency systems}
+
+The latest advances to provide accurate navigation outdoors have been relying on the information provided by satellite navigation systems, denoted GNSS when their signal is available globally; or most commonly, GPS, the American and most extended system.
+
+GPS systems have effectively changed the current concept of navigation, and some attempts have been developed to target the visually impaired needs. The Sendero Group's {\it Mobile Geo} \citep{senderoSeeingEye} system uses GPS to provide position and navigation directions through an accessible keyboard and a speech synthesis interface. {\it BlindSquare} for Apple mobile and tablet devices takes the GPS a step further by using crowd-sourced data for points of interest (via integration with {\it Foursquare} services and data) and {\it OpenStreetMap} for fine-grained street information~\citep{blindSquare}. However, even such customised systems lack the accuracy or availability indoors to be used by the people with visual impairment. Moreover, the signal that reaches the devices is always weak and often unstable so a 100\% GPS based solution would compromise the security of the user.
+
+Several other projects have attempted to provide navigational information indoors based on radio frequency technologies. According to the RNIB \citep{Worsfold2010}, RFID, WiFi and Bluetooth radio technologies can provide both accuracy and coverage indoors. Additionally, recent developments in body sensors using Zigbee Radio Signal Strength Indicators (RSSI) \citep{dong2012mapping} have demonstrated the feasibility of wearable sensor networks to provide navigation information. Nevertheless, such networks usually require some form of infrastructure to be deployed throughout buildings. Signal transmitter locations then need to be tested, associated with indoor mapping information, and subsequently maintained; this can be costly.
+
+Finally, an integrated indoor/outdoor navigation system for the blind is Drishti \citep{ran2004drishti} which uses differential GPS (DGPS) for outdoor positioning and an ultrasound positioning device for indoor location measurements. Although reporting sub-meter localization errors, the indoor subsystem requires the deployment of ultrasound transmitters (``pilots'') and the user has to carry ultrasound beacons and specialized and bulky hardware, making Drishti a valid but costly prototype.
+
+\subsection{Computer Vision for navigation}
+
+The extended use, minimal cost and increasing quality of modern cameras have brought the use of visual information for assistive devices one step closer to reality. Moreover, the inclusion of these cameras in mobile devices such as phones or tablets has boosted the familiarity of users with both the use of cameras themselves and camera-based mobile applications.
+
+One outcome of the proliferation of these cameras is the development of structure from motion algorithms that can infer 3D models of cities \citep{agarwal2011building} by means of photographs taken by visitors to popular city landmarks. Using such images trawled from the internet \citep{snavely2006photo}, bundle adjustment can be used to reconstruct the 3D information about buildings in within well-photographed locations in addition to the camera pose of every photograph. Using models of a scene constructed in this way, the position and pose of a camera from a sequence of new photographs taken from a mobile device might be used as a source of ``visual'' navigation information by the same approach of bundle adjustment \citep{ventura2014global}.  However, bundle adjustment is an iterative error minimisation algorithm, and its computational load is still large for real-time use at scale.  Furthermore, it is not entirely clear how geometric information that is acquired from such models could be updated.
+
+Another important branch of vision based navigation technique can be found in robotics. Visual SLAM \citep{konolige2007frame}, \citep{engelhard2011real},\citep{neira2008guest} (Simultaneous Localization and Mapping) provides a real time reconstruction of the scene by using stereo cameras (stereoSLAM) or a single one (monoSLAM). Though SLAM is often described for its ability to infer a geometric model of a scene, it also estimates a camera trajectory.  The combination of the two is a powerful source of navigation information. In addition, in subsequent journeys along the same route, geometric information can be refined and also used for refinement of camera pose estimates.
+
+Some visual SLAM algorithms provide a navigation method suitable for use by autonomous robots \citep{konolige2007frame}. Techniques such as these normally rely on static features from the scene that are subsequently matched before the trajectory is estimated. However, in real life conditions, many of these features are dynamic, since they belong to objects or elements of the scene that are moving (e.g. a crowded scene). Additionally, SLAM algorithms, particularly visual monoSLAM \citep{davison2007monoslam}, rely on optic flow induced by ego-motion in order to infer a geometry and build up a map. In the presence of significant additional motion within the scene, algorithms can begin to fail.  One such failure mode is called scale drift and has been studied and taken into account by \cite{strasdat2010scale}. 
+
+Recent vision-based approaches have been developed by Alcantarilla et al. (\citeyear{alcantarilla2010visual}; \citeyear{alcantarilla2012combining}) They incorporate dense optical flow estimation into visual SLAM in order to improve the performance of algorithms in crowded and dynamic environments by detecting the presence of objects that are moving relative to the world coordinate system. Additionally, they have developed a fast vision-based method to speed-up the association between visual features and points in large 3D databases \citep{alcantarilla2010learning}. This approach consists of learning the visibility of the features in order to narrow down the number of matching point correspondence candidates.
+
+One of the most recent SLAM developments is LSD-SLAM~\citep{engel14eccv}. This semi-dense tracking and mapping method seem to perform well in an indoor SLAM setting. This approach, instead of keypoints and descriptors, uses semi-dense depth maps for tracking by direct image alignment. This is a remarkable step forward, as the semi-dense maps allow lighter frame to frame comparisons, to the point where odometry can be performed on a modern smartphone \citep{schoeps14ismar}. This system, as most SLAM methods, relies greatly on a very accurate camera calibration and initialization routine, and best results are often achieved under specific conditions, such as monochrome global shutter cameras with fish eye lenses.
+
+\subsubsection{Appearance-based methods for visual navigation}
+Appearance-based methods attempt to provide localization without keeping track of the coordinates of the robot/user or landmarks in metric space. FabMap \citep{cumminsFabMap2010} and its popular open-source implementation \citep{OpenFabMap2011} are considered the state-of-the-art. FabMap relies on a dictionary of Bag-of-Words (BoW) constructed from a database of Speeded Up Robust Features (SURF) features extracted from location images to provide matching between previously visited places as well as a measure of the probability of being at a new, unseen location. To date, such appearance-based methods are more commonly used at large spatial scales in order to address the loop-closure problem; application is less common  in indoor spaces when operating at smaller spatial scales. In addition, there is little evaluation of the effect of matching ambiguity in the use of appearance-based techniques. 
+
+In previous work \citep{RiveraWearable}, we compared the performance of appearance-based techniques for feature extraction for indoor localization, extending the use of these methods not only for loop closure tasks but also for positioning on its own. We demonstrated that average position accuracies of as low as 2 m are feasible using an approach based on matching images against previous journeys along indoor corridors.  In the next sections, we describe a Bag-of-Visual-Words (BoVW) approach to estimating a user's position during indoor navigation by using images acquired from either hand-held and wearable cameras.  Position is estimated with respect to distance travelled along one-dimensional paths along narrow and ambiguous corridors; this presents a difficult use case for techniques such as SLAM, as will be shown in later sections.
+
+\subsection{Getting data into a navigation system: crowdsourcing}
+As we saw in Section \ref{sec:modernapproaches}, crowdsourced data is already enriching location information through social networking and personalised place recommendation (FourSquare); and through collaborative maps (e.g. {\it OpenStreetMap}). We propose two different scenarios for crowdsourcing of visual data:
+\begin{enumerate}[a)] 
+\item  visual data, together with some ground truth positioning, is incorporated into mapping information as part of an accessibility measure. There are tools available for this that standardize and accelerate the acquisition of visual data~\citep{navvisTrolley}.
+\item individual users contributing their indoor journeys recordings from wearable cameras and providing some contextual information and ground truth via a web or mobile application. 
+\end{enumerate}
+
+These two scenarios are compatible in the sense that users should be able to enrich public indoor maps through crowdsourcing tools and benefit of the availability of this data through accessible apps installed on their mobile/wearable devices. An illustration of this scenario is depicted in Fig. \ref{fig:associatingViews}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{gfx/Chapter06/AssociatingViews.pdf}
+\caption{Crowdsourcing indoor journeys (``visual paths'') from multiple users.}
+\label{fig:associatingViews}
+\end{figure}
+
+Therefore, we consider first the role of an {\em appearance based} technique for using low-resolution images from a hand-held or wearable camera as both a source of query information and a source of database (mapping, localization) information, comparing images in order to establish position. 
+
+\section{Overview of the system}
+\label{sec:overview}
+
+Our principal contribution is the design and development of a prototype app that provides a haptic interface for appearance-based indoor localization. In Fig.~\ref{fig:overview} we illustrate the concept: A blind or partially sighted user wants to travel from a point A to a point B in a building. At this point, they launch the app which starts collecting images from the back camera of the Senseg tablet or from a wearable camera coupled to the tablet. These images are sent to the server, which estimates the location of the user based on an appearance-based visual localization algorithm. This location is sent back to the user's device where it is interpreted and conveyed in the form of a haptic cue over a pre-loaded floor plan of that part of the building. The device also shows visual feedback for sighted users, as it can be appreciated in Fig. \ref{fig:sensegscreen}.
+
+As we discussed in Section~\ref{sec:Intro} both the floor plan and the database of previously acquired views (see Fig. \ref{fig:associatingViews}) must be available as part of an accessibility compliance measure.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{gfx/Chapter06/overview.png}
+\caption{Illustration of the usage scenario. The app installed on the user's tablet submits queries taken from a coupled wearable camera or the tablet camera and the server sends location feedback which is conveyed via tactile cues over a floor plan encoded on the device screen for the duration of the journey. The user is depicted with earphones to illustrate that as a backup technology they could also receive audio feedback (not implemented).}
+\label{fig:overview}
+\end{figure}
+
+\section{Visual processing design}
+\label{sec:visualproc}
+Our appearance-based pipeline is shown in Figure~\ref{fig:FigPipeline}. It is similar to standard BoVW pipelines in the sense that is composed by a feature extraction process followed by dictionary creation and encoding techniques. However, it presents important particularities: in previous work we followed the same pipeline to evaluate several feature extraction techniques~\citep{Rivera-Rubio2015PRL}, with a mix of single-frame and spatio-temporal descriptors, with an emphasis on dense methods, as we believe these adapt better to the particulars of indoor navigation. Additionally, the distance metrics used here differ from the standard classification metrics present in most BoVW schemes as our intention is not to classify one frame versus the rest of them, but to assess the similarity in the dictionary space of frames that are close to each other in the physical space. In the following sections we will describe the different elements of the pipeline for the case of our best performing method SF-GABOR for comparison with the state-of-the art SLAM and the chosen standard method for the application prototype: Dense-SIFT (DSIFT).
+
+\subsection{Preprocessing}
+%\paragraph{Grayscale, downsampling, normalization, deinterlacing}
+
+The incoming frames both for the database creation and query branch are first converted to grayscale. The images are then downsampled to size 208 $\times$ 117 pixels, which we found sufficient for the type of client-server application that will be described in the next section. Prior to the feature extraction stage, the images were pre-smoothed at a scale of $\sigma = 1.2$. This step was necessary because rather than computing an entire Gaussian scale space, as would be the case for sparse SIFT features, the dense descriptors are computed at a single value of $\sigma$, with a set of SIFT features computed on equally spaced points specified by a grid. A comparison of sparse vs DSIFT and other descriptors is presented in \citep{Rivera-Rubio2015PRL}.
+
+\subsection{Patch Descriptors}
+We used two different types of patch description to compare the performance of visual accuracy.  One of these was highly optimised for speed in the client-server application, the other was optimised for accuracy of localization.  Both were used in a BoVW pipeline.
+
+\td{Summarise and move}{Summarise very briefly the descriptors, with references to chapter 4 and move diagrams there.}
+
+\subsection{SIFT Descriptor}
+As the first aim of the project was to assess the viability of having a BoVW image matching server and a tactile feedback interface as the client, the first descriptors we chose were Dense-SIFT \citep{Lowe1999,LazebnikSP06,Vedaldi2008}.  The SIFT descriptor was calculated by dense sampling of the smoothed estimate of $\vec{\nabla}f(x,y;\sigma)$ where $f(x,y;\sigma)$ represents the scale-space embedding of image $f(x,y)$ within a Gaussian scale-space at scale $\sigma$.  We used a standard implementation of DSIFT from VLFEAT~\citep{Vedaldi2008} with a stride length of 3 pixels. This yielded around $2,000$ descriptors per frame, each describing a patch of roughly $10 \times 10$ pixels.
+
+\subsection{SF-GABOR Descriptor}
+This is a slightly longer descriptor than the standard implementation of the 128-element SIFT descriptor, based on the use of Gabor filtering.  Multi-directional spatial Gabor filters are attractive for visual analysis because, amongst their many uses in computer visoin, they can be used to characterise image textures \citep{jain1990unsupervised,weldon1996efficient,adi2009texture}, and perform face recognition \citep{yang2013gabor}. Both of these are applications of computer vision that hold potential for visually impaired users. Although we did not use direct mapping of texture to tactile feedback in this study, it is something that we plan to use in the future (see, for example, the texure mapping work of \cite{adi2009texture}. 
+
+In order to appply Gabor functions for appearance based localization, we need the scalability that comes from a technique such as a BoW approach, which scale to databases of the order to millions of images. This was achieved by adding pooling and sampling operators to the outputs of a Gabor filter bank in order to construct descriptors that are applicable to BoVW techniques \citep{nister2006scalable}.  
+
+Recognising that SIFT operates with vector fields of the form:
+\begin{eqnarray}
+\vec{\nabla} f(x,y;\sigma) &=& \frac{\partial f(x,y;\sigma)}{\partial x}\vec{x} + \frac{\partial f(x,y;\sigma)}{\partial y}\vec{y}\nonumber \\
+&=& \frac{\partial f(i_1,i_2;\sigma)}{\partial i_1}\mathbf{i}_1 + \frac{\partial f(i_1,i_2;\sigma)}{\partial i_2}\mathbf{i}_2\\
+&=& \bigcup_{k=1}^2 \mathcal{D}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+\end{eqnarray}
+where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the tensor notation of Kolda \citep{kolda2009tensor}, and Eq~(2) follows from Eq~(1) because of the orthogonality of unit vectors $\vec{x}$ and $\vec{y}$.  $\mathcal{D}_k$ is a derivative operator along dimension (mode) $i_k$. 
+
+More generally, when the directional operators are not necessarily partial derivatives, we may introduce the discrete spatial orientation tensor at scale $\sigma$ as:
+\begin{equation}
+\tens{G(\sigma)}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+\label{eq:IntroG}
+\end{equation}
+
+The operator $\mathcal{O}_k$ is some form of discrete, directional spatial operator. Eq~\ref{eq:IntroG} generalises a two-dimensional gradient field at scale $\sigma$; it permits more than 2 directions of peak angular sensitivity, and unlike the operator $\mathcal{D}_k$, there is no requirement that $\mathcal{O}_k$ be linear.
+
+Using oriented Gabor filters, an order 3 tensor $\tens{G}$ is constructed by:
+\begin{equation}
+\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
+\end{equation}
+where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Appendix B). $\tens{K}_{G}$ is an order 3 tensor of dimension $7 \times 7 \times 8$. The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. i.e. for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$.  The tensor $\tens{K}_{G}$ holds antisymmetric Gabor functions, one direction per slice of the third mode ($i_3$). 
+
+To create the descriptors from the multi-directional tensor $\tens{G}(\sigma,\lambda)$, a {\it permuted tensor convolution} (Appendix B) is applied between $\tens{G}(\sigma,\lambda)$ and a {\it pooling tensor} $\tens{P}$:  
+
+\begin{equation}
+\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
+   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
+\end{equation}
+The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
+
+Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimization was applied for the experiments on the RSM dataset as described in this paper.
+
+\td{Move figure}{This render to chapter 4.}
+
+%%
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=10cm,trim=0cm 3cm 0cm 3cm,clip=true]{gfx/Chapter06/PoolerResponses.pdf}
+\caption{\label{fig:PoolerResponses}Patterns of 17 spatial poolers consist of regions in a centre-surround organisation, with angular variation.  These pooling weights were optimised on the PASCAL VOC 2007 dataset for categorization by an optimization approach. Colours are chosen to alternate in order to allow spatial relationships to be visible to the reader.}
+\end{center}
+\end{figure}
+%%
+%The response field was subsampled to yield approximately 2000 descriptors per frame, each of 136 elements.
+
+\subsection{BoVW Pipeline}
+\td{Summarise}{And add any differences, e.g. this time dict was 400 words}
+In order to test the ability to localize position based on the visual structure of either a short sequence of frames or individual frame information, we adopted a retrieval structure for efficient mapping of the visual descriptors, sparsely or densely populating an image,  into a single frame or vignette-level representation.  The approach is based on fairly standard retrieval architectures used for image categorization -- the Bag-of-Visual-Words (BoVW) model -- and is illustrated in Figure \ref{fig:FigPipeline}.
+
+For the vector quantization, hard assignment (HA) was used to encode each descriptor vector by assignment to a dictionary entry. The data set was partitioned by selecting $N_v-1$ of the $N_v$ video sequences of passes through each possible path. This ensured that queries were {\em never} used to build the vocabulary used for testing the localization accuracy. The dictionary was created by applying the $k$-means algorithm on samples from the video database.  We fixed the dictionary size to 4,000 (clusters, words); this allows comparison with the work of others in related fields, such as \cite{chatfield2011devil}.
+
+The resulting dictionaries were then used to encode the descriptors, both those in the database and those from queries.  The frequency of occurrence of atoms was used to create a histogram of visual words ``centered'' around each frame of the video sequence (visual path) in a database, and the same process was used to encode each possible query frame from the remaining path. Histograms were all $L_2$-normalized.
+
+\subsection{Localization using ``kernelized'' histogram distances}
+\label{sec:methods}
+%Once histograms had been produced for all the images in the database we generated ``head-to-head'' distance comparisons between each pair of passes. In the image retrieval and object recognition literature \citep{Vedaldi2012}, we call \emph{kernel matrices} those that contain a ``kernelized'' version of a form of scalar products between the feature vectors (the histograms) of each element in one class against each element of another class. In other words that scalar product is in reality a distance metric (a norm), and in our case the similarity of 4,000-dimensional histograms is performed for each query frame against the database entries.
+
+Using $n$ to denote the frame number, and $p$ a particular journey down a corridor, the 
+$\chi^2$ (Eq.\ref{eq:chi2kernel}) kernel
+
+\begin{equation}
+K_{\chi^2}(H_q, H{p,n}) =  2 \frac{(H_q \cdot H_{p,n})}{H_q+H_{p,n}}
+\label{eq:chi2kernel}
+\end{equation}
+
+and the Hellinger kernel (Eq.~\ref{eq:hellingerkernel})
+
+\begin{equation}
+K_{H}(H_q, H{p,n}) =  \sqrt{H_q \cdot H_{p,n}}
+\label{eq:hellingerkernel}
+\end{equation}
+
+are common choices to compare query frames encoded by a BoW encoded frame with a database containing several frames (here, consisting of different journeys, $p$ and frames, $n$) but in earlier work \citep{Rivera-Rubio2015PRL} the $\chi^2$-kernel seemed best for the path localization problem.  For a random subset of the $N_v-1$ videos captured over {\em each} path in the dictionary, the query is selected from amongst the frames of the remaining journey.   Each query frame histogram, $H_q$, results in $N_v-1$ separate comparison vectors, each containing the distance of each database frame histogram to the query. 
+
+
+We identified the best matching frame, $\hat{n}$ from pass $\hat{p}$ across all of the $N_v-1$ vectors.  This is done using: 
+
+\begin{equation}
+\centering
+L(\hat{p},\hat{n}) = \underset{p,n}{\arg \max} \lbrace K_{\chi^2}(H_q,H_{p,n})\rbrace
+\label{eq:argmax}
+\end{equation}
+
+
+$H_{p,n}$ denotes the series of normalized histogram encodings, indexed by $p$ drawn from the $N_v-1$ database passes, and $f$ denotes the frame number within that pass.  The estimated ``position'' of a query, $L$, was that corresponding to the best match given by Eq. \ref{eq:argmax}; this position is always relative to that of another journey along roughly the same route; the accuracy and repeatability of this in associating locations between passes was evaluated using distributions of location error and area-under-curve criteria derived from these distributions as we will see in Section \ref{sec:experiments}. The method is illustrated in Fig. \ref{fig:matching from kernels}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{gfx/Chapter06/multikernel_and_map.pdf}
+\caption{Matching locations by selecting maximum similarity kernel score between query and database frames.}
+\label{fig:matching from kernels}
+\end{figure}
+
+
+
+\section{A tactile interface for a client/server assistive localization system}
+\label{sec:tactile}
+Up to now, we have described localization systems that use visual input to provide localization by matching unseen queries against a database of previously acquired images of the environment. However, how can this information be transmitted to the end user? And, how this information can properly include blind and partially sighted users?
+
+In this paper, we demonstrate the use of the Senseg tablet to provide location feedback to the user by means of a haptic interface. In the next section we will describe the device and app developed for the project and the haptic feedback quality tests designed.
+
+\subsection{The Senseg}
+Today, there are two common sensory channels we use to understand our surroundings: vision and, crucially for visually impaired users, hearing. Much load is already placed on these channels  and may reach a point of saturation in busy environments. Therefore, it is worthwhile to consider another sensory channel to be used to convey our information. One channel that has been investigated since the 1800s is touch. 
+
+In 1897, the Elektrofltam was created using a single block of selenium.  Its conductivity changes under the influence of light and so by placing it on the foreheads of blind people  it provided an aid for distinguishing dark and light. In 1928, a visual reading aid was developed  what might have been the first tactile user interface. It enlarged the letters and raised them by embossing them on aluminum foil. However, by the 1960s electronic circuitry had advanced enough to stimulate the thought of providing the same information to the eye to a specific area of the skin.  
+
+Bliss' technology~\citep{bliss1970optical} was a prime example: he used a combination of a tactile stimulator and an optical sensor to allow the blind to understand the surroundings. The image found by the optical sensor fell onto a 12 $\times$ 12 phototransistor array and used one-to-one mapping onto tactile stimulators. Each illumination of the phototransistor lead to a vibration on the corresponding tactile stimulators that were spaced 1.25 inches apart. This aim of his experiment was to understand what size of object could be recognized on a tactile display.  Only crude images were produced and it was found that not many visual objects were recognized reliably by the blind -- even those as large as 2/3 of the screen.  However, he identified that the results of this experiment may have been subject to defects in the intensity of response in the piezoelectric bimorphs.  The experiment did produce a certain result though: the larger the object was, the greater the probability it was detected reliably.  
+
+Tactile technology has further advanced and it is now being considered in number of application ranging from providing cues for pilots in flight \citep{spirkovska2005summary} to computer mice~\citep{akamatsu1996movement} . For our purposes, the Senseg tablet is an apt modern example of a tactile display. It passes a low current to an isolated electrode (``Senseg Tixel'') that creates a small attractive force to the finger skin. By modulating this force it can give a feel of different textures. This is a huge advancement to the mechanical piezo solutions used by Bliss.  Therefore for the following experiment,  a Senseg tablet will be used to test the information delivered by the server.
+
+
+\subsection{The Senseg App}
+The goal of the Senseg application was to convey the location of the visually impaired user. However, it was important to identify that feedback was successfully delivered through haptic and not visual means. The Senseg allows different textures to be felt at different locations and at a varying range of intensities, as specified by the programmer. At this point it is worth noting that these capabilities were more pronounced when the ground cable was plugged into a USB port. However, it provided enough variations of texture to identify different objects and the exact location to the visually impaired user. Three different textures were used and the basic functionalities are explained below.
+
+\subsubsection{General architecture} 
+There are two important things to consider in this app: 1) there needs to be minimal user input to enable functions (such as taking photos) 2) the space in the app by which the user attains feedback needs to be as large as possible. To address the first challenge, there were no buttons in the app. Secondly, the map was scaled to fit the 7 inch screen.  As seen in Fig.~\ref{fig:sensegscreen}, there are four different colours which represent different bits of information:
+
+
+\begin{enumerate}
+  \item The pink outline represents walls -- the limits of the map -- and conveyed the greatest intensity feedback for the user.
+  \item The blue lines represent a grid system. A grid system was used for two main reasons:
+  \begin{enumerate}
+  \item There needs a distinct white space between haptic feedback positions. This would allow the user to clearly differentiate between positions.
+  \item To allow the users to quantify how far they are from reference points. For example, here the map consists of 18 vertical blue boxes between the two entrances considered. Each box represents  5.56\% of distance between the start and the end of the corridor. This therefore allows users to estimate their current location.
+  \end{enumerate}
+  The parameter of all the boxes has the same ``Edge Tick'' haptic feedback assigned to them. Note this haptic feedback is distinct from the other effects on the app.
+  \item The green box represents the user's position at this time. The whole area of the box has a ``Grainy'' (another Senseg specific texture) assigned to it. This allows users to identify their exact location and find their way.
+  \item The red box was mainly used for debugging purposes. It represents the exact location of the users touch on the screen and where it is allowed. This ensured that the app was working correctly when experimental data was taken. Note: this same reason applies to the camera image.
+\end{enumerate} 
+
+There is a also a percentage bar at the bottom, from which sighted users can obtain feedback of how far along a specified journey they are (in our case between the beginning and the end of the corridor). Distances are measured in a normalized scale from 0 to 1.
+
+\subsubsection{Function}
+ 
+The final step of constructing the app was to integrate the user interface with the localization code via the server. First comes taking the picture. It would not be convenient for the visually impaired users to keep querying the server by capturing each image manually - so each picture is taken automatically every 3 seconds. This is then uploaded to the server which in response returns a number between 0 and 1; 1 represents the completion of the journey (to the final end of the corridor) and 0 would represent the start of the corridor. This would be mapped onto the existing grid system and the green box, with its haptic feedback, which would be updated as a result. At the same time, the percentage bar at the bottom would display a new percentage. The users would then be able to identify their whereabouts in relation to the walls and other objects on the grid. 
+ 
+\begin{figure}[t]
+\centering
+\includegraphics[width = 0.7\textwidth]{gfx/Chapter06/screen.png}
+\caption{Senseg app screen}
+\label{fig:sensegscreen}
+\end{figure}
+ 
+\subsection{A client/server localization system}
+\label{sec:5}
+
+In order to provide a scalable and real time solution for the blind users, we constructed a client and server combination to interface with the localization code.
+The user has with them a wearable camera, such as a Google Glass, for the visual input. This is paired with the previously discussed app on the Senseg tablet for haptic feedback.
+As the user navigates the environment the wearable camera takes low resolution pictures at regular 3 second intervals.
+Each picture is sent over HTTP to a Node.js server that asynchronously saves the image and calls the appearance-based matching code.
+This code then returns the estimated location to the Senseg tablet.
+
+The server uses a RESTful architecture style \citep{Fielding:2000:PDM:337180.337228} which promotes a good abstraction between the client and the localization code, and eases testing of the different components.
+This design allows us to easily extend the server's functionality to include capturing of data for the dataset via another phone app.
+
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{RSM dataset acquisition}
+\label{sec:Dataset}
+A total of 60 videos were acquired from 6 corridors of a large building. In total, 3.05 km of data is contained in this dataset at a natural indoor walking speed.  For each corridor, ten passes (i.e.\ 10 separate visual paths) are obtained; five of these are acquired with two different devices with 30 videos each. One device was a LG Google Nexus 4 phone running Android 4.4.2.  The video data was acquired at approximately 24-30 fps at two different resolutions, $1280 \times 720$ and $1920\times 1080$ pixels.  The second device was a Google Glass (Explorer edition) acquiring at a resolution of $1280 \times 720$, and at a frame rate of 30 fps. The length of the sequences varies within some corridors, due to a combination of different walking speeds and/or different frame rates. Lighting also varied, due to a combination of day/night-time acquisitions, and occasional prominent windows that represent strong lighting sources in certain parts of some corridors.  Changes were also observable in some videos from one pass to another, due to the presence of changes and occasional appearance from people. In total, more than 90,000 frames of video are labelled with positional ground truth in a path relative manner. The dataset is publicly available for download at \url{http://rsm.bicv.org} \citep{Rivera-RubioRSM}.
+
+\subsubsection{Ground Truth Acquisition}
+\label{sec:dataset}
+A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$ was used to record distance, but was modified by wiring its encoder to a Raspberry Pi running a number of measurement processes.  The Pi was synchronised to network time enabling synchronisation with timestamps in the video sequence.  Because of the variable-frame rate of acquisition, timestamp data from the video was used to align ground truth measurements with frames. This data was used to access the accuracy of associating positions along journeys through frame indexing and comparison.
+
+
+\subsection{Experiments on localization: Appearance based methods vs SLAM}
+
+We benchmarked our best performing appearance-based method, SF-GABOR against the state-of-the-art in SLAM methods for indoor sequences, LSD-SLAM.
+
+For this, we ran the LSD-SLAM code over our 60 video sequences and retrieved the results from its visual odometry engine to gather a position estimate for each processed frame, comparable to the results we had for the appearance-based methods. 
+
+As our cameras are far from the ideal models that are recommended by LSD-SLAM authors (monochrome global-shutter camera with fish eye lens) we modified their software to recover the lost tracking when this happened and tweaked the semi-dense SLAM parameters to adapt best to our conditions and data. In \ref{sec:slampars} we provide the values that we used for our simulations.
+
+\subsubsection{Measurements of Performance}
+
+We quantify the accuracy of being able to associate {\em locations} along physical paths in corridors within the dataset described in Section~\ref{sec:Dataset}. By permuting the paths that are held in the database and randomly selecting queries from the remaining path, we were able to obtain the error in localization.  Repeated runs with random selections of groups of frames allowed variability in these estimates to be obtained, including those due to different paths being within the database. To estimate these distributions, we measured the absolute error in localization as a distance, $|\epsilon|$, relative to route ground truth, summarizing this as estimates of $P(|\epsilon| < x)$. For this, we used the ground truth information acquired as described in Section \ref{sec:dataset}.  
+
+\subsubsection{Cumulative Distribution Functions}
+Cumulative distribution functions allowed us to compare the error distributions of all techniques in \citep{Rivera-Rubio2015PRL}.  We also assessed the variability in error distribution when 1 million permuted queries are performed by cycling through 1,000 permutations of 1,000 randomly selected queries.  This Monte-Carlo approach to testing accuracy allows the stability of approaches to be assessed. The graphs here suggest high reproducibility of retrieval performance (small shaded areas between lower and upper traces of each graph).  All the results were generated with videos resized down to $208 \times 117$ pixels; these are also supplied with the dataset. We used this metric to compare the performance of different appearance-based methods and we used it in this work to compare the performance of our best appearance-based method (SF-GABOR) and the LSD-SLAM. In Section \ref{sec:results} we describe the main findings of this comparison.
+
+\subsection{Blindfolded users with the tactile sensing}
+\subsubsection{Aim}
+The aim of this experiment was to evaluate the quality of the tactile feedback given by the Senseg tablet in an indoor localization for the visually impaired context. 
+
+The approach used to accomplish this would be for the user navigating a physical path. They would receive a tactile cue that encodes an estimate of their position along that specific path, relative to start and end point. Given several location estimate feedback cues through the Senseg tactile interface, the aim of the experiment would be fulfilled by measuring how accurate this tactile feedback was based on the user's perception of their position. The location of the cues is shown in the third column of Table \ref{tab:20queriesResults} in the results section.
+
+\subsubsection{Experiment protocol}
+Thirteen volunteers were asked to conduct the following steps:
+
+\begin{enumerate}
+
+\item Firstly, the user was asked to ground his/her hands. 
+
+\item The user was then given some familiarization tasks with the Senseg demo that shipped with the tablet. This was a specific Android applications called 
+``HapticGuidelines''. This allowed users to experiment and become used to the feel of the different textures they would feel inside the localization app. They were advised to find which finger felt the most sensitive to the haptic effects. Then they were asked to find the correct speed to obtain the most feedback. 
+
+\item After the context of the experiment was announced to the user, they were given the Senseg tablet with the localization application fully loaded. This application had two red rectangles spaced 16 boxes apart. They denoted the start and end points and had specific -- intense -- ``Area Bumpy'' texture. It was then explained to the user that they should search for four landmarks:  
+
+\begin{enumerate}
+\item the beginning of the path,
+\item an area with no haptic feedback, this was the area that would represent the path that users have already traversed,
+\item an area with haptic feedback, that represents the remaining segment of the path. This feedback would be the same ``Edge Tick'' texture described in Section \ref{sec:tactile}.
+\item the end of the path, with highlighted haptic texture.
+\end{enumerate}
+
+
+\item The user was then carefully blindfolded with a clean tissue placed between the blindfold and their eyes. This was to ensure no infection was passed to different users as the same blindfold was used throughout the experiment. The experiment then began.
+
+\item They were given 20 cues each spaced 15 seconds apart. In the time between the cues, they were asked to estimate and announce their location estimate to the closest 10\%; 0\% was the starting point of the journey and 100\% was the end point of the journey.
+
+
+\item After 120 trials (6 users), it was found that the user was finding it hard to distinguish their whereabouts. This was due to static charge build up on the surface of the screen. From then on, (for the next 7 users), the screen was discharged using the static cloth after every two tactile cues.
+
+\end{enumerate}
+\section{Results}
+\label{sec:results}
+
+\subsection{Performance of vision algorithms}
+In this section we will report the performance of our best appearance-based method and compare it with the state of the art in indoor localization: LSD-SLAM. In the first subsection the metric will be the cumulative distribution function and in the second area under the curve AUC comparisons.
+
+\subsubsection{Performance of LSD-SLAM}
+
+Fig. \ref{fig:slamperf} (a) and (b) reproduce the localization performance of LSD-SLAM (blue) with respect to the ground truth (red). We have chosen a case of good and fairly average performance. As it can be seen from the figures, in the best of cases the absolute error is below 2. 
+
+\begin{figure}
+	\centering
+	\subfloat[(a)][Good performance in LSD-SLAM.]{
+	%\setlength\figureheight{0.5\textwidth}	
+	%\setlength\figurewidth{0.8\textwidth}
+	%\input{gfx/Chapter06/tikz/lsd_slam_performance_good.tex} %TIKZ
+	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_good.pdf}
+	}
+	
+	\subfloat[(b)][An example of fairly average performance in LSD-SLAM.]{
+	%\setlength\figureheight{0.5\textwidth}
+	%\setlength\figurewidth{0.8\textwidth}
+	%\input{gfx/Chapter06/tikz/lsd_slam_performance_normal.tex} %TIKZ
+	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_normal.pdf}
+	}
+	\caption{Examples of good and mediocre localization performance in LSD-SLAM for indoor localization in the RSM corridor dataset.}
+	\label{fig:slamperf}
+\end{figure}
+
+
+\subsubsection{CDF Comparisons}
+
+In Appendix \ref{appendixCDF} we describe the algorithm to generate the cumulative distribution functions (CDFs). CDFs illustrate very well differences in the performance of methods when we are interested in the probability of an error being below a certain  meaningful figure, as it is in our localization case. As we can see from Fig. \ref{fig:cdf} our appearance based method outperforms LSD-SLAM for our particular indoor case provided the availability of a rich dataset of visual paths. However, localization systems should aim for an combined solution, as LSD-SLAM seems to perform quite well given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of our proposed solutions \citep{Rivera-Rubio2015PRL} or a combination of both.
+
+Another comparison is illustrated by Fig. \ref{fig:reprod}. These are RSM corridors 1 and 3 (C1 and C3) average reproducibilities for multiple ``leave one out'' passes. These diagrams show how whilst LSD-SLAM reports worse average results in terms of errors it has a localization error consistency comparable to that of SF-GABOR, and better than that, errors rarely go beyond the 5 meters boundary, with an average of $\mu_e = 2.48 \pm 2.37$ m. Conversely, SF-GABOR present outliers, but for some sequences the error is consistenly below 1 m ($\mu_e = 1.31 \pm 0.39$), supporting its suitability for the indoor localization context.
+
+\begin{figure}
+\centering
+\subfloat[C1 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1GabRepro.pdf}}
+\subfloat[C3 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corr3LocGabRepro.pdf}}
+
+
+\subfloat[C1 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1SLAMReproducibility.pdf}}
+\subfloat[C3 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor3SLAMReproducibility.pdf}}
+
+\caption{C1 and C3 average reproducibilities for multiple ``leave one out'' passes. The top row corresponds to SF-GABOR results. Bottom row shows the reproducibility for LSD-SLAM.}
+\label{fig:reprod}
+\end{figure}
+
+
+
+\begin{figure}
+\centering
+%\setlength\figureheight{0.6\textwidth}
+%\setlength\figurewidth{0.8\textwidth}
+%\input{gfx/Chapter06/tikz/sfgabor_vs_lsdslam.tex} %
+\includegraphics[width=0.8\textwidth]{gfx/Chapter06/SF_GABORvsLSD_SLAM.pdf}
+\caption{CDF of SF-GABOR and LSD-SLAM when sampling 1000 random queries from all the error measurements. The width of the curves represent the variability of the result data. The bounds are the maximum and minimum CDF values obtained from the Monte-Carlo sampling.}
+\label{fig:cdf}
+\end{figure}
+
+
+\subsubsection{Area-Under-Curve Comparisons}
+In \citep{Rivera-Rubio2015PRL} we calculated the average absolute positional error (in m) and the standard deviation of the absolute positional errors for a variety of methods. We reproduce here the AUC results for the method SF-GABOR, which ranged from 96.11\% to 96.39\%. For the case of LSD-SLAM, the AUC ranged from 89.71\% to 90.61\% All queries were again performed by adopting the leave-one-out strategy, but because of the high repeatability of results, we did not apply random frame-level sampling.  
+
+\subsection{Blindfolded tactile experiments}
+
+This experiment produced several key observations.  Firstly, the accuracy of the location feedback improved after discharging (discharging with an electrostatic cloth) after every two notifications. Secondly, noticeable haptic feedback could only be identified when the Senseg is plugged into a USB charging port, i.e. when it is grounded. This is currently a severe limitation in its portability and potential use in wider contexts of haptic technology.
+
+  
+Examining the results without the consideration of these limitations, we can see from Table \ref{tab:sensegSummaries} that there is 54.54\% hit rate and an average error in meters of roughly 6 m with respect to a minimum achievable accuracy of 3.06 m. This is due to the test corridor being 30.62 m long and the discretized locations 10\% apart (see Figure \ref{tab:20queriesResults}). Table \ref{tab:subjectResults} shows the results for individual subjects, reflecting a notable improvement of the users' performance when the Senseg was discharged between trials.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.7\textwidth]{gfx/Chapter06/barplot_rand.pdf}%
+    \caption{In blue, the histogram of drawing $10^6$ samples from a uniform distribution. Overlaying this, in red, the distribution of the users estimated locations when drawing $10^6$ samples from the experiment in a random order.}   
+\end{figure}
+
+
+
+\begin{table}
+    \centering
+  \begin{tabular}{ccc}
+     Ground Truth Query &  Best Match Estimation &  Discretized location \\ \hline
+    0.81403             & 0.8147                   & 0.8                   \\ \hline
+    0.90538             & 0.9058                   & 0.9                   \\ \hline
+    0.12724             & 0.127                    & 0.1                   \\ \hline
+    0.91354             & 0.9134                   & 0.9                   \\ \hline
+    0.63295             & 0.6324                   & 0.6                   \\ \hline
+    0.09788             & 0.0975                   & 0.1                   \\ \hline
+    0.27814             & 0.2785                   & 0.3                   \\ \hline
+    0.54812             & 0.5469                   & 0.5                   \\ \hline
+    0.95758             & 0.9579                   & 1                     \\ \hline
+    0.15742             & 0.1576                   & 0.2                   \\ \hline
+    0.48532             & 0.4854                   & 0.5                   \\ \hline
+    0.80016             & 0.8003                   & 0.8                   \\ \hline
+    0.14192             & 0.1419                   & 0.1                   \\ \hline
+    0.42169             & 0.4218                   & 0.4                   \\ \hline
+    0.79282             & 0.7922                   & 0.8                   \\ \hline
+    0.65579             & 0.6557                   & 0.7                   \\ \hline
+    0.035072            & 0.0357                   & 0                     \\ \hline
+    0.93393             & 0.934                    & 0.9                   \\ \hline
+    0.39559             & 0.3968                   & 0.4                   \\ \hline
+    0.26754             & 0.2672                   & 0.3                   \\ \hline
+    \end{tabular}
+ \caption{Locations of the 20 random queries used for the tactile feedback experiment, where 0 denotes the starting point and 1 the end. First column: ground truth of 20 random images from a single corridor used to query the matching pipeline. Second column: the location estimate provided by this pipeline given those queries. Third column: the discretized location estimates before being used as prompts in the quality of tactile feedback experiment.}
+\label{tab:20queriesResults}
+\end{table}
+
+
+Although the display is limited, it provides a reliable estimate for the localization.  However, during the experiment, the more time the users spent understanding the route and becoming used to the haptic feedback before being blindfolded, the more accurate their estimates. It is also worthy to note that our protocols were designed to be tested first on sighted, who were then blindfolded and eventually the blind.  This was to ensure security that the tactile tablets would give the necessary feedback and not harm the user. Additionally, blind and visually impaired users are found to be more sensitive to touch due to their increased tactile acuity \citep{goldreich2003tactile} so it is likely to see an increased hit rate with this application. 
+In the future, it may be worthwhile to test how small can the grid boxes be made to further increase resolution and test our protocol on blind users.  
+
+A final comment on this section is concerned with the large difference between the errors from the vision system and the errors in the user interface. The vision subsystem, for this limited trial of 20 queries, produces an average error of 2.43\% (mean of the difference between first and second column in the table within Figure \ref{tab:20queriesResults}). Translated to meters, this yields sub-meter accuracy, 0.75 m. Although we can reiterate that this is a limited subset of only 20 queries, the errors reported in \citep{RiveraWearable}, 1.38 m, are still five times better than the errors from the user perception (5.46 m), even when subtracting the effect of the coarseness of the boxes.
+
+\begin{table}
+\centering
+    \begin{tabular}{cccccc}
+    
+	Subject & Discharge      &  meanErr (m)      & stdErr (m)       &  \# estimates & \# hits \\ \hline
+ 		1 &	 \multirow{9}{*}{Yes} &	0.00                 & 0.00                & 19           & 19          \\ 
+		2 &	    		&			    2.65 			  & 3.03 & 15           & 6           \\ 
+		3 &	    		&			    0.64 			  & 1.28 & 19           & 15          \\ 
+		4 &	    		&			    3.34 			  & 7.17 & 11           & 6           \\ 
+		5 &	    		&			    2.44 			  & 6.78 & 20           & 13          \\ 
+		6 &	    		&			    2.84 			  & 3.89 & 14           & 7           \\ 
+		7 &	    		&			    1.44 			  & 1.91 & 17           & 10          \\ 
+		8 &	    		&			    2.41 			  & 4.96 & 19           & 11          \\ 
+		9 &	    		&			    2.88 			  & 2.29 & 17           & 5           \\ \hline
+
+		10 &	 \multirow{5}{*}{No} & 3.94 				& 5.22 & 7            & 2           \\ 
+		11 &	    		&			    7.15 			& 1.77 & 3            & 0           \\ 
+		12 &	    		&			    9.19            & 9.44 & 5            & 2           \\ 
+		13 &	    		&			    11.57 			& 10.13 & 9            & 1           \\ 
+		14 &	    		&			    9.19            & 0.00                & 1            & 0           \\ \hline
+    \end{tabular}
+        \caption{Results of the tactile quality of feedback experiment. The location estimates of a total of 14 users were recorded. These users are divided in two groups: those whose readings were followed by discharging with an electrostatic cloth or not. Mean and standard deviation of the error in meters for each subject is reported, along with the total number of estimates given and hits (correct answers).}
+    \label{tab:subjectResults}
+\end{table}
+
+
+\begin{table}
+\centering
+    \begin{tabular}{ccccccc}
+     Discharge & meanErr & stdErr  & \#trials & \#estimates & \#hits & precision \\ \hline 
+    Yes 			      &  6.42 (m)        & 24.06 (m)   & 180    & 151       & 92   & 60.93 (\%)     \\ \hline
+    No  				  &  15.45 (m)      & 7.37 (m)  & 120    & 44        & 24   & 54.54 (\%)    \\ \hline
+	Overall &  8.46 (m)   & 16.73 (m) & 300 & 195 & 116 & 59.49 (\%)  \\ \hline
+    
+    \end{tabular}
+        \caption {Summary of results of the tactile quality of feedback experiment. A precision metric is provided and it is defined as prec $= \frac{\text{hits}}{\text{estimates}}$. }
+\label{tab:sensegSummaries}
+\end{table}
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+In the present paper we have described a prototype of indoor visual localization for blind and partially sighted. Our system provides visual localization using an appearance-based engine for matching views taken from a wearable or hand-held device with an existing dataset contributed by previous users or institutions. The feedback to the user is provided through haptic cues in a Senseg tablet, a Google Nexus 7 device modified to allow tactile interaction.
+
+We therefore have presented two main contributions. The prototype design and experimental tests to assess its viability in a preliminary benchmark with blindfolded users.
+
+Regarding the prototype, we have described the operation of the system, the algorithms behind the vision system and the architectural aspects of the app, both the client (an Android app) and the server side (a Node.js server).
+
+With respect to the experimental data, we have carried out a benchmark to compare the performance of our best descriptor in a BoW appearance-based pipeline and the state-of-the-art indoor SLAM algorithm: LSD-SLAM. Additionally, we have evaluated the error that users perceive when sensing locations laid out over the Senseg's tactile screen in the form of haptic cues.
+
+The vision results suggest that appearance-based methods should be taken into account, as overall, our SF-GABOR performs better than LSD-SLAM when tested with the RSM dataset.
+
+Unfortunately, results on the tactile feedback quality are not conclusive, as the state of the technology is still immature and a distance from public usage. The limitations that we found are threefold: in first place, the device had to be grounded to obtain the best tactile sensitivity, limiting its usage as a mobile device. Secondly, the charge build-up limited the ability of the users to feel changes in texture, so the discharge had to be applied every two trials. Finally, the minimum distance between two texture boxes on the tablet corresponded to approximately 3 meters of actual distance. We believe that more resolution on the ``tixel'' screen would provide better results and further possibilities, especially in the assistive context. Nevertheless the technology holds promise and should see further development given such motivations as assistive applications.

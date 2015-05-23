@@ -1,6 +1,6 @@
 \documentclass[ oneside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,% letterpaper a4paper
                 footinclude=true,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
-                BCOR=5mm,paper=a4,fontsize=11pt,%11pt,a4paper,%
+                BCOR=5mm,paper=a4,fontsize=12pt,%11pt,a4paper,%
                 ngerman,american,%
                 ]{scrreprt}
 
@@ -40,6 +40,7 @@
 \cleardoublepage\include{FrontBackmatter/Acknowledgments}
 \pagestyle{scrheadings}
 \cleardoublepage\include{FrontBackmatter/Contents}
+
 %********************************************************************
 % Mainmatter
 %*******************************************************
@@ -47,21 +48,14 @@
 %\setcounter{page}{90}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 \cleardoublepage
-\part{Part I title}
 \include{Chapters/Chapter01}
-\cleardoublepage
-\ctparttext{You can put some informational part preamble text here. 
-Illo principalmente su nos. Non message \emph{occidental} angloromanic
-da. Debitas effortio simplificate sia se, auxiliar summarios da que,
-se avantiate publicationes via. Pan in terra summarios, capital
-interlingua se que. Al via multo esser specimen, campo responder que
-da. Le usate medical addresses pro, europa origine sanctificate nos se.}
-\part{Part II title}	
 \include{Chapters/Chapter02}
 %\addtocontents{toc}{\protect\clearpage} % <--- just debug stuff, ignore
 \include{Chapters/Chapter03}
 \include{Chapters/Chapter04}
 \include{Chapters/Chapter05}
+\include{Chapters/Chapter06}
+\include{Chapters/Chapter07}
 
 %\include{multiToC} % <--- just debug stuff, ignore for your documents
 % ********************************************************************
