@@ -146,18 +146,60 @@ A total of 30 different camera-equipped smartphones was used, with resolutions r
 %%%%%%%%%%%%%%%%%%%% SIFT PAIRWISE
 \subsection{Classification using SIFT Descriptor Matching}
 % Baseline for descriptor matching based methods
-Object recognition systems can employ several properties of objects, ranging from colour distributions to texture and gradient field fingerprints, such as histograms of gradients (HoG). However, without employing more computationally expensive geometric validation of putative matches between object models and queries, visual word performance is likely to be at least partly determined by the discriminative power of the raw descriptors themselves.
-We therefore include  a variant on pairwise SIFT~\cite{Lowe2004} descriptor matching for generating scores between a query and each model image in the training dataset. Each match that passes Lowe's uniqueness criterion~\cite{Lowe2004} is ranked according to a distance score $\mu$; the match with the lowest distance score is assigned the highest ranked similarity. A query is then classified  as belonging to the class $C^{(p)}$ corresponding to the training image $\mathbf{T}^{(p)}$ if
+
+Object recognition can use several properties of query and database image appearance, ranging from colour distributions to texture and gradient field fingerprints \eg histograms of gradients (HoG). However, apart from the use of spatial arrangements of putative matches between datasets and images, the discrimination of visual words, or bags of visual words, is unlikely to be able to exceed the discrimination power of the descriptors or fingerprints used.
+
+For this reason, we include an evaluation of the performance of an object recognition algorithm using a variant on pairwise SIFT ~\cite{Lowe2004} descriptor matching for generating scores between a query and each model image in the training dataset. Each match is ranked according to a distance score; the match with the lowest distance score is assigned the highest ranked similarity. A query is then classified into one of the object classes. We now describe the basic matching technique in more detail.
+
+Let us consider $N$ training images $\mathbf{T}^{(n)}, n = 1, 2, ..., N$. A SIFT database was first constructed by computing $I^{(n)}$ descriptor vectors $\mathbf{y}_i^{(n)}, i = 1, 2, ..., I^{(n)}$ using VLFEAT~\cite{Vedaldi2008}. Each descriptor is of dimension $128\times 1$, so is in line with the commonly used configuration, as described by Lowe~\cite{Lowe2004}.
+
+Consider, now, a query image, $\mathbf{Q}$ yielding $J$ SIFT descriptor vectors, $\mathbf{x}_j, j = 1,2,...,J$. The Euclidean distance~\cite{Vedaldi2008} in descriptor space was first computed between query descriptors, $\mathbf{x}_j$, and the training set descriptors, $\mathbf{y}_i^{(n)}$, for each training image, $\mathbf{T}^{(n)}$. Distances were then sorted for each compared descriptor pair.  This was repeated for each image, yielding sets $\mathcal{U}^{(n)}$ consisting of tuples of indices $(p,q)$ such that
+\[
+\mathcal{U}^{(n)} := \lbrace (p,q): f_\mathcal{U}(\mathbf{x}_q,\mathbf{y}_p^{(n)})=1\rbrace,\,\,\forall n
+\]
+where $f_{\mathcal{U}}$ is a uniqueness criterion on descriptor distances within each image pair; we used the implementation of VLFEAT~\cite{Vedaldi2008}, based on the approach suggested by Lowe~\cite{Lowe2004} to define the set of matching descriptor pairs between the query image, $\mathbf{Q}$, and each training image, $\mathbf{T}^{(n)}$. $f_{\mathcal{U}}$ is defined so that descriptor pairs which meet the criterion evaluate to 1, and otherwise to 0. 
+
+For {\em each} of the $K^{(n)}$ descriptor pairs $(p,q)$ that pass the uniqueness test $f_{\mathcal{U}}$ for each training image $n$, we can calculate the pairwise distances in descriptor space:
+\begin{equation}
+d_k^{(n)} =  ||\mathbf{x}_q-\mathbf{y}_p^{(n)}||, \quad k = 1,2,...,K^{(n)}
+\label{EucDistance}
+\end{equation}
+where $K^{(n)} = |\mathcal{U}^{(n)}|$ is the number of descriptor matches after filtering for uniqueness. A scaled average of the distances $d_1^{(n)},d_2^{(n)},...,d_{K^{(n)}}^{(n)}$ is then computed~\cite{Li2009} to give a single estimate $\mu^{(n)}$ of the distance between query image and training image:
+
+\begin{equation}
+\mu^{(n)} = \frac{1}{K^{(n)}}\frac{\sum_{k=1}^{K^{(n)}} d_k^{(n)}}{K^{(n)}}
+\label{eqScore}
+\end{equation}
+
+Smaller $\mu^{(n)}$ for a candidate database image, $\mathbf{T}^{(n)}$, implies a higher similarity and thus a stronger match.
+%"This creates a score space"...
+A query $\textbf{Q}$ is then classified as belonging to the class $C^{(p)}$ corresponding to the training image $\mathbf{T}^{(p)}$ if
 
 \begin{equation}
 p = \underset{n}\argmin\lbrace \mu^{(n)}\rbrace
 \end{equation}
 
+\noindent with $C^{(p)} \in \lbrace 1, 2,..., N_P\rbrace $ and where $N_P$ is the number of product classes.
 
-\noindent with $p$ being one of the indices of the training images $[1,...,N]$.
+This descriptor-based method is likely to be indicative of the discriminating capacity of individual descriptor types; it is likely that this will have some effect on the ultimate performance of an object recognition technique. However, because it relies on descriptor-by-descriptor comparison, it is not readily scalable to large database sizes. Nevertheless, we keep it as one type of ``gold standard'' method, despite not encoding geometric relationships between keypoints. We compare this with the performance of more scalable techniques in Section~\ref{sec:results}.
+
+%% OLD STUFF
+
+%\begin{equation}
+%\begin{array}{cccc}
+%q^C \longleftarrow n^C & \text{if} & \frac{S_n}{S_m} < \Theta & \\
+%\text{where} & m \neq n & \text{and} & m^C \neq n^C
+%\end{array}
+%\end{equation}
+
+%The threshold, $\Theta$, was set in order to reject queries having a close match score between two object classes. Different threshold values were evaluated on a subset of 100 randomly chosen queries across 10 trials and it was observed that increasing the threshold increased the true positive rate but also the false positive rate due to the classification being less conservative. A threshold $\Theta$ was set to a value of 0.8 for further analysis as this led to the highest accuracy. This method was previously used by Lowe~\cite{Lowe2004} to discard weak matches but at descriptor level. We show that the same method can be applied at image level which will reject queries with weak matches rather than classifying them as false positives. The classification accuracy however remains low due to the conservative nature of this method but yields a high classification precision, which is imperative in the context of assistive devices. Such methods can pave the way towards applying additional quality tests on queries in order to reject low quality (blurred, overexposed, \etc).
+%
+%\paragraph{Results} The classifier performance was measured using classification accuracy, precision and recall as suggested by~\cite{Fawcett2006} -- these definitions are not to be confused with the terms used in the object retrieval context. Accuracy was given as the percentage of correct matched (true positives) from all queries; precision and recall were calculated as percentage of true positives from all the predicted positives and percentage of true positives from all the actual positives, respectively.
+%
 
 
-This descriptor-based method is likely to be indicative of the discriminating capacity of individual descriptor types, having an effect on the ultimate performance of any object recognition technique. However, because it relies on descriptor-by-descriptor comparison, it is not readily scalable to large database sizes. Nevertheless, we keep it as one type of ``gold standard'' method and compare it with more scalable techniques in the following section.
+%%%%%%%%%%%%%%%%%%%%% SIFT PAIRWISE End.... 
+
 
 %%% BOVW STARTS
 
