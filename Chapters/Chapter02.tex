@@ -64,7 +64,7 @@ Query images, $\mathbf{J}^{(j)}$, $j=1,2,\ldots,N_q$ are now acquired, separatel
 
 \begin{figure}
 \centering
-\includegraphics[height=6cm]{./gfx/Chapter02/pathexample2.pdf}
+\includegraphics[width=\linewidth]{./gfx/Chapter02/pathexample.pdf}
 \caption{Diagram illustrating the nature of visual paths and queries.  There are different paths recorded in the databases. The statistical tests reported in this paper compare the within-path queries and between-path queries, as well as within-path, between-location scores based on image comparisons.}
 \label{fig:label}
 \end{figure}
@@ -107,20 +107,28 @@ where $\mathcal{D}$ is the set of query descriptors that pass the distinctivenes
 \gamma^{(i,j)} = \frac{||\mu^{(i,j)}_p||_{\infty}-\mu^{(i,j)}_p}{||\mu^{(i,j)}_p||_{\infty}}
 \end{equation}
 
-The $\gamma$ measure is applied between pairs of query and database images, and one may identify two types of categories that these query comparisons fall into.  In the first case, the images come from the same path (although query and visual path database are, of course, distinct).  In the other case, queries come from different paths.  The results are shown in Fig.~\ref{fig:rhoAndGammaDistributions}(a).   
+The $\gamma$ measure is applied between pairs of query and database images, and one may identify two types of categories that these query comparisons fall into.  In the first case, the images come from the same path (although query and visual path database are, of course, distinct).  In the other case, queries come from different paths.  The results are shown in Fig.~\ref{fig:gammaDistribution}.   
 
-\begin{figure*}[t]
-\begin{center}
-\subfloat[Distributions for the $\gamma$ metric.] {\includegraphics[width=0.48\linewidth]{./gfx/Chapter02/path_pdf_analysisWithShadedBetweensALLDB.pdf}}
-\subfloat[Distributions for the $\rho$ metric.]
-{\includegraphics[width=0.48\linewidth]{./gfx/Chapter02/C5distributions_no_smoothingWithSmoothedHistograms-latex.pdf}}
-\caption{Tests of visual distinctiveness along paths.  (a) path level queries, capturing the behaviour of the $\gamma$ metric for inter- and intra-path distributions and (b) locations within a path, illustrating the distribution trends of the $\rho$-metric, all within a single 80m path, but at different distances either within or outside 50cm from known query submissions.}        
-\label{fig:rhoAndGammaDistributions}
-\end{center}
-\end{figure*}
+\begin{figure}[ht]
+\centering
+{\includegraphics[width=\linewidth]{./gfx/Chapter02/path_pdf_analysisWithShadedBetweensALLDB.pdf}}
+\caption{Tests of visual distinctiveness along paths: Distributions for the $\gamma$ metric. Path level queries, capturing the behaviour of the $\gamma$ metric for inter- and intra-path distributions.}
+\label{fig:gammaDistribution}
+\end{figure}
+ 
+
 
 
 A second type of score, $\rho$, was created with a slightly different normalisation criterion based on observing the maximum within-path distance distributions, i.e. for a given path index, $p$.  The behaviour of this score was studied using query images as taken with ground-truth locations, measured with a surveyor's wheel; again, probability density estimates of scores are estimated from hundreds of thousands of descriptor comparisons.
+
+
+\begin{figure}[ht]
+\centering
+{\includegraphics[width=\linewidth]{./gfx/Chapter02/C5distributions_no_smoothingWithSmoothedHistograms-latex.pdf}}
+\caption{Tests of visual distinctiveness along paths: Distributions for the $\rho$ metric. Locations within a path, illustrating the distribution trends of the $\rho$-metric, all within a single 80m path, but at different distances either within or outside 50cm from known query submissions.}        
+\label{fig:rhoDistribution}
+\end{figure}
+
 %%
 
 %% WHAT AM I HOLDING?
@@ -144,17 +152,26 @@ The dataset contains a mixture of stills and video clips, including more than 55
 
 \subsection{Evaluation of Sequential Video Frames} \label{subsec:evaluationframes}
 
-In this section we analyse how we can use sequential frames from a video of an object in order to improve classification accuracy. First, multiple sequential images from a video were queried, and each image was matched to one of the thirty categories of the SHORT-30 database using the descriptor matching as described in Sections~\ref{subsec:pairwise} and \ref{subsec:querydescrejection}. A histogram of the matches was computed for several videos of the same object, as shown in Fig.~\ref{fig:prd003}(a). Even though the total number of incorrect matches increases as we query more video frames, they are distributed across a range of object categories in the database. As shown, the correct object often has a higher number of hits than the incorrect ones. Therefore we propose to use the ``individual voting'' as a metric to classify an object based on querying sequential images from a video of a hand-held object. Further analysis was undertaken in order to determine the number of video frames that are required for the total number of correct matches to exceed the number of individual total incorrect matches. Preliminary results, Figure \ref{fig:prd003}(b), shows that the number of total incorrect matches to individual objects rises slowly while the number of total matches to the correct object increases rapidly. The above analyses were undertaken for several videos and object categories under the SHORT-30 dataset. Classification accuracy using different numbers of query frames and the above metric is presented in Section~\ref{sec:expResults2}.
+In this section we analyse how we can use sequential frames from a video of an object in order to improve classification accuracy. First, multiple sequential images from a video were queried, and each image was matched to one of the thirty categories of the SHORT-30 database using the descriptor matching as described in Sections~\ref{subsec:pairwise} and \ref{subsec:querydescrejection}. A histogram of the matches was computed for several videos of the same object, as shown in Fig.~\ref{fig:prd003a}. Even though the total number of incorrect matches increases as we query more video frames, they are distributed across a range of object categories in the database. 
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{./gfx/Chapter02/prd003_distribution_bar-latex.pdf}
+\caption{Evaluation of sequential video frames: Distribution of matches across different categories of SHORT-30 dataset for four videos of the same query object.}
+\label{fig:prd003a}
+\end{figure}
 
 
-\begin{figure*}[t]
-\begin{center}
-\subfloat[] {\includegraphics[width=.9\linewidth]{./gfx/Chapter02/prd003_distribution_bar-latex-wide.pdf}}\\
-\subfloat[]{\includegraphics[width=.9\linewidth]{./gfx/Chapter02/prd0030shadedPlots-4-latex-wide2.pdf}}
-\caption{Evaluation of sequential video frames.  (a) Distribution of matches across different categories of SHORT-30 dataset for four videos of the same query object. (b) Fraction of correctly matched queries to incorrect matches for videoframe sequences. Note that there is a distribution of incorrect matches across multiple categories as the number of sequential query frames increases.}        
-\label{fig:prd003}
-\end{center}
-\end{figure*}
+As shown, the correct object often has a higher number of hits than the incorrect ones. Therefore we propose to use the ``individual voting'' as a metric to classify an object based on querying sequential images from a video of a hand-held object. Further analysis was undertaken in order to determine the number of video frames that are required for the total number of correct matches to exceed the number of individual total incorrect matches. Preliminary results, Figure \ref{fig:prd003b}, shows that the number of total incorrect matches to individual objects rises slowly while the number of total matches to the correct object increases rapidly. The above analyses were undertaken for several videos and object categories under the SHORT-30 dataset. Classification accuracy using different numbers of query frames and the above metric is presented in Section~\ref{sec:expResults2}.
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{./gfx/Chapter02/prd0030shadedPlots-4-latex.pdf}
+\caption{Evaluation of sequential video frames: Fraction of correctly matched queries to incorrect matches for videoframe sequences. Note that there is a distribution of incorrect matches across multiple categories as the number of sequential query frames increases.}        
+\label{fig:prd003b}
+\end{figure}
+
 
 \section{Experimental Results} \label{sec:expResults}
 
@@ -162,7 +179,7 @@ In this section we analyse how we can use sequential frames from a video of an o
 
 We acquired a number of visual paths with a mobile phone (Nexus 4).  These simply take the form of video acquisitions, captured with the phone pointing in the direction of motion, and recording at 30fps at 1920 $\times$ 1080 resolution. The images were then downsampled to a resolution of 192 $\times$ 108 pixels. The number of images captured along the paths raises the complexity of the image matching problem task: there are typically 2000 images per path.
 
-For the analysis of the distribution of the metrics $\gamma$ and $\rho$, as shown in Fig.~\ref{fig:rhoAndGammaDistributions}, we have used VLFEAT's~\cite{Vedaldi2008} implementation of SIFT~\cite{Lowe2004} descriptors.
+For the analysis of the distribution of the metrics $\gamma$ and $\rho$, as shown in Fig.~\ref{fig:gammaDistribution} and \ref{fig:rhoDistribution}, we have used VLFEAT's~\cite{Vedaldi2008} implementation of SIFT~\cite{Lowe2004} descriptors.
 
 \begin{figure}
 \begin{center}
@@ -174,7 +191,7 @@ For the analysis of the distribution of the metrics $\gamma$ and $\rho$, as show
 
 The use of bootstrap statistics was appropriate for this study because, for example, in the navigational context, it allows sampling distributions of distances across the whole image database of around 400,000 possible pairings of visual path images.
 
-In the case of the $\rho$ metric, these bootstrapped measurements have revealed the existence of visual distinctiveness between positions that are ``close'' or ``far'' along a path from a given query. In Fig.~\ref{fig:rhoAndGammaDistributions}(b) we have double-filtered the distribution of the $\rho$ values with a one-point moving average. This clearly shows that values of $\rho$ closer to one are useful for discriminating positions belonging to a specific visual path. These results have motivated the search for a threshold on the values of $\rho$ and the use of consecutive database frames to maximise discriminability, as illustrated in Fig.~\ref{fig:rocTwoParametersC5}.
+In the case of the $\rho$ metric, these bootstrapped measurements have revealed the existence of visual distinctiveness between positions that are ``close'' or ``far'' along a path from a given query. In Fig.~\ref{fig:rhoDistribution} we have double-filtered the distribution of the $\rho$ values with a one-point moving average. This clearly shows that values of $\rho$ closer to one are useful for discriminating positions belonging to a specific visual path. These results have motivated the search for a threshold on the values of $\rho$ and the use of consecutive database frames to maximise discriminability, as illustrated in Fig.~\ref{fig:rocTwoParametersC5}.
 
 \subsection{Classification Accuracy Based on Sequential Video Frames} \label{sec:expResults2}
 
@@ -182,30 +199,58 @@ Classification accuracy using the individual voting metric (Section~\ref{subsec:
 
 Table~\ref{table:testData} shows that the classification accuracy increases as we increase the limit of query frames, except for occasional dips which occur due to instability as a person rotates the object in their hand. In comparison to the classification accuracy of individual queries, classification based on sequential video frame queries gives a much higher accuracy.
 
+
 \begin{table}
-\begin{center}
-\begin{tabularx}{1.1\linewidth}{XXXXXXXXXXXX}
+\centering
+\begin{tabularx}{1.05\linewidth}{XXXXXXXXXXXX}
 \toprule
- ID& Single frame & \multicolumn{2}{c}{10 frames} & \multicolumn{2}{c}{30 frames} & \multicolumn{2}{c}{50 frames} & \multicolumn{2}{c}{70 frames} & \multicolumn{2}{c}{90 frames}\\
- & Acc (\%) & Acc & Std & Acc & Std & Acc & Std & Acc & Std & Acc & Std \\
+ & Single frame & \multicolumn{2}{c}{10 fr.\right } & \multicolumn{2}{c}{30 fr.} & \multicolumn{2}{c}{50 fr.} & \multicolumn{2}{c}{70 fr.} & \multicolumn{2}{c}{90 fr.}\\
+ID & Acc (\%) & Acc & Std & Acc & Std & Acc & Std & Acc & Std & Acc & Std \\
 \midrule
-1 & 37.89 & 85.71 & 34.99 & 85.71 & 34.99 & 85.71 & 34.99 & 92.86 & 25.75 & 92.86 & 25.75 \\
+1 & 37.9 & 85.7 & 35.0 & 85.7 & 35.0 & 85.7 & 35.0 & 92.9 & 25.8 & 92.9 & 25.8 \\
 %\hline
-2 & 55.56 & 75.00 & 43.30 & 75.00 & 43.30 & 66.67 & 47.14 & 75.00 & 43.30 & 91.67 & 27.64\\
+2 & 55.6 & 75.0 & 43.3 & 75.0 & 43.3 & 66.7 & 47.1 & 75.0 & 43.3 & 91.7 & 27.6\\
 %\hline
-3 & 40.87 & 73.33 & 44.22 & 73.33 & 44.22 & 80.00 & 40.00 & 80.00 & 40.00 & 80.00 & 40.00\\
+3 & 40.9 & 73.3 & 44.2 & 73.3 & 44.2 & 80.0 & 40.0 & 80.0 & 40.0 & 80.0 & 40.0\\
 %\hline
-5 & 43.14 & 62.50 & 48.41 & 62.50 & 48.41 & 62.50 & 48.41 & 87.50 & 33.07  & 87.50 & 33.07\\
+5 & 43.1 & 62.5 & 48.4 & 62.5 & 48.4 & 62.5 & 48.4 & 87.5 & 33.1  & 87.5 & 33.1\\
 %\hline
-6 & 80.61 & 92.31 & 26.65 & 100.00 & 0.00 & 100.00 & 0.00 & 100.00 & 0.00  & 100.00 & 0.00\\
+6 & 80.6 & 92.3 & 26.7 & 100.0 & 0.0 & 100.0 & 0.0 & 100.0 & 0.0  & 100.0 & 0.0\\
 %\hline
-7 & 46.15 & 78.57 & 41.03 & 78.57 & 41.03 & 92.86 & 25.75 & 92.86 & 25.75  & 92.86 & 25.75\\
+7 & 46.2 & 78.6 & 41.0 & 78.6 & 41.0 & 92.9 & 25.8 & 92.9 & 25.8  & 92.9 & 25.8\\
 \bottomrule
 \end{tabularx}
-\end{center}
-\caption{Classification accuracy of different objects for different number of sequential query frames. Accuracy is defined as the number of videos correctly classified divided by the total number of videos queried.}
+\caption{Classification accuracy of different objects for different number of sequential query frames (fr.). Accuracy is defined as the number of videos correctly classified divided by the total number of videos queried.}
 \label{table:testData}
 \end{table}
+
+
+
+
+
+%\begin{table}
+%\centering
+%\begin{tabularx}{1.2\linewidth}{XXXXXXXXXXXX}
+%\toprule
+% ID& Single frame & \multicolumn{2}{c}{10 frames} & \multicolumn{2}{c}{30 frames} & \multicolumn{2}{c}{50 frames} & \multicolumn{2}{c}{70 frames} & \multicolumn{2}{c}{90 frames}\\
+% & Acc (\%) & Acc & Std & Acc & Std & Acc & Std & Acc & Std & Acc & Std \\
+%\midrule
+%1 & 37.89 & 85.71 & 34.99 & 85.71 & 34.99 & 85.71 & 34.99 & 92.86 & 25.75 & 92.86 & 25.75 \\
+%%\hline
+%2 & 55.56 & 75.00 & 43.30 & 75.00 & 43.30 & 66.67 & 47.14 & 75.00 & 43.30 & 91.67 & 27.64\\
+%%\hline
+%3 & 40.87 & 73.33 & 44.22 & 73.33 & 44.22 & 80.00 & 40.00 & 80.00 & 40.00 & 80.00 & 40.00\\
+%%\hline
+%5 & 43.14 & 62.50 & 48.41 & 62.50 & 48.41 & 62.50 & 48.41 & 87.50 & 33.07  & 87.50 & 33.07\\
+%%\hline
+%6 & 80.61 & 92.31 & 26.65 & 100.00 & 0.00 & 100.00 & 0.00 & 100.00 & 0.00  & 100.00 & 0.00\\
+%%\hline
+%7 & 46.15 & 78.57 & 41.03 & 78.57 & 41.03 & 92.86 & 25.75 & 92.86 & 25.75  & 92.86 & 25.75\\
+%\bottomrule
+%\end{tabularx}
+%\caption{Classification accuracy of different objects for different number of sequential query frames. Accuracy is defined as the number of videos correctly classified divided by the total number of videos queried.}
+%\label{table:testData}
+%\end{table}
 
 %%
 
