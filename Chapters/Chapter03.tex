@@ -1,5 +1,5 @@
 %*****************************************
-\chapter{Chapter 3}\label{ch:chapter3}
+\chapter{Hand-held object recognition: SHORT dataset, benchmark and the problem of assistive recognition}\label{ch:chapter3}
 %*****************************************
 %\setcounter{figure}{10}
 % \NoCaseChange{Homo Sapiens}
@@ -8,28 +8,43 @@
 \section{INTRODUCTION}
 \label{sec:intro}
 
-In this paper, we present SHORT-30, an updated and practical dataset for studying object recognition and retrieval in the challenging scenarios of hand-held objects and mobile or wearable cameras, and with emphasis in the assistive case for blind and partially sighted users. It is open to the research community for download at \cite{Rivera-Rubio} and the website includes collaborative tools to help expand SHORT.
-We also provide baseline performance measurements on the current dataset using object recognition algorithms of different degrees of recognition complexity.
+The ubiquity of smartphones with high quality cameras and fast network connections will spawn many new applications. One of these is visual object recognition, an emerging smartphone feature which could play roles in high-street shopping, price comparisons and similar uses. There are also potential roles for such technology in assistive applications, such as for people who have visual impairment. We introduce the Small Hand-held Object Recognition Test (SHORT), a new dataset that aims to benchmark the performance of algorithms for recognising hand-held objects from either snapshots or videos acquired using hand-held or wearable cameras. We show that SHORT provides a set of images and ground truth that help assess the many factors that affect recognition performance. SHORT is designed to be focused on the assistive systems context, though it can provide useful information on more general aspects of recognition performance for hand-held objects. We describe the present state of the dataset, comprised of a small set of high quality training images and a large set of nearly 135,000 smartphone-captured test images of 100 grocery products. In this version, SHORT addresses another context not covered by traditional datasets, in which high quality catalogue images are being compared with variable quality user-captured images; this makes the matching more challenging in SHORT than other datasets. Images of similar quality are often not present in ``database'' and ``query'' datasets, a situation being increasingly encountered in commercial applications. Finally, we compare the results of popular object recognition algorithms of different levels of complexity when tested against SHORT and discuss the research challenges arising from the particularities of visual object recognition from objects that are being held by users.
 
-One of the motivations for introducing SHORT is the possibility of applying visual object recognition to assistive applications, supporting people with visual impairment.  The ubiquity of  camera-equipped smartphones, and their accessibility options, make them potentially well suited to this application. 
 
-Image-based object recognition presents very particular challenges for assistive use, as the variability of viewing conditions (lighting, point of view, etc.) is large.  Barcodes are not always easily located or read by users, and may also be vendor-specific. In addition, the precision of search, and guaranteed matches against curated, high-quality product information is essential: internet-trawled product images are not sufficiently controlled. 
+There are several motivations for the SHORT dataset; one lies in the emerging application of assistive systems which can help people with visual impairment to obtain information about objects in real-world settings. A common scenario is holding objects whilst either shopping or using items in the house. The familiar platform of camera-equipped smartphones makes image-based query a natural choice for this context. Connected, wearable cameras are, of course, another option.
+
+Image recognition in this context presents very particular challenges, as the variability of viewing conditions (lighting, point of view, etc.) is large. Using Internet-trawled images against which to perform the query is one approach, but it can be expensive if one requires a large number of server-side object-camera poses to guarantee a good quality match. Barcodes are not always easily located by users, and may also be vendor-specific. 
+
+%Therefore the SHORT database aims to incorporate some or all the different conditions that might occur in a real-life shopping scenario and make it difficult. 
+
+The purpose of the SHORT dataset is to provide a useful test of retrieval and object recognition quality when compared against curated databases of high-quality images, which are increasingly being used in search ``Apps'' targeted to particular vertical product markets. 
+
+%In this context, it also allows us to ask the question: how many database shots must be taken for accurate recognition, and how many database shots, covering different poses, are needed to guarantee a certain maximum error rate during a query?
+
+
+The number of catalogue items -- distinct products, or objects -- in SHORT is currently 100, but the plan is to expand it over time. To some extent, we compensate for this by having a large number of query images -- a total of 134,524 -- taken by as many as 30 mobile phones and including acquisitions from both blindfolded and sighted users. The number and nature of the queries allow SHORT to be used to design and test recognition systems that must place a guarantee on being able to return a correct match. For example, a query image might have to be rejected as being of too low quality to provide a definitive match, either because of visual ambiguity or poor image quality. This is very important in the assistive device context, where rejection of poor quality or ambiguous images would be preferred over simply finding the closest match, which could be catastrophic.
+
+Although our long-term focus is the use of computer vision for assistive devices and systems, SHORT-100 also represents an updated and practical dataset for studying object recognition and retrieval in the challenging scenarios of hand-held objects and mobile or wearable cameras. In this chapter, in addition to introducing SHORT-100, we provide baseline performance measurements on the current dataset using several object recognition algorithms with different degrees of recognition complexity.
+
+In Section~\ref{sec:related-work} we review the computer vision datasets related with object recognition and argument the need for SHORT on the basis of an increasingly mobile and inclusive world. In Section~\ref{sec:short} we describe the experimental setup for image acquisition and the particularities of the different datasets that comprise SHORT. Section~\ref{sec:benchmarks} describes the benchmarking of the dataset and its results, illustrating the advantages and disadvantages of the set. These will be discussed in Section~\ref{sec:conclusions}, where we will point out the future work.
 
 \begin{figure}[h!]
-\begin{center}
-\subfloat[Collage representing the grocery products in the SHORT-30 dataset. This is a selection of items to include cans (shiny), boxes, uneven surfaces, similar shapes, semi-transparent or deformable packaging. These are popular products that are widely available for easy reproducibility and contain snacks, toiletries, medicines, drinks, canned food, dairy products, etc.]
-{ \includegraphics[width=\textwidth]{./gfx/Chapter03/icip-all-products.jpg}
-\label{fig:collage-all}}
+\centering
+\includegraphics[width=\textwidth]{./gfx/Chapter03/SHORT_family_photo.jpg}
+\caption{All the grocery products that compose the SHORT-100 dataset}
+\label{fig:short-100-all}
+\end{figure}
 
-\subfloat[Sample test images. \textbf{Top row}: still-images; \textbf{bottom row}: video frames. Note: the images were cropped to fit the collage, they actually have different resolutions. This query selection contains samples from all the test datasets (see Table~\ref{table:testData}.)]{\includegraphics[width=.75\linewidth]{./gfx/Chapter03/icip-test-imgs2.jpg}\label{fig:testSetCollage}}
 
-
-\caption{Sample of SHORT-30 training set (a) and test set (b).}\label{fig:short-30}
-\end{center}
+\begin{figure}
+\centering
+\includegraphics[width=.75\linewidth]{./gfx/Chapter03/icip-test-imgs2.jpg}\label{fig:testSetCollage}
+\caption{Sample test images. \textbf{Top row}: still-images; \textbf{bottom row}: video frames. Note: the images were cropped to fit the collage, they actually have different resolutions. This query selection contains samples from all the test datasets (see Table~\ref{table:testData}.)}
+\label{fig:short-30}
 \end{figure}
 
 %------------------------------------------------------------------------
-\section{SHORT-30 AND RELATED DATASETS} \label{sec:related-work}
+\section{SHORT-100 AND RELATED DATASETS} \label{sec:related-work}
 
 COIL-100~\cite{Nene1996a} and SOIL-47~\cite{Koubaroulis2002} laid the foundations for the provision of large-databases of objects but their formats, image sizes and depth are now slightly dated.
 
@@ -40,7 +55,7 @@ Caltech-101 and 256 \cite{Feifei2007,Griffin2007}, together with PASCAL VOC~\cit
 ImageNet~\cite{Deng2009} was publicly released in 2010 to increase the number of categories up to the level of human recognition, which is estimated to be in the range of the tens of thousands~\cite{Biederman1987}. ImageNet focuses on object categorisation ``at near human scale'' and therefore provides 1.2 million images of a broad range of objects belonging to 1,000 categories~\cite{Feifei2007}. This remarkable dataset depth, however, presents certain disadvantages when the scope of the application is more specific, as it is in the context of shopping or assistive systems. The 30 products from SHORT-30, and the ones that will be obtained for subsequent expansions, are widely available. However, only 6 out of the 30 can be found in ImageNet: Coca-Cola, orange Fanta, semi-skimmed milk, orange marmalade, deodorant and OXO chicken cubes. From these some presented ambiguities: the category milk contained 231 images; some represented milk bottles valid for a shopping context, but some of them depicted a glass or jug of milk, milk crates in a factory, or other packages of milk. ImageNet cannot be used to train a system that guarantees a minimum scalability in a shopping context. Another criticism lies in the fact that some specific items are hard to index. In ImageNet, for instance, the orange Fanta is under drinks $\rightarrow$ soft drinks $\rightarrow$ orange synset. This makes it difficult to use ImageNet as a benchmark dataset for such a specific application.
 
 
-%While some of the datasets mentioned above, like Pascal and ImageNet, offer a high degree of variability, SHORT has been designed to target the specific need of a dataset to develop object recognition systems in the context of hand-held queries, particularly for use in assistive devices.
+While some of the datasets mentioned above, like Pascal and ImageNet, offer a high degree of variability, SHORT has been designed to target the specific need of a dataset to develop object recognition systems in the context of hand-held queries, particularly for use in assistive devices.
 
 Another important limitation of existing datasets is that they use large amounts of training data containing unsystematic views of an object to train classifiers; this introduces bias and can lead to ``solving'' the dataset. SHORT, however, offers a training set of model images which systematically cover variations in an object's viewing angle. This allows to study how recognition of queries taken non-systematically is affected by the variability in viewpoints in the training data.
 
@@ -48,14 +63,15 @@ Test images from many datasets lack the variability in views or introduce the ph
 
 As an additional feature SHORT also contains test images acquired by blindfolded users and therefore mimics scenarios involving visually impaired users. 
 
-%We have not performed experiduments with visually impaired users to date, because for each potential assistive application (e.g. recognition, navigation), our protocols require that we demonstrate performance in sighted, then blindfolded users first, before conducting trials with visually-impaired volunteers. 
+We have not performed experiduments with visually impaired users to date, because for each potential assistive application (e.g. recognition, navigation), our protocols require that we demonstrate performance in sighted, then blindfolded users first, before conducting trials with visually-impaired volunteers. 
 
 %%-------------------------------------------------------------------------
-\section{SHORT-30 TECHNICAL DETAILS} \label{sec:short}
+\section{SHORT-100 TECHNICAL DETAILS} \label{sec:short}
 
 \subsection{Overview}
 
-SHORT is comprised of separate datasets for training and testing. Currently, the training dataset consists of high resolution acquisitions of 30 grocery items acquired in a very controlled setup, with 36 images of the same object from different angles and views. For testing, we provide a set of query images of the same grocery items acquired with 30 different smartphones. Lighting, pose, sensors and optics were quite varied. This represents a more realistic view of hand-held object queries from hand-held devices. The SHORT-30 dataset contains an average of more than 4,200 queries per product, allowing a realistic study of factors that affect recognition quality. In addition, video sequences of hand-held objects contain blur and different background clutter, as the volunteers moved while capturing sequences, relevant to a use case that might be considered as streamed object recognition. 
+SHORT is comprised of separate datasets for training and testing. Currently, the training dataset consists of high resolution acquisitions of 100 grocery items acquired in a very controlled setup (see Figure~\ref{fig:acqsetup}), with 36 images of the same object from different angles and views. For testing, we provide a set of query images of a subset of 30 grocery items acquired with 30 different smartphones. Lighting, pose, sensors and optics were quite varied. This represents a more realistic view of hand-held object queries from hand-held devices. The SHORT dataset contains an average of more than 4,200 queries per product, allowing a realistic study of factors that affect recognition quality. In addition, video sequences of hand-held objects contain blur and different background clutter, as the volunteers moved while capturing sequences, relevant to a use case that might be considered as streamed object recognition. 
+
 
 
 In addition to the images, we provide ground truth annotations for all the data in terms of its object class label. We also include binary masks of the objects from the training dataset, indicating the bounding box around each item.
@@ -68,7 +84,26 @@ SHORT is openly available and it can be downloaded from \cite{Rivera-Rubio} and 
 
 The database of models was acquired with a Nikon D7000 SLR camera using a 18-105 mm lens connected to a laptop and using the Nikon \textit{live capture} software. The 16.2 megapixel captures in \textit{raw} format were kept, but a JPEG copy of each image was also generated with a resolution of 4928$\times$3264 pixels. A 986$\times$653 resized copy of the high resolution images is also made available
 
-A total of 36 views were acquired per category. The views used in the product models contain shots at three elevations (17, 47 and 68 cm, at a distance of 1m) above the object base. 12 degrees of rotation were used per elevation.  Both the background and a turntable containing the object were covered with a uniform ``chroma blue'' cloth, . A quartet of 11 watt PL fluorescent lamps were used to illuminate background and object.
+A total of 36 views were acquired per category. The views used in the product models contain shots at three elevations (17, 47 and 68 cm, at a distance of 1m) above the object base. 12 degrees of rotation were used per elevation. A professional ``chroma key'' setup was used. Both the background and a turntable containing the object were covered with a uniform chroma key backdrop, a ``chroma blue'' and ``chroma green'' cloth depending on the main color of the product being shot. Two halogen 125 W (equivalent to 625 W) 5500 K lamps were used to illuminate the background whilst the object was illuminated with a 40 $\times$ 40 cm 5400 K LED panel. The set-up is shown in Figure \ref{fig:acqsetup}.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{gfx/Chapter03/acquisition_diagram.pdf}
+\caption{SHORT-100 training set acquisition setup}
+\label{fig:acqsetup}
+\end{figure}
+
+The acquisition of the training images was divided in two phases. In the first, model images of 30 products (the same set as the test set) were acquired. After receiving feedback from the community, we planned a second acquisition phase to expand the number of categories to 100 and allow for the generalisation of the algorithms tested with the dataset. The products of SHORT-30 are shown in the collage in Figure~\ref{fig:collage-all}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{./gfx/Chapter03/icip-all-products.jpg}
+\caption{Collage representing the grocery products in the SHORT-30 dataset. This is a selection of items to include cans (shiny), boxes, uneven surfaces, similar shapes, semi-transparent or deformable packaging. These are popular products that are widely available for easy reproducibility and contain snacks, toiletries, medicines, drinks, canned food, dairy products, etc. Figure~\ref{fig:short-100-all} shows all the products in the final SHORT-100 release.}
+\label{fig:collage-all}
+\end{figure}
+
+
 The process described above produces high-quality database (training) images; however we took no such precautions with the query (test) images. The difference in capture quality makes SHORT very relevant to the usage case that we have outlined, in which high-quality product images are used to provide a controlled database of items.  We see this factor as very important in order to quarantee the quality of information.  Such multi-view images are routinely acquired for product catalogues, marketing brochures, and websites, forming a standard part of the product manufacturing processes.
 
 \subsubsection{Test images}
@@ -138,7 +173,59 @@ On top of LLC and FV, spatial pooling was applied, using the pyramid approach de
 \section{Results and Discussion} \label{sec:analysis} \label{sec:results}
 
 
-\begin{figure}[h]
+
+In order to facilitate performance comparisons, we organised SHORT queries into the four groups in Table~\ref{table:testData}. From Table~\ref{table:sightedVSblindfolded} we appreciate that these groups experienced differences in average quality of match. Still image queries outperform single-frame queries taken from unfiltered video: video frames typically include images which are blurred due to an object being rotated during capture. However, pilot work suggests that multiple frames from video can enhance accuracy. Queries from sighted users led to better performance than those from blindfolded users. The ``blindfolded'' queries appeared less susceptible to some forms of  capture-bias: some images contained inadvertent partial object occlusions, making categorisation more challenging. This makes SHORT arguably a better dataset for designing technology for vision-based assistive systems for hand-held /wearable camera recognition of hand-held objects.
+
+
+\begin{table}[]
+\centering
+  \begin{tabular}{ccccc}
+   \toprule
+    mAP & ST-SG & VF-SG & ST-BF & VF-BF \\
+	\midrule
+    HA-4000                    & 45.86    & 36.86   & 27.56 & 26.03\\
+	\bottomrule
+    \end{tabular}
+    \caption{Recognition performance across the four different subgroups of SHORT-30. The reduction in quality of match for the blindfolded subgroup is notable.}
+    \label{table:sightedVSblindfolded}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{adjustbox}{max width=1.2\textwidth,center}
+\begin{tabular}{cccccccccccccc}
+   \toprule
+\multirow{3}{*}{Method} & \multicolumn{6}{c}{Still images} & \multicolumn{6}{c}{Video frames}\\
+\cline{2-13} 
+ &  \multicolumn{3}{c}{mAP} & \multicolumn{3}{c}{Accuracy} & \multicolumn{3}{c}{mAP} & \multicolumn{3}{c}{ Accuracy}\\
+& Min & Max & Avg. & Min & Max & Avg. & Min & Max & Avg. & Min & Max & Avg.\\
+\hline \hline 
+Descriptor match & 25.11 & 86.65 & 55.72 & 61.43 & 95.26 & 77.51 & \multicolumn{3}{c}{-} & 19.70 & 48.98 & 32.43\\
+\hline
+HA-500 & 6.23 & 66.54 & 24.54 & 49.32 & 85.55 & 61.38 & 5.86 & 62.43 & 22.39 &50.00 & 85.82 & 61.09\\
+\hline
+HA-4000 & 10.40 & 91.34 & 45.86 & 50.00 & 93.53 & 70.23 & 9.12 & 72.24 & 36.86 & 50.15 & 89.101 & 68.25 \\
+\hline
+LLC-KP-500 & 0.90 & 62.31 & 13.03 & 47.99 & 92.57 & 70.67  & 0.53 & 57.55 & 10.19 & 48.19 & 82.50 & 67.01\\
+\hline
+LLC-KP-4000 & 0.89 & 79.06 & 19.73 & 50.00 & 97.64 & 69.72 & 0.56 & 70.47 & 14.00 & 48.89 & 83.13 & 67.74 \\
+\hline
+LLC-S8-500 & 0.96 & 59.85 & 12.87 & 52.22 & 86.94 & 69.37 & 0.43 & 38.71 & 9.08 & 51.46 & 91.88 & 69.41\\
+\hline
+LLC-S8-4000 & 1.12 & 65.38 & 17.89 & 44.03 & 87.85 & 71.14 & 0.67 & 47.37 & 11.20 & 49.03 & 88.13 & 68.38\\
+\hline
+FV-S3-256 & 4.55 & 63.39 & 20.54 & 50.00 & 93.19 & 73.73 & \multicolumn{3}{c}{-} & \multicolumn{3}{c}{-}\\
+\hline
+FV-S8-256 & 3.40 & 61.26 &  18.39 & 50.00 & 83.68 & 68.44  & \multicolumn{3}{c}{-} & \multicolumn{3}{c}{-}\\
+	\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Classification results. Detailed performance evaluation of state of the art algorithms on SHORT-30. \textbf{HA} -- hard assignment; \textbf{LLC} -- locality-constrained linear coding; \textbf{FV} -- Fisher vector. The SIFT descriptors can be computed on dense grids with a spacing of \textbf{Sx} pixels or around the SIFT keypoints (\textbf{KP}). The last figure indicates the size of the visual vocabulary (256, 500 or 4000 visual words).}
+\label{table:classification_results}
+\end{table}
+
+\begin{figure}[]
 \begin{center}
 \includegraphics[width=\linewidth]{./gfx/Chapter03/methods-v5.pdf}
 \caption{Detailed performance evaluation of state-of-the-art algorithms on SHORT-30. \textbf{LLC} -- locality-constrained linear coding; \textbf{FV} -- Fisher vector. The SIFT descriptors can be computed on dense grids with a spacing of \textbf{Sx} pixels or around the SIFT keypoints (\textbf{KP}). The last figure indicates the size of the visual vocabulary (256, 500 or 4000 visual words).}
@@ -147,26 +234,12 @@ On top of LLC and FV, spatial pooling was applied, using the pyramid approach de
 \end{figure}
 
 
-In order to facilitate performance comparisons, we organised SHORT queries into the four groups in Table~\ref{table:testData}. From Table~\ref{table:sightedVSblindfolded} we appreciate that these groups experienced differences in average quality of match. Still image queries outperform single-frame queries taken from unfiltered video: video frames typically include images which are blurred due to an object being rotated during capture. However, pilot work suggests that multiple frames from video can enhance accuracy. Queries from sighted users led to better performance than those from blindfolded users. The ``blindfolded'' queries appeared less susceptible to some forms of  capture-bias: some images contained inadvertent partial object occlusions, making categorisation more challenging. This makes SHORT arguably a better dataset for designing technology for vision-based assistive systems for hand-held /wearable camera recognition of hand-held objects.
-
-\begin{table}[h]
-\begin{center}
-  \begin{tabular}{ccccc}
-   \toprule
-    mAP & ST-SG & VF-SG & ST-BF & VF-BF \\
-	\midrule
-    HA-4000                    & 45.86    & 36.86   & 27.56 & 26.03\\
-	\bottomrule
-    \end{tabular}
-	\end{center}
-    \caption{Recognition performance across the four different subgroups of SHORT-30. The reduction in quality of match for the blindfolded subgroup is notable.}
-    \label{table:sightedVSblindfolded}
-\end{table}
 
 %% Old results
 
-Classification results for the different methods are summarised in Fig.~\ref{fig:methods}. The low performance of most state-of-the-art methods demonstrates the challenge presented by SHORT-30. The precision/recall analysis shown in Fig.~\ref{fig:LLC-S8-4000} illustrates a remarkable variability in retrieval performance across categories. This fact reflects the complexity of the recognition problem, and the need for more robust algorithms. 
-%For example, recognition algorithms for hand-held objects should be able to either provide a good confidence measure, or possibly to request that further image queries be captured, even suggesting suitable, specific object transformations that could be used as a predictive verification step. For an assistive usage case, rather than a potentially incorrect match, it would be more appropriate for a system to reject the query.
+Classification results for the different methods are summarised in Table~\ref{table:classification_results}  and Fig.~\ref{fig:methods}. The low performance of most state-of-the-art methods demonstrates the challenge presented by SHORT-30. The precision/recall analysis shown in Fig.~\ref{fig:LLC-S8-4000} illustrates a remarkable variability in retrieval performance across categories. This fact reflects the complexity of the recognition problem, and the need for more robust algorithms. 
+
+For example, recognition algorithms for hand-held objects should be able to either provide a good confidence measure, or possibly to request that further image queries be captured, even suggesting suitable, specific object transformations that could be used as a predictive verification step. For an assistive usage case, rather than a potentially incorrect match, it would be more appropriate for a system to reject the query.
 
 \begin{figure}[h]
        \centering
@@ -214,9 +287,9 @@ The training set of model images systematically captures variations in objects' 
 
 
 
-%A key issue is that of how to minimise -- or better yet, eliminate -- the chance of a false positive match: such errors could be dangerous when used in the context of household product identification. One way to tackle this would be to reject a query based partly on its quality (sharpness, resolution, etc.). SHORT-30, with a range of variability in the test images, can be used to establish image quality metrics for accepting a query in this context. Another possibility would be to reject a query based on the degree of visual ambiguity, when assessed against the database. This brings us to the question of database size.
+A key issue is that of how to minimise -- or better yet, eliminate -- the chance of a false positive match: such errors could be dangerous when used in the context of household product identification. One way to tackle this would be to reject a query based partly on its quality (sharpness, resolution, etc.). SHORT-30, with a range of variability in the test images, can be used to establish image quality metrics for accepting a query in this context. Another possibility would be to reject a query based on the degree of visual ambiguity, when assessed against the database. This brings us to the question of database size.
 
-%Scalability of image search in large databases brings a key challenge: how to ensure that ambiguity between two similar products might be noted and used to either eliminate a candidate search result as being too uncertain a match, or to prompt a user to submit specific queries based around different hypotheses of what the object might be. 
+Scalability of image search in large databases brings a key challenge: how to ensure that ambiguity between two similar products might be noted and used to either eliminate a candidate search result as being too uncertain a match, or to prompt a user to submit specific queries based around different hypotheses of what the object might be. 
 
 SHORT-30 was developed with the intention of piloting a larger dataset to test such strategies, and indeed our future work will aim to increase the number of classes. We are currently exploring curated crowdsourcing techniques to involve a larger community in growth of the dataset.
 
