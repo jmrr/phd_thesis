@@ -361,8 +361,23 @@ In spite of using image retrieval methods in isolation, the attainable accuracy 
 %------------------------------------------------------------------------- 
 \section{Comparison with state-of-the art SLAM}
 
-The best performing SLAM method at the time of writing is LSD-SLAM...
+The best performing SLAM method at the time of writing is LSD-SLAM... \td{Decide where to put it}{Relocate here from chapter 5, leave in both places?}
 
+
+%------------------------------------------------------------------------- 
+\section{A visualization of the frame distribution with t-SNE}
+
+
+t-distributed stochastic neighbor embedding (t-SNE) is a machine learning algorithm for dimensionality reduction developed by Laurens van der Maaten and Geoffrey Hinton.[1] It is a nonlinear dimensionality reduction technique that is particularly well suited for embedding high-dimensional data into a space of two or three dimensions, which can then be visualized in a scatter plot. Specifically, it models each high-dimensional object by a two- or three-dimensional point in such a way that similar objects are modeled by nearby points and dissimilar objects are modeled by distant points.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{gfx/Chapter04/visual_paths.png}
+\caption{Distribution of the BOW data of the RSM dataset in a reduced 3D space when visualized with t-SNE.}
+\label{fig:tsne3d}
+\end{figure}
+
+\td{Include}{say that I also changed the distance to cosine one as my values from the histograms are integers}
 
 %------------------------------------------------------------------------- 
 \section{Conclusion}
