@@ -171,7 +171,7 @@ This maps the two vectors onto a scalar value that takes a maximum when the two 
 \begin{figure}[t]
 \centering
  \setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\textwidth}
+	\setlength\figurewidth{.9\textwidth}
 		\input{gfx/Chapter05/tikz/single_tuning_curve.tex}
 		\label{fig:APCSingleNoisy}
 \caption{Single APC tuning curve (raw measurements in red) and a smoothed version (blue trace).  The reference frame is located around frame 675. The APC response must be thresholded before using it for accurate position inference.}
@@ -225,8 +225,8 @@ By defining APCs at regular intervals along a corridor, a simple population codi
 
 \begin{figure}
 \centering
-  \setlength\figureheight{0.6\linewidth}
-  \setlength\figurewidth{.8\linewidth}
+  \setlength\figureheight{0.5\linewidth}
+  \setlength\figurewidth{.9\linewidth}
   \input{gfx/Chapter05/tikz/APCRealResponses.tex}
 %\includegraphics[width=4in]{gfx/Chapter05/APCRealResponses.pdf}
 \caption{Responses from APCs.  The APCs are defined every 4 $m$ within a corridor, using ground truth information described in the experimental section.  Once defined, these APCs provide two different methods of localization.}
@@ -413,7 +413,9 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{gfx/Chapter05/errorWidthEvalDSIFT_16pc.pdf}
+%\includegraphics[width=\textwidth]{gfx/Chapter05/errorWidthEvalDSIFT_16pc.pdf}
+\setlength\figureheight{0.6\textwidth}
+	\setlength\figurewidth{0.8\linewidth} \input{gfx/Chapter05/tikz/errorWidthEvalDSIFT_16pc.tex}
 \caption{Effect of varying the threshold on place cell width, and therefore overlap and average absolute error in meters.}
 \label{fig:threshEval}
 \end{figure}
@@ -421,26 +423,29 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{gfx/Chapter05/nexusVsGlass_sf_gabor_C2.pdf}
+%\includegraphics[width=\textwidth]{gfx/Chapter05/nexusVsGlass_sf_gabor_C2.pdf}
+\setlength\figureheight{0.6\textwidth}
+	\setlength\figurewidth{0.8\linewidth}
+		\input{gfx/Chapter05/tikz/nexusVsGlass_sf_gabor_C2.tex}
 \caption{Multi-device sub-APC localization test.}
 \label{fig:multiDevice}
 \end{figure}
 
 
 
-\begin{figure}[t]
-\centering
-\subfloat[][Our figure]{\setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\linewidth} \input{gfx/Chapter05/tikz/errorWidthEvalDSIFT_16pc.tex}
-}\label{fig:threshEval}
-\subfloat[][Our figure]{\setlength\figureheight{0.6\textwidth}
-	\setlength\figurewidth{0.8\linewidth}
-		\input{gfx/Chapter05/tikz/nexusVsGlass_sf_gabor_C2.tex}
-}
-\label{fig:multiDevice}
-\caption{Effect of different parameters.}
-\label{fig:}
-\end{figure}
+%\begin{figure}[t]
+%\centering
+%\subfloat[][Our figure]{\setlength\figureheight{0.6\textwidth}
+%	\setlength\figurewidth{0.8\linewidth} \input{gfx/Chapter05/tikz/errorWidthEvalDSIFT_16pc.tex}
+%}\label{fig:threshEval}
+%\subfloat[][Our figure]{\setlength\figureheight{0.6\textwidth}
+%	\setlength\figurewidth{0.8\linewidth}
+%		\input{gfx/Chapter05/tikz/nexusVsGlass_sf_gabor_C2.tex}
+%}
+%\label{fig:multiDevice}
+%\caption{Effect of different parameters.}
+%\label{fig:}
+%\end{figure}
 
 
 
