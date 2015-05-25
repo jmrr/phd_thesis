@@ -1,0 +1,57 @@
+{\fontsize{8}{8}\selectfont
+\begin{algorithm}[!ht]
+\DontPrintSemicolon
+\SetKwInOut{Input}{Inputs}
+\SetKwInOut{Output}{Outputs}
+\SetKwFunction{getClosestNeighbor}{getClosestNeighbor}
+\SetKwFunction{computeError}{computeError}
+\SetKwFunction{randomSampling}{randomSampling}
+\SetKwFunction{computeCDF}{computeCDF}
+
+\Input{\;
+	\Indp \Indp 	Database of kernels, 	 $ \mathcal{K}_{c,p,l}$\;
+	$c = 1, 2, ..., N_c $, \tcp*[l]{corridor index} \;
+	$ p = 1, 2, ..., N_p $ \tcp*[l]{pass index}\;
+	Number of permutations, $P$ \;
+	Number of random queries, $Q$
+	
+}
+
+\Output{\;
+\Indp \Indp Error Distribution,	 $\mathbf{X}$} 
+
+\BlankLine
+
+\tcp*[l]{Compute localisation error for all possible queries}		 
+
+\For{$c \leftarrow 1$ \KwTo $N_c$}{
+	\For{$p \leftarrow 1$ \KwTo $N_p$} {
+	 \tcp*[l]{For each query frame in a pass ...}
+		 \ForEach{$q: q \in \mathcal{P}_p$}{ 
+		 \tcp*[l]{Take the corresponding kernel computed by leave-one-out strategy and get closest neighbour}
+		 %\tcp*[l]{... and get closest neighbour}
+
+		 $\rho \leftarrow \getClosestNeighbor(K)$\;
+		 \BlankLine
+		 \tcp*[l]{Given the ground truth for that query, compute the error}		 
+
+		 $\mathbf{E}_{c,p,q} \leftarrow \computeError(\rho)$  
+}
+}
+}
+
+$k \leftarrow 1$ 
+\BlankLine
+\For{$i \leftarrow 1$ \KwTo $P$} {
+		 \For{$j: j \leftarrow 1$ \KwTo $Q$} {
+		 $e_k \leftarrow randomSampling(E)$\;
+		 $k \leftarrow k + 1$
+		 
+}
+} 
+\tcp*[l]{Compute Cumulative Distribution Functions}
+$\mathbf{X} \leftarrow \computeCDF(e_k)$
+\caption{Calculation of the error distribution}
+\label{algo:error_distr}
+\end{algorithm}
+}

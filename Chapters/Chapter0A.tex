@@ -3,4 +3,33 @@
 %*******************************************************
 % If problems with the headers: get headings in appendix etc. right
 %\markboth{\spacedlowsmallcaps{Appendix}}{\spacedlowsmallcaps{Appendix}}
-\chapter{Appendix Test}
+\chapter{Appendices}
+
+
+\newpage
+\section{Algorithm for generating cumulative error distributions}
+\label{appendixCDF}
+\input{Chapters/cdf_algorithm}
+
+\newpage
+
+\section{Tactile feedback experiment protocol}
+\input{Chapters/experiment}
+
+\newpage
+\section{LSD-SLAM parameters}
+\label{sec:slampars}
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{L{2cm} L{9cm} c c}
+    \hline
+    Parameter                    & Definition                                                                                                                                                                                                                                                                            & Default & Set to \\ \hline
+    minUserGrad                  & Minimal absolute image gradient for a pixel to be used at all. Increase if your camera has large image noise, decrease if you have low image-noise and want to also exploit small gradients.                                                                                          & 1.96    & 5      \\ \hline
+    cameraPixelNoise             & Image intensity noise used for e.g. tracking weight calculation. Should be set larger than the actual sensor-noise, to also account for noise originating from discretization / linear interpolation.                                                                                 & 16      & 2.4    \\ \hline
+    KFUsage-Weight                & Determines how often keyframes are taken, depending on the overlap to the current keyframe. Larger: more keyframes.                                                                                                                                                                 & 4       & 10     \\ \hline
+    KFDistWeight                 & Determines how often keyframes are taken, depending on the distance to the current Keyframe. Larger: more keyframes.                                                                                                                                                                & 3       & 10     \\ \hline
+
+    \end{tabular}
+\end{table}
+
