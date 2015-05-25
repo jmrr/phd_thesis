@@ -178,6 +178,28 @@ This maps the two vectors onto a scalar value that takes a maximum when the two 
 \end{figure}
 
 
+
+
+
+
+
+
+\begin{figure}
+  \centering
+  \setlength\figureheight{0.6\textwidth}
+  \setlength\figurewidth{.8\textwidth}
+  \input{gfx/Chapter05/tikz/receptive_place_field.tex}
+  %\includegraphics[width=4.5in]{gfx/Chapter05/receptive_place_field.pdf}
+  \caption{The variability of individual artificial place field (APC) responses, displayed using mean and standard deviation (envelopes) of response over ensembles. \td{Improve}{To change to mean $\pm$ 1 s.d.}.}
+  \label{fig:APCVariability}
+\end{figure}
+
+
+
+\section{Creating Place Fields}
+The similarity function $\kappa_{\chi^2}$ contains some similarity to place field behaviour.  However, regions of the curve which are almost flat contain very little information from the point of inferring the position of a stimulus -- along the horizontal axis -- that elicits some response. In other words, regions of the curve where the gradient with respect to distance to the peak of the curve, $\ell$, convey relatively little information about the distance to the peak of the curve (see Fig. \ref{fig:Supra}). In contrast, the region around the peak of the curve shows rapid change with distance from the peak. In order to synthesize useful ``tuning curves'' for APCs, we should define sub- and supra-threshold regions for each place cell that we wish to define (Fig. \ref{fig:Supra})
+
+
 \begin{figure}
 \centering
   \includegraphics[width=\linewidth]{gfx/Chapter05/tuning_curve-thresh.pdf}
@@ -185,24 +207,6 @@ This maps the two vectors onto a scalar value that takes a maximum when the two 
 \label{fig:Supra}
 \end{figure}
 
-
-
-
-%
-%\begin{figure}
-%  \centering
-%  %\setlength\figureheight{0.2\textwidth}
-%  %\setlength\figurewidth{0.4\textwidth}
-%  %\input{gfx/Chapter05/receptive_place_field.tex}
-%  \includegraphics[width=4.5in]{gfx/Chapter05/receptive_place_field.pdf}
-%  \caption{The variability of individual artificial place field (APC) responses, displayed using mean and standard deviation (envelopes) of response over ensembles. \textbf{Jose to change to mean $\pm$ 1 s.d.}.}
-%  \label{fig:APCVariability}
-%\end{figure}
-
-
-
-\section{Creating Place Fields}
-The similarity function $\kappa_{\chi^2}$ contains some similarity to place field behaviour.  However, regions of the curve which are almost flat contain very little information from the point of inferring the position of a stimulus -- along the horizontal axis -- that elicits some response. In other words, regions of the curve where the gradient with respect to distance to the peak of the curve, $\ell$, convey relatively little information about the distance to the peak of the curve (see Fig. \ref{fig:Supra}). In contrast, the region around the peak of the curve shows rapid change with distance from the peak. In order to synthesize useful ``tuning curves'' for APCs, we should define sub- and supra-threshold regions for each place cell that we wish to define (Fig. \ref{fig:Supra})
 
 %\begin{figure}
 %  \centering
@@ -273,7 +277,7 @@ p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
 
 
 \subsection{Overview of the System}
-
+\label{ch05:overview}
 In the experimental work to be discussed in the next section, a generalized regression network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and used radial-basis functions.  The responses from $r_C =$ 16 place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the place cell responses used for regression network training.  Performance will be discussed in Section \ref{sec:experiments}.
 
 In Fig. \ref{fig:pipeline} the overview of this pipeline is shown.
@@ -292,9 +296,9 @@ In Fig. \ref{fig:pipeline} the overview of this pipeline is shown.
 
 
 \section{Experiments and Results}
-\label{sec:experiments}
+\label{sec:ch5experiments}
 
-In order to test the APC concept, we performed a series of experiments using the publicly available RSM dataset~\cite{RiveraWearable}. This dataset contains visual data of more than 3 km of indoor journeys acquired with two devices: a hand-held Nexus 4 and a wearable Google Glass. Corridors varied in length between 32 m and 60 m and the sequences comprise more than 120,000 frames with ground truth acquired with surveying equipment. The original resolution of the dataset is $1280 \times 720$ pixels per frame which we down-sampled to $208 \times 117$. 
+In order to test the APC concept, we performed a series of experiments using the publicly available RSM dataset~\cite{RiveraWearable}. We recall from Chapter \ref{ch:chapter4} that this dataset contains visual data of more than 3 km of indoor journeys acquired with two devices: a hand-held Nexus 4 and a wearable Google Glass. Corridors varied in length between 32 m and 60 m and the sequences comprise more than 120,000 frames with ground truth acquired with surveying equipment. The original resolution of the dataset is $1280 \times 720$ pixels per frame which we down-sampled to $208 \times 117$. 
 
 
 %within one building of the Royal School of Mines at Imperial College.  Using a surveyor's wheel, we mapped out a number of one-dimensional corridors, measuring distance travelled and location within a corridor whilst simultaneously recording video-sequences from either a hand-held or a wearable camera. The surveyors wheel was modified to connect it directly to a data acquisition system (Raspberry Pi), which was synchronized to network time. Different human subjects held or wore the equipment, and walked at different rates along the corridors selected for the experiment. The video sequences were captured at between 25 to 30 frames per second at a resolution of $1280 \times 720$ pixels per frame, and were down-sampled to a pixel size of $208 \times 117$ per frame.  In total, over 100,000 frames of data were collected, corresponding to over $3 km$ of journey information.  Corridors varied in length between 32 m and 60 m.
@@ -328,21 +332,7 @@ In order to test the APC concept, we performed a series of experiments using the
 
 The first method used to infer location -- based on identifying the artificial place cell with maximum activity -- was tested in several corridors of the experimental data.  First, a visualization of the place cells showing the location of place cells with maximum activation is shown in Fig.~\ref{fig:floorplan}; these are indicated on the actual floor plan of one of the building sections that were used to conduct the experiment.  Locations are staggered across the width of the corridor in order to be able to visualize the actual activations of 8 place cells defined within this corridor. The second technique to estimate location relies on the overlap of the responses from place cells and the use of a GRNN. Table \ref{table:methodComparison} compares the two localization techniques for all the methods. A single-device dictionary was used but all the combinations of remaining passes were submitted as queries. The neural network regressor shows better results, achieving errors as low as 2.49 m for SF-GABOR, even under the challenging scenario of the majority of the queries coming from a different device that was not used to learn the dictionary. Lower errors were observed using single device and are depicted in Fig.~\ref{fig:sublocMethodComp}. The performance of LSD-SLAM when tested on the same sequences is also reported, but it is worth noting that roughly in the 40\% of the sequences tracking was lost, so a tracking recovery exception catch was implemented. This  semi-dense SLAM method is known to perform best on sequences acquired with global-shutter fish-eye lenses. The RSM dataset devices do not meet such criteria, hence the frequent loss of tracking.
 
-\begin{table}[h]
-\centering
-    \begin{tabular}{lcccccc}
-    ~		 & \multicolumn{3}{c}{\textbf{Sub-APC localization}} & \multicolumn{3}{c}{\textbf{APC-level localization}} \\ \hline
-    \textbf{Method}        & $\mu_{|\epsilon|}$ (m) & Min (m) & Max (m) & $\mu_{|\epsilon|}$ (m) &  Min (m) & Max (m) \\ \hline
-    SIFT     & 3.42   & 0.38 & 6.47 & 4.48   & 0. 34 &  7.56\\ \hline
-    DSIFT    & 2.78   & 0.47 & 6.54  & 4.10   & 0.31 & 6.10 \\ \hline
-    SF-GABOR & 2.49   & 0.46 & 5.60 & 4.81   & 0.68  & 8.47 \\ \hline
-    ST-GABOR & 7.94   & 2.63 & 10.45 & 9.65   & 3.67 & 13.13\\ \hline
-    ST-GAUSS & 3.18   & 0.45 & 7.17 & 3.79   & 0.69  & 8.12 \\ \hline
-    LSD-SLAM & \multicolumn{2}{c}{$\mu_{|\epsilon|}$ = 2.48 m } & \multicolumn{2}{c}{$\sigma_{|\epsilon|}$ = 2.37 m} & 1.21 & 3.20 \\ \hline
-    \end{tabular}
-    \caption {Absolute error evaluation when using small widths of place cells (0.61 m) and therefore many place cells (40) and take a max() activation vs less (16) but larger place cells which overlap and use the regression network. The comparison with a state of the art SLAM method (LSD-SLAM) is also included.}
-    \label{table:methodComparison}
-\end{table}
+
 
 
 %\begin{figure}
@@ -361,6 +351,9 @@ The first method used to infer location -- based on identifying the artificial p
 By arranging for place cell responses to be up to 4 m in width, the responses from several cells can be used to perform accurate inference of spatial position using a single section of corridor.  The success of this technique is illustrated in Fig. \ref{fig:sublocMethodComp}. Note that average absolute errors are very small compared to distances traversed.
 
 
+
+
+
 \begin{figure}
 \centering
 	\setlength\figureheight{0.6\linewidth}
@@ -369,7 +362,7 @@ By arranging for place cell responses to be up to 4 m in width, the responses fr
 %\includegraphics[width=.5\textwidth]{gfx/Chapter05/2x2comp.pdf}
 \caption{Sub-APC location estimate comparison. Using broad place-cell tuning curves, very accurate localization can
 be achieved within a section of corridor. For this corridor and for this journey,
-absolute localization errors range from below one metre to 1.49 m. Ground truth is shown in red.}
+absolute localization errors range from below one metre to 1.49 m. Ground truth is shown in red. In this case, only \textbf{single-device} queries were used. The effect of using queries from both devices is shown in Figure \ref{fig:multiDevice} and captured by Table~\ref{table:methodComparison}.}
 \label{fig:sublocMethodComp}
 \end{figure}
 
@@ -432,7 +425,6 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 \end{figure}
 
 
-
 %\begin{figure}[t]
 %\centering
 %\subfloat[][Our figure]{\setlength\figureheight{0.6\textwidth}
@@ -464,18 +456,39 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 %\caption{Effect of different parameters.}
 %\end{figure}
 
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{lcccccc}
+    ~		 & \multicolumn{3}{c}{\textbf{Sub-APC localization}} & \multicolumn{3}{c}{\textbf{APC-level localization}} \\ \hline
+    \textbf{Method}        & $\mu_{|\epsilon|}$ (m) & Min (m) & Max (m) & $\mu_{|\epsilon|}$ (m) &  Min (m) & Max (m) \\ \hline
+    SIFT     & 3.42   & 0.38 & 6.47 & 4.48   & 0. 34 &  7.56\\ \hline
+    DSIFT    & 2.78   & 0.47 & 6.54  & 4.10   & 0.31 & 6.10 \\ \hline
+    SF-GABOR & 2.49   & 0.46 & 5.60 & 4.81   & 0.68  & 8.47 \\ \hline
+    ST-GABOR & 7.94   & 2.63 & 10.45 & 9.65   & 3.67 & 13.13\\ \hline
+    ST-GAUSS & 3.18   & 0.45 & 7.17 & 3.79   & 0.69  & 8.12 \\ \hline
+    LSD-SLAM & \multicolumn{2}{c}{$\mu_{|\epsilon|}$ = 2.48 m } & \multicolumn{2}{c}{$\sigma_{|\epsilon|}$ = 2.37 m} & 1.21 & 9.08 \\ \hline
+    \end{tabular}
+    \caption {Absolute error evaluation when using small widths of place cells (0.61 m) and therefore many place cells (40) and take a max() activation vs less (16) but larger place cells which overlap and use the regression network. The comparison with a state of the art SLAM method (LSD-SLAM) is also included. These results represent the most challenging \textbf{multi-device} scenario of using queries from the Nexus and the Glass when only using Nexus sequences during training.}
+    \label{table:methodComparison}
+\end{table}
+
+
 \subsection{Computational load metrics}
 The main computational load for the place-cell computation is due to the dictionary learning, which enables fast lookup of individual frames -- encoded as a single vector of terms from the vocabulary.  The dictionary is built by randomly selecting 200 frames from each sequence, and randomly selecting 800 examples of the joint spatial-temporal encoding, which consists of $D$-dimensional vectors (see Table~\ref{table:methods}). Dictionary learning takes around 1 hour for approximately 50 video sequences of the whole corridor dataset on a 64 GB machine using 400 words. Once learned, encoding a new frame and looking it up takes less than 200 ms using unoptimized {\it Matlab} code. 
 
 \section{Discussion}
+
+One of main the conclusions from the results of the previous section is that those methods that are more closely model biological structures such as SIFT (sparse and dense) and SF-GABOR, achieve best results in the tests we have performed. This section will explore a new formulation for our single-frame Gabor (SF-GABOR) that can simultaneously explain the Gabor filters as plausible models of the simple cells found in the V1 and the first-layer weights yielded from convolutional neural networks successful used in many applications \cite{nlp}, \cite{imagenet} in the past few years.
+
 \subsection{A Convolutional Neural Network (CNN) formulation for SF-GABOR}
 
 
-Several authors have pointed to the similarities between spatial filter banks employing oriented band-pass filters \cite{wandell1995foundations},\cite{petrou2008next} -- many of which are implemented using spatial convolution -- and the receptive field patterns found in the primary visual cortex (area V1).  These receptive fields are sensitivity patterns to visual stimuli that can be found within individual neurons \cite{olshausen1997sparse},\cite{ringach2002spatial}. \\
+Several authors have pointed to the similarities between spatial filter banks employing oriented band-pass filters \cite{wandell1995foundations},\cite{petrou2008next} -- many of which are implemented using spatial convolution -- and the receptive field patterns found in the primary visual cortex (area V1).  These receptive fields are sensitivity patterns to visual stimuli that can be found within individual neurons \cite{olshausen1997sparse,ringach2002spatial}. \\
 
-The recent interest in convolutional neural networks \cite{krizhevsky2012imagenet},\cite{ji20133d} builds on over 2 decades of work into architectures and methods for training \cite{lecun1995convolutional}. Recent results in CNN training tend to converge to yield first-layer weights (filters) that are remarkably similar oriented spatial band-pass filters, and therefore also bear striking resemblance to the receptive fields found in biological visual systems at the level of V1 or equivalent.\\
+The recent interest in convolutional neural networks \cite{krizhevsky2012imagenet, ji20133d} builds on over two decades of work into architectures and methods for training \cite{lecun1995convolutional}. Recent results in CNN training tend to converge to yield first-layer weights (filters) that are remarkably similar oriented spatial band-pass filters, and therefore also bear striking resemblance to the receptive fields found in biological visual systems at the level of V1 or equivalent.\\
 
-We used a two-layer feed-forward convolutional neural network (CNN) -- adapted from a model used in computational neuroscience -- to simulate the behaviour of a sheet of tissue in V1 containing just under 200,000 neurons. The first layer of this network represents orientation selective, approximately linear simple cells, and the second layer models a population code for joint position/orientation encoding based on the retinotopic arrangement of oriented cells over a region of cortical tissue.  However, rather than learning the weights from random initialization, neurons were constrained to be orientation selective and with spatially antisymmetric weights about the axis of orientation selectivity (see Figure~\ref{fig:OG}).  We have found it useful to introduce a tensor description of the data structures and the processing involved in this CNN.
+To reproduce the behaviour of the pipeline describe in Section \ref{ch05:overview} we used a two-layer feed-forward convolutional neural network (CNN) -- adapted from a model used in computational neuroscience -- to simulate the behaviour of a sheet of tissue in V1 containing just under 200,000 neurons. The first layer of this network represents orientation selective, approximately linear simple cells, and the second layer models a population code for joint position/orientation encoding based on the retinotopic arrangement of oriented cells over a region of cortical tissue.  However, rather than learning the weights from random initialization, neurons were constrained to be orientation selective and with spatially antisymmetric weights about the axis of orientation selectivity (see Figure~\ref{fig:OG}).  We have found it useful to introduce a tensor description of the data structures and the processing involved in this CNN.
 
 \subsection{Tensor Population Model}
 Tensors have been suggested as a multi-dimensional representation for convolutional neural networks, specifically for representing the stack of spatial filters that is used to perform spatial convolution. Representing a filter set in this way allows various tensor decompositions to be applied \cite{kolda2009tensor} to reduce the representation into smaller convolution operators. However, a definition for {\em tensor convolution} itself appears lacking from the literature. We identify two operators that -- taken together -- can be very useful concepts for {\em reproducibly} describing the structure of convolutional networks; these are {\em tensor convolution} and {\em permuted tensor convolution}.\\
@@ -601,6 +614,24 @@ The convolutional network to produce a joint encoding of orientation and spatial
 One solution to the search problem is to apply vector quantization to some of the dimensions.  For example, by treating three of the five dimensions ($i_1,i_2,i_5$) as observations of variables across the remaining two dimensions $(i_3,i_4)$, a dictionary, $\mathcal{V}$ can be constructed; an encoding of a single frame using this dictionary can then be achieved using an order 2 tensor.  This reduces the frame comparison problem to one that is performed by comparing dictionary encodings. The dictionary encoding acts as a simple technique for dimensionality reduction, but it allows a more efficient comparison between a visual memory and a new visual stimulus within the modelled population code. We used the $k-$means algorithm because of its simplicity and reasonable scalability when dictionary sizes range from the order of hundreds of terms to the order of thousands.\\
 
 The dictionary encoding is applied at the frame-level, so that each frame in a video sequence is represented by an order 1 tensor.  The complete sequence of frames of a journey, then, is represented by an order 2 tensor, with dimensions $N_F\times|\mathcal{V}|.$ 
+
+
+\subsection{Artificial Place Cells in the tensor population model}
+\label{sec:APC}
+
+Finally, we express the artificial place cells in the tensor formulation. Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, we now aim to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Fig.~\ref{fig:HistEncodings}).
+
+\begin{figure}
+\centering
+\includegraphics[width=3.5in]{gfx/Chapter05/HistogramEncodings.pdf}
+\caption{Two image frames should have similar representations along the fibre in the order 2 tensor that contains an encoded image sequence.  Here, two similar frames are shown with (diagrammatic) representations taken from along the fibre corresponding to particular frames.  The elements of the fibre correspond to dictionary terms, and the occurrence of each term is recorded.  We used the $\chi^2$ similarity measure.}
+\label{fig:HistEncodings}
+\end{figure}
+
+
+In line with the findings described in Section \ref{sec:ch5experiments}, we found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms. That is, individual fibres, one a single order 1 tensor $\mathbf{q}$ and a second drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to to methods of localization that are discussed in the next section.  
+
+
 
 \section{Conclusion}
 
