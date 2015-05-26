@@ -4,7 +4,7 @@
 
 
 %\begin{abstract}
-%Although the use of computer vision to analyse images from smartphones is in its infancy, the opportunity to exploit these devices for various assistive applications is beginning to emerge. In this paper, we consider two potential applications of computer vision in the assistive context for blind and partially sighted users. These two applications are intended to help provide answers to the questions of ``Where am I?'' and ``What am I holding?''.
+%
 %
 %\hspace{0.5cm}First, we suggest how to go about providing estimates of the indoor location of a user through queries submitted by a smartphone camera against a database of {\em visual paths} -- descriptions of the visual appearance of common journeys that might be taken. Our proposal is that such journeys could be harvested from, for example, sighted volunteers. Initial tests using bootstrap statistics do indeed suggest that there is sufficient information within such visual path data to provide indications of: a) along which of several routes a user might be navigating; b) where along a particular path they might be.
 %
@@ -15,9 +15,21 @@
 
 \section{Introduction}
 
-Low vision brings many challenges to an individual, including reduced independence and social exclusion. The World Health Organisation estimates (2012) that more than 285 million people worldwide suffer from low vision or blindness. Due to changing demographics and greater incidence of disease -- e.g. diabetes -- blindness and failing sight are increasing in prevalence.  The cost to society includes direct health care expenditure, care-giver time and lost productivity.  Enabling people with visual impairment to increase participation will help address social exclusion and improve self-esteem and psychological well-being. There is the potential of near-commodity smartphones, backed by appropriate computer vision algorithms and supporting processes, to address this need.
+Although the use of computer vision to analyse images from smartphones and wearable cameras is in its infancy, the opportunity to exploit these devices for various assistive applications is beginning to emerge. In this chapter, we consider two potential applications of computer vision in the assistive context for blind and partially sighted users. These two applications are intended to help provide answers to the questions of ``Where am I?'' and ``What am I holding?''.
+
+Taking into accounts the contexts of mobile devices and assistive applications, we present our motivation to study appearance based methods for indoor localization and object recognition, and describe two pilot studies that laid the foundations for the work described subsequent chapters:
+
+\begin{itemize}
+\item First, we suggest how to go about providing estimates of the indoor location of a user through queries submitted by a smartphone camera against a database of {\em visual paths} -- descriptions of the visual appearance of common journeys that might be taken. Our proposal is that such journeys could be harvested from, for example, sighted volunteers. Initial tests using bootstrap statistics do indeed suggest that there is sufficient information within such visual path data to provide indications of: a) along which of several routes a user might be navigating; b) where along a particular path they might be.
+\item The second pilot studies the use of a new benchmarking database and test set for answering the second question of ``What am I holding?''. The database acquisition and evaluation experiments will be discussed in detail in Chapter \ref{ch:chapterSHORT}, however in this chapter we will discuss the requirements that are needed for specific mobile context and assistive applications.
+\end{itemize}
+
 
 \subsection{A Solution in Waiting?}
+
+Low vision brings many challenges to an individual, including reduced independence and social exclusion. The World Health Organisation estimates (2012) that more than 285 million people worldwide suffer from low vision or blindness. Due to changing demographics and greater incidence of disease -- e.g. diabetes -- blindness and failing sight are increasing in prevalence.  The cost to society includes direct health care expenditure, care-giver time and lost productivity.  Enabling people with visual impairment to increase participation will help address social exclusion and improve self-esteem and psychological well-being. There is the potential of near-commodity smartphones, backed by appropriate computer vision algorithms and supporting processes, to address this need.
+
+
 The growth in availability of camera-equipped smartphones, networks, methods of social networking and crowdsourcing of data offers new solutions to develop assistive systems that could be scaled in performance and capability\cite{Manduchi2012,Worsfold2010}. The services/capabilities that could be offered include:
 
 \emph{Navigation}: GPS does not offer sufficient precision or reliability for indoor manoeuvring. A combination of visual cues, translated into speech or tactile information, is desirable.
@@ -42,7 +54,7 @@ Invoking computer vision to {\it simultaneously} solve all of these tasks is a c
 
 \subsection{Related Approaches}
  
- Several methods of indoor localisation using smartphone-relevant technology have been described, including RSSI, dead-reckoning, and combinations for techniques that harvest environmental cues \cite{Wang2012}, \cite{Shen}. 
+ Several methods of indoor localisation using smartphone-relevant technology have been described, including RSSI, dead-reckoning, and combinations for techniques that harvest environmental cues \cite{Wang2012,Shen}. 
  
  Related approaches to this problem involve the use of techniques such as SLAM \cite{Durrant-Whyte2006} and PTAM \cite{Klein2009}. These methods are near state-of-the-art for monocular robot navigation, allowing geometry of a space to be mapped out dynamically at the same time that self-localisation is achieved.  Indeed, Pradeep and colleagues successfully applied this to a demonstration for indoor navigation in an assistive device \cite{Pradeep2010}.
 
