@@ -2,5 +2,33 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
+In recent years, we are witnessing an unprecedented level of presence of technology in our lives.Mobile phones are smarter every day, with computational power that overtakes desktop computers just a couple of years old. At the same time, these devices gain in ubiquity as they extend their functionality to wearable technology, e.g. wearable cameras, wireless earphones or smart watches. The cameras installed in these devices have seen a similar increase in presence, resolution, quality of the lenses and sensors, etc.
+
+The combination of better cameras with improved processing and ubiquitous connectivity makes computer vision a crucial discipline that contributes important and very diverse applications, some of them having a special role in inclusivity and a positive impact in quality of life.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{gfx/Chapter01/cv_dev_pipeline.pdf}
+\caption{Stages in the development of a computer vision application. The development of an application in computer vision and similar artificial intelligence disciplines requires a different form of testing compared to the ones seen in standard software engineering toolchains. The use of databases and evaluation and optimization stages complements the typical deterministic behavior test suites.}
+\label{fig:cv_dev_pipeline}
+\end{figure}
+
+
+\section{Organization of the thesis}
+
+The remainder of this dissertation is organized as follows: Related work is discussed separately
+in each of the five main chapters. Chapter 2 presents our stereo visual SLAM
+algorithm that provides an incremental and accurate 3D reconstruction of the environment,
+capable of dealing with outliers in dynamical scenarios. Chapter 3 introduces our
+family of local-invariant descriptors known as Gauge-SURF (G-SURF) that exhibit a
+higher recall compared with previous approaches. We show that these descriptors can be
+used efficiently in image matching problems (e.g. loop closure detection) and in SLAM
+or SfM applications. Chapter 4 describes our visibility learning framework for large-scale
+urban environments. In addition, we show experimental results of the algorithm considering
+large city-scale 3D reconstructions. Chapter 5 describes the vision-based localization
+algorithm for humanoid robots. Chapter 6 describes our visual SLAM and vision-based
+localization algorithms for visually impaired users in indoor environments. Finally, Chapter
+7 concludes this dissertation summarizing the main contributions of this thesis and
+discussing future work directions.
 
 
