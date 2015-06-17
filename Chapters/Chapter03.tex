@@ -24,14 +24,14 @@ The purpose of the SHORT dataset is to provide a useful test of retrieval and ob
 
 The number of catalogue items -- distinct products, or objects -- in SHORT is currently 100, but the plan is to expand it over time. To some extent, we compensate for this by having a large number of query images -- a total of 134,524 -- taken by as many as 30 mobile phones and including acquisitions from both blindfolded and sighted users. The number and nature of the queries allow SHORT to be used to design and test recognition systems that must place a guarantee on being able to return a correct match. For example, a query image might have to be rejected as being of too low quality to provide a definitive match, either because of visual ambiguity or poor image quality. This is very important in the assistive device context, where rejection of poor quality or ambiguous images would be preferred over simply finding the closest match, which could be catastrophic.
 
-Although our long-term focus is the use of computer vision for assistive devices and systems, SHORT-100 also represents an updated and practical dataset for studying object recognition and retrieval in the challenging scenarios of hand-held objects and mobile or wearable cameras. In this chapter, in addition to introducing SHORT-100, we provide baseline performance measurements on the current dataset using several object recognition algorithms with different degrees of recognition complexity.
+Although our long-term focus is the use of computer vision for assistive devices and systems, SHORT also represents an updated and practical dataset for studying object recognition and retrieval in the challenging scenarios of hand-held objects and mobile or wearable cameras. In this chapter, in addition to introducing SHORT, we provide baseline performance measurements on the current dataset using several object recognition algorithms with different degrees of recognition complexity.
 
-In Section~\ref{sec:related-work} we review the computer vision datasets related with object recognition and argument the need for SHORT on the basis of an increasingly mobile and inclusive world. In Section~\ref{sec:short} we describe the experimental setup for image acquisition and the particularities of the different datasets that comprise SHORT. Section~\ref{sec:benchmarks} describes the benchmarking of the dataset and its results, illustrating the advantages and disadvantages of the set. These will be discussed in Section~\ref{sec:conclusions}, where we will point out the future work.
+In Section~\ref{sec:related-work} we review the computer vision datasets related with object recognition and argument the need for SHORT on the basis of an increasingly mobile and inclusive world. In Section~\ref{sec:short} we describe the experimental set-up for image acquisition and the particularities of the different datasets that comprise SHORT. Section~\ref{sec:benchmarks} describes the benchmarking of the dataset and its results, illustrating the advantages and disadvantages of the set. These will be discussed in Section~\ref{sec:conclusions}, where we will point out the future work.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{./gfx/Chapter03/SHORT_family_photo.jpg}
-\caption{All the grocery products that compose the SHORT-100 dataset}
+\caption{All the grocery products that compose the SHORT dataset in its final set of 100 categories.}
 \label{fig:short-100-all}
 \end{figure}
 
@@ -44,7 +44,7 @@ In Section~\ref{sec:related-work} we review the computer vision datasets related
 \end{figure}
 
 %------------------------------------------------------------------------
-\section{SHORT-100 AND RELATED DATASETS} \label{sec:related-work}
+\section{SHORT AND RELATED DATASETS} \label{sec:related-work}
 
 COIL-100~\cite{Nene1996a} and SOIL-47~\cite{Koubaroulis2002} laid the foundations for the provision of large-databases of objects but their formats, image sizes and depth are now slightly dated.
 
@@ -66,17 +66,17 @@ As an additional feature SHORT also contains test images acquired by blindfolded
 We have not performed experiduments with visually impaired users to date, because for each potential assistive application (e.g. recognition, navigation), our protocols require that we demonstrate performance in sighted, then blindfolded users first, before conducting trials with visually-impaired volunteers. 
 
 %%-------------------------------------------------------------------------
-\section{SHORT-100 TECHNICAL DETAILS} \label{sec:short}
+\section{SHORT TECHNICAL DETAILS} \label{sec:short}
 
 \subsection{Overview}
 
-SHORT is comprised of separate datasets for training and testing. Currently, the training dataset consists of high resolution acquisitions of 100 grocery items acquired in a very controlled setup (see Figure~\ref{fig:acqsetup}), with 36 images of the same object from different angles and views. For testing, we provide a set of query images of a subset of 30 grocery items acquired with 30 different smartphones. Lighting, pose, sensors and optics were quite varied. This represents a more realistic view of hand-held object queries from hand-held devices. The SHORT dataset contains an average of more than 4,200 queries per product, allowing a realistic study of factors that affect recognition quality. In addition, video sequences of hand-held objects contain blur and different background clutter, as the volunteers moved while capturing sequences, relevant to a use case that might be considered as streamed object recognition. 
+SHORT is comprised of separate datasets for training and testing. Currently, the training dataset consists of high resolution acquisitions of 100 grocery items acquired in a very controlled set-up (see Figure~\ref{fig:acqsetup}), with 36 images of the same object from different angles and views. For testing, we provide a set of query images of a subset of 30 grocery items acquired with 30 different smartphones. Lighting, pose, sensors and optics were quite varied. This represents a more realistic view of hand-held object queries from hand-held devices. The SHORT dataset contains an average of more than 4,200 queries per product, allowing a realistic study of factors that affect recognition quality. In addition, video sequences of hand-held objects contain blur and different background clutter, as the volunteers moved while capturing sequences, relevant to a use case that might be considered as streamed object recognition. 
 
 
 
 In addition to the images, we provide ground truth annotations for all the data in terms of its object class label. We also include binary masks of the objects from the training dataset, indicating the bounding box around each item.
 
-SHORT is openly available and it can be downloaded from \cite{Rivera-Rubio} and the website is also a platform where database users and SHORT curators can interact. The first expansion of SHORT is taking place in June 2014 and takes into account feedback from the community on the usability of SHORT. The release also includes code and evaluation data.
+SHORT is openly available and it can be downloaded from \cite{Rivera-Rubio}. The website  \url{http://short.bicv.org} includes contact information where database users and SHORT curators can exchange impression for future releases. The website provides access to the data as a single download or through a web file sharing service based on the open-source Owncloud that allows browsing. This contains access to the two releases of the dataset: SHORT-30 and SHORT-100. The original acquisition took place during the summer of 2013. The expansion of SHORT took place in June 2014 after taking into account feedback from the community on the usability of SHORT. The release of the dataset also includes code and evaluation data.
 
 \subsection{Image acquisition protocol}
 
@@ -84,17 +84,17 @@ SHORT is openly available and it can be downloaded from \cite{Rivera-Rubio} and 
 
 The database of models was acquired with a Nikon D7000 SLR camera using a 18-105 mm lens connected to a laptop and using the Nikon \textit{live capture} software. The 16.2 megapixel captures in \textit{raw} format were kept, but a JPEG copy of each image was also generated with a resolution of 4928$\times$3264 pixels. A 986$\times$653 resized copy of the high resolution images is also made available
 
-A total of 36 views were acquired per category. The views used in the product models contain shots at three elevations (17, 47 and 68 cm, at a distance of 1m) above the object base. 12 degrees of rotation were used per elevation. A professional ``chroma key'' setup was used. Both the background and a turntable containing the object were covered with a uniform chroma key backdrop, a ``chroma blue'' and ``chroma green'' cloth depending on the main color of the product being shot. Two halogen 125 W (equivalent to 625 W) 5500 K lamps were used to illuminate the background whilst the object was illuminated with a 40 $\times$ 40 cm 5400 K LED panel. The set-up is shown in Figure \ref{fig:acqsetup}.
+A total of 36 views were acquired per category. The views used in the product models contain shots at three elevations (17, 47 and 68 cm, at a distance of 1m) above the object base. 12 degrees of rotation were used per elevation. A professional ``chroma key'' set-up was used. Both the background and a turntable containing the object were covered with a uniform chroma key backdrop, a ``chroma blue'' and ``chroma green'' cloth depending on the main color of the product being shot. Two halogen 125 W (equivalent to 625 W) 5500 K lamps were used to illuminate the background whilst the object was illuminated with a 40 $\times$ 40 cm 5400 K LED panel. The set-up is shown in Figure \ref{fig:acqsetup}.
 
 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{gfx/Chapter03/acquisition_diagram.pdf}
-\caption{SHORT-100 training set acquisition setup}
+\caption{SHORT training set acquisition set-up}
 \label{fig:acqsetup}
 \end{figure}
 
-The acquisition of the training images was divided in two phases. In the first, model images of 30 products (the same set as the test set) were acquired. After receiving feedback from the community, we planned a second acquisition phase to expand the number of categories to 100 and allow for the generalisation of the algorithms tested with the dataset. The products of SHORT-30 are shown in the collage in Figure~\ref{fig:collage-all}.
+As described above, the acquisition of the training images was divided in two phases. In the first, model images of 30 products (the same set as the test set) were acquired. After receiving feedback from the community, we planned a second acquisition phase to expand the number of categories to 100 and allow for the generalisation of the algorithms tested with the dataset. The products of SHORT-30 are shown in the collage in Figure~\ref{fig:collage-all}.
 
 \begin{figure}[]
 \centering
@@ -206,7 +206,7 @@ This descriptor-based method is likely to be indicative of the discriminating ca
 \subsection{Benchmarking: More Scalable Approaches}
 \label{sec:bof}
 
-The challenges posed by this dataset was also assessed using a fairly standard recognition ``pipeline'' to provide category (product ID) ranking. The SIFT descriptor was applied in one of two approaches: dense or sparse. The dense approach employs a grid with either 3 or 8 pixel spacing, and a 16$\times$16 spatial extent for the single-scale approaches. The sparse approach uses keypoint detection with standard SIFT-based scale-selection. The VLFEAT implementation is used for the descriptor-keypoint acquisition. Three different histogram encoding methods were applied: hard assignment \cite{Csurka2004} (using 400 and 4000 visual words), Locality-Constrained Linear coding (LLC) \cite{Wang2010} and Fisher Vector (FV) encoding \cite{Perronnin2010}. We used the setup of Chatfield et al. for the FV approach as it is known to perform best~\cite{Chatfield2011}.These methods will be described separately below. 
+The challenges posed by this dataset was also assessed using a fairly standard recognition ``pipeline'' to provide category (product ID) ranking. The SIFT descriptor was applied in one of two approaches: dense or sparse. The dense approach employs a grid with either 3 or 8 pixel spacing, and a 16$\times$16 spatial extent for the single-scale approaches. The sparse approach uses keypoint detection with standard SIFT-based scale-selection. The VLFEAT implementation is used for the descriptor-keypoint acquisition. Three different histogram encoding methods were applied: hard assignment \cite{Csurka2004} (using 400 and 4000 visual words), Locality-Constrained Linear coding (LLC) \cite{Wang2010} and Fisher Vector (FV) encoding \cite{Perronnin2010}. We used the set-up of Chatfield et al. for the FV approach as it is known to perform best~\cite{Chatfield2011}.These methods will be described separately below. 
 
 On top of LLC and FV, spatial pyramids pooling was applied, using the approach described in~\cite{Lazebnik2006} and with 3 pyramidal levels (0,1,2). Kernels (as defined in \cite{Vedaldi2010}) were first computed for each pyramidal feature~\cite{VanDeSande2010}. Kernels were then averaged and fed to an SVM to determine the classification accuracy and average precision. The LibSVM implementation~\cite{CC01a} was used to train an SVM for each category. The average precision values that are reported are in direct accordance with the VOC evaluation protocol~\cite{Everingham2009}. 
 
@@ -218,7 +218,7 @@ In some studies, LLC~\cite{Wang2010} has been found to yield better recognition 
 % Old text
 %In some studies, LLC~\cite{Wang2010} has been found to yield better recognition performance than hard assignment. The histogram encoding is performed by finding the 5 nearest descriptors to each visual word, using the same codebooks as described in the paragraph above. The covariance matrix of the 5 nearest neighbours was projected to a unit vector and the maximum response from this vector was used to select each visual word. This method has been shown to work well with linear classifiers, allowing relatively simple implementation.
 \paragraph{Fisher Vector Encoding} 
-Fisher vectors have been shown to produce state-of-the-art performance in popular classification benchmarking datasets \cite{Chatfield2011}. Recent work~\cite{Perronnin2010} has shown that the classification performance can be boosted even further by using a dense multi-scale approach. Thus, the setup of Chatfield et al. ~\cite{Chatfield2011} was followed to determine the classification rates by using 4 scales of analysis with two different sampling densities of 3 and 8 pixels. The spatial bin size of the SIFT descriptor was changed to $4,6,8$ and $10$ for each of the 4 scales, respectively. The descriptor dimensionality was reduced to 80 elements by using Principal Components Analysis (PCA) and fitting a Gaussian Mixture Model employing 256 components. The Fisher vector encoding was obtained by finding the closest descriptor for each Gaussian model and aggregating the first and second order statistics. Finally, a Hellinger kernel, known to perform best for this type of encoding, was used to train the SVM classifier.
+Fisher vectors have been shown to produce state-of-the-art performance in popular classification benchmarking datasets \cite{Chatfield2011}. Recent work~\cite{Perronnin2010} has shown that the classification performance can be boosted even further by using a dense multi-scale approach. Thus, the set-up of Chatfield et al. ~\cite{Chatfield2011} was followed to determine the classification rates by using 4 scales of analysis with two different sampling densities of 3 and 8 pixels. The spatial bin size of the SIFT descriptor was changed to $4,6,8$ and $10$ for each of the 4 scales, respectively. The descriptor dimensionality was reduced to 80 elements by using Principal Components Analysis (PCA) and fitting a Gaussian Mixture Model employing 256 components. The Fisher vector encoding was obtained by finding the closest descriptor for each Gaussian model and aggregating the first and second order statistics. Finally, a Hellinger kernel, known to perform best for this type of encoding, was used to train the SVM classifier.
 
 %%% BOVW ENDS
 
@@ -230,16 +230,16 @@ Fisher vectors have been shown to produce state-of-the-art performance in popula
 \subsection{Metrics}
 Several metrics exist for evaluating a classifier's performance. For each query, a one-against-all binary classifier leads to four possible outcomes: \emph{true positives (TP)}, \emph{false positives (FP)}, \emph{true negatives (TN)} and \emph{false negatives (FN)}. With these definitions, we can derive common performance metrics in the classification context given $P$ and $N$ the number of positive and negative queries respectively: \textbf{Classification accuracy} can be defined as the fraction of queries correctly classified ($\frac{TP+TN}{P+N}$). \textbf{Precision/Recall} (PR) curves, generated by arranging all the queries in descending order of their classification score~\cite{Everingham2009} (\ie the ranked output or confidence of how strong the prediction is). \textbf{Recall} can then be defined as the proportion of all positive queries with a classification score higher than a threshold. \textbf{Average Precision} (AP): the area under the PR curve. Mean Average Precision (\textbf{mAP}): the mean average precision for a set of queries, and ultimately, the mean AP across classes.
 
-\begin{itemize}
-\item $\text{Precision} = \frac{TP}{TP+FP}$
-\item $\text{Recall} = \frac{TP}{P}$
-\end{itemize}
+%\begin{itemize}
+%\item $\text{Precision} = \frac{TP}{TP+FP}$
+%\item $\text{Recall} = \frac{TP}{P}$
+%\end{itemize}
 
 %%------------------------------------------------------------------------
 \section{Results and Discussion} \label{sec:analysis} \label{sec:results}
 
 
-In order to facilitate performance comparisons, we organised SHORT queries into the four groups in Table~\ref{table:testData}. From Table~\ref{table:sightedVSblindfolded} we appreciate that these groups experienced differences in average quality of match. Still image queries outperform single-frame queries taken from unfiltered video: video frames typically include images which are blurred due to an object being rotated during capture. However, pilot work suggests that multiple frames from video can enhance accuracy. Queries from sighted users led to better performance than those from blindfolded users. The ``blindfolded'' queries appeared less susceptible to some forms of  capture-bias: some images contained inadvertent partial object occlusions, making categorisation more challenging. This makes SHORT arguably a better dataset for designing technology for vision-based assistive systems for hand-held /wearable camera recognition of hand-held objects.
+In order to facilitate performance comparisons, we organised SHORT queries into the four groups in Table~\ref{table:testData}. From Table~\ref{table:sightedVSblindfolded} we appreciate that these groups experienced differences in average quality of match. Still image queries outperform single-frame queries taken from unfiltered video: video frames typically include images which are blurred due to an object being rotated during capture. However, the pilot work described in Section \ref{subsec:evaluationframes} suggests that multiple frames from video can enhance accuracy. Queries from sighted users led to better performance than those from blindfolded users. The ``blindfolded'' queries appeared less susceptible to some forms of  capture-bias: some images contained inadvertent partial object occlusions, making categorisation more challenging. This makes SHORT arguably a better dataset for designing technology for vision-based assistive systems for hand-held /wearable camera recognition of hand-held objects.
 
 
 \begin{table}[]
@@ -378,7 +378,7 @@ The range of training images in the database -- covering almost all faces of a p
 
 In this section we analyse how we can use sequential frames from a video of an object in order to improve classification accuracy. First, multiple sequential images from a video were queried, and each image was matched to one of the thirty categories of the SHORT database using the descriptor matching as described in Sections~\ref{subsec:pairwise} and \ref{subsec:querydescrejection}. A histogram of the matches was computed for several videos of the same object, as shown in Fig.~\ref{fig:prd003a}. Even though the total number of incorrect matches increases as we query more video frames, they are distributed across a range of object categories in the database. 
 
-\begin{figure}[t]
+\begin{figure}[htb]
 \centering
 \includegraphics[width=\linewidth]{./gfx/Chapter02/prd003_distribution_bar-latex.pdf}
 \caption{Evaluation of sequential video frames: Distribution of matches across different categories of SHORT dataset for four videos of the same query object.}
@@ -389,7 +389,7 @@ In this section we analyse how we can use sequential frames from a video of an o
 As shown, the correct object often has a higher number of hits than the incorrect ones. Therefore we propose to use the ``individual voting'' as a metric to classify an object based on querying sequential images from a video of a hand-held object. Further analysis was undertaken in order to determine the number of video frames that are required for the total number of correct matches to exceed the number of individual total incorrect matches. Preliminary results, Figure \ref{fig:prd003b}, shows that the number of total incorrect matches to individual objects rises slowly while the number of total matches to the correct object increases rapidly. The above analyses were undertaken for several videos and object categories under the SHORT dataset. Classification accuracy using different numbers of query frames and the above metric is presented in Section~\ref{sec:expResults2}.
 
 
-\begin{figure}[t]
+\begin{figure}[htb]
 \centering
 \includegraphics[width=\linewidth]{./gfx/Chapter02/prd0030shadedPlots-4-latex.pdf}
 \caption{Evaluation of sequential video frames: Fraction of correctly matched queries to incorrect matches for videoframe sequences. Note that there is a distribution of incorrect matches across multiple categories as the number of sequential query frames increases.}        
