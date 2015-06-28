@@ -1,0 +1,6 @@
+Method, Encoding,Mean error (cm), std_error (cm)
+SIFT,CHI,534.7,267.1
+SIFT,HELL,493.9,238.4
+SF_GABOR,CHI,470.5,229.1
+SF_GABOR,HELL,522.7,284.6
+LW_COLOR,HELL,643.8,343.8

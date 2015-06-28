@@ -1,0 +1,12 @@
+Method, Encoding,Mean error (cm), std_error (cm)
+SIFT,CHI,137.5,46.3
+SIFT,HELL,132.7,41.4
+InstanceBased,CHI,130.6,38.8
+InstanceBased,HELL,135.1,46.5
+SpatioTempGauss,CHI,135.4,44.1
+SpatioTempGauss,HELL,144.1,52.4
+SpatioTempGrads,CHI,235.9,86.3
+SpatioTempGrads,HELL,179.5,62.3
+HOG3D,CHI,419.6,133.3
+HOG3D,HELL,366.5,120.3
+LW_COLOR,N/A,363.9,113.2

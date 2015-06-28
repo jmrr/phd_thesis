@@ -30,13 +30,13 @@ journeys, then used to help other users of the same space navigate -- is the eve
 \section{Related work}
 \label{sec:retrieval}
 
-\paragraph{Matching between visual paths} We define a {\em visual path} as a collection of image frames that are induced by the relative motion of a person in a scene. The work reported in this paper involves matching the visual paths of a ``new'' journey instance to previous, similar instances. 
+\subsection{Matching between visual paths} As we briefly introduced in Chapter \ref{ch:chapter2}, we define a {\em visual path} as a collection of image frames that are induced by the relative motion of a person in a scene. The work reported in this paper involves matching the visual paths of a ``new'' journey instance to previous, similar instances. 
 
 Early work by Matsumoto et al. \cite{Matsumoto1996} introduced a similar concept of the ``view-sequenced route representation''.  In this scheme,  a robot could perform simple navigation tasks by correlating current views against those held in a database. \citet{Ohno1996} also worked on this idea, using the difference between frames of detected vertical lines to estimate changes in position and orientation. Their results were constrained to controlled robot movement, and therefore arguably of limited applicability to images obtained from human ego-motion. Also employing vertical lines as features, this time from omni-directional images, Tang {\it et al.} used estimated position differences between sequences to perform  robot navigation \cite{Tang2001}. To make the inference more robust, they used recorded odometry at training time. This approach would certainly reduce the error in the localization task. However, it could lead to ``solving'' the training  route, without truly analysing the performance of feature matching methods. Furthermore, without ground-truth available in a crowdsensing setting, the technique of training with ground-truth is of limited usability.  On the other hand, with many passes through the same space, the reference for a journey could be the visual paths themselves. In this case, we would use ground-truth -- if available -- only to ascertain the accuracy of proposed matching or localization methods. This is the approach taken in our current work.
 
 The performance of previously reported methods that use a retrieval-type approach, albeit of the order of tens of cm, cannot be taken as representative for the evaluation of the methods presented in this paper. The reviewed publications report results in routes of a few metres in length. Our evaluation is in a dataset three orders of magnitude longer.  Deliberately, we do not include any tracking, such as Kalman filtering, which can often hide poor measurement performance. 
 
-\paragraph{Crowdsourcing visual paths.}
+\subsection{Crowdsourcing visual paths.}
 Our usage setting represents a particularly data-intensive form of crowdsensing in which the image streams  from wearable cameras could be volunteered to others as reference paths for indoor journeys. An illustration of this concept is presented in Fig. \ref{fig:visualpaths}. 
 
 This type of crowdsensing approach is gaining interest, with remarkable work from Google's indoor localization systems and crowdsourced sensor information and maps~\cite{Kadous2013}. In terms of a retrieval-based visual localization system, the NAVVIS team ~\cite{Huitl2012} released a dataset for evaluating indoor navigation from a camera-equipped robot. They also advanced earlier work on visual localization based on matching of SIFT descriptors~\cite{Park2008} to one using a bag of features that could be stored in mobile phones for quick retrieval~\cite{Schroth2011,Schroth2012}. The dataset we introduce in this work is not constrained to robot navigation, as it includes the ego-motion associated with hand-held and wearable devices.
@@ -57,19 +57,19 @@ This type of crowdsensing approach is gaining interest, with remarkable work fro
 \end{center}
 \end{figure}
 
-\paragraph{Alternative methods: non feature-based and sensor merging.} 
-%Fran�ois Chaumette's team has  recently explored navigation solutions that do not require geometrical nor pixel intensities' features but use mutual information (MI) as a similarity measure. Their system performs a maximisation of the MI that is directly connected with the motion of the robot. These results, and others that rely on tracking visual features \cite{Se2002} cannot serve as a comparison for the current methods either, as they would hinder the fair evaluation of the visual features in isolation.
+\subsection{Alternative methods: non feature-based and sensor merging.} 
+François Chaumette's team has  recently explored navigation solutions that do not require geometrical nor pixel intensities' features but use mutual information (MI) as a similarity measure. Their system performs a maximisation of the MI that is directly connected with the motion of the robot. These results, and others that rely on tracking visual features \cite{Se2002} cannot serve as a comparison for the current methods either, as they would hinder the fair evaluation of the visual features in isolation.
 
 For outdoor navigation, the Global Positioning System (GPS) has been in widespread use for many years.  In an {\it indoor} context, localization technology is still rapidly evolving~\cite{Shen,Wang2012,Quigley2010}.  Using visual information is towards the higher end of computational complexity, and possibly the lower-end of reliability; one would certainly seek to support this approach with other forms of sensor such as Received Signal Strength Indication (RSSI) data, magnetometers, and tracking algorithms~\cite{Schroth2011,Schroth2012,Quigley2010}.  In this paper, we seek to explore efficient techniques that could be used to index and compare the visual path information gathered by multiple user journeys, and to measure the potential of vision on its own as a localization mechanism. 
 %
-\paragraph{A biological intuition.} Another source of our motivation for the idea of retrieval-based localization is supported by the well-characterized biological hippocampal place cells~\cite{burgess2002human} that recognise a location from sensory inputs that include those captured by an animal's eyes. This does {\it not} suggest that techniques based on optical flow are not relevant: rather, the striking conclusion from recent research is that multiple approaches to visual location inference are at work in biological systems, including optic flow~\cite{Layton2014}, and other mechanisms that may not explicitly involve brain areas specialized in visual motion computation~\cite{Hartley2014space}.
+\subsection{A biological intuition.} Another source of our motivation for the idea of retrieval-based localization is supported by the well-characterized biological hippocampal place cells~\cite{burgess2002human} that recognise a location from sensory inputs that include those captured by an animal's eyes. This does {\it not} suggest that techniques based on optical flow are not relevant: rather, the striking conclusion from recent research is that multiple approaches to visual location inference are at work in biological systems, including optic flow~\cite{Layton2014}, and other mechanisms that may not explicitly involve brain areas specialized in visual motion computation~\cite{Hartley2014space}. We will link the findings of the present chapter with this biological intuition in Chapter \ref{ch:chapter5}, where we will propose a model of the hippocampal place cells for indoor localization.
 
 
 %------------------------------------------------------------------------- 
 \section{Methods}
 \label{sec:methods}
 
-%In this section we describe the different image description modalities we have evaluated, starting by the feature extraction process, followed by the descriptor quantization and distance metric used.
+In this section we describe the different image description modalities we have evaluated, starting by the feature extraction process, followed by the descriptor quantization and distance metric used.
 
 \subsection{Pipeline}
 
@@ -82,6 +82,21 @@ We evaluated the performance of several approaches to matching image queries tak
 \label{fig:FigPipeline}
 \end{center}
 \end{figure}
+
+\subsection{Frame-Level Descriptor}
+Based on the use of optical flow in motion estimation~\citep{Weickert2006} and space-time descriptors in action recognition \citep{Wang2009} we estimated in-plane motion vectors using a simple approach.  We first applied derivative filters along $(x,y,t)$ dimensions, yielding a 2D$+t$, i.e. spatio-temporal, gradient field.  To capture variations in chromatic content from the visual sequence, we computed these spatio-temporal gradients separately for each of the three RGB channels of the pre-processed video sequences.  This yielded a $3\times 3$ matrix at each point in space.  Temporal smoothing was applied along the time dimension, with a support of 11 neighbouring frames. Finally, the components of the matrix were each averaged (pooled) over 16 distinct spatial regions, not very dissimilar to those to be described later in this paper.   For each visual path, this yielded 144 signals, of length approximately equal to the video sequences.  An illustration of the time series for one visual path is shown in Fig.~\ref{fig:Traces}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\linewidth]{./gfx/Chapter04/Lobe1and6_red_green.pdf}
+\caption{Four (of 144) representative signals acquired from a visual path; these signals encode changes in red and green channels as a user moves through space.  The collection of signal traces at one point in time can be used to build a simple frame-level space-time descriptor: LW\_COLOR. The signal amplitudes are spatially pooled temporal and spatial gradient intensities.}
+\label{fig:Traces}
+\end{center}
+\end{figure}
+
+At each point in time, the values over the 144 signal channels are also captured into a {\it single} space-time descriptor per frame: 
+LOR.  Our observations from the components of this descriptor are that a) relative ego-motion is clearly identifiable in the signals; b) stable patterns of motion may also be identified, though changes in the precise trajectory of a user could also lead to perturbations in these signals, and hence to changes in the descriptor vectors. Minor changes in trajectory might, therefore, reduce one's ability to match descriptors between users.  These observations, together with the possibility of partial occlusion, led us to the use of {\em patch} based descriptors, so that multiple descriptors would be produced for each frame. These are introduced next.
+
 
 \subsection{Local descriptors}
 \label{sec:descriptors}
@@ -159,13 +174,18 @@ After performing three separate filtering operations, each pixel of each frame i
 
 
 \subsection{Quantization and histogram encoding}
-For the approaches described in Section \ref{sec:descriptors}, hard assignment (HA) was applied to assign descriptors to a dictionary term. The dataset was partitioned by selecting $M-1$ of the $M$ video sequences of passes through each possible path. These $M-1$ sequences have a total of $N$ frames. A dictionary of visual words was created by running the $k$-means algorithm on the partitioned set of training descriptors contained in the $N$ frames.   We fixed the dictionary size to 4,000 in order to achieve a balance between computational time and atom stability, and allowing comparison with the work of others \cite{Chatfield2011}.
 
-The resulting dictionaries were then used to encode the descriptors of the $M-1$ training passes and the remaining query pass.  First, the descriptors found in every frame were each assigned to the nearest visual word using a Euclidean distance metric. Secondly, the frequency of occurrence of the dictionary words (or atoms) for every frame was used to create a histogram representing each frames in the training database, and the same process was used to encode each possible query frame from the remaining path (which was {\em not} used to build the dictionary). These histograms were all $L_2$-normalised.
+Our initial conjecture was that whole frames from a sequence could be indexed compactly, using the single-frame descriptor (LW\_COLOR).  This was found to lead to disappointing performance (see Section~\ref{sec:ch4results}). For the case of many descriptors-per-frame i.e.\ descriptors that are patch-based, we have the problem of generating around 2,000 descriptors per frame, if dense sampling is used.  Thus, we applied vector quantization (VQ) to the descriptors, then used histograms of VQ descriptors, effectively representing each frame as a histogram of words \citep{Csurka2004}. The dictionary was always built by excluding the entire journey from which queries are to be taken.  
+
+The resulting dictionaries were then used to encode the descriptors of the $M-1$ training passes and the remaining query pass. Two different approaches to the encoding of descriptors were taken, one based on standard $k$-means, using a Euclidean distance measure (hard assignment, ``HA''), and one corresponding to the Vector of Locally Aggregated Descriptors (VLAD) \citep{jegou2010aggregating}. These histograms were all $L_2$-normalised.  
+
+In the HA case, the dataset was partitioned by selecting $M-1$ of the $M$ video sequences of passes through each possible path. These $M-1$ sequences have a total of $N$ frames. A dictionary of visual words was created by running the $k$-means algorithm on the partitioned set of training descriptors contained in the $N$ frames.   We fixed the dictionary size to 4,000 in order to achieve a balance between computational time and atom stability, and allowing comparison with the work of others \cite{Chatfield2011}.
+
+For VLAD, a $k$-means clustering was first performed using a dictionary size of 256 words. For each descriptor, sums of residual vectors were used to improve the encoding.  Further advances to the basic VLAD, which include different normalizations and multiscale approaches, are given by \cite{Arandjelovic}. 
 
 \subsection{Localization using histogram distances}
-
-Once histograms had been produced, a distance measurement was used to compare the similarity of histograms in a query frame with the database entries.  The query operation was simply performed by using the kernel approaches described in \cite{Vedaldi2010}.  We used the $\chi^2$ kernel;  other kernels such as the Hellinger, are possible, but the $\chi^2$ option appeared to work best in the tests we conducted.  For the $M-1$ videos captured over each path in the database, the queries were constructed from the remaining path.   Each query frame, $H_q$, resulted in $M-1$ separate comparison vectors containing scores.  By using these kernel-based comparisons (which are always positive, and act as the inverse of a distance metric), we identified the best matching frame, $\hat{f}$, from pass, $\hat{p}$, across all of the $M-1$ vectors.  This may be expressed as: 
+\label{sec:kernel_encodings}
+Once histograms had been produced, a distance measurement was used to compare the similarity of histograms in a query frame with the database entries.  The query operation was simply performed by using the kernel approaches described in \cite{Vedaldi2010}.  Concretely, to compare encodings, either $\chi^2$ or Hellinger distance metrics \citep{Vedaldi2012} were used to retrieve results for HA and VLAD encoding approaches respectively. Distance comparisons were performed directly between either hard assigned Bag-of-Words (BoW) or VLAD image encodings arising from collections of descriptors for each frame. For the $M-1$ videos captured over each path in the database, the queries were constructed from the remaining path.   Each query frame, $H_q$, resulted in $M-1$ separate comparison vectors containing scores.  By using these kernel-based comparisons (which are always positive, and act as the inverse of a distance metric), we identified the best matching frame, $\hat{f}$, from pass, $\hat{p}$, across all of the $M-1$ vectors.  This may be expressed as: 
 \begin{equation}
 L(\hat{p},\hat{f}) = \underset{p,f}{\textrm{argmax}} \lbrace K_{D}(H_q,H_{p,f})\rbrace
 \label{eq:argmax}
@@ -183,9 +203,17 @@ where $H_{p,f}$ denotes the series of normalised histogram encodings, indexed by
 
 A total of 60 videos were acquired from 6 corridors of a large building.  Two different devices were used for the acquisition, with 30 videos each. One was an LG Google Nexus 4 phone running Android 4.4.2.  The video data was acquired at approximately 24-30 fps at two different resolutions, $1280 \times 720$ and $1920\times 1080$ pixels.  Google Glass (Explorer edition) was used at a resolution of $1280 \times 720$, at a frame rate of 30 fps.  A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$ was used to record distance, but was modified by wiring its encoder to a Raspberry Pi running a number of measurement processes.  The Pi was synchronised to network time, enabling synchronisation with timestamps in the video sequence.  Because of the variable-frame rate of acquisition, timestamp data from the video was used to align ground-truth measurements with frames. This data was used to assess the accuracy of associating positions along journeys through frame indexing and comparison.
 
-The dataset contains 3.05 km of journey data acquired at a casual indoor walking speed.  For each corridor, ten passes (i.e.\ 10 separate visual paths) were obtained. Five of these videos were acquired with the hand-held Nexus, and the remainder with Glass.  Table~\ref{tbl:Datasets} summarises the acquisition.  The length of the sequences varies, due to a combination of different walking speeds and/or different frame rates and corridor lengths. A combination of daylight/nighttime acquisitions was also performed, and prominent windows occasionally introduced strong lighting in some portions of the videos.  Variations are observable in some of the corridors from one pass to another, due to physical changes and occasional appearances from people walking along. In total, more than 90,000 frames of video were labelled with positional ground-truth in a path-relative fashion. The dataset is publicly available  at \citep{Rivera-Rubio2014}.
+The dataset contains 3.05 km of journey data acquired at a casual indoor walking speed.  For each corridor, ten passes (i.e.\ 10 separate visual paths) were obtained. Five of these videos were acquired with the hand-held Nexus, and the remainder with Glass.  Table~\ref{tbl:Datasets} summarises the acquisition.  The length of the sequences varies, due to a combination of different walking speeds and/or different frame rates and corridor lengths. A combination of daylight/nighttime acquisitions was also performed, and prominent windows occasionally introduced strong lighting in some portions of the videos.  Variations are observable in some of the corridors from one pass to another, due to physical changes and occasional appearances from people walking along. In total, more than 90,000 frames of video were labelled with positional ground-truth in a path-relative fashion. The dataset is publicly available  at \citep{Rivera-Rubio2014} (\url{http://rsm.bicv.org}).
 
-\begin{table}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{./gfx/Chapter04/rsm_collage.jpg}
+\caption{A ``collage'' depicting a thumbnail of each corridor of the RSM dataset. From top left to bottom right C1, C2, ..., C6.}
+\label{fig:IsoPool}
+\end{figure}
+
+
+\begin{table}[ht]
 \caption{A summary of the dataset with thumbnails}
 \label{tbl:Datasets}
 
@@ -226,19 +254,65 @@ The dataset contains 3.05 km of journey data acquired at a casual indoor walking
 \end{center}
 \end{table}
 
+\subsection{Performance Evaluation}
+
+The methods for a) describing spatial or space-time structure, b) indexing and comparing the data are summarized in Table~\ref{tbl:Methods}. The choice of parameters was selected to allow a) as consistent a combination of methods as possible, allowing fair comparisons of the effect of one type of encoding or spatio-temporal operator to be isolated from others b) to select parameter choices close to other research in the area, e.g.\ for image categorization, the chosen dictionary sizes of $\approx 256$ and $\approx 4000$ words are common. 
+
+\begin{table}
+\caption{A summary of the different encoding methods and their relationships to different descriptors. The number of elements of each descriptor is also reported (\textbf{Dim}).}
+\label{tbl:Methods}
+\small
+\centering
+    \begin{tabular}{l p{0.5cm} p{0.9cm} p{0.5cm} p{2.5cm} c }
+    \hline
+    \textbf{Method}              & \textbf{ST} & \textbf{Dense} & \textbf{Dim}  & \textbf{Encoding}      & \textbf{Metric}    \\ \hline
+    \multirow{2}{*}{KP\_SIFT} & \multirow{2}{*}{No} & \multirow{2}{*}{No} & \multirow{2}{*}{128}     & HA-4000  &   $\chi^2$    \\ \cline{5-6} 
+        ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
+    \multirow{2}{*}{DSIFT} & \multirow{2}{*}{No} & \multirow{2}{*}{Yes} & \multirow{2}{*}{128}     & HA-4000  &   $\chi^2$    \\ \cline{5-6}
+    ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
+    \multirow{2}{*}{SF-GABOR} & \multirow{2}{*}{No}               & \multirow{2}{*}{Yes}  & \multirow{2}{*}{136}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
+    ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
+    LW-COLOR           & Yes & No & 144           & N/A       \\ \hline
+    \multirow{2}{*}{ST\_GABOR}          & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes}  & \multirow{2}{*}{221}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
+    ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
+    \multirow{2}{*}{ST\_GAUSS}           & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes}  & \multirow{2}{*}{136}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
+    ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
+    \multirow{2}{*}{HOG3D}               & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes} & \multirow{2}{*}{192}   &  HA-4000  & $\chi^2$      \\  \cline{5-6}
+    ~                   & ~       & ~          & ~      & VLAD-256 & Hellinger \\ \hline
+    \end{tabular}
+    \normalsize
+\end{table}
 
 
-\subsection{Error distributions}
+\subsubsection{Error distributions}
 
-We estimated localization error distributions in order to quantify the accuracy of being able to associate {\em locations} along physical paths in corridors within the dataset described in Section~\ref{sec:Dataset}. By permuting the paths that are used as reference journeys, and by randomly selecting query images from the remaining path, we are able to estimate the error in localization.  Repeated runs with random selections of groups of frames allowed the variability in these estimates to be obtained.  This includes effects that might be due to different paths being selected as the reference set. To estimate the error distributions, we measured the absolute error in localization as a distance, $\epsilon$, relative to the ground truth for that route. These errors are provided as estimates of $P(\epsilon < x)$. We used the ground-truth information acquired as described in Section \ref{sec:Dataset}.  
+Error distributions allow us to quantify the accuracy of being able to estimate {\em locations} along physical paths within the RSM dataset described in Section~\ref{sec:Dataset}. To generate the error distributions, we did the following: 
 
-In Figs. \ref{fig:CDFa} to \ref{fig:CDFf}, we provide separate assessments of the {\em variability} in error distribution when 1 million permuted queries are performed; these were obtained by cycling through 1,000 permutations of 1,000 randomly selected queries. In Fig.~\ref{fig:CDFall}, we compare the error distributions of all techniques. For long distances, the CDFs of error for all methods approaches unity; we thus only show a close-up of the interval $[0,25]$ \SI{}{m}.
+We started by using the kernels calculated in Section~\ref{sec:kernel_encodings}. One kernel is shown in Fig.~\ref{fig:kernel}, where the rows represent each frame from the query pass, and the columns represent each frame from one of the remaining database passes of that corridor. The values of the kernel along a row represent a ``score'' between a query and different database frames given by applying the kernel mapping functions described in \citep{Vedaldi2012} for the $chi^2$ and Hellinger kernel depending on the case. In this experiment, we associated the position of the best match to the query frame, and calculated the error between this and the ground truth $\epsilon$, in m. We used the ground-truth information acquired as described in Section \ref{sec:Dataset}. 
+
+In order to characterise the reliability of such scores, we performed bootstrap estimates of error distributions using 1 million trials. The distribution of the errors gives us a probability density estimate, from which we can get the cumulative distribution function (CDF) $P(x \leq |\epsilon|)$. 
+
+By permuting the paths that are held in the database and randomly selecting queries from the remaining path, we were able to assess the error distributions in localization.  Repeated runs with random selections of groups of frames allowed the variability in these estimates to be obtained, including that due to different numbers of paths and passes being within the database. 
+
+The outcome is shown in Fig.~\ref{fig:CDFall}, where the variability in the lines indicate the range of the results obtained from bootstrapping the observations. The results will be described in the following section.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{./gfx/Chapter04/kernel.pdf}
+\caption{Example of a $\chi^2$ kernel produced by hard assignment and using the SF\_GABOR descriptors when querying with pass 1 of corridor 2 against a database comprised of passes 2-10.}
+\label{fig:kernel}
+\end{figure}
+
+If we consider the idea of crowdsourcing journey information from many pedestrian journeys through the same corridors, this approach to evaluating the error makes sense:  all previous journeys could be indexed and held in the database; new journey footage would be submitted as a series of query frames (see Fig.~\ref{fig:pathexample} from Chapter \ref{ch:chapter2}).    
 
 All the results were generated with a downsampled version of the videos at $208 \times 117$ pixels; these are also supplied with the dataset. 
 
+
+
+
 %------------------------------------------------------------------------- 
 \section{Results}
-\label{sec:results}
+\label{sec:ch4results}
 
 We calculated the average absolute positional error (in metres) and the standard deviation of the absolute positional errors across the provided dataset, and these are shown in Table~\ref{Table:summaries}. For these errors, all queries, by a leave-one-out strategy, have been used, but there is otherwise no random sampling of the queries.  Standard deviations of the absolute errors are also provided.  Table~\ref{Table:summaries} also provides the Area-Under-Curve (AUC) values obtained from the CDFs of Fig.~\ref{fig:CDFglobal}.
 
@@ -316,6 +390,23 @@ We calculated the average absolute positional error (in metres) and the standard
 %\end{center}
 %\end{figure}
 
+\subsection{Localization Error vs Ground-Truth Route Positions}
+As described in the previous section, by permuting the database paths and selecting, randomly, queries from the remaining path that was left out in the dictionary creation, we can assess the errors  in localization along each corridor for each pass, and calculate, also, the average error in localization on a per-corridor basis, or per-path basis.  For these, we used the ground-truth information acquired as described in Section \ref{sec:Dataset}.  Fig.~\ref{fig:x_e_vs_gt} provides some examples of the nature of the errors, showing evidence of those locations that are often confused with each other.  As can be seen, for the better method (top trace of Fig.~\ref{fig:x_e_vs_gt}) whilst average errors might be small, there are, occasionally, large errors due to poor matching (middle trace). Errors are significantly worse for queries between different devices (see Fig.~\ref{fig:x_e_vs_gt}(c)). 
+
+\begin{figure}[h!]
+\centering
+\subfloat[Corridor 3 using Pass 2 acquired with LG Nexus 4. Results for the best spatio-temporal method, ST\_GABOR.]{\includegraphics[width=.7\linewidth]{./gfx/Chapter04/xe_vs_x/ST_GABOR_good.pdf}}
+\\
+\subfloat[Corridor 3 using Pass 6 acquired with Google Glass. Results for the best single-frame method, SF\_GABOR.]{\includegraphics[width=.7\linewidth]{./gfx/Chapter04/xe_vs_x/SF_GABOR_good.pdf}}
+\\
+\subfloat[Corridor 2 using Pass 6 acquired with Google Glass. Results for the worst overall method, LW\_COLOR.]{\includegraphics[width=.7\linewidth]{./gfx/Chapter04/xe_vs_x/Lightweight_bad.pdf}}
+\caption{Estimated location vs. ground truth. Illustrative examples of good/bad location estimation performance. a) Uses the best descriptor and a single-device dataset, b) uses the best descriptor and a cross-device dataset and c) uses the worst descriptor, and a multiple-device dataset.}
+\label{fig:x_e_vs_gt}
+\end{figure}
+
+
+\subsection{Performance Summaries}
+We calculated the average of the absolute positional error (in m) and the standard deviation of the absolute positional error in a subset of the complete RSM dataset (Table~\ref{Table:summaries}). We  used a leave-one-journey-out approach (all the frames from an entire journey are excluded from the database).  Using bootstrap sampling, we also estimated the cumulative density functions of the error distributions in position, which are plotted in Fig.~\ref{fig:CDFall}. The variability in these curves is not shown, but is summarized in the last two columns of Table~\ref{Table:summaries} through the area-under-curve (AUC) values. In the best case (SF\_GABOR), AUCs of the order of $~96\%$ would mean errors generally below 2 m; in the worst (HOG3D), AUCs $\approx$ 90\% would mean errors of around 5 m.  These  mean absolute error estimates are obtained as we permute the queries, the dictionary and the paths in the database. 
 
 
 \begin{table}[!h]
@@ -331,7 +422,9 @@ We calculated the average absolute positional error (in metres) and the standard
     %SF\_GABOR & Hellinger      & 135.1              & 46.5              & 96.29   & 96.71   \\ \hline
 	DSIFT           & 1.62              & 0.11  & 95.96   & 96.31   \\ \hline 
 
-	KP\_SIFT           & 2.14              & 0.17  & 94.58   & 95.19   \\ \hline \hline
+	KP\_SIFT           & 2.14              & 0.17  & 94.58   & 95.19   \\ \hline 
+
+	LW\_COLOR           & 3.64              & 1.13  & 91.42   & 92.25   \\ \hline \hline
 
     %SIFT     & Hellinger      & 132.7              & 41.4              & 94.34   & 94.95   \\ \hline
 
@@ -350,17 +443,17 @@ We calculated the average absolute positional error (in metres) and the standard
 
 \caption{Summaries of average absolute positional error and standard deviation of positional errors for different descriptor types. $\mu_{\epsilon}$ is the average absolute error, and $\sigma_{\epsilon}$ is the standard deviation of the error in metres. Top: single frame methods. Bottom: spatio-temporal methods.}
 \label{Table:summaries}
-
-
 \end{table}
+
+Note that we did not use any tracking algorithms, and so there is no motion model or estimate of current location given the previous one. As we will describe in Section \ref{sec:slamcomp}, incorporating a particle filter or Kalman filter should reduce the errors, particularly where there are large jumps within small intervals of time. This deliberate choice allows us to evaluate the performance of different descriptor and metric choices independently.
 
 The results show that localization is achieved with good accuracy in terms of CDF and AUC without a large difference between the applied methods, despite the big diversity in their complexity. Absolute errors show significant differences between methods, with average absolute errors in the range of \SI{1.5}{m} to \SI{4.20}{m}. Single frame methods (SF\_GABOR, KP\_SIFT and DSIFT) perform slightly better than spatio-temporal approaches. This is not surprising, as the spatio-temporal methods might be strongly affected by the self motion over fine temporal scales.
 
-In spite of using image retrieval methods in isolation, the attainable accuracy appears to be in line with those of  other methods reviewed in Section~\ref{sec:retrieval}.  However, previously reported methods include tracking, the use of other sensors, or estimates of motion. In this work, no form of tracking was used in estimating position: this was deliberate, in order that we could assess performance in inferring location from the visual data fairly.  Introducing tracking will, of course, improve localization performance, and could reduce query complexity. Yet, tracking often relies on some form of motion model, and for pedestrians carrying or wearing cameras, motion can sometimes be relatively unpredictable.  
+In spite of using image retrieval methods in isolation, the attainable accuracy appears to be in line with those of  other methods reviewed in Section~\ref{sec:retrieval}.  However, previously reported methods include tracking, the use of other sensors, or estimates of motion. In this work, no form of tracking was used in estimating position: this was deliberate, in order that we could assess performance in inferring location from the visual data fairly.  Introducing tracking will most possibly improve localization performance, and could reduce query complexity. Yet, tracking often relies on some form of motion model, and for pedestrians carrying or wearing cameras, motion can sometimes be relatively unpredictable. In the next section we will describe the comparison  of our appearance-based approach with SLAM methods, particularly we will reproduce a head-to-head study against large-scale direct monocular SLAM, LSD-SLAM.
 
 %------------------------------------------------------------------------- 
 \section{Comparison with state-of-the art SLAM}
-
+\label{sec:slamcomp}
 The best performing SLAM method at the time of writing is LSD-SLAM... \td{Decide where to put it}{Relocate here from chapter 5, leave in both places?}
 
 
@@ -384,7 +477,7 @@ t-distributed stochastic neighbor embedding (t-SNE) is a machine learning algori
 
 We have presented three main contributions to the topic of indoor localization using visual path matching from wearable and hand-held cameras. We provide an evaluation of six local descriptor methods: three custom designed and three standard image (KP\_SIFT and DSIFT) and video (HOG3D) matching methods as baseline. These local descriptions follow a standard bag-of-words and kernel encoding pipeline. The code for both the local descriptors and for the evaluation pipeline is available on the web page~\cite{Rivera-Rubio2014}. We also make available a large dataset with ground truth of indoor journeys to complete the evaluation framework.
 
-The results show that there is significant localization information in the visual data, and that errors as small as \SI{1.6}{m} over a \SI{50}{m} distance can be achieved, even without tracking. We have reported the results in two ways: a) average absolute positional errors, and b) error distributions, both of which allow image descriptions to be assessed for their localization capability.  The latter could also be used to build a measurement model for inclusion in a Kalman or particle filter  aimed at supporting human ambulatory navigation. 
+The results show that there is significant localization information in the visual data, and that errors as small as \SI{1.5}{m} over a \SI{50}{m} distance can be achieved, even without tracking. We have reported the results in two ways: a) average absolute positional errors, and b) error distributions, both of which allow image descriptions to be assessed for their localization capability.  The latter could also be used to build a measurement model for inclusion in a Kalman or particle filter  aimed at supporting human ambulatory navigation. 
 
 We plan to introduce tracking in future work. There are, of course, numerous other enhancements that one could make for a system that uses visual data; integration of data from other sensors springs to mind, such as inertial sensing, magnetometers and RSSI.  Although fusing independent and informative data sources would theoretically lead to improvements in performance, we would argue that the methods applied to infer location from each information source should be rigorously tested, both in isolation and as part of an integrated system.  This would help ensure that real-world systems would be somewhat robust to sensor failure. We anticipate that using vision to associate locations in the journeys of several users through their visual paths could play an important role in navigation.
 

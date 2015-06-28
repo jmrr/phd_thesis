@@ -1,0 +1,5 @@
+Method, Encoding,Mean X_e vs X, Std X_e vs X
+SIFT,CHI,534.7,267.1
+SIFT,HELL,493.9,238.4
+InstanceBased,CHI,470.5,229.1
+InstanceBased,HELL,522.7,284.6
