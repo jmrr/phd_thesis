@@ -150,7 +150,7 @@ In order to model place cell behaviour, we need to map pairs of frames onto a sc
 
 
 
-One way to mimic the behaviour of BPCs within APCs becomes patent when we revisit the {\it kernel} function we introduced in the previous chapter. This {\ite kernel} maps a pair of FEVs onto a positive scalar value. We used the following mapping between two vectors $\mathbf{v}_a$ and $\mathbf{v}_b$:
+One way to mimic the behaviour of BPCs within APCs becomes patent when we revisit the {\it kernel} function we introduced in the previous chapter. This {\it kernel} maps a pair of FEVs onto a positive scalar value. We used the following mapping between two vectors $\mathbf{v}_a$ and $\mathbf{v}_b$:
 \be
 \kappa_{\chi^2}(\mathbf{v}_a,\mathbf{v}_b) = \sum_{j=1}^{400}\frac{v_a(j)\cdot v_b(j)}{v_a(j)+v_b(j)}
 \ee
@@ -254,16 +254,17 @@ The responses of the collection of APCs provide important information as a popul
 
 
 \subsection{Location from APC Activations}
-Conceptually, given a series of APC responses that respond to visual cues of a person's location along some physical journey -- illustrated in Fig.~\ref{fig:APC} -- there are two obvious ways of estimating location, $l$.  The first is simply to use the place cell which displays maximum activation (firing rate) as a rough indicator of where the person is. That is, given a set of activations $p(r_i|\ell)$, the location of a person observing a particular image frame is provided by the index, $i$ associated with maximizing $p(r_i|l)$. This provides a precision that is limited by the width of each APC, but requires little more than ensuring that place cell responses are reasonably well-separated. 
+Conceptually, given a series of APC responses to visual cues of a person's location along some journey -- illustrated in Fig.~\ref{fig:APC} -- there are two obvious ways of estimating location, $\ell$.  The first is simply to use the APC which displays maximum activation (firing rate) as a rough indicator of where the person is. That is, given a set of activations $p(r_i|\ell)$, the location of the camera that captured a particular image frame is provided by the index, $i$ associated with maximizing $p(r_i|\ell)$. This provides a precision that is limited by the width the APCs, but requires little more than ensuring that place cell responses are reasonably well-separated. 
 
-The second technique to infer location achieves more accurate localization of a camera from its captured visual data by using the joint distribution $p(\mathbf{r}|\ell)$, of APC response, $r$ to infer location $\ell$ relative to some designated ground truth.  We use a single index to refer to the response of a unique place cell, $r_i$.
+The second technique to infer location achieves more accurate localisation of a camera from its captured visual data by using the joint distribution $p(\mathbf{r}|\ell)$, of APC responses, $\mathbf{r}$ to infer location $\ell$ relative to some designated ground truth.  We use a single index, $i$, to refer to the response of a unique place cell, $r_i$.
 
- First, a rough location may be identified by using the $\max()$ operator; then, within the place cells of maximum activation, the responses of neighbouring place cells is used to obtain sub-cell localization.  In order to apply this principle, one needs sufficiently accurate estimates of $p(\mathbf{r}|\ell) = p(r_1,r_2,r_3,...,r_C|\ell)$, where $r_C$ is the total number of place cells in some region of a path.   Given several active cells that are a subset of all place cells in a location, sub-APC localization is possible using APC responses from previous journeys using -- for example -- empirical Bayes' techniques. To illustrate this, if three cells are active, the chain rule can be used to obtain successively refined estimates of $\ell$:
+ First, a rough location may be identified by using \texttt{arg max}($r_i$) over the index, $i$; then, the responses of neighbouring APCs can be used to obtain sub-cell localisation.  In order to apply this principle, one needs sufficiently accurate estimates of $p(\mathbf{r}|\ell) = p(r_1,r_2,r_3,...,r_C|\ell)$, where $r_C$ is the total number of place cells in some region of a path.   Given several active cells that are a subset of all place cells in a location, sub-APC localisation is possible using APC responses from previous journeys using empirical Bayes' techniques. For example, if three cells are active, the chain rule can be used to obtain successively refined estimates of $\ell$:
 \begin{eqnarray}
 p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
 &\propto& p(r_3|r_4,r_5,\ell)\times p(r_4|r_5,\ell)\times p(r_5|\ell)\times p(\ell)
 \end{eqnarray}
- so that the responses of spatially proximal APCs can be used to infer sub-APC position.  If the width of an APC is set to around 2 m, localization of the order of tens of centimeters is plausible. 
+ so that the responses of spatially close APCs can be used to infer sub-APC position.  If the width of an APC is set to around 2 m, localisation of the order of tens of centimetres is plausible. 
+
 
 %\subsubsection{BOVW model spatial binning as a form of population encoding}
 
@@ -273,9 +274,10 @@ p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
 
 \subsection{Overview of the System}
 \label{ch05:overview}
-In the experimental work to be discussed in the next section, a generalized regression network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and used radial-basis functions.  The responses from $r_C =$ 16 place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the place cell responses used for regression network training.  Performance will be discussed in Section \ref{sec:experiments}.
+In the experimental work to be discussed in the next section, a Generalized Regression Neural Network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and uses radial-basis functions.  The responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
 
-In Fig. \ref{fig:pipeline} the overview of this pipeline is shown.
+An overview of the pipeline for processing the frames to generate APCs is shown in Fig.~\ref{fig:pipeline}. The performance of different methods will be discussed in Section~\ref{sec:experiments}.
+
 
 %\subsection{System Pipeline}
 
@@ -324,8 +326,7 @@ In order to test the APC concept, we performed a series of experiments using the
 \subsection{APC-level Localization}
 \label{subsec:inferloc}
 
-
-The first method used to infer location -- based on identifying the artificial place cell with maximum activity -- was tested in several corridors of the experimental data.  First, a visualization of the place cells showing the location of place cells with maximum activation is shown in Fig.~\ref{fig:floorplan}; these are indicated on the actual floor plan of one of the building sections that were used to conduct the experiment.  Locations are staggered across the width of the corridor in order to be able to visualize the actual activations of 8 place cells defined within this corridor. The second technique to estimate location relies on the overlap of the responses from place cells and the use of a GRNN. Table \ref{table:methodComparison} compares the two localization techniques for all the methods. A single-device dictionary was used but all the combinations of remaining passes were submitted as queries. The neural network regressor shows better results, achieving errors as low as 2.49 m for SF-GABOR, even under the challenging scenario of the majority of the queries coming from a different device that was not used to learn the dictionary. Lower errors were observed using single device and are depicted in Fig.~\ref{fig:sublocMethodComp}. The performance of LSD-SLAM when tested on the same sequences is also reported, but it is worth noting that roughly in the 40\% of the sequences tracking was lost, so a tracking recovery exception catch was implemented. This  semi-dense SLAM method is known to perform best on sequences acquired with global-shutter fish-eye lenses. The RSM dataset devices do not meet such criteria, hence the frequent loss of tracking.
+The first method used to infer location -- based on identifying the APC with maximum activity -- was tested in several corridors of the experimental data.  First, a visualization showing the locations of APCs with maximum activation is shown in Fig.~\ref{fig:floorplan}; these are indicated on the floor plan of one of the building sections that was used to conduct the experiment.  Locations are staggered across the width of the corridor in order to visualize the individual activations of the 8 APCs defined within this corridor. The second technique to estimate location relies on the overlap of the responses from APCs and the use of a GRNN. Table \ref{table:methodComparison} compares the two localisation techniques for different methods of descriptor generation. A dictionary based on a single device type was used, but all the combinations of remaining passes were submitted as queries. The neural network regressor shows better results, achieving errors as low as 2.49 m for SF-GABOR, even with the majority of the queries coming from a different device that was not used to learn the dictionary. Very low errors were observed using a single device, as may be seen in Fig.~\ref{fig:sublocMethodComp}. The performance of LSD-SLAM, when tested on the same sequences, is also reported, but tracking was lost in roughly 40\% of sequences. This is probably because LSD-SLAM performs best on sequences acquired with global-shutter, fish-eye lenses. The RSM dataset does not use such cameras. A tracking recovery exception catch was therefore implemented to keep LSD-SLAM running. 
 
 
 
@@ -343,10 +344,7 @@ The first method used to infer location -- based on identifying the artificial p
 \subsection{Sub-APC Localization}
 
 
-By arranging for place cell responses to be up to 4 m in width, the responses from several cells can be used to perform accurate inference of spatial position using a single section of corridor.  The success of this technique is illustrated in Fig. \ref{fig:sublocMethodComp}. Note that average absolute errors are very small compared to distances traversed.
-
-
-
+By arranging for APC responses to be up to 4 m in width, the responses from several cells can be used to perform accurate inference of spatial position using a single section of corridor.  The success of this technique is illustrated in Fig.~\ref{fig:sublocMethodComp}. Note that average absolute errors are very small compared to distances traversed.
 
 
 \begin{figure}
@@ -357,7 +355,7 @@ By arranging for place cell responses to be up to 4 m in width, the responses fr
 %\includegraphics[width=.5\textwidth]{gfx/Chapter05/2x2comp.pdf}
 \caption{Sub-APC location estimate comparison. Using broad place-cell tuning curves, very accurate localization can
 be achieved within a section of corridor. For this corridor and for this journey,
-absolute localization errors range from below one metre to 1.49 m. Ground truth is shown in red. In this case, only \textbf{single-device} queries were used. The effect of using queries from both devices is shown in Figure \ref{fig:multiDevice} and captured by Table~\ref{table:methodComparison}.}
+absolute localization errors range from below one metre to 1.49 m. Ground truth is shown in red. In this case, only \textbf{single-device} (Nexus 4) queries were used. The effect of using queries from both devices is shown in Figure \ref{fig:multiDevice} and captured by Table~\ref{table:methodComparison}.}
 \label{fig:sublocMethodComp}
 \end{figure}
 
@@ -392,11 +390,14 @@ absolute localization errors range from below one metre to 1.49 m. Ground truth 
 %\label{fig:}
 %\end{figure}
 
-The GRNN used as a localization regressor relied on the overlap of the responses of the place cells. By varying the threshold beyond which place-cells are considered active, it is is possible to have very long-tailed responses, spanning several meters, to the position at which cameras yield supra-threshold responses.  This yields APC behaviour that is similar to behaviour of rate-coding in place cells observed in biology. The blue trace on Fig. \ref{fig:threshEval} shows an example of the average cell width in meters when varying the threshold on the $\kappa_{\chi^2}$ comparison metric. The red trace illustrates the average error, also in meters, that is yielded by the regressor. Very little overlap deprives the network of enough training values that are able to generalize with unseen queries, hence the increase in the error.
 
-One of the key problems with using different devices -- even if calibrated -- is the difference in field of view of one imaging device with respect to another.  A Nexus 4 smartphone and a wearable Google Glass were used to conduct experiments into the effect of the dictionary  on the localization using sub-cell localization. 
 
-A set of 10 journeys through one of the corridors of the RSM building with different devices was taken for this experiment.  Some of the journeys were included in the database, others were used to conduct queries.  The partitioning of the data was permuted, varying the number of journeys in the database and the number of query journeys kept out of the database.  Journeys which were used for queries did not contribute to the learning of a dictionary, which was varied for each permutation. Fig. \ref{fig:multiDevice} shows the difference in absolute error of Nexus and Glass queries when only passes from one device (in this case the Nexus) have been used for the dictionary learning. 
+The GRNN relied on the overlap of the responses of the place cells to perform location inference. By varying the threshold beyond which place cells are considered active, it is possible to have very long-tailed APC responses, spanning several metres.  This yields APC behaviour that is similar to that of rate-coding in place cells observed in biology. The blue trace on Fig.~\ref{fig:threshEval} shows an example of the average cell width in metres as the threshold on the $\kappa_{\chi^2}$ comparison metric is varied. The red trace illustrates the average error, also in metres, that is obtained from the GRNN regressor. Having low APC response overlap deprives the network of sufficient non-zero inputs, leading to poor accuracy in position inference.
+
+
+One of the key problems with using different cameras -- even if they are calibrated -- is the difference in field of view of one imaging device with respect to another.  A Nexus 4 smartphone and a wearable Google Glass were used to conduct experiments into the effect of the dictionary on the localisation using the sub-APC (GRNN) approach. 
+
+A set of 10 journeys through one of the corridors of the RSM building with different devices was taken for this experiment.  Some of the journeys were included in the database, others were used to conduct queries.  The partitioning of the data was permuted, varying the number of journeys in the database and the number of query journeys kept out of the database.  Journeys which were used for queries did not contribute to the learning of the dictionary, which was repeated for each permutation. Fig. \ref{fig:multiDevice}  shows the difference in absolute error of Nexus and Glass queries when only passes from one device (in this case, the Nexus) were used for the dictionary learning. 
 
 
 \begin{figure}[h!]
@@ -454,17 +455,17 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 
 \begin{table}[h]
 \centering
-    \begin{tabular}{lcccccc}
-    ~		 & \multicolumn{3}{c}{\textbf{Sub-APC localization}} & \multicolumn{3}{c}{\textbf{APC-level localization}} \\ \hline
-    \textbf{Method}        & $\mu_{|\epsilon|}$ (m) & Min (m) & Max (m) & $\mu_{|\epsilon|}$ (m) &  Min (m) & Max (m) \\ \hline
-    SIFT     & 3.42   & 0.38 & 6.47 & 4.48   & 0. 34 &  7.56\\ \hline
-    DSIFT    & 2.78   & 0.47 & 6.54  & 4.10   & 0.31 & 6.10 \\ \hline
-    SF-GABOR & 2.49   & 0.46 & 5.60 & 4.81   & 0.68  & 8.47 \\ \hline
-    ST-GABOR & 7.94   & 2.63 & 10.45 & 9.65   & 3.67 & 13.13\\ \hline
-    ST-GAUSS & 3.18   & 0.45 & 7.17 & 3.79   & 0.69  & 8.12 \\ \hline
-    LSD-SLAM & \multicolumn{2}{c}{$\mu_{|\epsilon|}$ = 2.48 m } & \multicolumn{2}{c}{$\sigma_{|\epsilon|}$ = 2.37 m} & 1.21 & 9.08 \\ \hline
+    \begin{tabular}{lcccccccc}
+    ~		 & \multicolumn{3}{c}{\textbf{Sub-APC Localisation}} & \multicolumn{3}{c}{\textbf{APC-level Localisation}} \\ \hline
+    \textbf{Method}        & $\mu_{|\epsilon|}$ (m) & $\sigma_{|\epsilon|}$ (m) & Min (m) & Max (m) & $\mu_{|\epsilon|}$ (m) & $\sigma_{|\epsilon|}$ (m)  &   Min (m) & Max (m) \\ \hline
+    SIFT     & 3.42 & 2.72 & 0.38 & 6.47 & 4.48  & 5.14  & 0. 34 &  7.56\\ \hline
+    DSIFT    & 2.78 & 2.45 & 0.47 & 6.54  & 4.10 & 5.64 & 0.31 & 6.10 \\ \hline
+    SF-GABOR & 2.49 & 2.07 & 0.46 & 5.60 & 4.81  & 7.11 & 0.68  & 8.47 \\ \hline
+    ST-GABOR & 7.94 & 5.54 & 2.63 & 10.45 & 9.65 & 9.19 & 3.67 & 13.13\\ \hline
+    ST-GAUSS & 3.18 & 2.64 & 0.45 & 7.17 & 3.79  & 5.44 & 0.69  & 8.12 \\ \hline
+    $\text{LSD-SLAM}^{(*)}$ & \multicolumn{2}{c}{$\mu_{|\epsilon|}$ = 2.48 m } & \multicolumn{2}{c}{$\sigma_{|\epsilon|}$ = 2.37 m} & Min: 1.21 m &  Max: 3.20 m \\ \hline
     \end{tabular}
-    \caption {Absolute error evaluation when using small widths of place cells (0.61 m) and therefore many place cells (40) and take a max() activation vs less (16) but larger place cells which overlap and use the regression network. The comparison with a state of the art SLAM method (LSD-SLAM) is also included. These results represent the most challenging \textbf{multi-device} scenario of using queries from the Nexus and the Glass when only using Nexus sequences during training.}
+    \caption {Absolute error evaluation when using a larger number (40) of APCs of small spatial support (0.61 m), using \texttt{arg max}() to infer spatial position, in contrast to using fewer (16) but larger APCs with substantial overlap and the regression network (sub-APC). The comparison with a state of the art SLAM method (LSD-SLAM) is also included.$^{(*)}$ LSD-SLAM performance is positively affected by the tracking recovery exception, which reduces the error drift by reseting the odometry calculation and the error of the pose-graph optimisation.}
     \label{table:methodComparison}
 \end{table}
 
@@ -640,7 +641,8 @@ Perhaps a greater problem, from a biological perspective, is that it is unclear 
 In third place, we have found that the best performing methods are SF-GABOR and SIFT (sparse and dense). This poses another question worth investigating and is that of the relationship of better performance with the closeness of the local patch description method with models of early vision. It is known that the 2D Gabor filters in SF/ST-GABOR descriptors present the orientation-selective simple cell receptive fields behavior of the primary visual cortex (V1). Similarly, the difference of Gaussians (DoG) space representation found in Lowe's SIFT keypoint detection may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behavior of complex cells in V1.
 
 
-In conclusion, the present work aims to demonstrate the ability of computational models of place cells to provide an effective visual localization that does not rely on tracking and at the same time motivate further work to create biologically inspired methods that albeit simple can match and complement sophisticated inference models.
+In conclusion, the work describes in this chapter demonstrates that computational models of place cells can provide effective estimates of camera location without relying on tracking or construction of a geometric model of the local environment. To our knowledge, there has been no reported computational architecture that reproduces biological place cell responses in the form of tuning curves from video sequences, and there have been no other demonstrable computational models for place cell positional encoding that can be applied to the recorded video sequences of the form we used in this work.  Furthermore, competing camera-based localisation techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate position: motion is therefore a requirement.  The place cell model that we have proposed and evaluated in this paper does not require motion at location estimation time: a single frame yields a hypothetical location.
+
 
 %*****************************************
 %*****************************************
