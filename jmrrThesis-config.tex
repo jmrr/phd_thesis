@@ -84,7 +84,15 @@
  \usepackage{babel}					
 
 \PassOptionsToPackage{square,numbers}{natbib}
- \usepackage{natbib}				
+ \usepackage{natbib}		
+ 
+% ******************************************************************** 
+% multibib 
+% ******************************************************************** 
+\usepackage[labeled,resetlabels]{multibib}
+\newcites{B}{Books}
+\newcites{J}{Journal articles}
+\newcites{C}{Peer reviewed conference proceedings}		
 
 \PassOptionsToPackage{fleqn}{amsmath}		% math environments and more by the AMS 
  \usepackage{amsmath}
