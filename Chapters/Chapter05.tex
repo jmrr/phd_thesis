@@ -455,6 +455,8 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 
 \begin{table}[h]
 \centering
+\begin{adjustbox}{max width=\textwidth}
+
     \begin{tabular}{lcccccccc}
     ~		 & \multicolumn{3}{c}{\textbf{Sub-APC Localisation}} & \multicolumn{3}{c}{\textbf{APC-level Localisation}} \\ \hline
     \textbf{Method}        & $\mu_{|\epsilon|}$ (m) & $\sigma_{|\epsilon|}$ (m) & Min (m) & Max (m) & $\mu_{|\epsilon|}$ (m) & $\sigma_{|\epsilon|}$ (m)  &   Min (m) & Max (m) \\ \hline
@@ -465,6 +467,7 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
     ST-GAUSS & 3.18 & 2.64 & 0.45 & 7.17 & 3.79  & 5.44 & 0.69  & 8.12 \\ \hline
     $\text{LSD-SLAM}^{(*)}$ & \multicolumn{2}{c}{$\mu_{|\epsilon|}$ = 2.48 m } & \multicolumn{2}{c}{$\sigma_{|\epsilon|}$ = 2.37 m} & Min: 1.21 m &  Max: 3.20 m \\ \hline
     \end{tabular}
+\end{adjustbox}
     \caption {Absolute error evaluation when using a larger number (40) of APCs of small spatial support (0.61 m), using \texttt{arg max}() to infer spatial position, in contrast to using fewer (16) but larger APCs with substantial overlap and the regression network (sub-APC). The comparison with a state of the art SLAM method (LSD-SLAM) is also included.$^{(*)}$ LSD-SLAM performance is positively affected by the tracking recovery exception, which reduces the error drift by reseting the odometry calculation and the error of the pose-graph optimisation.}
     \label{table:methodComparison}
 \end{table}
@@ -641,7 +644,7 @@ Perhaps a greater problem, from a biological perspective, is that it is unclear 
 In third place, we have found that the best performing methods are SF-GABOR and SIFT (sparse and dense). This poses another question worth investigating and is that of the relationship of better performance with the closeness of the local patch description method with models of early vision. It is known that the 2D Gabor filters in SF/ST-GABOR descriptors present the orientation-selective simple cell receptive fields behavior of the primary visual cortex (V1). Similarly, the difference of Gaussians (DoG) space representation found in Lowe's SIFT keypoint detection may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behavior of complex cells in V1.
 
 
-In conclusion, the work describes in this chapter demonstrates that computational models of place cells can provide effective estimates of camera location without relying on tracking or construction of a geometric model of the local environment. To our knowledge, there has been no reported computational architecture that reproduces biological place cell responses in the form of tuning curves from video sequences, and there have been no other demonstrable computational models for place cell positional encoding that can be applied to the recorded video sequences of the form we used in this work.  Furthermore, competing camera-based localisation techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate position: motion is therefore a requirement.  The place cell model that we have proposed and evaluated in this paper does not require motion at location estimation time: a single frame yields a hypothetical location.
+In conclusion, the work described in this chapter demonstrates that computational models of place cells can provide effective estimates of camera location without relying on tracking or construction of a geometric model of the local environment. To our knowledge, there has been no reported computational architecture that reproduces biological place cell responses in the form of tuning curves from video sequences, and there have been no other demonstrable computational models for place cell positional encoding that can be applied to the recorded video sequences of the form we used in this work.  Furthermore, competing camera-based localisation techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate position: motion is therefore a requirement.  The place cell model that we have proposed and evaluated in this chapter does not require motion at location estimation time: a single frame yields a hypothetical location.
 
 
 %*****************************************
