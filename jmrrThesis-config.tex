@@ -105,7 +105,7 @@
 \usepackage{textcomp} % fix warning with missing font shapes
 \usepackage{scrhack} % fix warnings when using KOMA with listings package          
 \usepackage{xspace} % to get the spacing after macros right  
-\usepackage{mparhack} % get marginpar right
+%\usepackage{mparhack} % get marginpar right
 \usepackage{fixltx2e} % fixes some LaTeX stuff 
 \PassOptionsToPackage{printonlyused,smaller}{acronym}
 	\usepackage{acronym} % nice macros for handling all acronyms in the thesis
@@ -356,3 +356,73 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \def\tens#1{\ensuremath{\mathsf{#1}}}
+
+% ******************************************************************** 
+% Natbib and multibib patch
+% ******************************************************************** 
+
+\makeatletter
+\AtBeginDocument{%
+  \@ifpackageloaded{suthesis}%
+    {\def\thebibliography#1{%
+       \newpage
+       \addcontentsline{toc}{chapter}{\bibname}%
+       \@ldthebibliography{#1}}}%
+    {}%
+  \@ifpackageloaded{natbib}%
+    {%
+
+\renewenvironment{thebibliography}[1]{%
+\parindent \z@\bibsection\bibpreamble\bibfont\list
+   {\@biblabel{\arabic{NAT@ctr}}}{\@bibsetup{#1}%
+    \usecounter{NAT@ctr}}% %% only changed here to usecounter
+    \ifNAT@openbib
+      \renewcommand\newblock{\par}
+    \else
+      \renewcommand\newblock{\hskip .11em \@plus.33em \@minus.07em}%
+    \fi
+    \sloppy\clubpenalty4000\widowpenalty4000
+    \sfcode`\.=1000\relax
+    \let\citeN\cite \let\shortcite\cite
+    \let\citeasnoun\cite
+ }{\def\@noitemerr{%
+  \PackageWarning{natbib}
+     {Empty `thebibliography' environment}}%
+  \endlist\vskip-\lastskip}
+
+      \let\std@thebibliography\thebibliography
+      \def\thebibliography#1{%
+        \@isnumber{#1}%
+        {\ifnum\mb@biblabelwidth=0
+          \@tempcnta\c@NAT@ctr %% changed here to c@NAT@ctr
+          \ifcontinuouslabels
+          \advance\@tempcnta#1%
+          \fi
+          \std@thebibliography{\@arabic\@tempcnta}%
+          \else
+          \std@thebibliography{\@arabic\mb@biblabelwidth}%
+        \global\mb@biblabelwidth 0
+        \fi}%
+        {\std@thebibliography{#1}}%
+     }%
+   }%
+   {% else, natbib not loaded
+     \let\std@thebibliography\thebibliography
+
+     \def\thebibliography#1{%
+        \@isnumber{#1}%
+          {\ifnum\mb@biblabelwidth=0
+            \@tempcnta\c@enumiv
+            \ifcontinuouslabels
+            \advance\@tempcnta#1%
+            \fi
+            \std@thebibliography{\@arabic\@tempcnta}%
+            \else
+            \std@thebibliography{\@arabic\mb@biblabelwidth}%
+          \global\mb@biblabelwidth 0
+          \fi}%
+        {\std@thebibliography{#1}}%
+    }%
+   }%
+}
+\makeatother
