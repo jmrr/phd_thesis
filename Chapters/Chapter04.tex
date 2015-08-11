@@ -84,7 +84,19 @@ We evaluated the performance of several approaches to matching image queries tak
 \end{figure}
 
 \subsection{Frame-Level Descriptor}
-Based on the use of optical flow in motion estimation~\citep{Weickert2006} and space-time descriptors in action recognition \citep{Wang2009} we estimated in-plane motion vectors using a simple approach.  We first applied derivative filters along $(x,y,t)$ dimensions, yielding a 2D$+t$, i.e. spatio-temporal, gradient field.  To capture variations in chromatic content from the visual sequence, we computed these spatio-temporal gradients separately for each of the three RGB channels of the pre-processed video sequences.  This yielded a $3\times 3$ matrix at each point in space.  Temporal smoothing was applied along the time dimension, with a support of 11 neighbouring frames. Finally, the components of the matrix were each averaged (pooled) over 16 distinct spatial regions, not very dissimilar to those to be described later in this paper.   For each visual path, this yielded 144 signals, of length approximately equal to the video sequences.  An illustration of the time series for one visual path is shown in Fig.~\ref{fig:Traces}.
+Based on the use of optical flow in motion estimation~\citep{Weickert2006} and space-time descriptors in action recognition \citep{Wang2009} we estimated in-plane motion vectors using a simple approach.  We first applied derivative filters along $(x,y,t)$ dimensions, yielding a 2D$+t$, i.e. spatio-temporal, gradient field.  To capture variations in chromatic content from the visual sequence, we computed these spatio-temporal gradients separately for each of the three RGB channels of the pre-processed video sequences.  This yielded a $3\times 3$ matrix at each point in space, effectively the product of the \textit{chromatic Jacobian} (Eq.~\ref{CJ}).  Temporal smoothing was applied along the time dimension, with a support of 11 neighbouring frames. Finally, the components of the matrix were each averaged (pooled) over 16 distinct spatial regions, not very dissimilar to those to be described later in this paper.   For each visual path, this yielded 144 signals, of length approximately equal to the video sequences.  An illustration of the time series for one visual path is shown in Fig.~\ref{fig:Traces}.
+
+
+\begin{equation}
+\mathbf{J} = \left (
+\begin{array}{ccc}
+\frac{\partial I_r}{\partial_x} & \frac{\partial I_r}{\partial_y}   & \frac{\partial I_r}{\partial_t} \\
+\frac{\partial I_g}{\partial_x}   & \frac{\partial I_g}{\partial_y}  &  \frac{\partial I_g}{\partial_t} \\
+\frac{\partial I_b}{\partial_x}  & \frac{\partial  I_b}{\partial_y}  &  \frac{\partial I_b}{\partial_t} 
+\end{array} 
+\right )
+\label{eq:CJ}
+\end{equation}
 
 \begin{figure}
 \begin{center}
@@ -103,7 +115,7 @@ LOR.  Our observations from the components of this descriptor are that a) relati
 
 \paragraph{Keypoint based SIFT (KP\_SIFT).}
 
-The original implementation of Lowe's SIFT descriptor follows the extraction of interesting points in the image that are stable to certain transformations, the ``SIFT keypoints'' \cite{Lowe2004}. This is widely used across many branches of computer vision, from object recognition to motion detection and SLAM. We used the standard implementation from VLFEAT \cite{Vedaldi2008} to compute $\vec{\nabla}f(x,y;\sigma)$ where $f(x,y;\sigma)$ represents the embedding of image $f(x,y)$ within a Gaussian scale-space at scale $\sigma$. We set the parameter \emph{PeakThresh} to 0 to filter out small local maxima in scale-space.
+The original implementation of Lowe's SIFT descriptor follows the extraction of interesting points in the image that are stable to certain transformations, the ``SIFT keypoints'' \cite{Lowe2004}. This is widely used across many branches of computer vision, from object recognition to motion detection and SLAM. We used the standard implementation from VLFEAT \cite{Vedaldi2008} to compute $\vec{\nabla}f(x,y;\sigma)$ where $f(x,y;\sigma)$ represents the embedding of image $f(x,y)$ within a Gaussian scale-space at scale $\sigma$. The parameter \emph{PeakThresh}, $t_p$ is used to filter out small local maxima in scale-space that might be originated by noise. Given the small size of the frames in our sequences we selected the minimum threshold $t_p = 0$.
 
 \paragraph{Dense SIFT (DSIFT).}
 
@@ -288,7 +300,7 @@ The methods for a) describing spatial or space-time structure, b) indexing and c
 
 Error distributions allow us to quantify the accuracy of being able to estimate {\em locations} along physical paths within the RSM dataset described in Section~\ref{sec:Dataset}. To generate the error distributions, we did the following: 
 
-We started by using the kernels calculated in Section~\ref{sec:kernel_encodings}. One kernel is shown in Fig.~\ref{fig:kernel}, where the rows represent each frame from the query pass, and the columns represent each frame from one of the remaining database passes of that corridor. The values of the kernel along a row represent a ``score'' between a query and different database frames given by applying the kernel mapping functions described in \citep{Vedaldi2012} for the $chi^2$ and Hellinger kernel depending on the case. In this experiment, we associated the position of the best match to the query frame, and calculated the error between this and the ground truth $\epsilon$, in m. We used the ground-truth information acquired as described in Section \ref{sec:Dataset}. 
+We started by using the kernels calculated in Section~\ref{sec:kernel_encodings}. One kernel is shown in Fig.~\ref{fig:kernel}, where the rows represent each frame from the query pass, and the columns represent each frame from one of the remaining database passes of that corridor. The values of the kernel along a row represent a ``score'' between a query and different database frames given by applying the kernel mapping functions described in \citep{Vedaldi2012} for the $\chi^2$ and Hellinger kernel depending on the case. In this experiment, we associated the position of the best match to the query frame, and calculated the error between this and the ground truth $\epsilon$, in m. We used the ground-truth information acquired as described in Section \ref{sec:Dataset}. 
 
 In order to characterise the reliability of such scores, we performed bootstrap estimates of error distributions using 1 million trials. The distribution of the errors gives us a probability density estimate, from which we can get the cumulative distribution function (CDF) $P(x \leq |\epsilon|)$. 
 
