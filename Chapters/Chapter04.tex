@@ -113,15 +113,15 @@ LOR.  Our observations from the components of this descriptor are that a) relati
 \subsection{Local descriptors}
 \label{sec:descriptors}
 
-\paragraph{Keypoint based SIFT (KP\_SIFT).}
+\subsubsection{Keypoint based SIFT (KP\_SIFT).}
 
 The original implementation of Lowe's SIFT descriptor follows the extraction of interesting points in the image that are stable to certain transformations, the ``SIFT keypoints'' \cite{Lowe2004}. This is widely used across many branches of computer vision, from object recognition to motion detection and SLAM. We used the standard implementation from VLFEAT \cite{Vedaldi2008} to compute $\vec{\nabla}f(x,y;\sigma)$ where $f(x,y;\sigma)$ represents the embedding of image $f(x,y)$ within a Gaussian scale-space at scale $\sigma$. The parameter \emph{PeakThresh}, $t_p$ is used to filter out small local maxima in scale-space that might be originated by noise. Given the small size of the frames in our sequences we selected the minimum threshold $t_p = 0$.
 
-\paragraph{Dense SIFT (DSIFT).}
+\subsubsection{Dense SIFT (DSIFT).}
 
 The Dense-SIFT (DSIFT) descriptor \citep{Lazebnik2006} is a popular  alternative to keypoint based SIFT. It sacrifices some invariance properties available with keypoint-based SIFT, producing descriptors that are densely, rather than sparsely, distributed across the image. This DSIFT descriptor was calculated by  sampling of the smoothed estimate of $\vec{\nabla}f(x,y;\sigma)$.  We used the implementation of the VLFEAT toolbox, setting $\sigma = 1.2$, with a stride length of 3 pixels. This  yielded around $2,000$ descriptors per frame, each describing a patch of roughly $10 \times 10$ pixels.  \\
 
-\paragraph{Single Frame Gabor descriptors (SF\_GABOR).}
+\subsubsection{Single Frame Gabor descriptors (SF\_GABOR).}
 
 An alternative single frame technique based on a tuned, odd-symmetric Gabor-based descriptor is the SF\_GABOR. For this, we used $8$-directional spatial Gabor filters previously tuned on PASCAL VOC data \cite{Everingham2009} in order to provide an implicit encoding of the orientation of local image structures.  Each filter gives rise to a filtered image plane, denoted $\mathbf{G}_{k,\sigma}$.  For each plane, we compute the discrete spatial convolution, $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$, with a series of pooling functions, ${\Phi}_{m,n}$. The latter are produced by spatial sampling of the function:
 
@@ -139,7 +139,7 @@ An alternative single frame technique based on a tuned, odd-symmetric Gabor-base
 \label{fig:IsoPool}
 \end{figure}
 
-\paragraph{Space-Time descriptors.}
+\subsubsection{Space-Time descriptors.}
 %We therefore chose to explore a denser sampling of the image through capturing patterns over space-time patches in a dense fashion.  We tried three approaches to achieve this.  These are a) the HOG3D descriptor from \cite{Klaser2008}; and two novel techniques, one b) based on antisymmetric Gabor functions of space and time; and one c) incorporating smoothing in time, and gradients in space.  These approaches are somewhat similar to that described in Section \ref{sec:ODPF}, in the sense of using spatial derivatives and incorporating information across time, increasing description accuracy at the expense of computational load (see Table~\ref{table:comput_load}).  A further point to note is that the methods in this section do not make use of colour, using grey-scale information only from the intensity channel of HSI space. Although discarding an important potential visual cue of location, this allowed us to compare performance against a previously described method of HOG3D, providing some confidence that the new techniques are at least comparable to methods already in use.  
 %
 %The three approaches described in this section require two additional processes. First, an explicit calculation of the direction of the space-time, or gradient vector, that encodes visual motion is carried out.  Secondly, to reduce the information obtained from a dense collection of descriptors so as to make frame-by-frame query possible, a dictionary-learning approach was taken to map descriptors to atoms, then to map atoms to histograms for the database and queries.  This increased complexity does not greatly affect run-time queries when efficiently implemented, but does contribute to on-line vocabulary building and encoding in order to enable efficient performance at query time.
@@ -210,7 +210,7 @@ where $H_{p,f}$ denotes the series of normalised histogram encodings, indexed by
 \section{Experiments}
 \label{sec:exp_methods}
 
-\subsection{Data acquisition and ground truth}
+\subsection{The RSM dataset: data acquisition and ground truth}
 \label{sec:Dataset}
 
 A total of 60 videos were acquired from 6 corridors of a large building.  Two different devices were used for the acquisition, with 30 videos each. One was an LG Google Nexus 4 phone running Android 4.4.2.  The video data was acquired at approximately 24-30 fps at two different resolutions, $1280 \times 720$ and $1920\times 1080$ pixels.  Google Glass (Explorer edition) was used at a resolution of $1280 \times 720$, at a frame rate of 30 fps.  A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$ was used to record distance, but was modified by wiring its encoder to a Raspberry Pi running a number of measurement processes.  The Pi was synchronised to network time, enabling synchronisation with timestamps in the video sequence.  Because of the variable-frame rate of acquisition, timestamp data from the video was used to align ground-truth measurements with frames. This data was used to assess the accuracy of associating positions along journeys through frame indexing and comparison.
@@ -297,14 +297,14 @@ The methods for a) describing spatial or space-time structure, b) indexing and c
 
 
 \subsubsection{Error distributions}
-
+\label{sec:CDFs}
 Error distributions allow us to quantify the accuracy of being able to estimate {\em locations} along physical paths within the RSM dataset described in Section~\ref{sec:Dataset}. To generate the error distributions, we did the following: 
 
 We started by using the kernels calculated in Section~\ref{sec:kernel_encodings}. One kernel is shown in Fig.~\ref{fig:kernel}, where the rows represent each frame from the query pass, and the columns represent each frame from one of the remaining database passes of that corridor. The values of the kernel along a row represent a ``score'' between a query and different database frames given by applying the kernel mapping functions described in \citep{Vedaldi2012} for the $\chi^2$ and Hellinger kernel depending on the case. In this experiment, we associated the position of the best match to the query frame, and calculated the error between this and the ground truth $\epsilon$, in m. We used the ground-truth information acquired as described in Section \ref{sec:Dataset}. 
 
 In order to characterise the reliability of such scores, we performed bootstrap estimates of error distributions using 1 million trials. The distribution of the errors gives us a probability density estimate, from which we can get the cumulative distribution function (CDF) $P(x \leq |\epsilon|)$. 
 
-By permuting the paths that are held in the database and randomly selecting queries from the remaining path, we were able to assess the error distributions in localization.  Repeated runs with random selections of groups of frames allowed the variability in these estimates to be obtained, including that due to different numbers of paths and passes being within the database. 
+By permuting the paths that are held in the database and randomly selecting queries from the remaining path, we were able to assess the error distributions in localization.  Repeated runs with random selections of groups of frames allowed the variability in these estimates to be obtained, including that due to different numbers of paths and passes being within the database. In Appendix \ref{appendixCDF} we describe the algorithm to generate the cumulative distribution functions (CDFs) in more detail. 
 
 The outcome is shown in Fig.~\ref{fig:CDFall}, where the variability in the lines indicate the range of the results obtained from bootstrapping the observations. The results will be described in the following section.
 
@@ -418,6 +418,7 @@ As described in the previous section, by permuting the database paths and select
 
 
 \subsection{Performance Summaries}
+\label{visloc_perf}
 We calculated the average of the absolute positional error (in m) and the standard deviation of the absolute positional error in a subset of the complete RSM dataset (Table~\ref{Table:summaries}). We  used a leave-one-journey-out approach (all the frames from an entire journey are excluded from the database).  Using bootstrap sampling, we also estimated the cumulative density functions of the error distributions in position, which are plotted in Fig.~\ref{fig:CDFall}. The variability in these curves is not shown, but is summarized in the last two columns of Table~\ref{Table:summaries} through the area-under-curve (AUC) values. In the best case (SF\_GABOR), AUCs of the order of $~96\%$ would mean errors generally below 2 m; in the worst (HOG3D), AUCs $\approx$ 90\% would mean errors of around 5 m.  These  mean absolute error estimates are obtained as we permute the queries, the dictionary and the paths in the database. 
 
 
@@ -474,7 +475,74 @@ The results of the comparison were surprising, and somewhat unsatisfactory. The 
 \subsection{Comparison with state-of-the-art SLAM: LSD-SLAM}
 
 
-The best performing SLAM method at the time of writing is LSD-SLAM... \td{Decide where to put it}{Relocate here from chapter 5, leave in both places?}
+We benchmarked our best performing appearance-based method, SF-GABOR against the state-of-the-art in SLAM methods for indoor sequences at the time of writing, LSD-SLAM.
+
+For this, we ran the LSD-SLAM code over our 60 video sequences and retrieved the results from its visual odometry engine to gather a position estimate for each processed frame, comparable to the results we had for the appearance-based methods. 
+
+As our cameras are far from the ideal models that are recommended by LSD-SLAM authors (monochrome global-shutter camera with fish eye lens) we modified their software to recover the lost tracking when this happened and tweaked the semi-dense SLAM parameters to adapt best to our conditions and data. In \ref{sec:slampars} we provide the values that we used for our simulations.
+
+\subsubsection{Performance of LSD-SLAM on RSM dataset sequences}
+
+Fig. \ref{fig:slamperf} (a) and (b) reproduce the localization performance of LSD-SLAM (blue) with respect to the ground truth (red). We have chosen a case of good and fairly average performance. As it can be seen from the figures, in the best of cases the absolute error is below 2. 
+
+\begin{figure}
+	\centering
+	\subfloat[(a)][Good performance in LSD-SLAM.]{
+	%\setlength\figureheight{0.5\textwidth}	
+	%\setlength\figurewidth{0.8\textwidth}
+	%\input{gfx/Chapter06/tikz/lsd_slam_performance_good.tex} %TIKZ
+	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_good.pdf}
+	}
+	
+	\subfloat[(b)][An example of fairly average performance in LSD-SLAM.]{
+	%\setlength\figureheight{0.5\textwidth}
+	%\setlength\figurewidth{0.8\textwidth}
+	%\input{gfx/Chapter06/tikz/lsd_slam_performance_normal.tex} %TIKZ
+	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_normal.pdf}
+	}
+	\caption{Examples of good and mediocre localization performance in LSD-SLAM for indoor localization in the RSM corridor dataset.}
+	\label{fig:slamperf}
+\end{figure}
+
+
+\subsubsection{CDF Comparisons}
+
+CDFs, as introduced in Section \ref{sec:CDFs} illustrate very well differences in the performance of methods when we are interested in the probability of an error being below a certain  meaningful figure, as it is in our localization case. As we can see from Fig. \ref{fig:cdf} our appearance based method outperforms LSD-SLAM for our particular indoor case provided the availability of a rich dataset of visual paths. However, localization systems should aim for a combined solution, as LSD-SLAM seems to perform quite well given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of our proposed solutions \citep{Rivera-Rubio2015PRL} or a combination of both.
+
+\subsubsection{Reproducibility errors}
+
+Another comparison is illustrated by Fig. \ref{fig:reprod}. These are RSM corridors 1 and 3 (C1 and C3) average reproducibilities for multiple ``leave one out'' passes. These diagrams show how whilst LSD-SLAM reports worse average results in terms of errors it has a localization error consistency comparable to that of SF-GABOR, and better than that, errors rarely go beyond the 5 meters boundary, with an average of $\mu_e = 2.48 \pm 2.37$ m. Conversely, SF-GABOR present outliers, but for some sequences the error is consistently below 1 m ($\mu_e = 1.31 \pm 0.39$), supporting its suitability for the indoor localization context.
+
+\begin{figure}
+\centering
+\subfloat[C1 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1GabRepro.pdf}}
+\subfloat[C3 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corr3LocGabRepro.pdf}}
+
+
+\subfloat[C1 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1SLAMReproducibility.pdf}}
+\subfloat[C3 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor3SLAMReproducibility.pdf}}
+
+\caption{C1 and C3 average reproducibilities for multiple ``leave one out'' passes. The top row corresponds to SF-GABOR results. Bottom row shows the reproducibility for LSD-SLAM.}
+\label{fig:reprod}
+\end{figure}
+
+
+
+\begin{figure}
+\centering
+%\setlength\figureheight{0.6\textwidth}
+%\setlength\figurewidth{0.8\textwidth}
+%\input{gfx/Chapter06/tikz/sfgabor_vs_lsdslam.tex} %
+\includegraphics[width=0.8\textwidth]{gfx/Chapter06/SF_GABORvsLSD_SLAM.pdf}
+\caption{CDF of SF-GABOR and LSD-SLAM when sampling 1000 random queries from all the error measurements. The width of the curves represent the variability of the result data. The bounds are the maximum and minimum CDF values obtained from the Monte-Carlo sampling.}
+\label{fig:cdf}
+\end{figure}
+
+
+\subsubsection{Area-Under-Curve Comparisons}
+In \ref{visloc_perf} we calculated the average absolute positional error (in m) and the standard deviation of the absolute positional errors for a variety of methods. We reproduce here the AUC results for the method SF-GABOR, which ranged from 96.11\% to 96.39\%. For the case of LSD-SLAM, the AUC ranged from 89.71\% to 90.61\% All queries were again performed by adopting the leave-one-out strategy, but because of the high repeatability of results, we did not apply random frame-level sampling.  
+
+
 
 
 %------------------------------------------------------------------------- 
