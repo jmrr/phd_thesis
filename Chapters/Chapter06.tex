@@ -3,9 +3,11 @@
 \section{Introduction}
 \label{sec:Intro}
 
+We have covered the topic of navigation extensively in Chapters \ref{ch:chapter4} and \ref{ch:chapter5}, however we have not considered the user's perspective in detail. In this chapter we take a user centric approach and focus on the design of an application that serves those for which navigation is most difficult: the blind and partially sighted.
+
 \subsection{The problem of navigation}
 
-Navigation might seem a very natural task: usually, it involves travelling along a path that we have previously visited and learned. At other times, navigation might require us to follow a new and unseen path, creating uncertainty that triggers the need for planning and evaluating possible directions and movements as we progress along an unfamiliar route towards a destination. Finding our way in unfamiliar environments requires certain skills~\citep{foulke1982perception}, such as map reading and/or using a compass. At other times, external cues can help us find our way to a destination: signs, indications from other people, etc. Nowadays, the Internet and mobile technologies have gathered many instruments and knowledge to the point where location information and path planning is almost immediate, and can be made available on a single device: the problem of navigation is reduced, in outdoor contexts, to the simple act of following the indications of a ``GPS Navigator'' or ``SatNav''~\citep{spirkovska2005summary}.
+ Navigation might seem a very natural task: usually, it involves travelling along a path that we have previously visited and learned. At other times, navigation might require us to follow a new and unseen path, creating uncertainty that triggers the need for planning and evaluating possible directions and movements as we progress along an unfamiliar route towards a destination. Finding our way in unfamiliar environments requires certain skills~\citep{foulke1982perception}, such as map reading and/or using a compass. At other times, external cues can help us find our way to a destination: signs, indications from other people, etc. Nowadays, the Internet and mobile technologies have gathered many instruments and knowledge to the point where location information and path planning is almost immediate, and can be made available on a single device: the problem of navigation is reduced, in outdoor contexts, to the simple act of following the indications of a ``GPS Navigator'' or ``SatNav''~\citep{spirkovska2005summary}.
 
 Indoors, the problem can be more complex and the technologies that make navigation an easy task outdoors do not always work inside buildings. Navigation can be more ambiguous (corridors, halls), and despite the fact that, in global terms, we are restricted to moving over a relatively small region of the surface of the earth, some buildings can have vast internal dimensions, e.g. universities, museums, government buildings and ministries, shopping centres, airports and many others. The nature of the navigation problem is different to outdoor navigation, and the frustration of getting lost in indoor environments increases since the immediacy that is achieved outdoors with automotive and naval navigation cannot be easily matched.
  
@@ -54,7 +56,7 @@ Finally, an integrated indoor/outdoor navigation system for the blind is Drishti
 
 The extended use, minimal cost and increasing quality of modern cameras have brought the use of visual information for assistive devices one step closer to reality. Moreover, the inclusion of these cameras in mobile devices such as phones or tablets has boosted the familiarity of users with both the use of cameras themselves and camera-based mobile applications.
 
-One outcome of the proliferation of these cameras is the development of structure from motion algorithms that can infer 3D models of cities \citep{agarwal2011building} by means of photographs taken by visitors to popular city landmarks. Using such images trawled from the internet \citep{snavely2006photo}, bundle adjustment can be used to reconstruct the 3D information about buildings in within well-photographed locations in addition to the camera pose of every photograph. Using models of a scene constructed in this way, the position and pose of a camera from a sequence of new photographs taken from a mobile device might be used as a source of ``visual'' navigation information by the same approach of bundle adjustment \citep{ventura2014global}.  However, bundle adjustment is an iterative error minimisation algorithm, and its computational load is still large for real-time use at scale.  Furthermore, it is not entirely clear how geometric information that is acquired from such models could be updated.
+As we have detailed in previous sections of this thesis, one outcome of the proliferation of these cameras is the development of structure from motion algorithms that can infer 3D models of cities \citep{agarwal2011building} by means of photographs taken by visitors to popular city landmarks. Using such images trawled from the internet \citep{snavely2006photo}, bundle adjustment can be used to reconstruct the 3D information about buildings in within well-photographed locations in addition to the camera pose of every photograph. Using models of a scene constructed in this way, the position and pose of a camera from a sequence of new photographs taken from a mobile device might be used as a source of ``visual'' navigation information by the same approach of bundle adjustment \citep{ventura2014global}.  However, bundle adjustment is an iterative error minimisation algorithm, and its computational load is still large for real-time use at scale.  Furthermore, it is not entirely clear how geometric information that is acquired from such models could be updated.
 
 Another important branch of vision based navigation technique can be found in robotics. Visual SLAM \citep{konolige2007frame}, \citep{engelhard2011real},\citep{neira2008guest} (Simultaneous Localization and Mapping) provides a real time reconstruction of the scene by using stereo cameras (stereoSLAM) or a single one (monoSLAM). Though SLAM is often described for its ability to infer a geometric model of a scene, it also estimates a camera trajectory.  The combination of the two is a powerful source of navigation information. In addition, in subsequent journeys along the same route, geometric information can be refined and also used for refinement of camera pose estimates.
 
@@ -288,24 +290,25 @@ This design allows us to easily extend the server's functionality to include cap
 \label{sec:experiments}
 
 \subsection{Dataset}
-\label{sec:Dataset}
-For this experiments we use the sequences from the RSM dataset which acquisition and details were described in \ref{ch:chapter4}. The dataset is publicly available for download at \url{http://rsm.bicv.org} \citep{Rivera-RubioRSM}.
+For this experiments we use the sequences from the RSM dataset which acquisition and details were described in \ref{sec:Dataset}. The dataset is publicly available for download at \url{http://rsm.bicv.org} \citep{Rivera-RubioRSM}.
 
 
 \subsection{Experiments on localization: Appearance based methods vs SLAM}
 
-We benchmarked our best performing appearance-based method, SF-GABOR against the state-of-the-art in SLAM methods for indoor sequences, LSD-SLAM.
-
-For this, we ran the LSD-SLAM code over our 60 video sequences and retrieved the results from its visual odometry engine to gather a position estimate for each processed frame, comparable to the results we had for the appearance-based methods. 
-
-As our cameras are far from the ideal models that are recommended by LSD-SLAM authors (monochrome global-shutter camera with fish eye lens) we modified their software to recover the lost tracking when this happened and tweaked the semi-dense SLAM parameters to adapt best to our conditions and data. In \ref{sec:slampars} we provide the values that we used for our simulations.
-
-\subsubsection{Measurements of Performance}
-
-We quantify the accuracy of being able to associate {\em locations} along physical paths in corridors within the dataset described in Section~\ref{sec:Dataset}. By permuting the paths that are held in the database and randomly selecting queries from the remaining path, we were able to obtain the error in localization.  Repeated runs with random selections of groups of frames allowed variability in these estimates to be obtained, including those due to different paths being within the database. To estimate these distributions, we measured the absolute error in localization as a distance, $|\epsilon|$, relative to route ground truth, summarizing this as estimates of $P(|\epsilon| < x)$. For this, we used the ground truth information acquired as described in Section \ref{sec:dataset}.  
-
-\subsubsection{Cumulative Distribution Functions}
-Cumulative distribution functions allowed us to compare the error distributions of all techniques in \citep{Rivera-Rubio2015PRL}.  We also assessed the variability in error distribution when 1 million permuted queries are performed by cycling through 1,000 permutations of 1,000 randomly selected queries.  This Monte-Carlo approach to testing accuracy allows the stability of approaches to be assessed. The graphs here suggest high reproducibility of retrieval performance (small shaded areas between lower and upper traces of each graph).  All the results were generated with videos resized down to $208 \times 117$ pixels; these are also supplied with the dataset. We used this metric to compare the performance of different appearance-based methods and we used it in this work to compare the performance of our best appearance-based method (SF-GABOR) and the LSD-SLAM. In Section \ref{sec:results} we describe the main findings of this comparison.
+\td{Write}{Complete with SIFT and brief mention at measurements of performance}
+%
+%We benchmarked our best performing appearance-based method, SF-GABOR against the state-of-the-art in SLAM methods for indoor sequences, LSD-SLAM.
+%
+%For this, we ran the LSD-SLAM code over our 60 video sequences and retrieved the results from its visual odometry engine to gather a position estimate for each processed frame, comparable to the results we had for the appearance-based methods. 
+%
+%As our cameras are far from the ideal models that are recommended by LSD-SLAM authors (monochrome global-shutter camera with fish eye lens) we modified their software to recover the lost tracking when this happened and tweaked the semi-dense SLAM parameters to adapt best to our conditions and data. In \ref{sec:slampars} we provide the values that we used for our simulations.
+%
+%\subsubsection{Measurements of Performance}
+%
+%We quantify the accuracy of being able to associate {\em locations} along physical paths in corridors within the dataset described in Section~\ref{sec:Dataset}. By permuting the paths that are held in the database and randomly selecting queries from the remaining path, we were able to obtain the error in localization.  Repeated runs with random selections of groups of frames allowed variability in these estimates to be obtained, including those due to different paths being within the database. To estimate these distributions, we measured the absolute error in localization as a distance, $|\epsilon|$, relative to route ground truth, summarizing this as estimates of $P(|\epsilon| < x)$. For this, we used the ground truth information acquired as described in Section \ref{sec:dataset}.  
+%
+%\subsubsection{Cumulative Distribution Functions}
+%Cumulative distribution functions allowed us to compare the error distributions of all techniques in \citep{Rivera-Rubio2015PRL}.  We also assessed the variability in error distribution when 1 million permuted queries are performed by cycling through 1,000 permutations of 1,000 randomly selected queries.  This Monte-Carlo approach to testing accuracy allows the stability of approaches to be assessed. The graphs here suggest high reproducibility of retrieval performance (small shaded areas between lower and upper traces of each graph).  All the results were generated with videos resized down to $208 \times 117$ pixels; these are also supplied with the dataset. We used this metric to compare the performance of different appearance-based methods and we used it in this work to compare the performance of our best appearance-based method (SF-GABOR) and the LSD-SLAM. In Section \ref{sec:results} we describe the main findings of this comparison.
 
 \subsection{Blindfolded users with the tactile sensing}
 \subsubsection{Aim}
@@ -347,64 +350,67 @@ Thirteen volunteers were asked to conduct the following steps:
 \subsection{Performance of vision algorithms}
 In this section we will report the performance of our best appearance-based method and compare it with the state of the art in indoor localization: LSD-SLAM. In the first subsection the metric will be the cumulative distribution function and in the second area under the curve AUC comparisons.
 
-\subsubsection{Performance of LSD-SLAM}
-
-Fig. \ref{fig:slamperf} (a) and (b) reproduce the localization performance of LSD-SLAM (blue) with respect to the ground truth (red). We have chosen a case of good and fairly average performance. As it can be seen from the figures, in the best of cases the absolute error is below 2. 
-
-\begin{figure}
-	\centering
-	\subfloat[(a)][Good performance in LSD-SLAM.]{
-	%\setlength\figureheight{0.5\textwidth}	
-	%\setlength\figurewidth{0.8\textwidth}
-	%\input{gfx/Chapter06/tikz/lsd_slam_performance_good.tex} %TIKZ
-	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_good.pdf}
-	}
-	
-	\subfloat[(b)][An example of fairly average performance in LSD-SLAM.]{
-	%\setlength\figureheight{0.5\textwidth}
-	%\setlength\figurewidth{0.8\textwidth}
-	%\input{gfx/Chapter06/tikz/lsd_slam_performance_normal.tex} %TIKZ
-	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_normal.pdf}
-	}
-	\caption{Examples of good and mediocre localization performance in LSD-SLAM for indoor localization in the RSM corridor dataset.}
-	\label{fig:slamperf}
-\end{figure}
-
-
-\subsubsection{CDF Comparisons}
-
-In Appendix \ref{appendixCDF} we describe the algorithm to generate the cumulative distribution functions (CDFs). CDFs illustrate very well differences in the performance of methods when we are interested in the probability of an error being below a certain  meaningful figure, as it is in our localization case. As we can see from Fig. \ref{fig:cdf} our appearance based method outperforms LSD-SLAM for our particular indoor case provided the availability of a rich dataset of visual paths. However, localization systems should aim for an combined solution, as LSD-SLAM seems to perform quite well given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of our proposed solutions \citep{Rivera-Rubio2015PRL} or a combination of both.
-
-Another comparison is illustrated by Fig. \ref{fig:reprod}. These are RSM corridors 1 and 3 (C1 and C3) average reproducibilities for multiple ``leave one out'' passes. These diagrams show how whilst LSD-SLAM reports worse average results in terms of errors it has a localization error consistency comparable to that of SF-GABOR, and better than that, errors rarely go beyond the 5 meters boundary, with an average of $\mu_e = 2.48 \pm 2.37$ m. Conversely, SF-GABOR present outliers, but for some sequences the error is consistenly below 1 m ($\mu_e = 1.31 \pm 0.39$), supporting its suitability for the indoor localization context.
-
-\begin{figure}
-\centering
-\subfloat[C1 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1GabRepro.pdf}}
-\subfloat[C3 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corr3LocGabRepro.pdf}}
-
-
-\subfloat[C1 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1SLAMReproducibility.pdf}}
-\subfloat[C3 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor3SLAMReproducibility.pdf}}
-
-\caption{C1 and C3 average reproducibilities for multiple ``leave one out'' passes. The top row corresponds to SF-GABOR results. Bottom row shows the reproducibility for LSD-SLAM.}
-\label{fig:reprod}
-\end{figure}
-
-
-
-\begin{figure}
-\centering
-%\setlength\figureheight{0.6\textwidth}
-%\setlength\figurewidth{0.8\textwidth}
-%\input{gfx/Chapter06/tikz/sfgabor_vs_lsdslam.tex} %
-\includegraphics[width=0.8\textwidth]{gfx/Chapter06/SF_GABORvsLSD_SLAM.pdf}
-\caption{CDF of SF-GABOR and LSD-SLAM when sampling 1000 random queries from all the error measurements. The width of the curves represent the variability of the result data. The bounds are the maximum and minimum CDF values obtained from the Monte-Carlo sampling.}
-\label{fig:cdf}
-\end{figure}
-
-
-\subsubsection{Area-Under-Curve Comparisons}
-In \citep{Rivera-Rubio2015PRL} we calculated the average absolute positional error (in m) and the standard deviation of the absolute positional errors for a variety of methods. We reproduce here the AUC results for the method SF-GABOR, which ranged from 96.11\% to 96.39\%. For the case of LSD-SLAM, the AUC ranged from 89.71\% to 90.61\% All queries were again performed by adopting the leave-one-out strategy, but because of the high repeatability of results, we did not apply random frame-level sampling.  
+\td{Complete}{Grab SIFT and SLAM and generate figures as in Chapter 4}
+%\subsubsection{Performance of LSD-SLAM}
+%
+%Fig. \ref{fig:slamperf} (a) and (b) reproduce the localization performance of LSD-SLAM (blue) with respect to the ground truth (red). We have chosen a case of good and fairly average performance. As it can be seen from the figures, in the best of cases the absolute error is below 2. 
+%
+%\begin{figure}
+%	\centering
+%	\subfloat[(a)][Good performance in LSD-SLAM.]{
+%	%\setlength\figureheight{0.5\textwidth}	
+%	%\setlength\figurewidth{0.8\textwidth}
+%	%\input{gfx/Chapter06/tikz/lsd_slam_performance_good.tex} %TIKZ
+%	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_good.pdf}
+%	}
+%	
+%	\subfloat[(b)][An example of fairly average performance in LSD-SLAM.]{
+%	%\setlength\figureheight{0.5\textwidth}
+%	%\setlength\figurewidth{0.8\textwidth}
+%	%\input{gfx/Chapter06/tikz/lsd_slam_performance_normal.tex} %TIKZ
+%	\includegraphics[width=0.65\textwidth]{gfx/Chapter06/lsd_slam_normal.pdf}
+%	}
+%	\caption{Examples of good and mediocre localization performance in LSD-SLAM for indoor localization in the RSM corridor dataset.}
+%	\label{fig:slamperf}
+%\end{figure}
+%
+%
+%\subsubsection{CDF Comparisons}
+%
+%In Appendix \ref{appendixCDF} we describe the algorithm to generate the cumulative distribution functions (CDFs). CDFs illustrate very well differences in the performance of methods when we are interested in the probability of an error being below a certain  meaningful figure, as it is in our localization case. As we can see from Fig. \ref{fig:cdf} our appearance based method outperforms LSD-SLAM for our particular indoor case provided the availability of a rich dataset of visual paths. However, localization systems should aim for an combined solution, as LSD-SLAM seems to perform quite well given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of our proposed solutions \citep{Rivera-Rubio2015PRL} or a combination of both.
+%
+%\subsubsection{Reproducibility errors}
+%
+%Another comparison is illustrated by Fig. \ref{fig:reprod}. These are RSM corridors 1 and 3 (C1 and C3) average reproducibilities for multiple ``leave one out'' passes. These diagrams show how whilst LSD-SLAM reports worse average results in terms of errors it has a localization error consistency comparable to that of SF-GABOR, and better than that, errors rarely go beyond the 5 meters boundary, with an average of $\mu_e = 2.48 \pm 2.37$ m. Conversely, SF-GABOR present outliers, but for some sequences the error is consistently below 1 m ($\mu_e = 1.31 \pm 0.39$), supporting its suitability for the indoor localization context.
+%
+%\begin{figure}
+%\centering
+%\subfloat[C1 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1GabRepro.pdf}}
+%\subfloat[C3 SF-GABOR]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corr3LocGabRepro.pdf}}
+%
+%
+%\subfloat[C1 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor1SLAMReproducibility.pdf}}
+%\subfloat[C3 LSD-SLAM]{\includegraphics[width=0.5\linewidth]{gfx/Chapter06/Corridor3SLAMReproducibility.pdf}}
+%
+%\caption{C1 and C3 average reproducibilities for multiple ``leave one out'' passes. The top row corresponds to SF-GABOR results. Bottom row shows the reproducibility for LSD-SLAM.}
+%\label{fig:reprod}
+%\end{figure}
+%
+%
+%
+%\begin{figure}
+%\centering
+%%\setlength\figureheight{0.6\textwidth}
+%%\setlength\figurewidth{0.8\textwidth}
+%%\input{gfx/Chapter06/tikz/sfgabor_vs_lsdslam.tex} %
+%\includegraphics[width=0.8\textwidth]{gfx/Chapter06/SF_GABORvsLSD_SLAM.pdf}
+%\caption{CDF of SF-GABOR and LSD-SLAM when sampling 1000 random queries from all the error measurements. The width of the curves represent the variability of the result data. The bounds are the maximum and minimum CDF values obtained from the Monte-Carlo sampling.}
+%\label{fig:cdf}
+%\end{figure}
+%
+%
+%\subsubsection{Area-Under-Curve Comparisons}
+%In \citep{Rivera-Rubio2015PRL} we calculated the average absolute positional error (in m) and the standard deviation of the absolute positional errors for a variety of methods. We reproduce here the AUC results for the method SF-GABOR, which ranged from 96.11\% to 96.39\%. For the case of LSD-SLAM, the AUC ranged from 89.71\% to 90.61\% All queries were again performed by adopting the leave-one-out strategy, but because of the high repeatability of results, we did not apply random frame-level sampling.  
 
 \subsection{Blindfolded tactile experiments}
 
