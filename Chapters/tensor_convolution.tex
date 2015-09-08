@@ -1,0 +1,56 @@
+\section{Tensor Convolution}
+We have found it useful to adopt the definitions of \citep{kolda2009tensor}, who has increased the acceptance of the definition of a tensor as a multidimensional array, whilst at the same time introducing well-defined and useful operations between tensors.  In Kolda's notation and nomenclature, the meaning of a {\em tensor} is different to that of classical physics and stress-analysis, in which tensors are mathematical entities that obey strict transformation laws.\\
+
+In Kolda's terminology, the {\it order} of the tensor is the number of dimensional indices required to address it; for example, an order 5 tensor $\tens{A}$ may have addressable elements $a_{i_1,i_2,i_3,i_4,i_5}$, with each index varying from 1 to $I_n, n = 1,2,3,4,5$ in integer steps; note that in contrast with Kolda's notation, indices are comma-delimited.  Since each element of the tensor can be restricted to be real-valued, we may consider $\tens{A}$ as lying in $I_1\times I_2\times I_3 \times I_4 \times I_5$- dimensional real space. The {\it mode} of a tensor refers to the tensor elements simultaneously addressed by one of the indices, and is applied to refer to operations that involve, possibly non-exclusively, a particular one of the indices.  Definitions of tensor-vector and tensor-matrix products follow \cite{kolda2009tensor}, with tensor contraction as described in \citep{bader2006algorithm} and also \citep{aja2009tensors}.\\
+
+In the following definitions, we will refer to the tensors $\tens{A}$, $\tens{B}$ and $\tens{C}$, where $\tens{A}\in\mathbb{R}^{\prod_{n=1}^{N_{\tens{A}}}I_n}$ is of order $N_{\tens{A}}$, containing elements $a_{i_1,i_2,...,i_{N_\tens{A}}}$, and $\tens{B}\in\mathbb{R}^{\prod_{n=1}^{N_{\tens{B}}}J_n}$ is a tensor of order $N_{\tens{B}}$ with elements $b_{j_1,j_2,...,j_{N_{\tens{B}}}}$, and $\tens{C}$ is of order $N_{\tens{C}}$.
+
+\paragraph{Definition 1: Tensor Convolution} We define the tensor convolution operator in modes $\mathcal{M}$ by the following:
+\[
+ \overset{\mathcal{M}}{[ \ast ]}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
+\] 
+ where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed.   These indices associate the modes of the tensors being convolved together.
+
+The tensor convolution operator maps tensor, $\tens{A}$, to an equal- or higher-order tensor $\tens{C}$ by the following:
+\begin{eqnarray}
+\tens{A} \,\, \overset{\mathcal{M}}{[ \ast ]}\, {\tens{B}} &=& \nonumber \\
+& &\sum_{i'_{m_1}},\ldots\,\sum_{i_{M}'}   a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{N_{\tens{A}}}} \times \nonumber \\
+& &b_{i_1,i_2,...,i_{n_1}-i_{m_1}',...,i_{n_M}-i_{m_M}',...,i_{N_{\tens{B}}}}
+\label{eq:t1}
+\end{eqnarray}
+where $\mathcal{M}$, takes the form ofa set of tuples that associate indices in $\tens{A}$ with those in $\tens{B}$ for the convolution:
+\[
+\lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace
+\]
+
+The order of the result, $N_{\tens{C}}$, will depend on the orders of the tensor $\tens{X}$, the order of $\tens{B}$, and the operator  $\overset{\mathcal{M}}{[ \ast ]}$:
+\[
+N_{\tens{C}} = N_{\tens{A}}+N_{\tens{B}}-|\mathcal{M}|
+\]
+
+\paragraph{Definition 2: Permuted Tensor Convolution} We define the {\it permuted} tensor convolution operator in modes $\mathcal{M}$ permuted over modes $\mathcal{P}$ as a mapping taking the form:
+\[
+ \underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
+\] 
+ where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed and $\mathcal{P}$ represents the modes of $\tens{A}$ and $\tens{B}$ which are permuted, expanding the order of $\tens{C}$ relative to that of tensor convolution.
+
+The permuted tensor convolution operator maps tensor, $\tens{A}$, to the higher-order tensor $\tens{C}$ by the following:
+\begin{eqnarray}
+\tens{A} \,\, \underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}\, {\tens{B}} &=& \nonumber \\
+& &\sum_{i'_{m_1}},\ldots\,\sum_{i_{M}'}   a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{p_1},i_{p_2},...i_{p_P},...,i_{N_{\tens{A}}}} \times \nonumber \\
+& &b_{i_1,i_2,...,i_{n_1}-i_{m_1}',...,i_{n_M}-i_{m_M}',...,i_{\pi(q_1|p_1)},...,i_{\pi(q_P|p_P)},...,i_{N_{\tens{B}}}}
+\label{eq:t2}
+\end{eqnarray}
+where $\mathcal{M}$, consistes of the tuples:
+\[
+\lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace
+\]
+and $\mathcal{P}$ by the tuples:
+\[
+\lbrace(p_1,q_1),(p_2,q_2),...,(p_{P},q_{P})\rbrace
+\]
+The permutation operator $\pi(i|j)$ denotes that the fibre number of the tensor in a particular mode are permuted.  The order of the result, $N_{\tens{C}}$, will depend on the orders of the tensors $\tens{A}$ and $\tens{B}$, and the modes participating in the operator $\underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}$, according to:
+\[
+N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}| + |\mathcal{P}|
+\]
+
