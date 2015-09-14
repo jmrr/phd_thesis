@@ -124,49 +124,49 @@ This is a slightly longer descriptor than the standard implementation of the 128
 
 In order to apply Gabor functions for appearance based localization, we need the scalability that comes from a technique such as a BoW approach, which scale to databases of the order to millions of images. This was achieved by adding pooling and sampling operators to the outputs of a Gabor filter bank in order to construct descriptors that are applicable to BoVW techniques \citep{nister2006scalable}.  
 
-Recognising that SIFT operates with vector fields of the form:
-\begin{eqnarray}
-\vec{\nabla} f(x,y;\sigma) &=& \frac{\partial f(x,y;\sigma)}{\partial x}\vec{x} + \frac{\partial f(x,y;\sigma)}{\partial y}\vec{y}\nonumber \\
-&=& \frac{\partial f(i_1,i_2;\sigma)}{\partial i_1}\mathbf{i}_1 + \frac{\partial f(i_1,i_2;\sigma)}{\partial i_2}\mathbf{i}_2\\
-&=& \bigcup_{k=1}^2 \mathcal{D}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
-\end{eqnarray}
-where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the tensor notation of Kolda \citep{kolda2009tensor}, and Eq~(2) follows from Eq~(1) because of the orthogonality of unit vectors $\vec{x}$ and $\vec{y}$.  $\mathcal{D}_k$ is a derivative operator along dimension (mode) $i_k$. 
-
-More generally, when the directional operators are not necessarily partial derivatives, we may introduce the discrete spatial orientation tensor at scale $\sigma$ as:
-\begin{equation}
-\tens{G(\sigma)}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
-\label{eq:IntroG}
-\end{equation}
-
-The operator $\mathcal{O}_k$ is some form of discrete, directional spatial operator. Eq~\ref{eq:IntroG} generalises a two-dimensional gradient field at scale $\sigma$; it permits more than 2 directions of peak angular sensitivity, and unlike the operator $\mathcal{D}_k$, there is no requirement that $\mathcal{O}_k$ be linear.
-
-Using oriented Gabor filters, an order 3 tensor $\tens{G}$ is constructed by:
-\begin{equation}
-\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
-\end{equation}
-where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Appendix B). $\tens{K}_{G}$ is an order 3 tensor of dimension $7 \times 7 \times 8$. The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. i.e. for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$.  The tensor $\tens{K}_{G}$ holds antisymmetric Gabor functions, one direction per slice of the third mode ($i_3$). 
-
-To create the descriptors from the multi-directional tensor $\tens{G}(\sigma,\lambda)$, a {\it permuted tensor convolution} (Appendix B) is applied between $\tens{G}(\sigma,\lambda)$ and a {\it pooling tensor} $\tens{P}$:  
-
-\begin{equation}
-\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
-   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
-\end{equation}
-The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
-
-Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimization was applied for the experiments on the RSM dataset as described in this chapter.
-
-\td{Move figure}{This render to chapter 4.}
-
-%%
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[width=10cm,trim=0cm 3cm 0cm 3cm,clip=true]{gfx/Chapter06/PoolerResponses.pdf}
-\caption{\label{fig:PoolerResponses}Patterns of 17 spatial poolers consist of regions in a centre-surround organisation, with angular variation.  These pooling weights were optimised on the PASCAL VOC 2007 dataset for categorization by an optimization approach. Colours are chosen to alternate in order to allow spatial relationships to be visible to the reader.}
-\end{center}
-\end{figure}
-%%
-%The response field was subsampled to yield approximately 2000 descriptors per frame, each of 136 elements.
+%Recognising that SIFT operates with vector fields of the form:
+%\begin{eqnarray}
+%\vec{\nabla} f(x,y;\sigma) &=& \frac{\partial f(x,y;\sigma)}{\partial x}\vec{x} + \frac{\partial f(x,y;\sigma)}{\partial y}\vec{y}\nonumber \\
+%&=& \frac{\partial f(i_1,i_2;\sigma)}{\partial i_1}\mathbf{i}_1 + \frac{\partial f(i_1,i_2;\sigma)}{\partial i_2}\mathbf{i}_2\\
+%&=& \bigcup_{k=1}^2 \mathcal{D}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+%\end{eqnarray}
+%where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the tensor notation of Kolda \citep{kolda2009tensor}, and Eq~(2) follows from Eq~(1) because of the orthogonality of unit vectors $\vec{x}$ and $\vec{y}$.  $\mathcal{D}_k$ is a derivative operator along dimension (mode) $i_k$. 
+%
+%More generally, when the directional operators are not necessarily partial derivatives, we may introduce the discrete spatial orientation tensor at scale $\sigma$ as:
+%\begin{equation}
+%\tens{G(\sigma)}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+%\label{eq:IntroG}
+%\end{equation}
+%
+%The operator $\mathcal{O}_k$ is some form of discrete, directional spatial operator. Eq~\ref{eq:IntroG} generalises a two-dimensional gradient field at scale $\sigma$; it permits more than 2 directions of peak angular sensitivity, and unlike the operator $\mathcal{D}_k$, there is no requirement that $\mathcal{O}_k$ be linear.
+%
+%Using oriented Gabor filters, an order 3 tensor $\tens{G}$ is constructed by:
+%\begin{equation}
+%\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
+%\end{equation}
+%where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Appendix B). $\tens{K}_{G}$ is an order 3 tensor of dimension $7 \times 7 \times 8$. The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. i.e. for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$.  The tensor $\tens{K}_{G}$ holds antisymmetric Gabor functions, one direction per slice of the third mode ($i_3$). 
+%
+%To create the descriptors from the multi-directional tensor $\tens{G}(\sigma,\lambda)$, a {\it permuted tensor convolution} (Appendix B) is applied between $\tens{G}(\sigma,\lambda)$ and a {\it pooling tensor} $\tens{P}$:  
+%
+%\begin{equation}
+%\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
+%   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
+%\end{equation}
+%The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
+%
+%Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimization was applied for the experiments on the RSM dataset as described in this chapter.
+%
+%\td{Move figure}{This render to chapter 4.}
+%
+%%%
+%\begin{figure}[!h]
+%\begin{center}
+%\includegraphics[width=10cm,trim=0cm 3cm 0cm 3cm,clip=true]{gfx/Chapter06/PoolerResponses.pdf}
+%\caption{\label{fig:PoolerResponses}Patterns of 17 spatial poolers consist of regions in a centre-surround organisation, with angular variation.  These pooling weights were optimised on the PASCAL VOC 2007 dataset for categorization by an optimization approach. Colours are chosen to alternate in order to allow spatial relationships to be visible to the reader.}
+%\end{center}
+%\end{figure}
+%%%
+%%The response field was subsampled to yield approximately 2000 descriptors per frame, each of 136 elements.
 
 \subsection{BoVW Pipeline}
 In order to test the ability to localize position based on the visual structure of either a short sequence of frames or individual frame information, we adopted a retrieval structure for efficient mapping of the visual descriptors, sparsely or densely populating an image,  into a single frame or vignette-level representation.  The approach is based on fairly standard retrieval architectures used for image categorization -- the Bag-of-Visual-Words (BoVW) model -- described in detail in Chapter \ref{ch:chapter4} and illustrated in Figure \ref{fig:FigPipeline}.
@@ -178,9 +178,9 @@ The resulting dictionaries were then used to encode the descriptors, both those 
 \subsection{Localization using ``kernelized'' histogram distances}
 \label{sec:methods}
 
-In a similar fashion as the methods described in Chapters \ref{ch:chapter4} and \ref{ch:chapter5}, we used ``kernelized'' histogram distances  to provide localization as illustrated in Figure \ref{fig:matching_from_kernels}.
+In a similar fashion as the methods described in Chapters \ref{ch:chapter4} and \ref{ch:chapter5}, we used ``kernelized'' histogram distances  to provide localization as illustrated in Figure \ref{fig:matching_from_kernels}. This technique allows the storing of ``pre-trained'' kernels in a database computed using leave-one-out validation with all the training data available in the RSM dataset \citep{Rivera-RubioRSM}.
 
-Using $n$ to denote the frame number, and $p$ a particular journey down a corridor, the 
+As a reminder of Chapter \ref{ch:chapter4} we briefly recap that if using $n$ to denote the frame number, and $p$ a particular journey down a corridor, the 
 $\chi^2$ (Eq.\ref{eq:chi2kernel}) kernel
 
 \begin{equation}
@@ -195,7 +195,7 @@ K_{H}(H_q, H{p,n}) =  \sqrt{H_q \cdot H_{p,n}}
 \label{eq:hellingerkernel}
 \end{equation}
 
-are common choices to compare query frames encoded by a BoW encoded frame with a database containing several frames (here, consisting of different journeys, $p$ and frames, $n$) but in earlier work described in Chapter~\ref{ch:chapter4} the $\chi^2$-kernel seemed best for the path localization problem.  For a random subset of the $N_v-1$ videos captured over {\em each} path in the dictionary, the query is selected from amongst the frames of the remaining journey.   Each query frame histogram, $H_q$, results in $N_v-1$ separate comparison vectors, each containing the distance of each database frame histogram to the query. 
+are the studied choices to compare query frames encoded by a BoW encoded frame with a database containing several frames (here, consisting of different journeys, $p$ and frames, $n$) but in earlier work described in Chapter~\ref{ch:chapter4} the $\chi^2$-kernel seemed best for the path localization problem.  For a random subset of the $N_v-1$ videos captured over {\em each} path in the dictionary, the query is selected from amongst the frames of the remaining journey.   Each query frame histogram, $H_q$, results in $N_v-1$ separate comparison vectors, each containing the distance of each database frame histogram to the query. 
 
 
 We recall that the best matching frame, $\hat{n}$ from pass $\hat{p}$ across all of the $N_v-1$ vectors is retrieved using: 
@@ -262,7 +262,7 @@ There are two important things to consider in this app: 1) there needs to be min
 There is a also a percentage bar at the bottom, from which sighted users can obtain feedback of how far along a specified journey they are (in our case between the beginning and the end of the corridor). Distances are measured in a normalized scale from 0 to 1.
 
 \subsubsection{Function}
- 
+\ref{sec:appFunction}
 The final step of constructing the app was to integrate the user interface with the localization code via the server. First comes taking the picture. It would not be convenient for the visually impaired users to keep querying the server by capturing each image manually - so each picture is taken automatically every 3 seconds. This is then uploaded to the server which in response returns a number between 0 and 1; 1 represents the completion of the journey (to the final end of the corridor) and 0 would represent the start of the corridor. This would be mapped onto the existing grid system and the green box, with its haptic feedback, which would be updated as a result. At the same time, the percentage bar at the bottom would display a new percentage. The users would then be able to identify their whereabouts in relation to the walls and other objects on the grid. 
  
 \begin{figure}[t]
@@ -288,13 +288,18 @@ This design allows us to easily extend the server's functionality to include cap
 \label{sec:experiments}
 
 \subsection{Dataset}
-For this experiments we use the sequences from the RSM dataset which acquisition and details were described in \ref{sec:Dataset}. The dataset is publicly available for download at \url{http://rsm.bicv.org} \citep{Rivera-RubioRSM}.
+For this experiments we use the sequences from the RSM dataset which acquisition and details were described in \ref{sec:Dataset}. The dataset is publicly available for download at \url{http://rsm.bicv.org}.
 
 
-\subsection{Experiments on localization: Appearance based methods vs SLAM}
+\subsection{Experiments on localization: Live query scenario and appearance based methods vs SLAM}
 
-\td{Write}{Complete with SIFT and brief mention at measurements of performance}
-%
+We benchmarked our best performing appearance-based method, SF-GABOR against SLAM methods in Section \ref{sec:comparisonSLAM}. This comparison, however, was part of an evaluation pipeline, open-sourced an available here \cite{RiveraLocEvalCode}.
+
+In this case, we recreated a ``live'' scenario as briefly introduced in \ref{sec:appFunction}: three different users uses the client Android app to record sequences of one of the corridors in the RSM dataset and the frames were submitted to the matching server. This server computes a ``streaming'' version of the BOVW pipeline from previous chapters for the query image and compares it using a kernel distance to a database of pre-computed training kernels. In this case, (DSIFT) was used as the baseline for the appearance-based methods. \td{Add SF-GABOR?}{Which figure?}{what about the comparison with SLAM}.
+
+
+
+
 %We benchmarked our best performing appearance-based method, SF-GABOR against the state-of-the-art in SLAM methods for indoor sequences, LSD-SLAM.
 %
 %For this, we ran the LSD-SLAM code over our 60 video sequences and retrieved the results from its visual odometry engine to gather a position estimate for each processed frame, comparable to the results we had for the appearance-based methods. 
@@ -346,7 +351,7 @@ Thirteen volunteers were asked to conduct the following steps:
 \label{sec:results}
 
 \subsection{Performance of vision algorithms}
-In this section we will report the performance of our best appearance-based method and compare it with the state of the art in indoor localization: LSD-SLAM. In the first subsection the metric will be the cumulative distribution function and in the second area under the curve AUC comparisons.
+In this section we will report the performance of our chosen appearance-based method and compare it with the state of the art in indoor localization: LSD-SLAM. In the first subsection the metric will be the cumulative distribution function and in the second area under the curve AUC comparisons.
 
 \td{Complete}{Grab SIFT and SLAM and generate figures as in Chapter 4}
 %\subsubsection{Performance of LSD-SLAM}
@@ -512,6 +517,6 @@ Regarding the prototype, we have described the operation of the system, the algo
 
 With respect to the experimental data, we have carried out a benchmark to compare the performance of our best descriptor in a BoW appearance-based pipeline and the state-of-the-art indoor SLAM algorithm: LSD-SLAM. Additionally, we have evaluated the error that users perceive when sensing locations laid out over the Senseg's tactile screen in the form of haptic cues.
 
-The vision results suggest that appearance-based methods should be taken into account, as overall, our SF-GABOR performs better than LSD-SLAM when tested with the RSM dataset.
+The vision results suggest that appearance-based methods should be taken into account, as overall, our SF-GABOR performs better than LSD-SLAM when tested with the RSM dataset \citep{Rivera-RubioRSM}.
 
 Unfortunately, results on the tactile feedback quality are not conclusive, as the state of the technology is still immature and a distance from public usage. The limitations that we found are threefold: in first place, the device had to be grounded to obtain the best tactile sensitivity, limiting its usage as a mobile device. Secondly, the charge build-up limited the ability of the users to feel changes in texture, so the discharge had to be applied every two trials. Finally, the minimum distance between two texture boxes on the tablet corresponded to approximately 3 meters of actual distance. We believe that more resolution on the ``tixel'' screen would provide better results and further possibilities, especially in the assistive context. Nevertheless the technology holds promise and should see further development given such motivations as assistive applications.
