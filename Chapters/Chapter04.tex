@@ -424,11 +424,11 @@ As described in the previous section, by permuting the database paths and select
 
 \begin{figure}[h!]
 \centering
-\subfloat[Corridor 3 using Pass 2 acquired with LG Nexus 4. Results for the best spatio-temporal method, ST\_GABOR.]{\includegraphics[width=.7\linewidth]{./gfx/Chapter04/xe_vs_x/ST_GABOR_good.pdf}}
+\subfloat[Corridor 3 using Pass 2 acquired with LG Nexus 4. Results for the best spatio-temporal method, ST\_GABOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/ST_GABOR_good.pdf}}
 \\
-\subfloat[Corridor 3 using Pass 6 acquired with Google Glass. Results for the best single-frame method, SF\_GABOR.]{\includegraphics[width=.7\linewidth]{./gfx/Chapter04/xe_vs_x/SF_GABOR_good.pdf}}
+\subfloat[Corridor 3 using Pass 6 acquired with Google Glass. Results for the best single-frame method, SF\_GABOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/SF_GABOR_good.pdf}}
 \\
-\subfloat[Corridor 2 using Pass 6 acquired with Google Glass. Results for the worst overall method, LW\_COLOR.]{\includegraphics[width=.7\linewidth]{./gfx/Chapter04/xe_vs_x/Lightweight_bad.pdf}}
+\subfloat[Corridor 2 using Pass 6 acquired with Google Glass. Results for the worst overall method, LW\_COLOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/Lightweight_bad.pdf}}
 \caption{Estimated location vs. ground truth. Illustrative examples of good/bad location estimation performance. a) Uses the best descriptor and a single-device dataset, b) uses the best descriptor and a cross-device dataset and c) uses the worst descriptor, and a multiple-device dataset.}
 \label{fig:x_e_vs_gt}
 \end{figure}
@@ -524,7 +524,7 @@ As our cameras are far from the ideal models that are recommended by LSD-SLAM au
 
 Fig. \ref{fig:slamperf} (a) and (b) reproduce the localization performance of LSD-SLAM (blue) with respect to the ground truth (red). We have chosen a case of good and fairly average performance. As it can be seen from the figures, in the best of cases the absolute error is below 2. 
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 	\subfloat[(a)][Good performance in LSD-SLAM.]{
 	%\setlength\figureheight{0.5\textwidth}	
@@ -592,7 +592,7 @@ In other words, t-SNE is a dimensionality reduction technique that aims to prese
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{gfx/Chapter04/visual_paths.png}
+\includegraphics[width=\textwidth]{gfx/Chapter04/tsne_dsift_3d.pdf}
 \caption{Distribution of the BOW data of the RSM dataset in a reduced 3D space when visualized with t-SNE.}
 \label{fig:tsne3d}
 \end{figure}
@@ -606,7 +606,7 @@ As we can see from the images, the difficulty of generating two or three-dimensi
 \centering
 \includegraphics[width=\textwidth]{gfx/Chapter04/tsne_dsift_2d.pdf}
 \caption{Distribution of the BOW data of the RSM dataset in a reduced 2D space when visualized with t-SNE.}
-\label{fig:tsne3d}
+\label{fig:tsne2d}
 \end{figure}
 
 The present thesis gives an emphasis on understanding \textit{visual path} data from a journey perspective, from a crowdsource collection of journeys in particular. However, although of limited practical use the within journey localization, this visualization is the first step in understanding the structure of the data from a ``building'' perspective.
