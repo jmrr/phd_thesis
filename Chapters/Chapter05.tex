@@ -74,7 +74,7 @@ We have seen that we can use 2D Gabor like features as a biologically plausible 
 
 Biologically-inspired methods of localisation from image data are emerging; for example, a few computational models for place cell behaviour already exist, though they are often rooted in dynamical systems \cite{blair2008conversion},\cite{bechtel2013investigating}. Some models of place cells use attractor properties of recurrent networks \cite{stringer2002self}, \cite{moser2008place}.  Whilst interesting and valuable, the role of sensory input is marginalized in these models, a key differentiator of the approach we propose here.
 
-The boundary vector cell (BVC) model \cite{barry2006boundary} is a popular computational model that describes place cell response, allowing predictions to be made and experimentally tested \cite{burgess2000predictions}. Whilst of substantial interest in computational neuroscience, one criticism of the BVC model is -- like the dynamical systems models -- a lack of detail in explaining how sensory processing feeds into the computation. The closest work to the approach of this paper is Strosslin's \cite{strosslin2005robust}, which uses a low-cost and computationally efficient model to navigate a robot.  However, place cell behaviour -- in terms of firing rates that vary with the position to some reference location -- is not demonstrated except through the policy of a robot and its navigation attempts.  The visual processing is also rather limited, using techniques that are also employed in SLAM algorithms \cite{alcantarilla2010visual} to track specific scene locations. 
+The boundary vector cell (BVC) model \cite{barry2006boundary} is a popular computational model that describes place cell response, allowing predictions to be made and experimentally tested \cite{burgess2000predictions}. Whilst of substantial interest in computational neuroscience, one criticism of the BVC model is -- like the dynamical systems models -- a lack of detail in explaining how sensory processing feeds into the computation. The closest work to the approach described in this thesis is Strosslin's \cite{strosslin2005robust}, which uses a low-cost and computationally efficient model to navigate a robot.  However, place cell behaviour -- in terms of firing rates that vary with the position to some reference location -- is not demonstrated except through the policy of a robot and its navigation attempts.  The visual processing is also rather limited, using techniques that are also employed in SLAM algorithms \cite{alcantarilla2010visual} to track specific scene locations. 
 
 
 Milford and colleagues have also applied SLAM techniques to biologically inspired localisation systems,  setting a seminal precedent with RatSLAM \cite{milford2004ratslam}, a persistent navigation and mapping model based on modelling the hippocampus of rodents. RatSLAM continuously performs SLAM while simultaneously interacting with other navigation systems, such as odometry and landmark detection. More recent work \cite{milford2012seqslam} has been focused on taking RatSLAM to larger scales and incorporating more complex visual landmark detection models. 
@@ -481,7 +481,7 @@ The main computational load for the place-cell computation is due to the diction
 One of main the conclusions from the results of the previous section is that those methods that are more closely model biological structures such as SIFT (sparse and dense) and SF-GABOR, achieve best results in the tests we have performed. This section will explore a new formulation for our single-frame Gabor (SF-GABOR) that can simultaneously explain the Gabor filters as plausible models of the simple cells found in the V1 and the first-layer weights yielded from convolutional neural networks successful used in many applications \cite{nlp}, \cite{imagenet} in the past few years.
 
 \subsection{A Convolutional Neural Network (CNN) formulation for SF-GABOR}
-
+\label{sec:tensornotation}
 
 Several authors have pointed to the similarities between spatial filter banks employing oriented band-pass filters \cite{wandell1995foundations},\cite{petrou2008next} -- many of which are implemented using spatial convolution -- and the receptive field patterns found in the primary visual cortex (area V1).  These receptive fields are sensitivity patterns to visual stimuli that can be found within individual neurons \cite{olshausen1997sparse,ringach2002spatial}. \\
 
@@ -490,10 +490,9 @@ The recent interest in convolutional neural networks \cite{krizhevsky2012imagene
 To reproduce the behaviour of the pipeline describe in Section \ref{ch05:overview} we used a two-layer feed-forward convolutional neural network (CNN) -- adapted from a model used in computational neuroscience -- to simulate the behaviour of a sheet of tissue in V1 containing just under 200,000 neurons. The first layer of this network represents orientation selective, approximately linear simple cells, and the second layer models a population code for joint position/orientation encoding based on the retinotopic arrangement of oriented cells over a region of cortical tissue.  However, rather than learning the weights from random initialization, neurons were constrained to be orientation selective and with spatially antisymmetric weights about the axis of orientation selectivity (see Figure~\ref{fig:OG}).  We have found it useful to introduce a tensor description of the data structures and the processing involved in this CNN.
 
 \subsection{Tensor Population Model}
-Tensors have been suggested as a multi-dimensional representation for convolutional neural networks, specifically for representing the stack of spatial filters that is used to perform spatial convolution. Representing a filter set in this way allows various tensor decompositions to be applied \cite{kolda2009tensor} to reduce the representation into smaller convolution operators. However, a definition for {\em tensor convolution} itself appears lacking from the literature. We identify two operators that -- taken together -- can be very useful concepts for {\em reproducibly} describing the structure of convolutional networks; these are {\em tensor convolution} and {\em permuted tensor convolution}.\\
+Tensors have been suggested as a multi-dimensional representation for convolutional neural networks, specifically for representing the stack of spatial filters that is used to perform spatial convolution. Representing a filter set in this way allows various tensor decompositions to be applied \cite{kolda2009tensor} to reduce the representation into smaller convolution operators. However, a definition for {\em tensor convolution} itself appears lacking from the literature. We identify two operators that -- taken together -- can be very useful concepts for {\em reproducibly} describing the structure of convolutional networks; these are {\em tensor convolution} and {\em permuted tensor convolution}. These are defined next and expanded in Appendix \ref{appendixTensorConv}.\\
 
 First, we adopt the notation and nomenclature of Kolda \cite{kolda2009tensor}.  We treat tensors as multi-way arrays or multidimensional arrays. The {\it order} of a tensor is the number of dimensional indices required to address it; for example, an order 5 tensor $\tens{A}$ may have addressable elements $a_{i_1,i_2,i_3,i_4,i_5}$, with each index varying from 1 to $I_n, n = 1,2,3,4,5$ in integer steps; note that in contrast with Kolda's notation, indices are comma-delimited.  Since each element of the tensor can be restricted to be real-valued, we may consider $\tens{A}$ as lying in $I_1\times I_2\times I_3 \times I_4 \times I_5$- dimensional real space. The {\it mode} of a tensor refers to the tensor elements simultaneously addressed by one of the indices, and is applied to refer to operations that involve, possibly non-exclusively, a particular one of the indices. 
-
 
 \begin{definition}{\it Tensor Convolution} We define the tensor convolution operator in modes $\mathcal{M}$ by the following:
 \[
@@ -519,7 +518,7 @@ N_{\tens{C}} = N_{\tens{A}}+N_{\tens{B}}-|\mathcal{M}|
 \]
 \end{definition}
 
-\paragraph{Comment}  Tensor convolution is applicable to mapping a single frame or image through the V1 and population code model.  It is therefore applicable to describing taking a single frame and estimating a place-cell response.  For much of the work reported in this paper, we evaluate entire video sequences. For this, permuted tensor convolution is a more appropriate operator for the first level of the model.
+\paragraph{Comment}  Tensor convolution is applicable to mapping a single frame or image through the V1 and population code model.  It is therefore applicable to describing taking a single frame and estimating a place-cell response.  For much of the work reported in this chapter, we evaluate entire video sequences. For this, permuted tensor convolution is a more appropriate operator for the first level of the model.
 
 \begin{definition}{\it Permuted Tensor Convolution} We define the {\it permuted} tensor convolution operator in modes $\mathcal{M}$ permuted over modes $\mathcal{P}$ as a mapping taking the form:
 \[
@@ -549,14 +548,55 @@ N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}|
 
 \end{definition}
 
+
 \subsection{Simple-cell V1 CNN Model}
+
+
 Having defined these two operations, we are now in a position to represent the modelling of primary visual cortex and a simple population code using tensor convolution and permuted convolution. 
+
+Recognising that SIFT operates with vector fields of the form:
+\begin{eqnarray}
+\vec{\nabla} f(x,y;\sigma) &=& \frac{\partial f(x,y;\sigma)}{\partial x}\vec{x} + \frac{\partial f(x,y;\sigma)}{\partial y}\vec{y}\nonumber \\
+&=& \frac{\partial f(i_1,i_2;\sigma)}{\partial i_1}\mathbf{i}_1 + \frac{\partial f(i_1,i_2;\sigma)}{\partial i_2}\mathbf{i}_2\\
+&=& \bigcup_{k=1}^2 \mathcal{D}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+\end{eqnarray}
+where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the tensor notation of Kolda \citep{kolda2009tensor}, and Eq~(2) follows from Eq~(1) because of the orthogonality of unit vectors $\vec{x}$ and $\vec{y}$.  $\mathcal{D}_k$ is a derivative operator along dimension (mode) $i_k$. 
+
+More generally, when the directional operators are not necessarily partial derivatives, we may introduce the discrete spatial orientation tensor at scale $\sigma$ as:
+\begin{equation}
+\tens{G(\sigma)}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+\label{eq:IntroG}
+\end{equation}
+
+The operator $\mathcal{O}_k$ is some form of discrete, directional spatial operator. Eq~\ref{eq:IntroG} generalises a two-dimensional gradient field at scale $\sigma$; it permits more than 2 directions of peak angular sensitivity, and unlike the operator $\mathcal{D}_k$, there is no requirement that $\mathcal{O}_k$ be linear.
+
+%
+%Using oriented Gabor filters, an order 3 tensor $\tens{G}$ is constructed by:
+%\begin{equation}
+%\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
+%\end{equation}
+%where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Appendix \ref{appendixTensorConv}). $\tens{K}_{G}$ is an order 3 tensor of dimension $7 \times 7 \times 8$. The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. i.e. for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$.  The tensor $\tens{K}_{G}$ holds antisymmetric Gabor functions, one direction per slice of the third mode ($i_3$). 
+%
+%To create the descriptors from the multi-directional tensor $\tens{G}(\sigma,\lambda)$, a {\it permuted tensor convolution} (Appendix \ref{appendixTensorConv}) is applied between $\tens{G}(\sigma,\lambda)$ and a {\it pooling tensor} $\tens{P}$:  
+%
+%\begin{equation}
+%\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
+%   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
+%\end{equation}
+%The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
+%
+%Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimization was applied for the experiments on the RSM dataset as described in this chapter.
+%
+%
+%%%
+
+
 
 Using grey-scale image sequences represented as an order 3 tensor, $\tens{F}$, an order 4 tensor $\tens{G}$ is constructed using the first-level of a convolutional network by:
 \begin{equation}
 \tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
 \end{equation}
-where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Definition 1). Image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are orientation selective in the image plane, organized one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments we performed in this paper, we took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.   \\
+where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Definition 1). Image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are orientation selective in the image plane, organized one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments reported in this thesis, we took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.   \\
 
 The function $R_+(\cdot)$ is the ramp function applied element-wise to its tensor-valued argument. For an order 0 tensor, $x$, (scalar) the ramp function is defined by
 \[
@@ -579,12 +619,24 @@ The second level of the convolutional network groups the orientation-selective o
 \end{equation}
 The pooling tensor is also an order 3 tensor that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolingTensor}. The resulting order 5 tensor, $\tens{D}$, is of dimension $I_1\times I_2 \times 8 \times 17 \times N_F$. Because the slices of this tensor create different pooling regions over a patch, it is distinctly different to the pooling operations of standard CNNs, which typically use a single fixed spatial smoothing operator for each pooling layer, and not multiple poolers for which weights are learned. \\
 
+In the notation used until Section \ref{sec:tensornotation}, tensor $\tens{D}$ was used to generate the SF-GABOR descriptor, by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
+
 \begin{figure}[!t]
 \centering
 \includegraphics[width=3.5in]{gfx/Chapter05/PoolingTensorRender.png}
 \caption{Illustration of the order 3 pooling tensor, visualised using transparency and colours to depict the spatial arrangement of values in the third mode. }
 \label{fig:PoolingTensor}
 \end{figure}
+
+
+%\begin{figure}[!h]
+%\begin{center}
+%\includegraphics[width=10cm,trim=0cm 3cm 0cm 3cm,clip=true]{gfx/Chapter06/PoolerResponses.pdf}
+%\caption{\label{fig:PoolerResponses3D}Patterns of 17 spatial poolers consist of regions in a centre-surround organisation, with angular variation.  These pooling weights were optimised on the PASCAL VOC 2007 dataset for categorization by an optimization approach. Colours are chosen to alternate in order to allow spatial relationships to be visible to the reader.}
+%\end{center}
+%\end{figure}
+%%
+%The response field was subsampled to yield approximately 2000 descriptors per frame, each of 136 elements.
 
 \subsection{Subsampling}
 Since the poolers are designed to be spatially smoothing, the subsampling operation can be applied directly to dimensions $i_1$ and $i_2$ of $\tens{D}$. This maintains $\tens{D}$ as an order 5 tensor, but reduces the dimensions over the two modes representing in-plane spatial location. 
@@ -634,12 +686,12 @@ In line with the findings described in Section \ref{sec:ch5experiments}, we foun
 
 \section{Conclusion}
 
-Place cell physiology and function is of immense interest for a number of reasons. To our knowledge, there is no computational architecture that reproduces place-cell responses in the form of tuning curves artificially from video sequences, and there is no biologically plausible model for place cell encoding that can be applied to the recorded video sequences we have used in this work.  Furthermore, competing camera-based localization techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate location: motion is a requirement.  The place cell model we propose and evaluated in this paper does not require motion at location estimation time: a single frame gives a possible response.
+Place cell physiology and function is of immense interest for a number of reasons. To our knowledge, there is no computational architecture that reproduces place-cell responses in the form of tuning curves artificially from video sequences, and there is no biologically plausible model for place cell encoding that can be applied to the recorded video sequences we have used in this work.  Furthermore, competing camera-based localization techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate location: motion is a requirement.  The place cell model we propose and evaluated in this chapter does not require motion at location estimation time: a single frame gives a possible response.
 
 A number of questions observed from this study motivates further work in the search of a plausible biological answer. First, it is the nature of the place cells what defines their width after thresholding, and thus their sensitivity to locations. In biology, neurons are known to reach a certain threshold potential before they fire an action potential or impulse that can propagate along the axon and eventually trigger similar responses on other cells. We are planning to study this effect and extend the model of the place cell by also incorporating a model of its firing that takes into account the shape of the firing envelope and the causes of the activity.
 
 
-Perhaps a greater problem, from a biological perspective, is that it is unclear how grid cells might fit into the model we have proposed in this paper.  One intriguing prediction is that grid cells are implicit in the existence of place cells; in other words, place cells are not entirely formed from grid cells, but working place cells create a grid-like pattern of activation if one grid cell is wired to several spaced place cells.  This observation may be related to observed loop-like connectivity observed between hippocampus and entorhinal cortex. 
+Perhaps a greater problem, from a biological perspective, is that it is unclear how grid cells might fit into the model we have proposed in this chapter.  One intriguing prediction is that grid cells are implicit in the existence of place cells; in other words, place cells are not entirely formed from grid cells, but working place cells create a grid-like pattern of activation if one grid cell is wired to several spaced place cells.  This observation may be related to observed loop-like connectivity observed between hippocampus and entorhinal cortex. 
 
 In third place, we have found that the best performing methods are SF-GABOR and SIFT (sparse and dense). This poses another question worth investigating and is that of the relationship of better performance with the closeness of the local patch description method with models of early vision. It is known that the 2D Gabor filters in SF/ST-GABOR descriptors present the orientation-selective simple cell receptive fields behavior of the primary visual cortex (V1). Similarly, the difference of Gaussians (DoG) space representation found in Lowe's SIFT keypoint detection may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behavior of complex cells in V1.
 

@@ -84,7 +84,8 @@ We evaluated the performance of several approaches to matching image queries tak
 \end{figure}
 
 \subsection{Frame-Level Descriptor}
-Based on the use of optical flow in motion estimation~\citep{Weickert2006} and space-time descriptors in action recognition \citep{Wang2009} we estimated in-plane motion vectors using a simple approach.  We first applied derivative filters along $(x,y,t)$ dimensions, yielding a 2D$+t$, i.e. spatio-temporal, gradient field.  To capture variations in chromatic content from the visual sequence, we computed these spatio-temporal gradients separately for each of the three RGB channels of the pre-processed video sequences.  This yielded a $3\times 3$ matrix at each point in space, effectively the product of the \textit{chromatic Jacobian} (Eq.~\ref{CJ}).  Temporal smoothing was applied along the time dimension, with a support of 11 neighbouring frames. Finally, the components of the matrix were each averaged (pooled) over 16 distinct spatial regions, not very dissimilar to those to be described later in this paper.   For each visual path, this yielded 144 signals, of length approximately equal to the video sequences.  An illustration of the time series for one visual path is shown in Fig.~\ref{fig:Traces}.
+Based on the use of optical flow in motion estimation~\citep{Weickert2006} and space-time descriptors in action recognition \citep{Wang2009} we estimated in-plane motion vectors using a simple approach.  We first applied derivative filters along $(x,y,t)$ dimensions, yielding a 2D$+t$, i.e. spatio-temporal, gradient field.  To capture variations in chromatic content from the visual sequence, we computed these spatio-temporal gradients separately for each of the three RGB channels of the pre-processed video sequences.  This yielded a $3\times 3$ matrix at each point in space, effectively the product of the \textit{chromatic Jacobian} (Eq.~\ref{CJ}).  Temporal smoothing was applied along the time dimension, with a support of 11 neighbouring frames. Finally, the components of the matrix were each averaged (pooled) over 16 distinct spatial regions \ref{fig:pooling4lwcolor}, not very dissimilar to those to be described later in this thesis. 
+
 
 
 \begin{equation}
@@ -97,6 +98,20 @@ Based on the use of optical flow in motion estimation~\citep{Weickert2006} and s
 \right )
 \label{eq:CJ}
 \end{equation}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{./gfx/Chapter04/pooling_lwcolor.png}
+\caption{A maximum projection intensity rendering of 16 pooling regions over space. The $x$ components of descriptor component time series from regions $A$, $B$, $C$ and $D$ are shown in Fig.}
+\label{fig:pooling4lwcolor}
+\end{figure}
+
+
+Our rationale is that ego-motion is likely to be an important visual cue in human pedestrian navigation, particularly in close or cluttered spaces. Rather than explicit computation of optical flow, the collection of gradient information over different pooling regions of space capture and encode relevant motion in the form of time series.  The 16 proposed pooling regions illustrated in Fig. \ref{fig:kernel} were selected to capture elements of the chromatic space-time Jacobian within two sectors at different radii from the centre of the frame (e.g. A and C, and B and D); to capture information in pairs of regions (such as A and B) that are diametrically opposed from each other horizontally, and also vertically.  Diagonal regions were also proposed, yielding fairly uniform angular coverage over image space. Spatial and temporal gradients in the centre of the frame were not encoded because this region contains less visible motion over equivalent time scales to the more peripheral regions.  
+
+
+For each visual path, this yielded a total of $16\times 9 = 144$ separate time-series, or signals, of length approximately equal to the video sequences.  An illustration of the time series for one visual path is shown in Fig.~\ref{fig:Traces}. Effectively, for each frame, a 144-dimensional descriptor is captured. The elements of this descriptor describe the weighted average of the Jacobian elements within the respective pooling regions that can be used for indexing and matching visual path locations.
 
 \begin{figure}
 \begin{center}
@@ -139,56 +154,9 @@ An alternative single frame technique based on a tuned, odd-symmetric Gabor-base
 \label{fig:IsoPool}
 \end{figure}
 
-\td{Rewrite}{or... consider moving to appendix}
+In Chapter \ref{ch:chapter5} we will also give another formulation for SF-GABOR that makes use of a tensor notation. This will be needed to understand a convolutional neural network (CNN) interpretation of artificial place cell models based on the SF-GABOR descriptors.
 
-
-In order to apply Gabor functions for appearance based localization, we need the scalability that comes from a technique such as a BoW approach, which scale to databases of the order to millions of images. This was achieved by adding pooling and sampling operators to the outputs of a Gabor filter bank in order to construct descriptors that are applicable to BoVW techniques \citep{nister2006scalable}.  
-
-Recognising that SIFT operates with vector fields of the form:
-\begin{eqnarray}
-\vec{\nabla} f(x,y;\sigma) &=& \frac{\partial f(x,y;\sigma)}{\partial x}\vec{x} + \frac{\partial f(x,y;\sigma)}{\partial y}\vec{y}\nonumber \\
-&=& \frac{\partial f(i_1,i_2;\sigma)}{\partial i_1}\mathbf{i}_1 + \frac{\partial f(i_1,i_2;\sigma)}{\partial i_2}\mathbf{i}_2\\
-&=& \bigcup_{k=1}^2 \mathcal{D}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
-\end{eqnarray}
-where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the tensor notation of Kolda \citep{kolda2009tensor}, and Eq~(2) follows from Eq~(1) because of the orthogonality of unit vectors $\vec{x}$ and $\vec{y}$.  $\mathcal{D}_k$ is a derivative operator along dimension (mode) $i_k$. 
-
-More generally, when the directional operators are not necessarily partial derivatives, we may introduce the discrete spatial orientation tensor at scale $\sigma$ as:
-\begin{equation}
-\tens{G(\sigma)}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
-\label{eq:IntroG}
-\end{equation}
-
-The operator $\mathcal{O}_k$ is some form of discrete, directional spatial operator. Eq~\ref{eq:IntroG} generalises a two-dimensional gradient field at scale $\sigma$; it permits more than 2 directions of peak angular sensitivity, and unlike the operator $\mathcal{D}_k$, there is no requirement that $\mathcal{O}_k$ be linear.
-
-Using oriented Gabor filters, an order 3 tensor $\tens{G}$ is constructed by:
-\begin{equation}
-\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
-\end{equation}
-where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Appendix \ref{appendixTensorConv}). $\tens{K}_{G}$ is an order 3 tensor of dimension $7 \times 7 \times 8$. The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. i.e. for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$.  The tensor $\tens{K}_{G}$ holds antisymmetric Gabor functions, one direction per slice of the third mode ($i_3$). 
-
-To create the descriptors from the multi-directional tensor $\tens{G}(\sigma,\lambda)$, a {\it permuted tensor convolution} (Appendix \ref{appendixTensorConv}) is applied between $\tens{G}(\sigma,\lambda)$ and a {\it pooling tensor} $\tens{P}$:  
-
-\begin{equation}
-\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
-   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
-\end{equation}
-The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
-
-Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimization was applied for the experiments on the RSM dataset as described in this chapter.
-
-
-%%
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[width=10cm,trim=0cm 3cm 0cm 3cm,clip=true]{gfx/Chapter06/PoolerResponses.pdf}
-\caption{\label{fig:PoolerResponses}Patterns of 17 spatial poolers consist of regions in a centre-surround organisation, with angular variation.  These pooling weights were optimised on the PASCAL VOC 2007 dataset for categorization by an optimization approach. Colours are chosen to alternate in order to allow spatial relationships to be visible to the reader.}
-\end{center}
-\end{figure}
-%%
-%The response field was subsampled to yield approximately 2000 descriptors per frame, each of 136 elements.
-
-
-\subsubsection{Space-Time descriptors.}
+\subsection{Space-Time descriptors.}
 %We therefore chose to explore a denser sampling of the image through capturing patterns over space-time patches in a dense fashion.  We tried three approaches to achieve this.  These are a) the HOG3D descriptor from \cite{Klaser2008}; and two novel techniques, one b) based on antisymmetric Gabor functions of space and time; and one c) incorporating smoothing in time, and gradients in space.  These approaches are somewhat similar to that described in Section \ref{sec:ODPF}, in the sense of using spatial derivatives and incorporating information across time, increasing description accuracy at the expense of computational load (see Table~\ref{table:comput_load}).  A further point to note is that the methods in this section do not make use of colour, using grey-scale information only from the intensity channel of HSI space. Although discarding an important potential visual cue of location, this allowed us to compare performance against a previously described method of HOG3D, providing some confidence that the new techniques are at least comparable to methods already in use.  
 %
 %The three approaches described in this section require two additional processes. First, an explicit calculation of the direction of the space-time, or gradient vector, that encodes visual motion is carried out.  Secondly, to reduce the information obtained from a dense collection of descriptors so as to make frame-by-frame query possible, a dictionary-learning approach was taken to map descriptors to atoms, then to map atoms to histograms for the database and queries.  This increased complexity does not greatly affect run-time queries when efficiently implemented, but does contribute to on-line vocabulary building and encoding in order to enable efficient performance at query time.
@@ -523,20 +491,15 @@ In spite of using image retrieval methods in isolation, the attainable accuracy 
 
 Another important branch of vision based navigation technique can be found in robotics. Visual SLAM \citep{konolige2007frame}, \citep{engelhard2011real},\citep{neira2008guest} (Simultaneous Localization and Mapping) provides a real time reconstruction of the scene by using stereo cameras (stereoSLAM) or a single one (monoSLAM). Though SLAM is often described for its ability to infer a geometric model of a scene, it also estimates a camera trajectory.  The combination of the two is a powerful source of navigation information. In addition, in subsequent journeys along the same route, geometric information can be refined and also used for refinement of camera pose estimates.
 
-Apart from the possible computational load issues that solutions growing in complexity can entail, the main challenge of SLAM, or the ``SLAM problem'' is to produce an accurate map and therefore a precise localisation. Traditionally, this problem has been studied from two different perspectives: from the image processing and recognition perspective (the latest developments including deep learning approaches \cite{REF}; from a tracking point of view, relying in technologies ranging from depth and inertial sensors to wireless networking to minimise the error drift in the location estimations.
+Apart from the possible computational load issues that solutions growing in complexity can entail, the main challenge of SLAM, or the ``SLAM problem'' is to produce an accurate map and therefore a precise localisation. Traditionally, this problem has been studied from two different perspectives: from the image processing and recognition perspective (the latest developments including deep learning approaches \citep{2014convolutional}; from a tracking point of view, relying in technologies ranging from depth and inertial sensors to wireless networking to minimise the error drift in the location estimations.
 
-We are more interested in the first perspective, as we believe our methods presented here can be complementary to SLAM and provide a better location inference acting not only as a loop closure method \ref{OpenFABMAP} but also as a semantic information retrieval system. 
+We are more interested in the first perspective, as we believe our methods presented here can be complementary to SLAM and provide a better location inference acting not only as a loop closure method \citep{glover2012openfabmap} but also as a semantic information retrieval system. 
 
-In this sense, (Davison et al., 2007) developed a seminal real time mono SLAM method that used a lightweight Harris feature detector of interesting points within the point of view of the camera. In the next step the system would locate the same feature in a neighbouring patch. 
+In this sense, (Davison et al., 2007) developed a seminal real time mono SLAM method that used a lightweight Harris feature detector of interesting points within the point of view of the camera. In the next step the system would locate the same feature in a neighbouring patch. Montiel and colleagues, as we will see in the comparison with EKF SLAM, took the same monoSLAM approach but aiming for its simplification in degrees of freedom and trying to overcome the problem of the initialization of features. In \citep{montiel2006unified} they devised an inverse depth parametrization for point features with 3 degrees of freedom (DOF) instead of the expensive 6.
 
-%In (Montiel et al., 2006), the inverse
-%depth parameterization method used to represent 3D
-%feature point with 3 degree of freedom (dof), instead of
-%6° of freedom to reduce the computation load. In
-%(Chwan and Yung-Pyng, 2007) changed the Harris
-%features to SIFT features to improve its robustness. 
+The complexity of the visual features used for SLAM increased with the introduction of SIFT instead of Harris in \citep{chen2007sift} and \citep{suzuki2011development} to Montiel and Davison's popular frameworks. This opened SLAM to outdoor and more challenging applications as the SIFT invariances increased the robustness of the SLAM.
 
-Some visual SLAM algorithms provide a navigation method suitable for use by autonomous robots \citep{konolige2007frame}. Techniques such as these normally rely on static features from the scene that are subsequently matched before the trajectory is estimated. However, in real life conditions, many of these features are dynamic, since they belong to objects or elements of the scene that are moving (e.g. a crowded scene). Additionally, SLAM algorithms, particularly visual monoSLAM \citep{davison2007monoslam}, rely on optic flow induced by ego-motion in order to infer a geometry and build up a map. In the presence of significant additional motion within the scene, algorithms can begin to fail.  One such failure mode is called scale drift and has been studied and taken into account by \cite{strasdat2010scale}. 
+This robustness is key, as some visual SLAM algorithms provide a navigation method suitable for use by autonomous robots \citep{konolige2007frame} but relying on static features from the scene that are subsequently matched before the trajectory is estimated. However, in real life conditions, many of these features are dynamic, since they belong to objects or elements of the scene that are moving (e.g. a crowded scene). Additionally, SLAM algorithms, particularly visual monoSLAM, rely on optic flow induced by ego-motion in order to infer a geometry and build up a map. In the presence of significant additional motion within the scene, algorithms can begin to fail.  One such failure mode is called scale drift and has been studied and taken into account by \cite{strasdat2010scale}. 
 
 Recent vision-based approaches have been developed by Alcantarilla et al. (\citeyear{alcantarilla2010visual}; \citeyear{alcantarilla2012combining}) They incorporate dense optical flow estimation into visual SLAM in order to improve the performance of algorithms in crowded and dynamic environments by detecting the presence of objects that are moving relative to the world coordinate system. Additionally, they have developed a fast vision-based method to speed-up the association between visual features and points in large 3D databases \citep{alcantarilla2010learning}. This approach consists of learning the visibility of the features in order to narrow down the number of matching point correspondence candidates.
 
@@ -602,9 +565,11 @@ Another comparison is illustrated by Fig. \ref{fig:reprod}. These are RSM corrid
 \label{fig:reprod}
 \end{figure}
 
+\subsubsection{Area-Under-Curve Comparisons}
+In \ref{visloc_perf} we calculated the average absolute positional error (in m) and the standard deviation of the absolute positional errors for a variety of methods. We reproduce here the AUC results for the method SF-GABOR, which ranged from 96.11\% to 96.39\%. For the case of LSD-SLAM, the AUC ranged from 89.71\% to 90.61\% All queries were again performed by adopting the leave-one-out strategy, but because of the high repeatability of results, we did not apply random frame-level sampling.  
 
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 %\setlength\figureheight{0.6\textwidth}
 %\setlength\figurewidth{0.8\textwidth}
@@ -613,11 +578,6 @@ Another comparison is illustrated by Fig. \ref{fig:reprod}. These are RSM corrid
 \caption{CDF of SF-GABOR and LSD-SLAM when sampling 1000 random queries from all the error measurements. The width of the curves represent the variability of the result data. The bounds are the maximum and minimum CDF values obtained from the Monte-Carlo sampling.}
 \label{fig:cdf}
 \end{figure}
-
-
-\subsubsection{Area-Under-Curve Comparisons}
-In \ref{visloc_perf} we calculated the average absolute positional error (in m) and the standard deviation of the absolute positional errors for a variety of methods. We reproduce here the AUC results for the method SF-GABOR, which ranged from 96.11\% to 96.39\%. For the case of LSD-SLAM, the AUC ranged from 89.71\% to 90.61\% All queries were again performed by adopting the leave-one-out strategy, but because of the high repeatability of results, we did not apply random frame-level sampling.  
-
 
 
 
