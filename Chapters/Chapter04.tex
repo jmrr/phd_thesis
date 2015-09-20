@@ -584,8 +584,11 @@ In \ref{visloc_perf} we calculated the average absolute positional error (in m) 
 %------------------------------------------------------------------------- 
 \section{A visualization of the frame distribution with t-SNE}
 
+In the previous sections we have extensively studied the case of the localization within a journey, answering the question ``where am I along the path?'' that we introduced in Chapter \ref{ch:chapter2}. In a visual paths retrieval system divided in different journeys inside a building, to be able to answer the question ``in which path am I on?'' with precision would give this system the necessary prior information to provide a better location and also suggest path planning, which would be specially relevant in an assitive context as we will see in Chapter \ref{ch:chapter6}. Although the journey selection was beyond the scope of this thesis, we still wanted to study the behaviour of a state-of-the-art dimensionality reduction technique in a rather challenging scenario of having such highly dimensional data (the BOVW-encoded vectors have 4,000 elements). Therefore we chose t-SNE as a technique for visualizing in two or three dimensions the high dimensional descriptor space of our RSM dataset.
 
-t-distributed stochastic neighbor embedding (t-SNE) is a machine learning algorithm for dimensionality reduction developed by Laurens van der Maaten and Geoffrey Hinton.[1] It is a nonlinear dimensionality reduction technique that is particularly well suited for embedding high-dimensional data into a space of two or three dimensions, which can then be visualized in a scatter plot. Specifically, it models each high-dimensional object by a two- or three-dimensional point in such a way that similar objects are modeled by nearby points and dissimilar objects are modeled by distant points.
+t-distributed stochastic neighbor embedding (t-SNE) is a machine learning algorithm for dimensionality reduction developed by Laurens van der Maaten and Geoffrey Hinton \cite{maaten2009learning}. It is a nonlinear dimensionality reduction technique that is particularly well suited for embedding high-dimensional data into a space of two or three dimensions, which can then be visualized in a scatter plot. Specifically, it models each high-dimensional object by a two- or three-dimensional point in such a way that similar objects are modelled by nearby points and dissimilar objects are modelled by distant points.
+
+In other words, t-SNE is a dimensionality reduction technique that aims to preserve the local structure of the data. For this reason we wanted to run our visual path descriptions of the RSM dataset and build the foundations for future work on journey/corridor selection.
 
 \begin{figure}
 \centering
@@ -594,7 +597,21 @@ t-distributed stochastic neighbor embedding (t-SNE) is a machine learning algori
 \label{fig:tsne3d}
 \end{figure}
 
-\td{Include}{say that I also changed the distance to cosine one as my values from the histograms are integers}
+In Fig. \ref{fig:tsne3d} we can see the 4,000-dimension visual word reduced to three dimensions and in Fig. \ref{fig:tsne2d} we can see the two-dimensional embedding. The embeddings were generated using more than 50,000 randomly selected examples from all the corridors. In this particular plot we selected dense-SIFT descriptors encoded with Hard-Assignment using k-means to create the visual word examples.
+
+As we can see from the images, the difficulty of generating two or three-dimensional embeddings of such a high dimensional and complex dataset is notable. However, patterns showing how examples from the same corridors can display a sequential relationship within the embeddings.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{gfx/Chapter04/tsne_dsift_2d.pdf}
+\caption{Distribution of the BOW data of the RSM dataset in a reduced 2D space when visualized with t-SNE.}
+\label{fig:tsne3d}
+\end{figure}
+
+The present thesis gives an emphasis on understanding \textit{visual path} data from a journey perspective, from a crowdsource collection of journeys in particular. However, although of limited practical use the within journey localization, this visualization is the first step in understanding the structure of the data from a ``building'' perspective.
+
+It is therefore subject of future work the use of these visualizations to understand the important features of visual paths datasets such as the presence of global clusters that reveal remarkable distinctiveness between journeys or give insight on how to optimize the retrieval based on between-journey differences.
 
 %------------------------------------------------------------------------- 
 \section{Conclusion}
