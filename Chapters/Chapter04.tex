@@ -30,13 +30,17 @@ journeys, then used to help other users of the same space navigate -- is the eve
 \section{Related work}
 \label{sec:retrieval}
 
-\subsection{Matching between visual paths} As we briefly introduced in Chapter \ref{ch:chapter2}, we define a {\em visual path} as a collection of image frames that are induced by the relative motion of a person in a scene. The work reported in this chapter involves matching the visual paths of a ``new'' journey instance to previous, similar instances. 
+\subsection{Matching between visual paths} 
+\ref{subsec:early_works}
+ 
+As we briefly introduced in Chapter \ref{ch:chapter2}, we define a {\em visual path} as a collection of image frames that are induced by the relative motion of a person in a scene. The work reported in this chapter involves matching the visual paths of a ``new'' journey instance to previous, similar instances. 
 
 Early work by Matsumoto et al. \cite{Matsumoto1996} introduced a similar concept of the ``view-sequenced route representation''.  In this scheme,  a robot could perform simple navigation tasks by correlating current views against those held in a database. \citet{Ohno1996} also worked on this idea, using the difference between frames of detected vertical lines to estimate changes in position and orientation. Their results were constrained to controlled robot movement, and therefore arguably of limited applicability to images obtained from human ego-motion. Also employing vertical lines as features, this time from omni-directional images, Tang {\it et al.} used estimated position differences between sequences to perform  robot navigation \cite{Tang2001}. To make the inference more robust, they used recorded odometry at training time. This approach would certainly reduce the error in the localization task. However, it could lead to ``solving'' the training  route, without truly analysing the performance of feature matching methods. Furthermore, without ground-truth available in a crowdsensing setting, the technique of training with ground-truth is of limited usability.  On the other hand, with many passes through the same space, the reference for a journey could be the visual paths themselves. In this case, we would use ground-truth -- if available -- only to ascertain the accuracy of proposed matching or localization methods. This is the approach taken in our current work.
 
 The performance of previously reported methods that use a retrieval-type approach, albeit of the order of tens of cm, cannot be taken as representative for the evaluation of the methods presented in this chapter. The reviewed publications report results in routes of a few metres in length. Our evaluation is in a dataset three orders of magnitude longer.  Deliberately, we do not include any tracking, such as Kalman filtering, which can often hide poor measurement performance. 
 
-\subsection{Crowdsourcing visual paths.}
+\subsection{Crowdsourcing visual paths}
+\label{subsec:visual_paths}
 Our usage setting represents a particularly data-intensive form of crowdsensing in which the image streams  from wearable cameras could be volunteered to others as reference paths for indoor journeys. An illustration of this concept is presented in Fig. \ref{fig:visualpaths}. 
 
 This type of crowdsensing approach is gaining interest, with remarkable work from Google's indoor localization systems and crowdsourced sensor information and maps~\cite{Kadous2013}. In terms of a retrieval-based visual localization system, the NAVVIS team ~\cite{Huitl2012} released a dataset for evaluating indoor navigation from a camera-equipped robot. They also advanced earlier work on visual localization based on matching of SIFT descriptors~\cite{Park2008} to one using a bag of features that could be stored in mobile phones for quick retrieval~\cite{Schroth2011,Schroth2012}. The dataset we introduce in this work is not constrained to robot navigation, as it includes the ego-motion associated with hand-held and wearable devices.
@@ -224,15 +228,33 @@ where $H_{p,f}$ denotes the series of normalised histogram encodings, indexed by
 
 
 %------------------------------------------------------------------------- 
-\section{Experiments}
-\label{sec:exp_methods}
-
-\subsection{The RSM dataset: data acquisition and ground truth}
+\section{The RSM dataset}
 \label{sec:Dataset}
+In order to allow different approaches to be compared, and as a community resource to develop this technique, the datasets are made publicly available {\em Authors' note: to avoid violating ECCV anonymization rules for this ACVR Workshop, the data will be made available only if/when the final version of the paper is accepted.}
 
-A total of 60 videos were acquired from 6 corridors of a large building.  Two different devices were used for the acquisition, with 30 videos each. One was an LG Google Nexus 4 phone running Android 4.4.2.  The video data was acquired at approximately 24-30 fps at two different resolutions, $1280 \times 720$ and $1920\times 1080$ pixels.  Google Glass (Explorer edition) was used at a resolution of $1280 \times 720$, at a frame rate of 30 fps.  A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$ was used to record distance, but was modified by wiring its encoder to a Raspberry Pi running a number of measurement processes.  The Pi was synchronised to network time, enabling synchronisation with timestamps in the video sequence.  Because of the variable-frame rate of acquisition, timestamp data from the video was used to align ground-truth measurements with frames. This data was used to assess the accuracy of associating positions along journeys through frame indexing and comparison.
+\subsection{Existing Datasets}
 
-The dataset contains 3.05 km of journey data acquired at a casual indoor walking speed.  For each corridor, ten passes (i.e.\ 10 separate visual paths) were obtained. Five of these videos were acquired with the hand-held Nexus, and the remainder with Glass.  Table~\ref{tbl:Datasets} summarises the acquisition.  The length of the sequences varies, due to a combination of different walking speeds and/or different frame rates and corridor lengths. A combination of daylight/nighttime acquisitions was also performed, and prominent windows occasionally introduced strong lighting in some portions of the videos.  Variations are observable in some of the corridors from one pass to another, due to physical changes and occasional appearances from people walking along. In total, more than 90,000 frames of video were labelled with positional ground-truth in a path-relative fashion. The dataset is publicly available  at \citep{Rivera-Rubio2014} (\url{http://rsm.bicv.org}).
+Datasets for evaluating visual localization methods have historically been tied to specific publications and their function was often limited to demonstrate the performance of particular metrics. This has led to a number of datasets that were difficult to adapt to new work, or simply impossible to use because they were never released to the community.
+
+\paragraph{Historical Datasets}
+
+Early work described in Section \ref{subsec:early_works} used custom-planned datasets for their specific evaluation objectives. This led to datasets \cite{Matsumoto1996,Ohno1996,Tang2001} containing very short sequences, of few meters of length, that could not be used to assess localization performance at human scale.
+
+\paragraph{SLAM datasets and the NAVVIS Dataset}
+
+SLAM datasets, found in the robotics community, have a variety of scopes and recorded distances: large indoor spaces \cite{sturm12iros}, outdoor itineraries \cite{Bosse2004}, and up to the scale of a few km car ride \cite{Simpson2011}. They are also heterogeneous in terms of the precision and nature of the ground truth: some use GPS, others the Microsoft Kinect to capture depth \cite{sturm12iros}, while others use the Vicon motion capture system. While the ground truth is often precise (up to the level of GPS, Kinect or Vicon precision), these have usually targeted outdoor comparisons; indoor comparisons focused at geometric reconstruction or pose estimation rather than localisation.
+
+To the best of our knowledge, with the exception of NAVVIS, SLAM datasets have had rather restricted distances, not addressing real-world navigation on the scale of buildings. The NAVVIS project described in Section \ref{subsec:visual_paths} first introduced a more generic dataset that could evaluate visual localization and navigation at human scale for robotic applications. Our proposed dataset takes the evaluation and the principle closer to the assistive context than the robot-centric approach of the NAVVIS team: our data and evaluation context introduces the particularities of human motion, both from hand-held and a wearable camera.
+
+\subsection{RSM dataset: a dataset of visual paths}
+
+We define a ``visual path'' as the video sequence captured by a moving person in executing a journey along a particular physical path. A total of 60 videos were acquired from 6 corridors of a large building. In total, 3.05 km of data is contained in this dataset at a natural indoor walking speed.  For each corridor, ten passes (i.e.\ 10 separate visual paths) are obtained; five of these are acquired with two different devices with 30 videos each. One device was a LG Google Nexus 4 phone running Android 4.4.2.  The video data was acquired at approximately 24-30 fps at two different resolutions, $1280 \times 720$ and $1920\times 1080$ pixels.  The second device was a Google Glass (Explorer edition) acquiring at a resolution of $1280 \times 720$, and at a frame rate of 30 fps. Table~\ref{tbl:Datasets} summarizes the acquisition.  As can be seen, the length of the sequences varies within some corridors, due to a combination of different walking speeds and/or different frame rates. Lighting also varied, due to a combination of daylight/night-time acquisitions, and occasional prominent windows that represent strong lighting sources in certain parts of some corridors.  Changes were also observable in some videos from one pass to another, due to the presence of changes and occasional appearance from people. In total, more than 90,000 frames of video are labelled with positional ground-truth in a path relative manner. The dataset is publicly available for download at \citep{Rivera-Rubio2014} (\url{http://rsm.bicv.org}).
+
+
+\subsection{Ground Truth Acquisition}
+
+A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$ was used to record distance, but was modified by wiring its encoder to a Raspberry Pi running a number of measurement processes.  The Pi was synchronised to network time using the network time protocol (NTP) enabling synchronisation with timestamps in the video sequence.  Because of the variable-frame rate of acquisition, timestamp data from the video was used to align ground-truth measurements with frames. This data was used to access the accuracy of associating positions along journeys through frame indexing and comparison.
+
 
 \begin{figure}[t]
 \centering
@@ -282,6 +304,10 @@ The dataset contains 3.05 km of journey data acquired at a casual indoor walking
 
 \end{center}
 \end{table}
+
+
+\section{Experiments}
+\label{sec:exp_methods}
 
 \subsection{Performance Evaluation}
 
