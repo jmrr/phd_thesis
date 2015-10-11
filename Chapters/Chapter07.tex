@@ -3,12 +3,13 @@
 \begin{figure}[h!]
 \centering
 \includegraphics[width=.8\textwidth]{./gfx/Chapter07/phd051700s.jpg}
-\caption{A descriptive comic strip by Jorge Chan from his series ``Piled Higher and Deeper'' \cite{ChamPhD}}
+\caption{A descriptive comic strip by Jorge Cham from his series ``Piled Higher and Deeper'' \cite{Cham}}
 \end{figure}
 
 The main goal of this thesis was to explore appearance-based methods in the novel contexts of wearable and hand-held object recognition and visual localization. As means to achieve this objective we collected two large datasets; provided a thorough evaluation of baseline and custom-created image description methods; developed a biologically inspired model of place cells for visual localization and produced a prototype system for assistive localization using wearable/hand-held visual input and tactile feedback.
 
-In this final section we will briefly summarize each of these contributions and address some future perspectives.
+In this final section we will extend this summary for each of these contributions and address some future perspectives.
+
 \section{Summary of contributions}
 
 \begin{enumerate}
@@ -16,16 +17,29 @@ In this final section we will briefly summarize each of these contributions and 
 
 \item \textbf{Artificial Place Cell Model} Second, we have provided a novel artificial place cell (APC) model for the biological counterparts found in the hippoccampus, and tested it under the same challenging conditions of indoor navigation by using a generalised regression neural network as a training mechanisms for learning a positional ground truth from a database.
 
-\item \textbf{Prototype of an assistive application} Third, we took this previous findings to the next step and develop a prototype client-server Android application for assistive localization from wearable and hand-held devices using their visual input and a haptic feedback tablet to provide tactile cues to the location estimates.
+\item \textbf{Prototype of an assistive application} Third, we took this previous findings to the next step and develop a prototype client-server Android application for assistive localization from wearable and hand-held devices using their visual input and a haptic feedback tablet to provide tactile cues to the location estimates. With this work we laid out the foundations for an achievable solution from the commercial perspective and stressed the importance of inclusive design.
 
 
-\item \textbf{Two novel datasets} These contributions are accompanied by two important datasets, the SHORT dataset for hand-held object recognition and the RSM dataset of \emph{visual paths}.
-
+\item \textbf{Two novel datasets} These contributions are accompanied by two important datasets, namely the SHORT dataset for hand-held object recognition and the RSM dataset of \emph{visual paths}.
 \end{enumerate}
 
 As we can see, from the computer vision application development pipeline devised in \ref{fig:cv_dev_pipeline} we have accomplished all the stages.
 
 \section{Concluding remarks}
+
+\subsection{Context based image retrieval (CBIR) methods for wearable and assistive applications}
+
+\subsection{Artificial Place Cell Model}
+
+\subsection{Prototype of an assistive application}
+
+\subsection{Datasets}
+
+\subsubsection{SHORT dataset}
+
+In the case of SHORT, we took a slightly different approach and diverged from the trend in object recognition dataset research. Instead of going towards the domain and dataset depth of big data (although our datasets are not small, containing hundreds of thousands of examples), we emphasise the need of understanding better the constraints of the problem at hand (wearable or hand-held object recognition) and also comprehend why even state-of-the art deep learning approaches that purely learn from examples find it hard to generalise outside the dataset they're being trained --and tested- on. Torralba and Efros already studied the perils of dataset bias and poor cross-dataset generalisation \cite{torralba2011unbiased} and these was one of the main motivations to build the SHORT dataset as there were no available dataset that could capture the challenges of wearable or hand-held recognition of groceries.
+
+With the expansion of SHORT from 30 to 100 categories the category depth problem was solved, allowing for enough generalisation challenge from within the dataset. The test set, with more than, 130,000 images constitutes an extremely challenging results, with some preliminary work  being carried out in our group demonstrating the poor performance of deep learning frameworks such as Berkeley's Caffe \cite{jia2014caffe}.
 
 \section{Future work}
 
