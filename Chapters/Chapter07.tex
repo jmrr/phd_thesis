@@ -6,7 +6,7 @@
 \caption{A descriptive comic strip by Jorge Chan from his series ``Piled Higher and Deeper'' \cite{ChamPhD}}
 \end{figure}
 
-The main goal of this thesis was to explore appearance-based methods in the novel contexts of wearable and hand-held object recognition and visual localization. As means to achieve this objective we collected two large datasets; provided a thorough evaluation of baseline and custom-created image description methods; developed a biologically inspired model of place cells for visual localization and produced a prototype system for assistive localization using wearable/hand-held visual input and tactile feedback.
+The main goal of this thesis was to explore appearance-based methods in the novel contexts of wearable and hand-held object recognition and visual localization, with emphasis on whether biologically-inspired algorithms can have a posiive impact on performance. As means to achieve this objective we collected two large datasets; provided a thorough evaluation of baseline and custom-created image description methods; developed a biologically inspired model of place cells for visual localization and produced a prototype system for assistive localization using wearable/hand-held visual input and tactile feedback.
 
 In this final section we will briefly summarize each of these contributions and address some future perspectives.
 \section{Summary of contributions}
@@ -14,35 +14,45 @@ In this final section we will briefly summarize each of these contributions and 
 \begin{enumerate}
 \item \textbf{Context based image retrieval (CBIR) methods for wearable and assistive applications} First, we have analysed the impact of computer vision in mobile and wearable technologies in an assistive context, providing complete studies of appearance-based methods for two key applications, hand-held object recognition of household products and indoor navigation.
 
-\item \textbf{Artificial Place Cell Model} Second, we have provided a novel artificial place cell (APC) model for the biological counterparts found in the hippoccampus, and tested it under the same challenging conditions of indoor navigation by using a generalised regression neural network as a training mechanisms for learning a positional ground truth from a database.
+\item \textbf{Artificial Place Cell Model} Second, we have provided a novel artificial place cell (APC) model for their biological counterparts found in the hippoccampus, and tested it under the same challenging conditions of indoor navigation by using a generalised regression neural network as a training mechanisms for learning a positional ground truth from a database.
 
-\item \textbf{Prototype of an assistive application} Third, we took this previous findings to the next step and develop a prototype client-server Android application for assistive localization from wearable and hand-held devices using their visual input and a haptic feedback tablet to provide tactile cues to the location estimates.
+\item \textbf{Prototype of an assistive application} Third, we took this previous findings to the next step and developped a prototype client-server Android application for assistive localization from wearable and hand-held devices using their visual input and a haptic feedback tablet to provide tactile cues to the location estimates.
 
 \item \textbf{Two novel datasets} These contributions are accompanied by two important datasets, the SHORT dataset for hand-held object recognition and the RSM dataset of \emph{visual paths}.
 
 \end{enumerate}
 
-As we can see, from the computer vision application development pipeline devised in \ref{fig:cv_dev_pipeline} we have accomplished all the stages.
+As we can see, from the computer vision application development pipeline devised in Figure ~\ref{fig:cv_dev_pipeline} we have accomplished all the stages.
 
 \section{Concluding remarks}
 
 \section{Future work}
 
-Finally, we will summarise here the future work for each line of work previously discussed briefly in each corresponding chapter.
+Finally, we will summarise here the future work for each line of work previously described in each corresponding chapter.
 
 \subsection{Datasets}
 
+One might think that a straightforward future work for a dataset is just carry out an expansion. We think that this is one of the key aspects for the growth and dissemination of the data. However, we need to take into account current challenges and opportunities of crowdsourcing techniques and big data scenarios.
+
 \subsubsection{SHORT dataset}
 
-A large proportion of the time dedicated to the acquisition of SHORT was invested in prototypes of the acquisition set-up and trials for its testing. The intention was to have a flexible but at the same time reproducible set-up, as it can be shown in Fig. \ref{fig:acqsetup}. As the number of categories in the last version of SHORT, SHORT-100 was deemed appropriate in terms of generalisation under our testing conditions, we decided to stop its development there. However, the more categories we have in the training dataset the better for this type of benchmarks (controlled training set \textit{vs.} natural or \textit{wild} test set) to be adopted.
+A large proportion of the time dedicated to the acquisition of SHORT was invested in prototypes of the acquisition set-up and trials for its testing. The intention was to have a flexible but at the same time reproducible set-up, as it can be shown in Fig. \ref{fig:acqsetup}. As the number of categories in the last version of SHORT, SHORT-100 was deemed appropriate in terms of generalisation under our testing conditions, we decided to stop its development there. However, the more categories we have in the training dataset the better for this type of benchmarks (controlled training set \textit{vs.} natural or \textit{wild} test set) to be adopted. Therefore it is important to contact large suppliers of product images to supermarket and retail chains and propose collaboration plans beneficial to both the research community (these suppliers are capable of taking our approach to scale) and for the image suppliers, as they can have an important role in acquiring the models for future improved training algorithms.
 
 Regarding the test set, a natural expansion would consist of the setup of a web repository and the development of a retrieval mobile app so images of new grocery products could be contributed to the platform.
 
 In this respect, there are open-source alternatives such as \cite{apple} and \cite{google} that would facilitate this task as instead of developing a dedicated app, the SHORT test set acquisition can be a project within these initiatives and attract altruist contributors that might have an interest on this sort of projects.
 
+Alternatively, modern mobile app and web technologies allow for easy deployment of apps based on client-server communication using a RESTful architecture. By creating an API, posting images would be trivial, and the development of the client would be the final user's choice.
+
 \subsubsection{RSM dataset}
 
-The RSM dataset more corridors, different devices, and 2D ground truth.
+For the RSM dataset, we envisage that a larger number of corridors could attract more users. We are currently developing synthetic data of similar-looking corridors to assess the performance of appearance-based localisation, with and without employing artificial place cell models.
+
+Its expansion should idealy contain more variety of places, lighting conditions and overall, devices. In fact, this is an opportunity for crowdsourcing too, as a collection app or API as described in the previous section, could on its own encourage the contribution of many different devices in the process.
+
+Finally, the acquisition of sensor data could have add huge value to the dataset. It is easy to collect sensor reading APIs are mature in mobile phone development kits, and at the same time would attract research from the sensor, ``Internet of Things'' (IoT) and big-data communities.
+
+One of our future ideas to develop within our research group, is the modelling of similar tuning curves as the ones produced by the place cells, but on sensor data. The relationship between both sources of curves could have a huge impact in learning locations without the need of a map or even a database not obtained through crowdsourcing.
 
 \subsection{Appearance-based methods for visual localization}
 
