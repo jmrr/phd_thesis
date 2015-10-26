@@ -120,7 +120,7 @@ For each visual path, this yielded a total of $16\times 9 = 144$ separate time-s
 \begin{figure}
 \begin{center}
 \includegraphics[width=\linewidth]{./gfx/Chapter04/Lobe1and6_red_green.pdf}
-\caption{Four (of 144) representative signals acquired from a visual path; these signals encode changes in red and green channels as a user moves through space.  The collection of signal traces at one point in time can be used to build a simple frame-level space-time descriptor: LW\_COLOR. The signal amplitudes are spatially pooled temporal and spatial gradient intensities.}
+\caption{Four (of 144) representative signals acquired from a visual path; these signals encode changes in red and green channels as a user moves through space.  The collection of signal traces at one point in time can be used to build a simple frame-level space-time descriptor: LW-COLOR. The signal amplitudes are spatially pooled temporal and spatial gradient intensities.}
 \label{fig:Traces}
 \end{center}
 \end{figure}
@@ -132,7 +132,7 @@ LOR.  Our observations from the components of this descriptor are that a) relati
 \subsection{Local descriptors}
 \label{sec:descriptors}
 
-\subsubsection{Keypoint based SIFT (KP\_SIFT).}
+\subsubsection{Keypoint based SIFT (KP-SIFT).}
 
 The original implementation of Lowe's SIFT descriptor follows the extraction of interesting points in the image that are stable to certain transformations, the ``SIFT keypoints'' \cite{Lowe2004}. This is widely used across many branches of computer vision, from object recognition to motion detection and SLAM. We used the standard implementation from VLFEAT \cite{Vedaldi2008} to compute $\vec{\nabla}f(x,y;\sigma)$ where $f(x,y;\sigma)$ represents the embedding of image $f(x,y)$ within a Gaussian scale-space at scale $\sigma$. The parameter \emph{PeakThresh}, $t_p$ is used to filter out small local maxima in scale-space that might be originated by noise. Given the small size of the frames in our sequences we selected the minimum threshold $t_p = 0$.
 
@@ -140,9 +140,9 @@ The original implementation of Lowe's SIFT descriptor follows the extraction of 
 
 The Dense-SIFT (DSIFT) descriptor \citep{Lazebnik2006} is a popular  alternative to keypoint based SIFT. It sacrifices some invariance properties available with keypoint-based SIFT, producing descriptors that are densely, rather than sparsely, distributed across the image. This DSIFT descriptor was calculated by  sampling of the smoothed estimate of $\vec{\nabla}f(x,y;\sigma)$.  We used the implementation of the VLFEAT toolbox, setting $\sigma = 1.2$, with a stride length of 3 pixels. This  yielded around $2,000$ descriptors per frame, each describing a patch of roughly $10 \times 10$ pixels.  \\
 
-\subsubsection{Single Frame Gabor descriptors (SF\_GABOR).}
+\subsubsection{Single Frame Gabor descriptors (SF-GABOR).}
 
-An alternative single frame technique based on a tuned, odd-symmetric Gabor-based descriptor is the SF\_GABOR. For this, we used $8$-directional spatial Gabor filters previously tuned on PASCAL VOC data \cite{Everingham2009} in order to provide an implicit encoding of the orientation of local image structures.  Each filter gives rise to a filtered image plane, denoted $\mathbf{G}_{k,\sigma}$.  For each plane, we compute the discrete spatial convolution, $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$, with a series of pooling functions, ${\Phi}_{m,n}$. The latter are produced by spatial sampling of the function:
+An alternative single frame technique based on a tuned, odd-symmetric Gabor-based descriptor is the SF-GABOR. For this, we used $8$-directional spatial Gabor filters previously tuned on PASCAL VOC data \cite{Everingham2009} in order to provide an implicit encoding of the orientation of local image structures.  Each filter gives rise to a filtered image plane, denoted $\mathbf{G}_{k,\sigma}$.  For each plane, we compute the discrete spatial convolution, $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$, with a series of pooling functions, ${\Phi}_{m,n}$. The latter are produced by spatial sampling of the function:
 
 \begin{equation}
 \Phi(x,y;m,n) = e^{-\alpha \left [\log_e \left ( \frac{x^2+y^2}{d_n^2}\right ) \right ]^2 - \beta |\theta-\theta_m | }
@@ -168,7 +168,7 @@ In Chapter \ref{ch:chapter5} we will also give another formulation for SF-GABOR 
 %\subsubsection{The HOG3D Descriptor}
 %The 3D gradient estimation on the HOG3D feature is done by applying derivative filters along the three main dimensions of the video $(x,y,t)$. The resultant gradient vector is projected to unit vectors in a 3D quantised space (20 faces of an icosahedron). Similar to the HOG3D features, an odd symmetric Gabor filter is used on each video dimension to compute the 3D gradient vector. Projection to 12 directions in 3D space (dodecahedron) is used to quantise the motion vector in space-time. From this, a descriptor is produced.  We used the author's implementation, described in \cite{Klaser2008}.
 %
-%\subsubsection{Spatio-Temporal Gabors (ST\_GABOR)}
+%\subsubsection{Spatio-Temporal Gabors (ST-GABOR)}
 %Spatio-temporal Gabors have been used in activity recognition, and in structure from motion.  In what might be considered ``location from motion'', we performed one-dimensional convolution $(\ast)$ between the intensity video-sequence $I(x,y,t)$ and antisymmetric, one-dimensional Gabor functions of space, $x,y$, and time, $t$, respectively:
 %\begin{equation}
 %\begin{array}{c}
@@ -186,29 +186,29 @@ In Chapter \ref{ch:chapter5} we will also give another formulation for SF-GABOR 
 %
 %The components $(I_1,I_2,I_3)$ now represent each pixel in each frame in a three-dimensional feature space. Magnitude-weighted votes are then placed into the two bins corresponding to the elevation and azimuthal angles, respectively, of this feature vector.   The information in these bins is then collected within each of 17 lobes over a fairly small patch size of $16\times 16$ pixels in spatial extent in a single reference frame at the centre of the temporal support region.   These lobes were similar to those shown in Fig. ~\ref{fig:kernel}, with one additional central lobe, and used a spatial weighting pattern similar to the DAISY descriptor \cite{Winder2009}.  The resulting descriptor, produced for each patch of image space, is only slightly larger than that based on the colour descriptor described in Section \ref{sec:ODPF}.  However, the descriptors are computed {\it densely} over space, by sampling patches across the image on a regular grid.  Thus, just over 2000 of these 192-dimensional descriptors are produced per frame.
 %
-%\subsubsection{Spatial Derivative, Temporal Gaussian (ST\_GAUSS)}
+%\subsubsection{Spatial Derivative, Temporal Gaussian (ST-GAUSS)}
 %A final variant of descriptor was designed. In this case, we tried smoothing in time, rather than taking a derivative, then computing simple derivatives over space using a pair of directional derivative-of-Gaussian spatial filters of size ($5\times 5$). The temporal smoothing was provided by an 11-point Gaussian smoothing filter with a standard deviation of 2.  This was applied before the two dimensional spatial-derivative masks.
 %Once the gradient field was estimated, the gradient direction was calculated and quantised into 4 directions, with a sign calculation being used to generate 8 directions.  A simple Parzen-type operation smoothed the angles into a weighted histogram of spatial orientations.
 %The descriptor was then constructed by using pooling regions that are very similar to those described above, yielding a 192-dimensional histogram. Finally, the patches of each frame were densely sampled, to produce around 2000 descriptors per frame.
 
 
-Given the potential richness available from space-time information, we explored three distinct approaches to generate space-time patch descriptors.  When generating the descriptor associated with each patch, all  approaches yield multiple descriptors per frame, and all take into account neighbouring frames in time.  In contrast to a sparse-sampling approach of a keypoint-based descriptor, all three densely sample the video sequence.  The three methods are i) HOG 3D~\cite{Klaser2008}; ii) a space-time, antisymmetric Gabor filtering process (ST\_GABOR); and iii) a Spatial Derivative, Temporal Gaussian (ST\_GAUSS) filter.\\
+Given the potential richness available from space-time information, we explored three distinct approaches to generate space-time patch descriptors.  When generating the descriptor associated with each patch, all  approaches yield multiple descriptors per frame, and all take into account neighbouring frames in time.  In contrast to a sparse-sampling approach of a keypoint-based descriptor, all three densely sample the video sequence.  The three methods are i) HOG 3D~\cite{Klaser2008}; ii) a space-time, antisymmetric Gabor filtering process (ST-GABOR); and iii) a Spatial Derivative, Temporal Gaussian (ST-GAUSS) filter.\\
 
 \begin{enumerate}
 \item The \textbf{HOG 3D} descriptor (HOG3D) \citep{Klaser2008} was introduced with the aim of extending the very successful two-dimensional histogram of oriented gradients technique \citep{Dalal}, to space-time fields, in the form of video sequences.  HOG 3D seeks computational efficiencies by smoothing using box filters, rather than Gaussian spatial or space-time kernels.  This allows three-dimensional gradient estimation across multiple scales using {\em integral video} representations, a direct extension of the integral image idea \citep{Viola2001}.  The gradients from this operation are usually performed across multiple scales.  We used the dense HOG 3D option from the implementation of the authors, and the settings yielded approximately 2,000  descriptors per frame of video. Each descriptor contained 192 elements.
 
-\item \textbf{Space-time Gabor (ST\_GABOR)} functions have been used in activity recognition, structure from motion and other applications \cite{Bregonzio2009}.  We performed one dimensional convolution between the video sequence and three one-dimensional Gabor functions along either one spatial dimension i.e.\ $x$ or $y$, or along $t$.  The one-dimensional convolution  is crude, but appropriate if the videos have been downsampled. The spatial extent of the Gabor function was set to provide one complete cycle of oscillation over approximately 5 pixels of spatial span, both for the $x$ and $y$ spatial dimensions. The filter for the temporal dimension was set to provide  around one oscillation over 9 frames.  We also explored symmetric Gabor functions, but found them rather less favourable.
+\item \textbf{Space-time Gabor (ST-GABOR)} functions have been used in activity recognition, structure from motion and other applications \cite{Bregonzio2009}.  We performed one dimensional convolution between the video sequence and three one-dimensional Gabor functions along either one spatial dimension i.e.\ $x$ or $y$, or along $t$.  The one-dimensional convolution  is crude, but appropriate if the videos have been downsampled. The spatial extent of the Gabor function was set to provide one complete cycle of oscillation over approximately 5 pixels of spatial span, both for the $x$ and $y$ spatial dimensions. The filter for the temporal dimension was set to provide  around one oscillation over 9 frames.  We also explored symmetric Gabor functions, but found them rather less favourable.
 
-After performing three separate filtering operations, each pixel of each frame is assigned a triplet of values corresponding to the result of each filtering operation.  The three values are treated as being components of a 3D vector.  Over a spatial extent of around $16 \times 16$ pixels taken at the central frame of the 9-frame support region, these vectors contribute weighted votes into descriptor bins according to their azimuth and elevations, with the weighting being given by the length of the vector.  The votes are also partitioned according to the approximate spatial lobe pattern illustrated in Fig.~\ref{fig:IsoPool}. Each frame had approximately 2,000 ST\_GABOR descriptors, each of 221 elements.
+After performing three separate filtering operations, each pixel of each frame is assigned a triplet of values corresponding to the result of each filtering operation.  The three values are treated as being components of a 3D vector.  Over a spatial extent of around $16 \times 16$ pixels taken at the central frame of the 9-frame support region, these vectors contribute weighted votes into descriptor bins according to their azimuth and elevations, with the weighting being given by the length of the vector.  The votes are also partitioned according to the approximate spatial lobe pattern illustrated in Fig.~\ref{fig:IsoPool}. Each frame had approximately 2,000 ST-GABOR descriptors, each of 221 elements.
 
 
-\item A final variant of space-time patch descriptor was designed.  This consisted of spatial derivatives in space, combined with smoothing over time \textbf{(ST\_GAUSS)}.  In contrast to the strictly one-dimensional filtering operation used for the ST\_GABOR descriptor, we used two $5\times 5$ gradient masks for the $x$ and $y$ directions based on derivatives of Gaussian functions, and an 11-point Gaussian smoothing filter in the temporal direction, using a standard deviation of 2.  8-directional quantization was applied to the angles of the gradient field, and a voting process incorporating gradient magnitude was used to distribute votes across the bins of a 136-dimensional descriptor.  Like the ST\_GABOR descriptor, pooling functions, similar to those shown in Fig.~\ref{fig:IsoPool}, were applied.  The number of descriptors produced was the same as for the other methods using patch-level descriptions.
+\item A final variant of space-time patch descriptor was designed.  This consisted of spatial derivatives in space, combined with smoothing over time \textbf{(ST-GAUSS)}.  In contrast to the strictly one-dimensional filtering operation used for the ST-GABOR descriptor, we used two $5\times 5$ gradient masks for the $x$ and $y$ directions based on derivatives of Gaussian functions, and an 11-point Gaussian smoothing filter in the temporal direction, using a standard deviation of 2.  8-directional quantization was applied to the angles of the gradient field, and a voting process incorporating gradient magnitude was used to distribute votes across the bins of a 136-dimensional descriptor.  Like the ST-GABOR descriptor, pooling functions, similar to those shown in Fig.~\ref{fig:IsoPool}, were applied.  The number of descriptors produced was the same as for the other methods using patch-level descriptions.
 \end{enumerate}
 
 
 \subsection{Quantization and histogram encoding}
 
-Our initial conjecture was that whole frames from a sequence could be indexed compactly, using the single-frame descriptor (LW\_COLOR).  This was found to lead to disappointing performance (see Section~\ref{sec:ch4results}). For the case of many descriptors-per-frame i.e.\ descriptors that are patch-based, we have the problem of generating around 2,000 descriptors per frame, if dense sampling is used.  Thus, we applied vector quantization (VQ) to the descriptors, then used histograms of VQ descriptors, effectively representing each frame as a histogram of words \citep{Csurka2004}. The dictionary was always built by excluding the entire journey from which queries are to be taken.  
+Our initial conjecture was that whole frames from a sequence could be indexed compactly, using the single-frame descriptor (LW-COLOR).  This was found to lead to disappointing performance (see Section~\ref{sec:ch4results}). For the case of many descriptors-per-frame i.e.\ descriptors that are patch-based, we have the problem of generating around 2,000 descriptors per frame, if dense sampling is used.  Thus, we applied vector quantization (VQ) to the descriptors, then used histograms of VQ descriptors, effectively representing each frame as a histogram of words \citep{Csurka2004}. The dictionary was always built by excluding the entire journey from which queries are to be taken.  
 
 The resulting dictionaries were then used to encode the descriptors of the $M-1$ training passes and the remaining query pass. Two different approaches to the encoding of descriptors were taken, one based on standard $k$-means, using a Euclidean distance measure (hard assignment, ``HA''), and one corresponding to the Vector of Locally Aggregated Descriptors (VLAD) \citep{jegou2010aggregating}. These histograms were all $L_2$-normalised.  
 
@@ -321,16 +321,16 @@ The methods for a) describing spatial or space-time structure, b) indexing and c
     \begin{tabular}{l p{0.5cm} p{0.9cm} p{0.5cm} p{2.5cm} c }
     \hline
     \textbf{Method}              & \textbf{ST} & \textbf{Dense} & \textbf{Dim}  & \textbf{Encoding}      & \textbf{Metric}    \\ \hline
-    \multirow{2}{*}{KP\_SIFT} & \multirow{2}{*}{No} & \multirow{2}{*}{No} & \multirow{2}{*}{128}     & HA-4000  &   $\chi^2$    \\ \cline{5-6} 
+    \multirow{2}{*}{KP-SIFT} & \multirow{2}{*}{No} & \multirow{2}{*}{No} & \multirow{2}{*}{128}     & HA-4000  &   $\chi^2$    \\ \cline{5-6} 
         ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
     \multirow{2}{*}{DSIFT} & \multirow{2}{*}{No} & \multirow{2}{*}{Yes} & \multirow{2}{*}{128}     & HA-4000  &   $\chi^2$    \\ \cline{5-6}
     ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
     \multirow{2}{*}{SF-GABOR} & \multirow{2}{*}{No}               & \multirow{2}{*}{Yes}  & \multirow{2}{*}{136}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
     ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
     LW-COLOR           & Yes & No & 144           & N/A       \\ \hline
-    \multirow{2}{*}{ST\_GABOR}          & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes}  & \multirow{2}{*}{221}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
+    \multirow{2}{*}{ST-GABOR}          & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes}  & \multirow{2}{*}{221}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
     ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
-    \multirow{2}{*}{ST\_GAUSS}           & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes}  & \multirow{2}{*}{136}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
+    \multirow{2}{*}{ST-GAUSS}           & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes}  & \multirow{2}{*}{136}  & HA-4000  & $\chi^2$      \\  \cline{5-6}
     ~                   & ~      & ~           & ~      & VLAD-256 & Hellinger \\ \hline
     \multirow{2}{*}{HOG3D}               & \multirow{2}{*}{Yes}              & \multirow{2}{*}{Yes} & \multirow{2}{*}{192}   &  HA-4000  & $\chi^2$      \\  \cline{5-6}
     ~                   & ~       & ~          & ~      & VLAD-256 & Hellinger \\ \hline
@@ -354,7 +354,7 @@ The outcome is shown in Fig.~\ref{fig:CDFall}, where the variability in the line
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{./gfx/Chapter04/kernel.pdf}
-\caption{Example of a $\chi^2$ kernel produced by hard assignment and using the SF\_GABOR descriptors when querying with pass 1 of corridor 2 against a database comprised of passes 2-10.}
+\caption{Example of a $\chi^2$ kernel produced by hard assignment and using the SF-GABOR descriptors when querying with pass 1 of corridor 2 against a database comprised of passes 2-10.}
 \label{fig:kernel}
 \end{figure}
 
@@ -450,11 +450,11 @@ As described in the previous section, by permuting the database paths and select
 
 \begin{figure}[h!]
 \centering
-\subfloat[Corridor 3 using Pass 2 acquired with LG Nexus 4. Results for the best spatio-temporal method, ST\_GABOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/ST_GABOR_good.pdf}}
+\subfloat[Corridor 3 using Pass 2 acquired with LG Nexus 4. Results for the best spatio-temporal method, ST-GABOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/ST_GABOR_good.pdf}}
 \\
-\subfloat[Corridor 3 using Pass 6 acquired with Google Glass. Results for the best single-frame method, SF\_GABOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/SF_GABOR_good.pdf}}
+\subfloat[Corridor 3 using Pass 6 acquired with Google Glass. Results for the best single-frame method, SF-GABOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/SF_GABOR_good.pdf}}
 \\
-\subfloat[Corridor 2 using Pass 6 acquired with Google Glass. Results for the worst overall method, LW\_COLOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/Lightweight_bad.pdf}}
+\subfloat[Corridor 2 using Pass 6 acquired with Google Glass. Results for the worst overall method, LW-COLOR.]{\includegraphics[width=.6\linewidth]{./gfx/Chapter04/xe_vs_x/Lightweight_bad.pdf}}
 \caption{Estimated location vs. ground truth. Illustrative examples of good/bad location estimation performance. a) Uses the best descriptor and a single-device dataset, b) uses the best descriptor and a cross-device dataset and c) uses the worst descriptor, and a multiple-device dataset.}
 \label{fig:x_e_vs_gt}
 \end{figure}
@@ -462,7 +462,7 @@ As described in the previous section, by permuting the database paths and select
 
 \subsection{Performance Summaries}
 \label{visloc_perf}
-We calculated the average of the absolute positional error (in m) and the standard deviation of the absolute positional error in a subset of the complete RSM dataset (Table~\ref{Table:summaries}). We  used a leave-one-journey-out approach (all the frames from an entire journey are excluded from the database).  Using bootstrap sampling, we also estimated the cumulative density functions of the error distributions in position, which are plotted in Fig.~\ref{fig:CDFall}. The variability in these curves is not shown, but is summarized in the last two columns of Table~\ref{Table:summaries} through the area-under-curve (AUC) values. In the best case (SF\_GABOR), AUCs of the order of $~96\%$ would mean errors generally below 2 m; in the worst (HOG3D), AUCs $\approx$ 90\% would mean errors of around 5 m.  These  mean absolute error estimates are obtained as we permute the queries, the dictionary and the paths in the database. 
+We calculated the average of the absolute positional error (in m) and the standard deviation of the absolute positional error in a subset of the complete RSM dataset (Table~\ref{Table:summaries}). We  used a leave-one-journey-out approach (all the frames from an entire journey are excluded from the database).  Using bootstrap sampling, we also estimated the cumulative density functions of the error distributions in position, which are plotted in Fig.~\ref{fig:CDFall}. The variability in these curves is not shown, but is summarized in the last two columns of Table~\ref{Table:summaries} through the area-under-curve (AUC) values. In the best case (SF-GABOR), AUCs of the order of $~96\%$ would mean errors generally below 2 m; in the worst (HOG3D), AUCs $\approx$ 90\% would mean errors of around 5 m.  These  mean absolute error estimates are obtained as we permute the queries, the dictionary and the paths in the database. 
 
 
 \begin{table}[!h]
@@ -474,26 +474,26 @@ We calculated the average of the absolute positional error (in m) and the standa
      \multirow{2}{*}{\bf Method}  & \multicolumn{2}{c}{Error summary (\SI{}{m})} & \multicolumn{2}{c}{AUC (\%)}\\ \cline{2-5}    
     & $\mu_{\epsilon}$ & $\sigma_{\epsilon}$ & Min & Max \\ \hline
 
-    SF\_GABOR       & \textbf{1.59}             & 0.11             & 96.11   & \textbf{96.39}   \\ \hline
-    %SF\_GABOR & Hellinger      & 135.1              & 46.5              & 96.29   & 96.71   \\ \hline
+    SF-GABOR       & \textbf{1.59}             & 0.11             & 96.11   & \textbf{96.39}   \\ \hline
+    %SF-GABOR & Hellinger      & 135.1              & 46.5              & 96.29   & 96.71   \\ \hline
 	DSIFT           & 1.62              & 0.11  & 95.96   & 96.31   \\ \hline 
 
-	KP\_SIFT           & 2.14              & 0.17  & 94.58   & 95.19   \\ \hline 
+	KP-SIFT           & 2.14              & 0.17  & 94.58   & 95.19   \\ \hline 
 
-	LW\_COLOR           & 3.64              & 1.13  & 91.42   & 92.25   \\ \hline \hline
+	LW-COLOR           & 3.64              & 1.13  & 91.42   & 92.25   \\ \hline \hline
 
     %SIFT     & Hellinger      & 132.7              & 41.4              & 94.34   & 94.95   \\ \hline
 
 	% Spatio temporal
 	
-	ST\_GAUSS        & \textbf{2.11}              & 0.24 & 94.82   & \textbf{95.57}   \\ \hline
-    %ST\_GAUSS & Hellinger      & 144.1              & 52.4              & 92.69   & 93.47   \\ \hline
-    ST\_GABOR       & 2.54              & 0.19 & 93.90   & 94.44   \\ \hline
-    %ST\_GABOR & Hellinger      & 179.5              & 62.3              & 93.98   & 94.60   \\ \hline
+	ST-GAUSS        & \textbf{2.11}              & 0.24 & 94.82   & \textbf{95.57}   \\ \hline
+    %ST-GAUSS & Hellinger      & 144.1              & 52.4              & 92.69   & 93.47   \\ \hline
+    ST-GABOR       & 2.54              & 0.19 & 93.90   & 94.44   \\ \hline
+    %ST-GABOR & Hellinger      & 179.5              & 62.3              & 93.98   & 94.60   \\ \hline
 
     HOG3D         & 4.20              & 1.33              & 90.89   & 91.83   \\ \hline
     %HOG3D    & Hellinger      & 366.5              & 120.3              & 91.49   & 92.37   \\ \hline
-    %LW\_COLOR & N/A       & 363.9              & 113.2              & 91.42   & 92.25   \\ \hline
+    %LW-COLOR & N/A       & 363.9              & 113.2              & 91.42   & 92.25   \\ \hline
     \end{tabular}
 
 
@@ -503,7 +503,7 @@ We calculated the average of the absolute positional error (in m) and the standa
 
 Note that we did not use any tracking algorithms, and so there is no motion model or estimate of current location given the previous one. As we will describe in Section \ref{sec:slamcomp}, incorporating a particle filter or Kalman filter should reduce the errors, particularly where there are large jumps within small intervals of time. This deliberate choice allows us to evaluate the performance of different descriptor and metric choices independently.
 
-The results show that localization is achieved with good accuracy in terms of CDF and AUC without a large difference between the applied methods, despite the big diversity in their complexity. Absolute errors show significant differences between methods, with average absolute errors in the range of \SI{1.5}{m} to \SI{4.20}{m}. Single frame methods (SF\_GABOR, KP\_SIFT and DSIFT) perform slightly better than spatio-temporal approaches. This is not surprising, as the spatio-temporal methods might be strongly affected by the self motion over fine temporal scales.
+The results show that localization is achieved with good accuracy in terms of CDF and AUC without a large difference between the applied methods, despite the big diversity in their complexity. Absolute errors show significant differences between methods, with average absolute errors in the range of \SI{1.5}{m} to \SI{4.20}{m}. Single frame methods (SF-GABOR, KP-SIFT and DSIFT) perform slightly better than spatio-temporal approaches. This is not surprising, as the spatio-temporal methods might be strongly affected by the self motion over fine temporal scales.
 
 In spite of using image retrieval methods in isolation, the attainable accuracy appears to be in line with those of  other methods reviewed in Section~\ref{sec:retrieval}.  However, previously reported methods include tracking, the use of other sensors, or estimates of motion. In this work, no form of tracking was used in estimating position: this was deliberate, in order that we could assess performance in inferring location from the visual data fairly.  Introducing tracking will most possibly improve localization performance, and could reduce query complexity. Yet, tracking often relies on some form of motion model, and for pedestrians carrying or wearing cameras, motion can sometimes be relatively unpredictable. In the next section we will describe the comparison  of our appearance-based approach with SLAM methods, particularly we will reproduce a head-to-head study against large-scale direct monocular SLAM (LSD-SLAM).
 
@@ -642,11 +642,11 @@ It is therefore subject of future work the use of these visualizations to unders
 %------------------------------------------------------------------------- 
 \section{Conclusion}
 
-We have presented three main contributions to the topic of indoor localization using visual path matching from wearable and hand-held cameras. In first place, we provide a complete evaluation of six local descriptor methods: three custom designed and three standard image (KP\_SIFT and DSIFT) and video (HOG3D) matching methods as baseline. These local descriptions follow a standard bag-of-words and kernel encoding pipeline. The code for both the local descriptors and for the evaluation pipeline is available on the web page~\cite{Rivera-Rubio2014_LFVP_code}. In second place, we also make available the RSM dataset a large dataset of more than 120,000 video-frames with positional ground truth of indoor journeys to complete the evaluation framework. The dataset is freely available at \url{http://rsm.bicv.org}. In third place, we introduce the CDFs of the error as the probability of the error being less than a certain threshold. This way of reporting localisation errors is a different performance metric than the usual average error with respect to the ground truth (although we also provide this) found in SLAM and other localisation approaches.
+We have presented three main contributions to the topic of indoor localization using visual path matching from wearable and hand-held cameras. In first place, we provide a complete evaluation of six local descriptor methods: three custom designed and three standard image (KP-SIFT and DSIFT) and video (HOG3D) matching methods as baseline. These local descriptions follow a standard bag-of-words and kernel encoding pipeline. The code for both the local descriptors and for the evaluation pipeline is available on the web page~\cite{Rivera-Rubio2014_LFVP_code}. In second place, we also make available the RSM dataset a large dataset of more than 120,000 video-frames with positional ground truth of indoor journeys to complete the evaluation framework. The dataset is freely available at \url{http://rsm.bicv.org}. In third place, we introduce the CDFs of the error as the probability of the error being less than a certain threshold. This way of reporting localisation errors is a different performance metric than the usual average error with respect to the ground truth (although we also provide this) found in SLAM and other localisation approaches.
 
 The results show that there is significant localization information in the visual data, and that errors as small as \SI{1.5}{m} over a \SI{50}{m} distance can be achieved, even without tracking. As we mentioned above, the results have been reported in two ways: a) average absolute positional errors, and b) error distributions, both of which allow image descriptions to be assessed for their localization capability.  The latter could also be used to build a measurement model for inclusion in a Kalman or particle filter  aimed at supporting human ambulatory navigation. 
 
-As a baseline for these results, we provide a comparison with the state of the art method in SLAM, LSD-SLAM, with our best method, SF-GABOR, presenting a lower average localisation error ($\mu_{e,SF_GABOR} = 1.31 $ m $< \mu{e,LSD-SLAM} = 2.48 $ m.
+As a baseline for these results, we provide a comparison with the state of the art method in SLAM, LSD-SLAM, with our best method, SF-GABOR, presenting a lower average localisation error ($\mu_{e,SF-GABOR} = 1.31 $ m $< \mu_{e,LSD-SLAM} = 2.48 $ m.
 
 Finally, the high-dimensional visual word space representing the RSM dataset is visualized in 2D and 3D using t-SNE, a powerful dimensionality reduction algorithm for visualizations. The aim of this visualization is to lay the foundations for future studies on retrieval at the building or large scale level, rather than at the journey level as in this thesis.
 
