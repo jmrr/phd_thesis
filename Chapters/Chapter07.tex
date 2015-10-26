@@ -3,10 +3,10 @@
 \begin{figure}[h!]
 \centering
 \includegraphics[width=.8\textwidth]{./gfx/Chapter07/phd051700s.jpg}
-\caption{A descriptive comic strip by Jorge Cham from his series ``Piled Higher and Deeper'' \cite{Cham}}
+\caption{A  comic strip by Jorge Cham from his series ``Piled Higher and Deeper'' \cite{Cham}}
 \end{figure}
 
-The main goal of this thesis was to explore appearance-based methods in the novel contexts of wearable and hand-held object recognition and visual localization, with emphasis on whether biologically-inspired algorithms can have a posiive impact on performance. As means to achieve this objective we collected two large datasets; provided a thorough evaluation of baseline and custom-created image description methods; developed a biologically inspired model of place cells for visual localization and produced a prototype system for assistive localization using wearable/hand-held visual input and tactile feedback.
+The main goal of this thesis was to explore appearance-based methods in the novel contexts of wearable and hand-held object recognition and visual localization, with emphasis on whether biologically-inspired algorithms can have a positive impact on performance. Therefore, around this idea we defined individual hypotheses for the work described in each chapter. As means to achieve this objective we collected two large datasets; provided a thorough evaluation of baseline and custom-created image description methods; developed a biologically inspired model of place cells for visual localization and produced a prototype system for assistive localization using wearable/hand-held visual input and tactile feedback.
 
 In this final section we will extend this summary for each of these contributions and address some future perspectives.
 
@@ -28,6 +28,13 @@ As we can see, from the computer vision application development pipeline devised
 \section{Concluding remarks}
 
 \subsection{Context based image retrieval (CBIR) methods for wearable and assistive applications}
+
+The research question for Chapters \ref{ch:chapter2},~\ref{ch:chapterSHORT},~\ref{ch:chapter4} was whether the appearance-based CBIR methods extensively used in the object recognition field could be applied to the challenging scenarios of wearable and assistive applications, with emphasis in two key applications: object recognition and visual indoor localisation. Therefore in Chapter \ref{ch:chapter2} we studied the particularities of this use case, and defined simple image matching methods and metrics and test them with prototype data so we could specify the data and performance requirements for the more thorough evaluation carried out in the following chapters.
+
+The work described in Chapter~\ref{ch:chapter3} focuses on hand-held object recognition. We described the acquisition of the SHORT dataset and the evaluation of popular appearance-based methods aganst this dataset. The dataset proved to be extremely challenging even for algorithms that had practically solved other datasets. With the arrival of new datasets such as SHORT and ImageNet, these algorithms's performance decay, and the community had to put focus on more flexible learning methods particularly deep learning.
+
+In Chapter~\ref{ch:chapter4} we studied another important application, indoor visual localization from hand-held and wearable cameras. We acquired another large dataset, the RSM dataset, built a benchmark and developed a series of appearance-based methods and metrics we believe are more descriptive than the current state of the art. In the benchmark, we showed how our custom methods outperform standard methods such as dense SIFT or HOG3D, but also the state of the art SLAM method for indoor scnearios, LSD-SLAM. Our best method, \textit{single frame Gabor} (SF-GABOR) achieves an average error of  We also argue that the power of SLAM resides in the robustness of its tracking mechanisms. Therefore, our methods, where no tracking was applied, can serve as a complementary tool to reduce estimation erros.
+
 
 \subsection{Artificial Place Cell Model}
 
