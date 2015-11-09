@@ -650,12 +650,11 @@ Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were o
 The architecture of the CNN and the order of tensors used to represent the data flowing through it is shown in Figure~\ref{fig:arch}.
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=\linewidth]{gfx/Chapter05/VideoEncoding.pdf}
+\centering
+\includegraphics[width=1.1\linewidth,trim={0 7cm 0 3cm},clip]{gfx/Chapter05/video_encoding_pipeline.pdf}
 \caption{Illustration of the CNN that simulates simple-cell responses and a population code based on neurons in visual area V1 applied to a video sequence captured from a wearable or hand-held camera.  In terms of biological complexity, this is quite a crude model: does not include strong non-linearities such as divisive normalisation of phase quadrature
 responses \cite{petrou2008next}. Nevertheless, it captures the behaviour of a significant subset of biological cell responses in area V1 \cite{carandini1997predictions}. Sub-sampling in modes $(i_1,i_2)$ is omitted for clarity.}
 \label{fig:arch}
-\end{center}
 \end{figure}
 
 \subsection{Dictionary Encoding}
