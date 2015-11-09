@@ -93,9 +93,19 @@ One of our future ideas to develop within our research group, is the modelling o
 \subsection{Appearance-based methods for visual localisation}
 As we are open sourcing the evaluation pipeline, we welcome different research groups to contribute code to expand the amount of appearance-based methods for visual localisation.
 
-A second future line of work will be to test our best performing method in conjunction with SLAM, the same way Open FAB-MAP is used with LSD-SLAM. We believe the SLAM community should keep relying on appearance-based methods not only for loop closure tasks but to enrich their localisation and mapping with some semantic information about the environment.
+A second future line of work will be to test our best performing method in conjunction with SLAM, the same way Open FAB-MAP is used with LSD-SLAM. We believe the SLAM community should keep relying on appearance-based methods not only for loop closure tasks but to povide their localisation and mapping with some semantic information about the environment.
+
+A third project that would naturally emanate from this work would be a hierarchical appearance-based localisation that would implement the latest advances in scene retrieval and multi-sensor positioning. The same way we are providing a localisation within one journey from a database of similar journeys, we could also provide localisation within a building, within a city and so on. Broader estimates can come from GRNN signals, Wi-Fi and other radio location-based services, whilst fine grained positioning can be provided by appearance-based methods and a combination of these with SLAM when a database is not present.
+
 \subsection{Biologically inspired localization methods based on place cell models}
+
+We are currently studying different normalisation methods for the artificial place cell models and we recently submitted a paper with our latest advances in this area~\cite{Rivera-Rubio2015tnnls}. 
 Fisher Vector as method (GMM more biologically plausible?).
+
+
 \subsection{Assitive localization apps with visual input and haptic feedback}
 
+\td{}{ToDo}{Reword}
+In future work, we plan to extend two aspects of the work reported in this thesis: improving the visual processing and further exploring the capabilities of mapping visual information onto haptic devices. Generally speaking, the use of images captured with wearable cameras by a navigating person remains only superficially explored in the literature. Though power consumption and accuracy of detection remain key barriers to wide scale deployment, these barriers will be lessened over time. In addition to location estimation, the possibility of detecting obstructions, people and any deviations in environment from previous journeys holds great promise. In future work, we plan to integrate ground-plane detection on a wearable camera in order to detect irregularities in walking surface, or obstructions out to around a 5 m distance. Furthermore, other sources of data, for example Wi-Fi signal strength, can play a key role in both improving the reliability of position estimation, and robustness in the case of indoor lighting failure.
 
+On the haptic side, we plan to refine the mapping from floor plans to tactile feedback. Returning to the Senseg\texttrademark~ platform as an example, a variety of textures could be conveyed to a user by varying the amplitude and temporal pattern of voltage pulses sent to the haptic interface. By combining the flexibility of this device with prior work on mapping textures to haptic feedback, it should be possible to improve the information conveyed to a visually impaired user by automatically harvesting visual information from an appropriately prepared map. For example, a standard map format that contains hatches or textures to illustrate locations of steps, or different types of rooms could be mapped to different tactile sensations on the device. Combining this information with lists of possible journeys that might be taken allows journey planning to be performed, and more readily opens up exploration of indoor locations.
