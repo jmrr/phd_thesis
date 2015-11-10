@@ -276,7 +276,7 @@ We defined two important criteria for the App: 1) manual intervention from the u
   \item The grey lines form a grid system. A grid system was used for two main reasons:
   \begin{enumerate}
   \item There needs to exist distinct boundaries between haptic feedback positions to allow the user to differentiate between them.
-  \item To allow the user to quantify how far they are from reference points. For example, here the map consists of 18 boxes between the entrance and exit. Each box therefore represents 5.56\% of distance between the start and the end of the corridor. This allows the user to estimate their current location by using relative distance between the start and end points.
+  \item To allow the user to quantify how far they are from reference points. For example, here the map consists of 10 boxes between the entrance and exit. Each box therefore represents 10\% of distance between the start and the end of the corridor. This allows the user to estimate their current location by using relative distance between the start and end points.
   \end{enumerate}
   The perimeter of the boxes have the same ``Edge Tick'' haptic feedback assigned to them.
   \item The green box represents the user's estimated position at any given time. The whole area of the box has a ``Grainy'' texture assigned to it. This allows users to identify their location along their journey.
@@ -416,7 +416,7 @@ In the following section, the results of the experiments -- described above -- a
 
 Two remarks are in order regarding the haptic tablet device. First, the accuracy of the location feedback improved after discharging the tablet's screen with an electrostatic cloth at regular intervals. Figures \ref{fig:tactgraphA} and \ref{fig:tactgraphB} show the results for individual subjects; one can see a notable improvement in the users' performance when the device was discharged between trials (summarised in Table~\ref{tab:sensegSummaries}). Secondly, noticeable haptic feedback could only be identified when the tablet was plugged into a USB charging port, i.e. when it was grounded. This currently limits its use as a portable haptic device.
   
-Allowing for these limitations, we can see from Table~\ref{tab:sensegSummaries} that there is a 58.18\% hit rate and an average error of roughly 4 m. For comparison, the grid size we used for a representative test corridor of $30.62$ m long with discretised locations 5\% apart is $1.5$ m. 
+Allowing for these limitations, we can see from Table~\ref{tab:sensegSummaries} that there is a 58.18\% hit rate and an average error of roughly 4 m. For comparison, the grid size we used for a representative test corridor of $30.62$ m long with discretised locations 10\% apart is $\approx 3$ m. If we recall Table~\ref{tab:cdftable} from previous chapters, we can see that within this size of tactile boxes the appearance-based method would give a correct estimate with a mean probability of 98.25\%, whilst SLAM would only achieve 69.59\%.
 
 During the experiment the user placed their finger at either the end or the beginning blocks, which were a different texture (``Grainy'') to the map position (``Bumpy''). The position was updated on the map every 15 seconds which provided ample time for confident estimates. However, most users found it helpful to count blocks (edge tactile feedback) from the current position to the end block through the tactile feedback between these points.
 
