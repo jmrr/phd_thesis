@@ -141,6 +141,7 @@ The original implementation of Lowe's SIFT descriptor follows the extraction of 
 The Dense-SIFT (DSIFT) descriptor \citep{Lazebnik2006} is a popular  alternative to keypoint based SIFT. It sacrifices some invariance properties available with keypoint-based SIFT, producing descriptors that are densely, rather than sparsely, distributed across the image. This DSIFT descriptor was calculated by  sampling of the smoothed estimate of $\vec{\nabla}f(x,y;\sigma)$.  We used the implementation of the VLFEAT toolbox, setting $\sigma = 1.2$, with a stride length of 3 pixels. This  yielded around $2,000$ descriptors per frame, each describing a patch of roughly $10 \times 10$ pixels.  \\
 
 \subsubsection{Single Frame Gabor descriptors (SF-GABOR).}
+\label{sec:sf-gabor}
 
 An alternative single frame technique based on a tuned, odd-symmetric Gabor-based descriptor is the SF-GABOR. For this, we used $8$-directional spatial Gabor filters previously tuned on PASCAL VOC data \cite{Everingham2009} in order to provide an implicit encoding of the orientation of local image structures.  Each filter gives rise to a filtered image plane, denoted $\mathbf{G}_{k,\sigma}$.  For each plane, we compute the discrete spatial convolution, $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$, with a series of pooling functions, ${\Phi}_{m,n}$. The latter are produced by spatial sampling of the function:
 
@@ -212,7 +213,7 @@ Our initial conjecture was that whole frames from a sequence could be indexed co
 
 The resulting dictionaries were then used to encode the descriptors of the $M-1$ training passes and the remaining query pass. Two different approaches to the encoding of descriptors were taken, one based on standard $k$-means, using a Euclidean distance measure (hard assignment, ``HA''), and one corresponding to the Vector of Locally Aggregated Descriptors (VLAD) \citep{jegou2010aggregating}. These histograms were all $L_2$-normalised.  
 
-In the HA case, the dataset was partitioned by selecting $M-1$ of the $M$ video sequences of passes through each possible path. These $M-1$ sequences have a total of $N$ frames. A dictionary of visual words was created by running the $k$-means algorithm on the partitioned set of training descriptors contained in the $N$ frames.   We fixed the dictionary size to 4,000 in order to achieve a balance between computational time and atom stability, and allowing comparison with the work of others \cite{Chatfield2011}.
+In the HA case, the dataset was partitioned by selecting $M-1$ of the $M$ video sequences of passes through each possible path. These $M-1$ sequences have a total of $N$ frames. A dictionary of visual words was created by running the $k$-means algorithm on the partitioned set of training descriptors contained in the $N$ frames.   We fixed the dictionary size to 4,000 in order to achieve a balance between computational time and atom stability, and allowing comparison with the work of others in related fields \cite{Chatfield2011}.
 
 For VLAD, a $k$-means clustering was first performed using a dictionary size of 256 words. For each descriptor, sums of residual vectors were used to improve the encoding.  Further advances to the basic VLAD, which include different normalizations and multiscale approaches, are given by \cite{Arandjelovic}. 
 
@@ -581,7 +582,7 @@ A final point to remember is that the cameras that are used in capturing the jou
 
 
 \begin{table}
-\caption{Cumulative distribution function values against localisation error in metres ($\epsilon$). $P(|\epsilon| < x)$, expressed as a percentage. From this table, SF-GABOR achieves a probability of 90\% of localising with an error below $2$ m, whilst LSD-SLAM achieves just above 50\% accuracy level for that error boundary, and using larger images and only for the best-case corridors and passes.}
+\caption{Cumulative distribution function values against localisation error in metres ($\epsilon$). $P(|\epsilon| < x)$, expressed as a percentage. From this table, the best appearance method achieves a probability of 90\% of localising with an error below $2$ m, whilst LSD-SLAM achieves just above 50\% accuracy level for that error boundary, and required larger images. In addition, the performance of LSD-SLAM was significantly worse (compare the minimum performance colums) on some corridors and journeys, bringing the overall average down across the RSM dataset relative to appearace based localisation.}
 \label{tbl:cdftable}
 \centering
     \begin{tabular}{llC{2.2cm}L{2.5cm}lll}
