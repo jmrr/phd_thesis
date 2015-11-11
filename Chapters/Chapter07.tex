@@ -79,8 +79,8 @@ In this respect, there are open-source alternatives such as \cite{apple} and \ci
 Alternatively, modern mobile app and web technologies allow for easy deployment of apps based on client-server communication using a RESTful architecture. By creating an API, posting images would be trivial, and the development of the client would be the final user's choice.
 
 \subsubsection{RSM dataset}
-
-For the RSM dataset, we envisage that a larger number of corridors could attract more users. We are currently developing synthetic data of similar-looking corridors to assess the performance of appearance-based localisation, with and without employing artificial place cell models.
+\label{sec:futureRSM}
+For the RSM dataset, we envisage that a larger number of corridors could attract more users. We are currently developing synthetic data of similar-looking corridors to assess the performance of appearance-based localisation, with and without employing artificial place cell models. The passes of this synthetic journey will be incorporated into the publicly available RSM dataset repository for the community to evaluate their algorithms in both real and synthetic datasets. These passes contain ground truth information and we are including different camera movements in some of the passes to mimic human head movements that have an effect on wearable camera footage.
 
 Its expansion should idealy contain more variety of places, lighting conditions and overall, devices. In fact, this is an opportunity for crowdsourcing too, as a collection app or API as described in the previous section, could on its own encourage the contribution of many different devices in the process.
 
@@ -100,7 +100,9 @@ A third project that would naturally emanate from this work would be a hierarchi
 \subsection{Biologically inspired localization methods based on place cell models}
 
 We are currently studying different normalisation methods for the artificial place cell models and we recently submitted a paper with our latest advances in this area~\cite{Rivera-Rubio2015tnnls}. 
-Fisher Vector as method (GMM more biologically plausible?). In particular, we are exploring population coding and matrix equilibration by which the localisation using APCs can be optimised.
+Fisher Vector as method (GMM more biologically plausible?). 
+
+In another line of future work, we are exploring different normalisation and matrix equilibration techniques by which the localisation using APCs can be optimised. In particular, divisive normalisation has been proposed as a model to describe non-linear population coding effects observed within biological sensory neurons. Different forms of normalisation have also been applied in machine learning, such as $L_2$ normalisation across features for each sample. In this current project, we explore the relationship between divisive normalisation and matrix equilibration, a technique that scales matrix rows and columns. Using mixed matrix norms, and introducing partial mixed matrix norms, we interpret divisive normalisation in terms of matrix equilibration. We evaluate the effect of divisive normalisation in our artificial place cells models. We hypothesise that the use of partial mixed norms provide methods of scaling ensembles of neurons and their responses over experiments in a variety of ways, some of which may improve the performance of artificial networks. We believe that the freedom to select different combinations of norms provides the potential to improve performance, but improvements are both highly context dependent, and network dependent. This is the reason for testing these techniques on our recently acquired synthetic corridor to be incorporated into the RSM dataset which we described in previous Section \ref{sec:futureRSM}.
 
 
 \subsection{Assitive localization apps with visual input and haptic feedback}
