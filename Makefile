@@ -1,5 +1,5 @@
 PROJECT=jmrrThesis
-TEX=pdflatex
+TEX=pdflatex -synctex=1 -interaction=nonstopmode
 BIBTEX=bibtex
 BUILDTEX=$(TEX) $(PROJECT).tex
 
