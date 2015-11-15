@@ -7,6 +7,14 @@ all:
 	$(BUILDTEX)
 	$(BIBTEX) $(PROJECT)
 	$(BUILDTEX)
+	$(BUILDTEX)
+my-papers:
+	$(BUILDTEX)
+	$(BIBTEX) $(PROJECT)
+	$(BIBTEX) J # for journal
+	$(BIBTEX) C # for conference proceedings
+	$(BUILDTEX)
+	$(BUILDTEX)
 clean-all:
 	rm -f *.dvi *.log *.bak *.aux *.bbl *.blg *.idx *.ps *.eps *.pdf *.toc *.out *~
 
