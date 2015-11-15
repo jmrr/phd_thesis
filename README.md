@@ -2,6 +2,8 @@
 
 ### Building instructions
 
+Requires `GNU make`:
+
 ```
 make
 make my-papers # To process multibib reference lists (see below)
