@@ -9,14 +9,14 @@ make
 make my-papers # To process multibib reference lists (see below)
 ```
 ### ToDo
-- [] Dedication
-- [] Abstract
-	- [] English
-	- [] Spanish
-- [] Publications
-- [] Acknowledgments 
-- [] Listings and acronyms (probably delete?)
-
+- [ ] Dedication
+- [ ] Abstract
+	- [ ] English
+	- [ ] Spanish
+- [ ] Publications
+- [ ] Acknowledgments 
+- [ ] Listings and acronyms (probably delete?)
+- [ ] Fig. 38, Improve by changing to mean +/- s.d.
 #####Multibib instructions
 To process multibib multiple reference lists that allows to have my personal list of publications and the general bibliography of the library:
 
