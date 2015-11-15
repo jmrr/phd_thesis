@@ -6,7 +6,6 @@
 \chapter{Appendices}
 
 
-\newpage
 \section{Algorithm for generating cumulative error distributions}
 \input{Chapters/cdf_algorithm}
 
@@ -15,23 +14,31 @@
 
 \newpage
 
-\section{Tactile feedback experiment protocol}
-\input{Chapters/experiment}
 
-\newpage
 \section{LSD-SLAM parameters}
 \label{sec:slampars}
 
 \begin{table}[h]
 \centering
+\resizebox{0.9\textwidth}{!}{%
     \begin{tabular}{L{2cm} L{9cm} c c}
     \hline
     Parameter                    & Definition                                                                                                                                                                                                                                                                            & Default & Set to \\ \hline
     minUserGrad                  & Minimal absolute image gradient for a pixel to be used at all. Increase if your camera has large image noise, decrease if you have low image-noise and want to also exploit small gradients.                                                                                          & 1.96    & 5      \\ \hline
-    cameraPixelNoise             & Image intensity noise used for e.g. tracking weight calculation. Should be set larger than the actual sensor-noise, to also account for noise originating from discretization / linear interpolation.                                                                                 & 16      & 2.4    \\ \hline
-    KFUsage-Weight                & Determines how often keyframes are taken, depending on the overlap to the current keyframe. Larger: more keyframes.                                                                                                                                                                 & 4       & 10     \\ \hline
-    KFDistWeight                 & Determines how often keyframes are taken, depending on the distance to the current Keyframe. Larger: more keyframes.                                                                                                                                                                & 3       & 10     \\ \hline
+    cameraPixelNoise             & Image intensity noise used for e.g. tracking weight calculation. Should be set larger than the actual sensor-noise, to also account for noise originating from discretisation / linear interpolation.                                                                                 & 16      & 2.4    \\ \hline
+    KFUsage-Weight$^{(*)}$                & Determines how often keyframes are taken, depending on the overlap to the current keyframe. Larger: more keyframes.                                                                                                                                                                 & 4       & 10     \\ \hline
+    KFDist-Weight$^{(*)}$                   & Determines how often keyframes are taken, depending on the distance to the current keyframe. Larger: more keyframes.                                                                                                                                                                & 3       & 10     \\ \hline
 
     \end{tabular}
+    }
 \end{table}
 
+
+$^{(*)}$  The values for the keyframe weights, KFUsage-weight and KFDist-weight were increased following the suggestions of LSD-SLAM authors. By increasing these weights the thresholds to take keyframes are lowered, therefore more keyframes are taken, gaining robustness against tracking at the expense of a larger map, more loop closures and slower processing. Although both affect the amount of keyframes that are selected, KFDistWeight is an indirect weight applied to the distance between frames that has an influence in the keyframe selection threshold. KFUsageWeight on the other hand, directly modifies the keyframe selection threshold.
+
+\newpage
+
+\section{Tactile feedback experiment protocol}
+\input{Chapters/experiment}
+
+\newpage
