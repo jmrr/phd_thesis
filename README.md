@@ -17,6 +17,8 @@ make my-papers # To process multibib reference lists (see below)
 - [ ] Acknowledgments 
 - [ ] Listings and acronyms (probably delete?)
 - [ ] Fig. 38, Improve by changing to mean +/- s.d.
+- [ ] Homogeneize table captions, top or bottom.
+
 #####Multibib instructions
 To process multibib multiple reference lists that allows to have my personal list of publications and the general bibliography of the library:
 
