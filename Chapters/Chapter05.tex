@@ -92,7 +92,7 @@ Our proposal -- an evolution of that suggested for sensor and WiFi-based localis
 
 In order to model the place cell behaviour based on the visual input provided by cameras, we first need a way of describing the collection of patches in an image near to a virtual landmark, and a means of comparing two images through their individual patch similarities. 
 
-We used a subset of the visual features described in detail in Chapter \ref{ch:chapter4}, namely: keypoint-SIFT (SIFT) \cite{lowe2004distinctive}, dense-SIFT (DSIFT)~\cite{vedaldi2010vlfeat}, single-frame (SF-GABOR) and spatio-temporal (ST-GABOR) Gabor based descriptors, and spatio-temporal Gaussian based descriptors~\cite{RiveraWearable}. Table \ref{table:methods} provides a summary of the techniques and shows the number of elements of each descriptor. Similar to the comparison established in the previous chapter, we chose a state-of-the-art SLAM method, Engel's LSD-SLAM~\cite{engel2014lsd}.
+We used a subset of the visual features described in detail in Chapter \ref{ch:chapter4}, namely: keypoint-SIFT (SIFT) \cite{lowe2004distinctive}, dense-SIFT (DSIFT)~\cite{vedaldi2010vlfeat}, single-frame (SF-GABOR) and spatio-temporal (ST-GABOR) Gabor based descriptors, and spatio-temporal Gaussian based descriptors~\cite{RiveraWearable}. Table \ref{tab:methods} provides a summary of the techniques and shows the number of elements of each descriptor. Similar to the comparison established in the previous chapter, we chose a state-of-the-art SLAM method, Engel's LSD-SLAM~\cite{engel2014lsd}.
 
 
 \begin{figure}[]
@@ -109,8 +109,9 @@ We used a subset of the visual features described in detail in Chapter \ref{ch:c
     Dense           & No   & Yes   & Yes      & Yes      & Yes      \\ \hline
     Dim.       & 128  & 128   & 136      & 221      & 136      \\
     \end{tabular}
-\label{table:methods}
 \caption{Summary of the main properties of the different descriptors used. \textbf{ST}: Spatio-temporal, \textbf{SF}: Single-Frame.}
+\label{tab:methods}
+
 \end{table}
 
 
@@ -132,13 +133,13 @@ One solution to this ``curse of dimensionality'' is to use vector quantization (
 
 \subsection{Comparing Frames}
 
-In order to model place cell behaviour, we need to map pairs of frames onto a scalar value that is analogous -- perhaps after a non-linearity and affine scaling -- to a firing rate. Consider two image frames that are captured at positions $P$ and $Q$, and are spaced a distance, $\ell_{PQ}$, apart (Fig. \ref{fig:creatingAPCs}). As the distance $\ell_{PQ}$ varies, the mapping should yield a smoothly varying result. In addition, biological place cell (BPC) behaviour often displays a concave relationship between firing rate and distance from the location of peak response (often, the location of some landmark) as illustrated in Fig.~\ref{fig:APC} and Fig.~\ref{fig:creatingAPCs}.
+In order to model place cell behaviour, we need to map pairs of frames onto a scalar value that is analogous -- perhaps after a non-linearity and affine scaling -- to a firing rate. Consider two image frames that are captured at positions $P$ and $Q$, and are spaced a distance, $\ell_{PQ}$, apart (Fig. \ref{fig:creatingAPCs}). As the distance $\ell_{PQ}$ varies, the mapping should yield a smoothly varying result. In addition, biological place cell (BPC) behaviour often displays a concave relationship between firing rate and distance from the location of peak response (often, the location of some landmark) as illustrated in Fig.~\ref{fig:APCresponses} and Fig.~\ref{fig:creatingAPCs}.
 
 
 \begin{figure}
 \includegraphics[width=\textwidth]{gfx/Chapter05/APCResponses.pdf}
-\label{fig:APC}
 \caption{Each curve represents the response -- modelling the firing rate -- of an individual place cell to position along a path. Using the maximum response as an indicator of location allows a simple decoding of place cell responses, localizing a person as being within the ``receptive field'' of a place cell (coloured horizontal bars).}
+\label{fig:APCresponses}
 \end{figure}
 
 
@@ -173,8 +174,8 @@ This maps the two FEVs onto a scalar value that takes a maximum when the two vec
  \setlength\figureheight{0.6\textwidth}
 	\setlength\figurewidth{.9\textwidth}
 		\input{gfx/Chapter05/tikz/single_tuning_curve.tex}
-		\label{fig:APCSingleNoisy}
 \caption{Single APC tuning curve (raw measurements in red) and a smoothed version (blue trace).  The reference frame is located around frame 690. The APC response must be thresholded before using it for accurate position inference.}
+\label{fig:APCSingleNoisy}
 \end{figure}
 
 
@@ -254,7 +255,7 @@ The responses of the collection of APCs provide important information as a popul
 
 
 \subsection{Location from APC Activations}
-Conceptually, given a series of APC responses to visual cues of a person's location along some journey -- illustrated in Fig.~\ref{fig:APC} -- there are two obvious ways of estimating location, $\ell$.  The first is simply to use the APC which displays maximum activation (firing rate) as a rough indicator of where the person is. That is, given a set of activations $p(r_i|\ell)$, the location of the camera that captured a particular image frame is provided by the index, $i$ associated with maximizing $p(r_i|\ell)$. This provides a precision that is limited by the width the APCs, but requires little more than ensuring that place cell responses are reasonably well-separated. 
+Conceptually, given a series of APC responses to visual cues of a person's location along some journey -- illustrated in Fig.~\ref{fig:APCresponses} -- there are two obvious ways of estimating location, $\ell$.  The first is simply to use the APC which displays maximum activation (firing rate) as a rough indicator of where the person is. That is, given a set of activations $p(r_i|\ell)$, the location of the camera that captured a particular image frame is provided by the index, $i$ associated with maximizing $p(r_i|\ell)$. This provides a precision that is limited by the width the APCs, but requires little more than ensuring that place cell responses are reasonably well-separated. 
 
 The second technique to infer location achieves more accurate localisation of a camera from its captured visual data by using the joint distribution $p(\mathbf{r}|\ell)$, of APC responses, $\mathbf{r}$ to infer location $\ell$ relative to some designated ground truth.  We use a single index, $i$, to refer to the response of a unique place cell, $r_i$.
 
@@ -304,7 +305,7 @@ In order to test the APC concept, we performed a series of experiments using the
 
 %\subsection{APC modelling experiments}
 
-%In Fig.~\ref{fig:APCSingleNoisy}, we show place cell responses from a single location, captured with multiple journeys.  The variability of responses is significant, but not unlike the types of variation found in biological variability, where multiple trials are usually required, together with averaging, in order to tease out average firing rate curves.
+%In Fig.~\ref{fig:APCSingleNoisy}eNoisy}, we show place cell responses from a single location, captured with multiple journeys.  The variability of responses is significant, but not unlike the types of variation found in biological variability, where multiple trials are usually required, together with averaging, in order to tease out average firing rate curves.
 
 %\begin{figure}
 %	\centering
@@ -474,7 +475,7 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 
 
 \subsection{Computational load metrics}
-The main computational load for the place-cell computation is due to the dictionary learning, which enables fast lookup of individual frames -- encoded as a single vector of terms from the vocabulary.  The dictionary is built by randomly selecting 200 frames from each sequence, and randomly selecting 800 examples of the joint spatial-temporal encoding, which consists of $D$-dimensional vectors (see Table~\ref{table:methods}). Dictionary learning takes around 1 hour for approximately 50 video sequences of the whole corridor dataset on a 64 GB machine using 400 words. Once learned, encoding a new frame and looking it up takes less than 200 ms using unoptimized \textit{MATLAB} code. 
+The main computational load for the place-cell computation is due to the dictionary learning, which enables fast lookup of individual frames -- encoded as a single vector of terms from the vocabulary.  The dictionary is built by randomly selecting 200 frames from each sequence, and randomly selecting 800 examples of the joint spatial-temporal encoding, which consists of $D$-dimensional vectors (see Table~\ref{tab:methods}). Dictionary learning takes around 1 hour for approximately 50 video sequences of the whole corridor dataset on a 64 GB machine using 400 words. Once learned, encoding a new frame and looking it up takes less than 200 ms using unoptimized \textit{MATLAB} code. 
 
 \section{Discussion}
 
