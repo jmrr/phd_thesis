@@ -20,11 +20,11 @@ make my-papers # To process multibib reference lists (see below)
 - [ ] Fig. 38, Improve by changing to mean +/- s.d.
 - [ ] Homogeneize table captions, top or bottom.
 
--[ ] Visual paths chapter:
-  - [] Take some bits from related work section of the ACVR paper as it's better structured.
+- [ ] Visual paths chapter:
+  - [ ] Take some bits from related work section of the ACVR paper as it's better structured.
   - [x] For the description of the descriptors, go to the PRL paper, it has all the details.
-  - [] Explain randomization of results using PRL paper.
-  - [] Check reasons why no tracking, ACVR is good!
+  - [ ] Explain randomization of results using PRL paper.
+  - [ ] Check reasons why no tracking, ACVR is good!
               
 
 
