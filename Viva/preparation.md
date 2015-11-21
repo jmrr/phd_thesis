@@ -1,12 +1,20 @@
-# 1. Introduction
+# Viva-voce examination preparation notes
+
+## 1. Introduction
 
  * *However, relying almost entirely in the use of data to solve the problem has sometimes caused the loss of perspective and very poor improvements on performance or none at all [^1].*
 
   I can defend this with the same arguments of [^1] but perhaps more interestingly for viva discussion is [^2]. Basically it depends on the type of problem. There are two possible situations where a model might not perform well: the **high variance** case, where the model is too complicated for the amount of data we have, leading to *overfitting*; and the **high bias** case where the model is too simple to explain the data we have, where adding more data will not help.
 
-# 2. Mobile visual assistive apps: a description of the problem and motivation
+## 2. Mobile visual assistive apps: a description of the problem and motivation
 
-Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.
+ * Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.
+
+ * From Fig. 12 with the 4 categories, think why some perform good or bad.
+
+ * Definition of PR curve.
+ 
+ * Be ready to explain Table 5, std calculation and voting mechanism.
 
 ## References
 

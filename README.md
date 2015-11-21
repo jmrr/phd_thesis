@@ -18,7 +18,14 @@ make my-papers # To process multibib reference lists (see below)
 - [ ] Acknowledgments 
 - [ ] Listings and acronyms (probably delete?)
 - [ ] Fig. 38, Improve by changing to mean +/- s.d.
-- [ ] Homogeneize table captions, top or bottom.
+- [ ] Homogeneize table captions, top or bottom
+- [ ] Change 'we' for I
+- [ ] Chage Fig. for Figure 
+
+- [ ] SHORT chapter
+  - [ ] Brief definition of voting metric
+  - [ ] Brief explanation of how std was calculated in Table 5
+  - [ ] Clarify Table 5
 
 - [ ] Visual paths chapter:
   - [ ] Take some bits from related work section of the ACVR paper as it's better structured.
