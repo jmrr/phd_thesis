@@ -17,7 +17,7 @@
 
 Although the use of computer vision to analyse images from smartphones and wearable cameras is in its infancy, the opportunity to exploit these devices for various assistive applications is beginning to emerge. In this chapter, we consider two potential applications of computer vision in the assistive context for blind and partially sighted users. These two applications are intended to help provide answers to the questions of ``Where am I?'' and ``What am I holding?''.
 
-Taking into account the contexts of mobile devices and assistive applications, we present our motivation to study appearance based methods for indoor localization and object recognition, and describe two pilot studies that laid the foundations for the work described in subsequent chapters:
+Taking into account the context of mobile devices and assistive applications, we present our motivation to study an appearance based method for indoor localization and object recognition, and describe two pilot studies that lay the foundations for the work described in subsequent chapters:
 
 \begin{itemize}
 \item First, we suggest how to go about providing estimates of the indoor location of a user through queries submitted by a smartphone camera against a database of {\em visual paths} -- descriptions of the visual appearance of common journeys that might be taken with a hand-held or wearable device. Our proposal is that such journeys could be harvested from, for example, sighted volunteers. Initial tests using bootstrap statistics do indeed suggest that there is sufficient information within such visual path data to provide indications of: a) along which of several routes a user might be navigating; b) where along a particular path they might be.
@@ -25,21 +25,6 @@ Taking into account the contexts of mobile devices and assistive applications, w
 \end{itemize}
 
 
-\subsection{A Solution in Waiting?}
-
-Low vision brings many challenges to an individual, including reduced independence and social exclusion. The World Health Organization (WHO) estimates (2012) that more than 285 million people worldwide suffer from low vision or blindness. Due to changing demographics and greater incidence of disease -- e.g. diabetes -- blindness and failing sight are increasing in prevalence.  The cost to society includes direct health care expenditure, care-giver time and lost productivity.  Enabling people with visual impairment to increase participation will help address social exclusion and improve self-esteem and psychological well-being. There is the potential of near-commodity smartphones, backed by appropriate computer vision algorithms and supporting processes, to address this need.
-
-
-The growth in availability of camera-equipped smartphones, networks, methods of social networking and crowdsourcing of data offers new solutions to develop assistive systems that could be scaled in performance and capability~\cite{Manduchi2012,Worsfold2010}. The services/capabilities that could be offered include:
-
-\emph{Navigation}: GPS does not offer sufficient precision or reliability for indoor manoeuvring. A combination of visual cues, translated into speech or tactile information, is desirable.
-
-\emph{Shopping}: Other challenges include shopping and product recognition, both in shops and at home. The technology for visual object recognition from mobile devices has arrived for sighted users: the challenges to deployment for visually-impaired users includes a) the existence of accessible label databases that are free from commercial bias; b) changing retrieval algorithms and systems to place more emphasis on strong match confidence; c) techniques for conveying information readily to blind and partially-sighted users.
-
-\emph{Personal Safety}: As a partially sighted user, one is faced with a number of hurdles when undertaking journeys away from a familiar environment, and lack of confidence about the ``unseen'' can be a significant contributing factor to reduced mobility.  Where does the pavement end?  Where is the entrance to the bus, and are there stairs?  Are there obstructions at head-height?   
-
-In summary, the overarching need is to increase the possibility for independent living; in a hugely visually-oriented built environment, sighted users rely on visual cues, signage, and recognition of structures such as doorways.  Can these cues be reliably translated into semantically appropriate information using computer vision? Therefore we focus on the feasibility of answering two questions with existing technology from visual cues: ``Where am I?'' and ``What am I holding?''. 
-%% 
 
 %% WHERE AM I?
 
@@ -67,9 +52,12 @@ We can split the path localization problem into two distinct tasks.  The first i
 
 Though SLAM and PTAM are strong candidates for assistive techniques, there is also the need to combine mapping with object detection and other types of semantic information.  Putting these systems in the category of mapping and localization, we explore the possibility that rather than mapping out a space, a user might be more interested in merely following a path that has been traversed by others.  It is in this long-term, collaborative context that the visual path concept would sit: we wish to allow users to compare their journeys against those of others through these visual paths.
 
-In tracing along different paths, we might ask how distinctive the visual content is along one path relative to the appearance along another. In this pilot study we used a standard keypoint and descriptor type approaches to describe visual paths captured by users as they walked along indoor environments. The same type of image description will be subject of a dedicated study in Chapter \ref{ch:chapter4}
+In tracing along different paths, we might ask how distinctive the visual content is along one path relative to the appearance along another. In this pilot study we used a standard keypoint and descriptor type approaches to describe visual paths captured by users as they walked along indoor environments. The same type of image description will be subject of a dedicated study in Chapter \ref{ch:chapter4}.
 
 We first studied the distribution of a similarity metric, $\gamma$, based on a modification of Lowe's ratio test for discriminating descriptors~\cite{Lowe2004}. The modification takes the form of an $L_{\infty}$-type normalization on the distribution of squared Euclidean distances between distinctive descriptors that are close matches between database images along a set of $P$ possible paths $C_p,\,p=1,2,\ldots, P$.
+
+For the preliminary work described in this chapter, \textit{sparse}\footnote{Also known as keypoint-based SIFT, or more frequently, just SIFT.} Scale Invariant Feature Transform (SIFT) descriptors are used. For a detailed description of how these descriptors, or feature vectors, are computed, refer to Chapter \ref{ch:chapter4}.
+
 
 \subsection{Visual Path Descriptions} First, consider a number $M_p^{(i)}$ of descriptor vectors, $\mathbf{v}_m^{(i)}, m=1,2,\ldots,M^{(i)}$ produced from an image, $\mathbf{I}^{(i)}_p$, with each vector being of  dimension $L \times 1$.  These descriptors are stacked into the rows of an $M^{(i)}\times L$ descriptor matrix, $\mathbf{V}^{(i)}_p$ associated with image $\mathbf{I}^{(i)}_p$.  A \textit{set} of images, $\lbrace \mathbf{I}^{(i)}_p\rbrace_{i=1,2,\ldots\,N_p}$ is now collected for path $C_p$, and for each of these, a descriptor matrix is produced.  A visual path $C_p$ is then encoded by the set of matrices of descriptors, denoted $\mathcal{M}_p=\lbrace \mathbf{V}^{(i)}_p \rbrace_{i=1,2,\ldots,N_p}$ generated from the set of images taken along that path.
  
@@ -93,7 +81,7 @@ Let us first consider the comparison of individual query descriptors, $\mathbf{v
 \end{equation}
 
 where $\mathds{1}$ is a vector of ones, and $\otimes$ denotes the Kronecker product.
-Then the elements along the diagonal of
+Then, the elements along the diagonal of
 
 \begin{equation}
 \centering
@@ -112,7 +100,7 @@ Many descriptors in the query image will not be sufficiently distinct to be usef
 
 where $\mathcal{D}$ is the set of query descriptors that pass the distinctiveness test, as described here. Again, note that path subscript $p$ has been omitted from the right-hand side of this expression to represent the sorted distances.
 
-\subsection{The $\gamma$ Score} We calculated  $\mu_p^{(i,j)}$ across all query images $\mathbf{J}^{(j)}$, $j=1,2,\ldots,N_q$ and all path images $\lbrace\lbrace I^{(i)}_p\rbrace_{i=1,2,\ldots,N_p}\rbrace_{p=1,2,\ldots P}$.   A $\gamma$ score is then defined to produce a score, $\gamma^{(i,j)}$, as a measure of similarity between image pairs $(i,j)$ relative to path $p$ such that $0 < \gamma \le 1$. 
+\subsection{The $\gamma$ Score} We calculated  $\mu_p^{(i,j)}$ across all query images $\mathbf{J}^{(j)}$, $j=1,2,\ldots,N_q$ and all path images $\lbrace\lbrace I^{(i)}_p\rbrace_{i=1,2,\ldots,N_p}\rbrace_{p=1,2,\ldots P}$.   A score is then defined to produce a measure of similarity $\gamma^{(i,j)}$ between image pairs $(i,j)$ relative to path $p$ such that $0 < \gamma \le 1$. 
 
 
 \begin{equation}
@@ -120,19 +108,19 @@ where $\mathcal{D}$ is the set of query descriptors that pass the distinctivenes
 \gamma^{(i,j)} = \frac{||\mu^{(i,j)}_p||_{\infty}-\mu^{(i,j)}_p}{||\mu^{(i,j)}_p||_{\infty}}
 \end{equation}
 
-The $\gamma$ measure is applied between pairs of query and database images, and one may identify two types of categories that these query comparisons fall into.  In the first case, the images come from the same path (although query and visual path database are, of course, distinct).  In the other case, queries come from different paths.  The results are shown in Fig.~\ref{fig:gammaDistribution}.   
+This score is calculated between pairs of query and database images, and one may identify two types of categories that these query comparisons fall into.  In the first case, the images come from the same path (although query and visual path database are, of course, distinct).  In the other case, queries come from different paths.  The results are shown in Figure~\ref{fig:gammaDistribution} where $f_\gamma$ denotes the probability density distribution (PDF) of the $\gamma$ score and $QC_x$ and $DC_x$ indicate query and database corridor $x$ respectively.   
 
 \begin{figure}[ht]
 \centering
 {\includegraphics[width=\linewidth]{./gfx/Chapter02/path_pdf_analysisWithShadedBetweensALLDB.pdf}}
-\caption{Tests of visual distinctiveness along paths: Distributions for the $\gamma$ metric. Path level queries, capturing the behaviour of the $\gamma$ metric for inter- and intra-path distributions.}
+\caption{Tests of visual distinctiveness along paths: Distributions for the $\gamma$ score. Path level queries, capturing the behaviour of the $\gamma$ score for inter- and intra-path distributions.}
 \label{fig:gammaDistribution}
 \end{figure}
  
 
 
 
-A second type of score, $\rho$, was created with a slightly different normalization criterion based on observing the maximum within-path distance distributions, i.e. for a given path index, $p$.  The behaviour of this score was studied using query images as taken with ground-truth locations, measured with a surveyor's wheel; again, probability density estimates of scores are estimated from hundreds of thousands of descriptor comparisons.
+A second type of score, $\rho$, was created with a slightly different normalization criterion based on observing the maximum within-path distance distributions, i.e. for a given path index, $p$.  The behaviour of this score was studied using query images as taken with ground-truth locations, measured with a surveyor's wheel in preliminary experiments on what it will be the RSM dataset described in Chapter \ref{ch:chapter4}. Again, probability density estimates of scores are estimated from hundreds of thousands of descriptor comparisons and are represented as $f_\rho$ in Figure~\ref{fig:rhoDistribution}.
 
 
 \begin{figure}[ht]
@@ -148,11 +136,11 @@ A second type of score, $\rho$, was created with a slightly different normalizat
 
 \section{What Am I Holding?}
 
-An increasing use for smartphones involves using \textit{visual search} in which a photograph taken with the phone is used as a query into a catalogue of database items.  Common items include paperbacks (books), compact-disc packaging and, increasingly, art.  A closely related approach is the use of barcodes on items to look up both price information and more detailed product information.  
+An increasing use for smartphones involves using \textit{visual search} in which a photograph taken with the phone is used as a query into a catalogue of database items.  Common items include paperbacks (books), compact-disc sleeves and art.  A closely related approach is the use of barcodes on items to look up both prices and more detailed product information.  
 
 For the visually impaired, barcodes may be difficult to locate, and one would wish to allow recognition on objects and products from different points of view. The quality of a query image might also be below that of a sighted user.  For this reason, it is appropriate to assess the ability of visual search algorithms, designed for large-scale categorization, to perform when the image queries are of low quality, as might occur in poor or variable lighting conditions.
 
-The SHORT database~\cite{Rivera-Rubio2013a} provides such a dataset; and though it might consist of a small sub-sample of the categories in real-world product databases, it is  complementary and compliant with other datasets used in computer vision, such as the Pascal VOC database~\cite{Everingham2009} and ImageNet.  SHORT includes a query dataset acquired from 30 different smartphone cameras, with varying degrees of resolution, image quality and under two scenarios: sighted and blind-folded.  An example of typical queries is shown in Fig.~\ref{fig:ShortQueries} below.
+The SHORT database~\cite{Rivera-Rubio2013a} provides such a dataset; and though it might consist of a small sub-sample of the categories in real-world product databases, it is  complementary and compliant with other datasets used in computer vision, such as the Pascal VOC database~\cite{Everingham2009} and ImageNet.  SHORT includes a query dataset acquired from 30 different smartphone cameras, with varying degrees of resolution, image quality and under two scenarios: sighted and blind-folded.  An example of typical queries is shown in Figure~\ref{fig:ShortQueries} below.
 
 \begin{figure}
 \centering
@@ -169,9 +157,9 @@ The dataset contains a mixture of stills and video clips, including more than 13
 
 \subsection{Navigation}
 
-We acquired a number of visual paths with a mobile phone (Nexus 4) in what was the pilot study for the RSM dataset (\url{http://rsm.bicv.org}) described in later chapters.  These visual paths take the form of video acquisitions, captured with the phone pointing in the direction of motion, and recording at 30 fps at 1920 $\times$ 1080 resolution. The images were then downsampled to a resolution of 192 $\times$ 108 pixels. The number of images captured along the paths raises the complexity of the image matching problem task: there are typically 2,000 images per path.
+I acquired a number of visual paths with a mobile phone (Nexus 4) in what was the pilot study for the RSM dataset (\url{http://rsm.bicv.org}) described in later chapters.  These visual paths take the form of video acquisitions, captured with the phone pointing in the direction of motion, and recording at 30 fps at 1920 $\times$ 1080 resolution. The images were then downsampled to a resolution of 192 $\times$ 108 pixels. The number of images captured along the paths raises the complexity of the image matching problem task: there are typically 2,000 images per path.
 
-For the analysis of the distribution of the metrics $\gamma$ and $\rho$, as shown in Fig.~\ref{fig:gammaDistribution} and \ref{fig:rhoDistribution}, we have used VLFEAT's~\cite{Vedaldi2008} implementation of SIFT~\cite{Lowe2004} descriptors.
+For the analysis of the distribution of the scores $\gamma$ and $\rho$, as shown in Figure~\ref{fig:gammaDistribution} and \ref{fig:rhoDistribution}, we have used VLFEAT's~\cite{Vedaldi2008} implementation of SIFT~\cite{Lowe2004} descriptors.
 
 \begin{figure}
 \begin{center}
@@ -183,7 +171,7 @@ For the analysis of the distribution of the metrics $\gamma$ and $\rho$, as show
 
 The use of bootstrap statistics was appropriate for this study because, for example, in the navigational context, it allows sampling distributions of distances across the whole image database of around 400,000 possible pairings of visual path images.
 
-In the case of the $\rho$ metric, these bootstrapped measurements have revealed the existence of visual distinctiveness between positions that are ``close'' or ``far'' along a path from a given query. In Fig.~\ref{fig:rhoDistribution} we have double-filtered the distribution of the $\rho$ values with a one-point moving average. This clearly shows that values of $\rho$ closer to one are useful for discriminating positions belonging to a specific visual path. These results have motivated the search for a threshold on the values of $\rho$ and the use of consecutive database frames to maximise discriminability, as illustrated in Fig.~\ref{fig:rocTwoParametersC5}.
+In the case of the $\rho$ metric, these bootstrapped measurements have revealed the existence of visual distinctiveness between positions that are ``close'' or ``far'' along a path from a given query. In Figure~\ref{fig:rhoDistribution} we have double-filtered the distribution of the $\rho$ values with a one-point moving average. This clearly shows that values of $\rho$ closer to one are useful for discriminating positions belonging to a specific visual path. These results have motivated the search for a threshold on the values of $\rho$ and the use of consecutive database frames to maximise discriminability, as illustrated in Figure~\ref{fig:rocTwoParametersC5}.
 
 
 %%
@@ -192,13 +180,13 @@ In the case of the $\rho$ metric, these bootstrapped measurements have revealed 
 
 \section{Discussion \& Conclusions}
 
-In this chapter we have presented the early work that laid the foundations for the work described in the remainder of this dissertation. The motivation was the same: mobile, appearance-based solutions with an emphasis in the assistive case. As we will see, the results presented in the following chapters are also applicable to the sighted scenario. However, the design of the experiments always had the blind and partially sighted user in mind, as we believe that all serious design should be inclusive and therefore usable for both the sighted and the visually impaired. 
+In this chapter I have presented the preliminary studies that laid the foundations for the work described in the remainder of this dissertation. The motivation was the same for both navigation and object recognition applications: mobile, appearance-based solutions with an emphasis in the assistive case. As we will see, the results presented in the following chapters are also applicable to sighted users. However, the design of the experiments always had the blind and partially sighted user in mind, as I believe that all serious design should be inclusive and therefore usable for both sighted and visually impaired. 
 
-There are several conclusions to the pilot work that we have reported here.  First, in the navigation context, there is an opportunity to use information from visual paths to provide an indication of which path a user might be on relative to previous journeys.  Although this study is limited to early findings with basic, standard techniques; it does indeed indicate that distinctive information can be harvested from visual paths with great ease.  For example, the resolutions of the images used in Section 2 contained only 1\% of the pixels in the captured images!  Yet, decisions on $\gamma$ do seem to allow reasonably accurate estimates of where one is likely to be along a path, subject to appropriate verification being performed, perhaps using higher resolution images. With extra processing to perform geometric verification of match locations along the path, the idea of mapping images to a location looks quite feasible.
+There are several conclusions to the pilot work reported here.  First, in the navigation context, there is an opportunity to use information from visual paths to provide an indication of which path a user might be on relative to previous journeys.  Although this study is limited to early findings with basic, standard techniques; it does indeed indicate that distinctive information can be harvested from visual paths with great ease.  For example, the resolutions of the images used in Section 2 contained only 1\% of the pixels in the captured images!  Yet, decisions on $\rho$ do seem to allow reasonably accurate estimates of where one is likely to be along a path, subject to appropriate verification being performed, perhaps using higher resolution images. With extra processing to perform geometric verification of match locations along the path, the idea of mapping images to a location looks quite feasible.
 
-In the navigational context, the possibility of obscured views has not been considered, either during path collection or query collection. However, the density of our queries is also low relative to the number of queries we would normally take. For example, at a normal walking rate, one could easily collect more than 10 frames within 1 metre. Such an image sampling rate would give more opportunity to capture unobscured visual patches along a path. The caveat is that one would have to include modules for recognising obstructions or moving objects, such as people, within the frame, and remove query descriptors at  spatial scales that would include such regions. Since one of the key roles for incorporating computer vision into navigational aides would be to detect path obstructions and hazards, this does not seem to be out of the realms of possible system-level scenarios. In Chapter \ref{ch:chapter4} we present a set of benchmarks using a collection of standard and custom ``dense'' descriptors that seem to be specially well-suited for this task.
+In the navigational context, the possibility of obscured views has not been considered, either during path collection or query collection. However, the density of our queries is also low relative to the number of queries that would normally be taken. For example, at a normal walking rate, one could easily collect more than 10 frames within 1 metre. Such an image sampling rate would give more opportunity to capture unobscured visual patches along a path. The caveat is that one would have to include modules for recognising obstructions or moving objects, such as people, within the frame, and remove query descriptors at  spatial scales that would include such regions. Since a key reason for incorporating computer vision into navigational aides would be to detect path obstructions and hazards, this does not seem to be out of the realms of possible system-level scenarios. In Chapter \ref{ch:chapter4} I present a set of benchmarks using a collection of standard and custom ``dense'' descriptors that seem to be specially well-suited for this task.
 
-In the context of hand-held objects from the SHORT database, a real application would be expected to have thousands of products. The category depth of SHORT is more appropriate to home use by a single user. We have presented the challenges of object recognition for the blind a partially sighted users and have introduced the SHORT database as a necessary benchmark for recognition algorithms that tackle hand-held, wearable and/or assistive applications. In Chapter \ref{ch:chapterSHORT} we will evaluate the performance of baseline descriptor and bag of visual words (BOVW) methods  and establish retrieval comparisons that justify the need for a more challenging dataset in the context of hand-held and wearable vision.
+In the context of hand-held objects from the SHORT database, a realistic database would be expected to have thousands of products. The category depth of SHORT is more appropriate to home use by a single user. I have presented the challenges of object recognition for the blind a partially sighted users and have introduced the SHORT database as a necessary benchmark for recognition algorithms that tackle hand-held, wearable and/or assistive applications. In Chapter \ref{ch:chapterSHORT} I will evaluate the performance of baseline descriptor (SIFT) and bag of visual words (BOVW) methods and establish retrieval comparisons that justify the need for a more challenging dataset that reflects hand-held and wearable vision.
 
 %The retrieval mechanisms described here are not scalable: we did not use visual words in this study, although our tests are indicative of what one might apply in a post bag of visual words (BOVW) verification of rankings based on descriptor distances.
 
