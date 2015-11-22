@@ -32,6 +32,7 @@ make my-papers # To process multibib reference lists (see below)
   - [x] For the description of the descriptors, go to the PRL paper, it has all the details.
   - [ ] Explain randomization of results using PRL paper.
   - [ ] Check reasons why no tracking, ACVR is good!
+  - [ ] In Fig. 32 make circles bigger and indicate Corridor #
               
 
 
