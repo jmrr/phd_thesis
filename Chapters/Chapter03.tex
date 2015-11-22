@@ -134,7 +134,7 @@ All &  134,524 &  3,054 & 6,089 & 4,213.9 \\
 \label{table:testData}
 \end{table}
 
-A total of 30 different camera-equipped smartphones was used, with resolutions ranging from 320$\times$240 to 3264$\times$2448 pixels. The variability of camera characteristics, parameters and capture conditions is enormous and a very distinctive feature of this dataset. The collage shown in Fig. \ref{fig:short-30test} contains a small sample of the  variability present in the test dataset. As can be appreciated, images contain different views, levels of sharpness, background clutter, occlusion, illumination, and specular reflection. These realistic features of the queries, together with the availability of sighted and blindfolded users, help in identifying certain characteristics required for database quality and coverage in order to partially meet the needs of performance in the assistive context. 
+A total of 30 different camera-equipped smartphones was used, with resolutions ranging from 320$\times$240 to 3264$\times$2448 pixels. The variability of camera characteristics, parameters and capture conditions is enormous and a very distinctive feature of this dataset. The collage shown in Figure \ref{fig:short-30test} contains a small sample of the  variability present in the test dataset. As can be appreciated, images contain different views, levels of sharpness, background clutter, occlusion, illumination, and specular reflection. These realistic features of the queries, together with the availability of sighted and blindfolded users, help in identifying certain characteristics required for database quality and coverage in order to partially meet the needs of performance in the assistive context. 
 %For example, for a partially sighted user, or one who is not certain where the front of the object is, the database will need to contain more than one view. How many views is, of course, dependent on the object; and determining the necessary number of views is a common requirement that one encounters when building commercial or public-service search services within finite budgets and compute resources.
 
 
@@ -304,14 +304,14 @@ FV-S8-256 & 3.40 & 61.26 &  18.39 & 50.00 & 83.68 & 68.44  & \multicolumn{3}{c}{
 
 %% Old results
 
-Classification results for the different methods are summarised in Table~\ref{table:classification_results}  and Fig.~\ref{fig:methods}. The low performance of most state-of-the-art methods demonstrates the challenge presented by SHORT. The precision/recall analysis shown in Fig.~\ref{fig:LLC-S8-4000} illustrates a remarkable variability in retrieval performance across categories. This fact reflects the complexity of the recognition problem, and the need for more robust algorithms. 
+Classification results for the different methods are summarised in Table~\ref{table:classification_results}  and Figure~\ref{fig:methods}. The low performance of most state-of-the-art methods demonstrates the challenge presented by SHORT. The precision/recall analysis shown in Figure~\ref{fig:LLC-S8-4000} illustrates a remarkable variability in retrieval performance across categories. This fact reflects the complexity of the recognition problem, and the need for more robust algorithms. 
 
 For example, recognition algorithms for hand-held objects should be able to either provide a confidence measure, or possibly to request that further image queries be captured, even suggesting suitable, specific object transformations that could be used as a predictive verification step. For an assistive usage case, rather than a potentially incorrect match, it would be more appropriate for a system to reject the query.
 
 \begin{figure}[h]
        \centering
 		\includegraphics[width=\linewidth]{./gfx/Chapter03/precision-recall.pdf}
-        \caption{LLC-S8-4000 Test. Representative empirical precision and recall curve for a small sample of product classes. Only four classes, including best and worst results, are represented to help visualisation. The test was run with 59,226 queries against the database of 1,080 models. Performance in all categories is summarised in Fig. \ref{fig:LLC-S8-4000}}
+        \caption{LLC-S8-4000 Test. Representative empirical precision and recall curve for a small sample of product classes. Only four classes, including best and worst results, are represented to help visualisation. The test was run with 59,226 queries against the database of 1,080 models. Performance in all categories is summarised in Figure \ref{fig:LLC-S8-4000}}
         \label{fig:LLC-S8-4000}
 \end{figure}
 
@@ -336,7 +336,7 @@ Recently, the value of well-defined, robustly labelled datasets in both evaluati
 \end{table}
 
 
-Furthermore, the categories in the SHORT dataset vary in shape, size, colour, etc. and therefore there is a large variability in classification accuracy across categories, which is reflected in Fig.~\ref{fig:LLC-S8-4000} and \ref{fig:ComplexMethodResults}. Products with low retrieval accuracy generally have reflective surfaces; the ones displaying high accuracy have clear surfaces with text labels, and are easy to hold and position. 
+Furthermore, the categories in the SHORT dataset vary in shape, size, colour, etc. and therefore there is a large variability in classification accuracy across categories, which is reflected in Figure~\ref{fig:LLC-S8-4000} and \ref{fig:ComplexMethodResults}. Products with low retrieval accuracy generally have reflective surfaces; the ones displaying high accuracy have clear surfaces with text labels, and are easy to hold and position. 
 
 
 
@@ -378,7 +378,7 @@ The range of training images in the database -- covering almost all faces of a p
 
 \subsection{Evaluation of Sequential Video Frames} \label{subsec:evaluationframes}
 
-In this section I analyse how sequential frames from a video of an object can be used in order to improve classification accuracy. First, multiple sequential images from a video were queried, and each image was matched to one of the thirty categories of the SHORT database using the descriptor matching as described in Sections~\ref{subsec:pairwise} and \ref{subsec:querydescrejection}. A histogram of the matches was computed for several videos of the same object, as shown in Fig.~\ref{fig:prd003a}. Even though the total number of incorrect matches increases as we query more video frames, they are distributed across a range of object categories in the database. 
+In this section I analyse how sequential frames from a video of an object can be used in order to improve classification accuracy. First, multiple sequential images from a video were queried, and each image was matched to one of the thirty categories of the SHORT database using the descriptor matching as described in Sections~\ref{subsec:pairwise} and \ref{subsec:querydescrejection}. A histogram of the matches was computed for several videos of the same object, as shown in Figure~\ref{fig:prd003a}. Even though the total number of incorrect matches increases as we query more video frames, they are distributed across a range of object categories in the database. 
 
 \begin{figure}[h!]
 \centering
