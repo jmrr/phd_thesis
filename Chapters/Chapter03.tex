@@ -340,7 +340,7 @@ Furthermore, the categories in the SHORT dataset vary in shape, size, colour, et
 
 
 
-\begin{figure*}[t]
+\begin{figure*}[h!]
 \centering
 \subfloat[Dense sampling, CB = 4000 words.]{\includegraphics[width=.5\linewidth]{gfx/Chapter03/VFdense4000_new.pdf}}
 \subfloat[Dense sampling, CB = 500 words.]{\includegraphics[width=.5\linewidth]{gfx/Chapter03/VFdense500_new.pdf}}
@@ -361,9 +361,9 @@ The range of training images in the database -- covering almost all faces of a p
 
 
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\subfloat[]{\includegraphics[width=\linewidth]{gfx/Chapter03/training-images-comparison-2.pdf}
+\subfloat[]{\includegraphics[width=.8\linewidth]{gfx/Chapter03/training-images-comparison-2.pdf}
 \label{fig:poseAnalysisA}
 }
 
@@ -380,10 +380,10 @@ The range of training images in the database -- covering almost all faces of a p
 
 In this section I analyse how sequential frames from a video of an object can be used in order to improve classification accuracy. First, multiple sequential images from a video were queried, and each image was matched to one of the thirty categories of the SHORT database using the descriptor matching as described in Sections~\ref{subsec:pairwise} and \ref{subsec:querydescrejection}. A histogram of the matches was computed for several videos of the same object, as shown in Fig.~\ref{fig:prd003a}. Even though the total number of incorrect matches increases as we query more video frames, they are distributed across a range of object categories in the database. 
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=\linewidth]{./gfx/Chapter02/prd003_distribution_bar-latex.pdf}
-\caption{Evaluation of sequential video frames: Distribution of matches across different categories of SHORT dataset for four videos of the same query object.}
+\includegraphics[width=\linewidth]{./gfx/Chapter03/prd003_distribution_bar-latex.pdf}
+\caption{Evaluation of the voting metric for classifying sequential video frames. Four videos of prd003 are submitted as queries and the bars show the distribution of estimates across the different categories of SHORT dataset. In each diagram we can also see which category obtained the majority vote in each case (in red).}
 \label{fig:prd003a}
 \end{figure}
 
@@ -393,9 +393,9 @@ As shown in Figure~\ref{fig:prd003a}, the correct object often has a higher numb
 Preliminary results, Figure \ref{fig:prd003b}, shows that the number of total incorrect matches to individual objects rises slowly while the number of total matches to the correct object increases rapidly. The above analyses were undertaken for several videos and object categories under the SHORT dataset. Classification accuracy using different numbers of query frames and the above voting metric is presented in Section~\ref{sec:expResults2}.
 
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=\linewidth]{./gfx/Chapter02/prd0030shadedPlots-4-latex.pdf}
+\includegraphics[width=\linewidth]{./gfx/Chapter03/prd0030shadedPlots-4-latex.pdf}
 \caption{Evaluation of sequential video frames: Fraction of correctly matched queries to incorrect matches for videoframe sequences. Note that there is a distribution of incorrect matches across multiple categories as the number of sequential query frames increases.}        
 \label{fig:prd003b}
 \end{figure}
@@ -408,7 +408,7 @@ Classification accuracy using the individual voting metric (Section~\ref{subsec:
 Table~\ref{table:testData} shows that the classification accuracy increases as we increase the limit of query frames, except for occasional dips which occur due to instability as a person rotates the object in their hand. In comparison to the classification accuracy of individual queries, classification based on sequential video frames using voting gives a much higher accuracy.
 
 
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabularx}{1.05\linewidth}{XXXXXXXXXXXX}
 \toprule
