@@ -7,9 +7,9 @@
 
 Animals use a variety of environmental cues in order to recognise their location.  One of the key behaviours found in a certain type of biological neuron -- known as place cells -- is a rate-coding effect: a neuron's rate of firing decreases with distance from some landmark location. In this chapter, I used visual information from wearable and hand-held cameras in order to reproduce this rate-coding effect in artificial place cells (APCs). 
 
-In order to achieve place cell modelling, it was necessary to develop an efficient algorithm for searching tensor representations of the population model for the cortical area V1 in joint space-time-frequency encodings of video sequences.  This algorithm is based around the use of a dictionary technique, which is also used for the place cell modelling. Specifically, the location inference system based on APCs uses  dimensionality reduction of the tensor-valued representations of  population codes through vector quantization.  Kernel similarity measures are then applied to the descriptions of population codes in order to mimic biological place-cell behaviour.
+In order to achieve place cell modelling, it was necessary to develop an efficient algorithm for searching tensor representations of the population model for the cortical area V1 in joint space-time-frequency encodings of video sequences.  This algorithm is based around the use of a dictionary technique, which is also used for the place cell modelling. Specifically, the location inference system based on APCs uses  dimensionality reduction of the tensor-valued representations of  population codes through vector quantisation.  Kernel similarity measures are then applied to the descriptions of population codes in order to mimic biological place-cell behaviour.
 
-This computational framework enhances the approach taken in Chapter~\ref{ch:chapter4} -- in which localisation was based on the location of the best match -- with a population coding approach: a population of artificial place cells (APCs). 
+This computational framework enhances the approach taken in Chapter~\ref{ch:chapter4} -- in which localisation was based on the location of the best match -- with a population coding approach: a population of artificial place cells. 
 
 The accuracy of localisation using these APCs was evaluated using the different visual descriptors presented in Chapter~\ref{ch:chapter4} and different place cell widths. Simple localisation using APCs was feasible by noting the identity of the APC yielding the maximum response. I also propose using joint coding within a number of automatically defined APCs as a population code for self-localisation. Using both approaches it was possible to demonstrate good self-localisation from very small images taken in indoor settings. The error performance using APCs is favourable when compared with ground-truth and LSD-SLAM, even without the use of a motion model.
 
@@ -28,17 +28,17 @@ Biological place cells display location-dependent firing. I describe how to mimi
 
 The approach to indoor localisation described in this chapter is novel for several reasons. 
 
-\begin{itemize}
+\begin{enumerate}
 
-\item First, I introduce a convolutional neural network -- formalized through using \textit{tensor convolution} -- to provide a description of spatial processing in the form of a population code \cite{berens2012fast}; this code mimics the dependency of average firing rate of simple cells in visual cortical area V1, an important and extensive visual region in primates and man, under different patterns of visual stimuli. This CNN effectively implies a new formulation for SF-GABOR that shows the links between the biology of place cells and convolutional neural networks (CNN). To accomplish this, I describe SF-GABOR in terms of a tensor operator between input images and a series of spatial filters.  The work is relevant to recent developments in neural network architectures, and in particular to convolutional neural networks \cite{krizhevsky2012imagenet, lecun1995convolutional}.  To our knowledge, convolutional networks have not been applied for self-localization from visual data, and this represents another domain of application for the this architecture.
+\item First, I introduce a convolutional neural network -- formalised through using \textit{tensor convolution} -- to provide a description of spatial processing in the form of a population code \cite{berens2012fast}; this code mimics the dependency of average firing rate of simple cells in visual cortical area V1, an important and extensive visual region in primates and man, under different patterns of visual stimuli. This CNN effectively implies a new formulation for SF-GABOR that shows the links between the biology of place cells and convolutional neural networks (CNN). To accomplish this, I describe SF-GABOR in terms of a tensor operator between input images and a series of spatial filters.  The work is relevant to recent developments in neural network architectures, and in particular to convolutional neural networks \cite{krizhevsky2012imagenet, lecun1995convolutional}.  To our knowledge, convolutional networks have not been applied for self-localisation from visual data, and this represents another domain of application for this architecture.
 
 \item Second, I demonstrate the use of the V1 population code model and simple learning techniques to model place cell behaviour; this allows us to model biological place cells (BPCs) with artificial place cells (APCs), producing a gentle decay in the strength of a response (firing rate) with the spatial distance of an observer to particular landmarks. These landmarks are implicit and consist of orientation patterns within scenes. In a more general view, the computational units of this behaviour, the APCs, are able to use distinctive information from image queries based on the recall of previously visited places. 
 
-\item Third, I describe a complete pipeline of visual localisation that incorporates a decoder for the APC activity; this decoder takes the form of a Generalized Regression Neural Network (GRNN). 
+\item Third, I describe a complete pipeline of visual localisation that incorporates a decoder for the APC activity; this decoder takes the form of a Generalised Regression Neural Network (GRNN). 
 
 \item Finally, I demonstrate self-localisation and provide an evaluation of the proposed localisation method using the RSM dataset described in Section~\ref{sec:Dataset}.
 
-\end{itemize}
+\end{enumerate}
 
 \section{Background}
 
@@ -50,7 +50,6 @@ Humans, like other animals, need a sense of position to perform basic interactio
 
 
 \subsection{Biological Place Cells (BPC)}
-
 
 Place cells are special types of neurons located in the hippocampus which attain higher-than-average firing when an animal ``recognises'' a particular place in its environment. Grid cells, located next to the hippocampus in the entorhinal cortex, provide the brain with a reference system for navigation, a ``grid'' that is speculated to be used as a form of coordinate system for the creation of spatial maps. Although the existence of place and grid cells is without question, the computational description of what the cells do is debatable. However, the combination of place and grid cells within neural circuitry appears crucial for the execution of navigation tasks.
 
@@ -74,7 +73,7 @@ The seminal work of Hubel and Wiesel \cite{hubel1962receptive} proposed that the
 
 This orientation selective simple cells can be modelled as the output of a 2D Gabor function \cite{daugman1985uncertainty}, and through tuning their parameters, different combinations of orientation and phase can be achieved. In particular, the steerability of the Gabor filter can represent the orientation selectivity of these neurons, whilst the phase parameter of the filter can be viewed as their shape selectivity. 
 
-I have therefore studied the use of 2D Gabor-like filters, which have been used for a great variety of applications in Computer Vision, from action recognition \cite{shu2014bio} to face recognition \cite{liao2013partial} and appearance-based indoor localisation \cite{rivera2015appearance}, and often as part of a biologically inspired system \cite{shu2014bio}. Mathematically, the over-completeness of Gabor outputs, i.e. multiple Gabor output values to a single pixel, provides advantageous invariance properties for descriptors computed on local image patches. In particular, the main benefit of using Gabor filters resides in the combination of symmetric and antisymmetric responses that yields a description of local regions in an image that are either phase selective or phase invariant. The real part of these filters presents the simple cell receptive fields behaviour described above. In Fig. \ref{fig:simple_cell} I illustrate the orientation selectivity of V1 simple cell receptive fields, and an example 2D Gabor fit spatial and 2D views.
+I have therefore studied the use of 2D Gabor-like filters, which have been used for a great variety of applications in Computer Vision, from action recognition \cite{shu2014bio} to face recognition \cite{liao2013partial} and appearance-based indoor localisation \cite{rivera2015appearance}, and often as part of a biologically inspired system \cite{shu2014bio}. Mathematically, the over-completeness of Gabor outputs, i.e. multiple Gabor output values to a single pixel, provides advantageous invariance properties for descriptors computed on local image patches. In particular, the main benefit of using Gabor filters resides in the combination of symmetric and antisymmetric responses that yields a description of local regions in an image that are either phase selective or phase invariant. The real part of these filters presents the simple cell receptive fields behaviour described above. In Figure \ref{fig:simple_cell} I illustrate the orientation selectivity of V1 simple cell receptive fields, and an example 2D Gabor fit spatial and 2D views.
 
 
 \begin{figure}[h]
@@ -91,7 +90,7 @@ Also relevant to this study, the difference of Gaussians (DoG) space representat
 
 \subsection{Biologically Inspired Visual Localisation}
 
-Biologically-inspired methods of localisation from image data are emerging; for example, a few computational models for place cell behaviour already exist, though they are often rooted in dynamical systems \cite{blair2008conversion},\cite{bechtel2013investigating}. Some models of place cells use attractor properties of recurrent networks \cite{stringer2002self}, \cite{moser2008place}.  Whilst interesting and valuable, the role of sensory input is marginalized in these models, a key differentiator of the approach proposed in this chapter.
+Biologically-inspired methods of localisation from image data are emerging; for example, a few computational models for place cell behaviour already exist, though they are often rooted in dynamical systems \cite{blair2008conversion},\cite{bechtel2013investigating}. Some models of place cells use attractor properties of recurrent networks \cite{stringer2002self}, \cite{moser2008place}.  Whilst interesting and valuable, the role of sensory input is marginalised in these models, a key differentiator of the approach proposed in this chapter.
 
 The boundary vector cell (BVC) model \cite{barry2006boundary} is a popular computational model that describes place cell response, allowing predictions to be made and experimentally tested \cite{burgess2000predictions}. Whilst of substantial interest in computational neuroscience, one criticism of the BVC model is -- like the dynamical systems models -- a lack of detail in explaining how sensory processing feeds into the computation. The closest work to the approach described in this thesis is Strosslin's \cite{strosslin2005robust}, which uses a low-cost and computationally efficient model to navigate a robot.  However, place cell behaviour -- in terms of firing rates that vary with the position to some reference location -- is not demonstrated except through the policy of a robot and its navigation attempts.  The visual processing is also rather limited, using techniques that are also employed in SLAM algorithms \cite{alcantarilla2010visual} to track specific scene locations. 
 
@@ -111,14 +110,14 @@ Several authors have pointed to the similarities between spatial filter banks em
 The recent interest in convolutional neural networks \cite{krizhevsky2012imagenet, ji20133d} builds on over two decades of work into architectures and methods for training \cite{lecun1995convolutional}. Recent results in CNN training tend to converge to yield first-layer weights (filters) that are remarkably similar oriented spatial band-pass filters, and therefore also bear striking resemblance to the receptive fields found in biological visual systems at the level of V1 or equivalent.
 
 %To reproduce the behaviour of the pipeline describe in Section \ref{ch05:overview} we 
-I used a two-layer feed-forward convolutional neural network -- adapted from a model used in computational neuroscience -- to simulate the behaviour of a sheet of tissue in V1 containing just under 200,000 neurons. The first layer of this network represents orientation selective, approximately linear simple cells, and the second layer models a population code for joint position/orientation encoding based on the retinotopic arrangement of oriented cells over a region of cortical tissue.  However, rather than learning the weights from random initialization, neurons were constrained to be orientation selective and with spatially antisymmetric weights about the axis of orientation selectivity (see Figure~\ref{fig:OG}).  We have found it useful to introduce a tensor description of the data structures and the processing involved in this CNN.
+I used a two-layer feed-forward convolutional neural network -- adapted from a model used in computational neuroscience -- to simulate the behaviour of a sheet of tissue in V1 containing just under 200,000 neurons. The first layer of this network represents orientation selective, approximately linear simple cells, and the second layer models a population code for joint position/orientation encoding based on the retinotopic arrangement of oriented cells over a region of cortical tissue.  However, rather than learning the weights from random initialisation, neurons were constrained to be orientation selective and with spatially antisymmetric weights about the axis of orientation selectivity (see Figure~\ref{fig:OG}). It is useful now to introduce a tensor description of the data structures and the processing involved in this CNN.
 
 \subsection{Tensor Population Model}
 Tensors have been suggested as a multi-dimensional representation for convolutional neural networks, specifically for representing the stack of spatial filters that is used to perform spatial convolution. Representing a filter set in this way allows various tensor decompositions to be applied \cite{kolda2009tensor} to reduce the representation into smaller convolution operators. However, a definition for \textit{tensor convolution} itself appears lacking from the literature. Two operators that -- taken together -- can be very useful concepts for \textit{reproducibly} describing the structure of convolutional networks are \textit{tensor convolution} and \textit{permuted tensor convolution}. These are defined next and expanded in Appendix \ref{appendixTensorConv}.
 
-Adopting the notation and nomenclature of Kolda \cite{kolda2009tensor}.  We treat tensors as multi-way arrays or multidimensional arrays. The  \textit{order} of a tensor is the number of dimensional indices required to address it; for example, an order 5 tensor $\tens{A}$ may have addressable elements $a_{i_1,i_2,i_3,i_4,i_5}$, with each index varying from 1 to $I_n, n = 1,2,3,4,5$ in integer steps; note that in contrast with Kolda's notation, indices are comma-delimited.  Since each element of the tensor can be restricted to be real-valued, we may consider $\tens{A}$ as lying in $I_1\times I_2\times I_3 \times I_4 \times I_5$- dimensional real space. The \textit{mode} of a tensor refers to the tensor elements simultaneously addressed by one of the indices, and is applied to refer to operations that involve, possibly non-exclusively, a particular one of the indices. 
+Adopting the notation and nomenclature of Kolda \cite{kolda2009tensor}.  Tensors are treated as multi-way arrays or multidimensional arrays. The  \textit{order} of a tensor is the number of dimensional indices required to address it; for example, an order 5 tensor $\tens{A}$ may have addressable elements $a_{i_1,i_2,i_3,i_4,i_5}$, with each index varying from 1 to $I_n, n = 1,2,3,4,5$ in integer steps; note that in contrast with Kolda's notation, indices are comma-delimited.  Since each element of the tensor can be restricted to be real-valued, $\tens{A}$ may be considered as lying in $I_1\times I_2\times I_3 \times I_4 \times I_5$- dimensional real space. The \textit{mode} of a tensor refers to the tensor elements simultaneously addressed by one of the indices, and is applied to refer to operations that involve, possibly non-exclusively, a particular one of the indices. 
 
-\begin{definition}{\textit{Tensor Convolution}}\label{def:convop}  We define the tensor convolution operator in modes $\mathcal{M}$ by the following:
+\begin{definition}{\textit{Tensor Convolution}}\label{def:convop}  The tensor convolution operator in modes $\mathcal{M}$ is defined by the following:
 
 \begin{equation}
  \overset{\mathcal{M}}{[ \ast ]}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
@@ -146,7 +145,7 @@ N_{\tens{C}} = N_{\tens{A}}+N_{\tens{B}}-|\mathcal{M}|
 
 \paragraph{Comment}  Tensor convolution is applicable to mapping a single frame or image through the V1 and population code model.  It is therefore applicable to describing taking a single frame and estimating a place-cell response.  For much of the work reported in this chapter, I evaluate entire video sequences. For this, permuted tensor convolution is a more appropriate operator for the first level of the model.
 
-\begin{definition}{\textit{Permuted Tensor Convolution}} \label{def:permconvop} We define the \textit{permuted} tensor convolution operator in modes $\mathcal{M}$ permuted over modes $\mathcal{P}$ as a mapping taking the form:
+\begin{definition}{\textit{Permuted Tensor Convolution}} \label{def:permconvop} The \textit{permuted} tensor convolution operator in modes $\mathcal{M}$ permuted over modes $\mathcal{P}$ can be defined as a mapping taking the form:
 \begin{equation}
  \underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
 \end{equation}
@@ -178,7 +177,7 @@ N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}|
 \subsection{Simple-cell V1 CNN Model}
 
 
-Having defined these two operations, we are now in a position to represent the modelling of primary visual cortex and a simple population code using tensor convolution and permuted convolution. 
+Having defined these two operations, they can be used to formulate the modelling of primary visual cortex and a simple population code using tensor convolution and permuted convolution. 
 
 Recognising that SIFT operates with vector fields of the form:
 \begin{eqnarray}
@@ -190,7 +189,7 @@ Recognising that SIFT operates with vector fields of the form:
 \end{eqnarray}
 where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the tensor notation of Kolda \citep{kolda2009tensor}, and Eq~\ref{eq:sift2} follows from Eq~\ref{eq:sift1} because of the orthogonality of unit vectors $\vec{x}$ and $\vec{y}$.  $\mathcal{D}_k$ is a derivative operator along dimension (mode) $i_k$. 
 
-More generally, when the directional operators are not necessarily partial derivatives, we may introduce the discrete spatial orientation tensor at scale $\sigma$ as:
+More generally, when the directional operators are not necessarily partial derivatives, the discrete spatial orientation tensor at scale $\sigma$ may be introduced as:
 \begin{equation}
 \tens{G(\sigma)}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
 \label{eq:IntroG}
@@ -211,9 +210,9 @@ The operator $\mathcal{O}_k$ is some form of discrete, directional spatial opera
 %\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
 %   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
 %\end{equation}
-%The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
+%The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalised neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
 %
-%Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimization was applied for the experiments on the RSM dataset as described in this chapter.
+%Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimisation was applied for the experiments on the RSM dataset as described in this chapter.
 %
 %
 %%%
@@ -224,7 +223,7 @@ Using grey-scale image sequences represented as an order 3 tensor, $\tens{F}$, a
 \begin{equation}
 \tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
 \end{equation}
-where $[ \ast ]$ represents \textit{tensor convolution} in the modes $i_1$ and $i_2$ (see Definition~\ref{def:convop}. Image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are orientation selective in the image plane, organized one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments reported in this thesis, we took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.
+where $[ \ast ]$ represents \textit{tensor convolution} in the modes $i_1$ and $i_2$ (see Definition~\ref{def:convop}. Image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are orientation selective in the image plane, organised one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments reported in this thesis, I took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.
 
 The function $R_+(\cdot)$ is the ramp function applied element-wise to its tensor-valued argument. For an order 0 tensor, $x$, (scalar) the ramp function is defined by
 \begin{equation}
@@ -245,7 +244,7 @@ The second level of the convolutional network groups the orientation-selective o
 \tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
    \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
 \end{equation}
-The pooling tensor is also an order 3 tensor that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalized neighbourhood of unit width and height in Figure~\ref{fig:PoolingTensor}. The resulting order 5 tensor, $\tens{D}$, is of dimension $I_1\times I_2 \times 8 \times 17 \times N_F$. Because the slices of this tensor create different pooling regions over a patch, it is distinctly different to the pooling operations of standard CNNs, which typically use a single fixed spatial smoothing operator for each pooling layer, and not multiple poolers for which weights are learned. 
+The pooling tensor is also an order 3 tensor that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalised neighbourhood of unit width and height in Figure~\ref{fig:PoolingTensor}. The resulting order 5 tensor, $\tens{D}$, is of dimension $I_1\times I_2 \times 8 \times 17 \times N_F$. Because the slices of this tensor create different pooling regions over a patch, it is distinctly different to the pooling operations of standard CNNs, which typically use a single fixed spatial smoothing operator for each pooling layer, and not multiple poolers for which weights are learned. 
 
 In the notation used until Section \ref{sec:tensornotation}, tensor $\tens{D}$ was used to generate the SF-GABOR descriptor, by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
 
@@ -260,7 +259,7 @@ In the notation used until Section \ref{sec:tensornotation}, tensor $\tens{D}$ w
 %\begin{figure}[!h]
 %\begin{center}
 %\includegraphics[width=10cm,trim=0cm 3cm 0cm 3cm,clip=true]{gfx/Chapter06/PoolerResponses.pdf}
-%\caption{\label{fig:PoolerResponses3D}Patterns of 17 spatial poolers consist of regions in a centre-surround organisation, with angular variation.  These pooling weights were optimised on the PASCAL VOC 2007 dataset for categorization by an optimization approach. Colours are chosen to alternate in order to allow spatial relationships to be visible to the reader.}
+%\caption{\label{fig:PoolerResponses3D}Patterns of 17 spatial poolers consist of regions in a centre-surround organisation, with angular variation.  These pooling weights were optimised on the PASCAL VOC 2007 dataset for categorisation by an optimisation approach. Colours are chosen to alternate in order to allow spatial relationships to be visible to the reader.}
 %\end{center}
 %\end{figure}
 %%
@@ -273,7 +272,7 @@ Since the poolers are designed to be spatially smoothing, the subsampling operat
 \subsection{Learning CNN Weights}
 Even with the use of weight-sharing \cite{lecun1995convolutional}, deep convolutional networks require learning anywhere of the order of millions to tens of millions of parameters. In contrast, the two-layer network described above, which uses functional spatial forms for the spatial weights layers required learning a much smaller number of parameters.  Weight learning was performed by optimising over the Gabor parameters of wavelength and spatial scale, and the pooling parameters used in the second layer of permuted convolution.
 
-Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimized on the PASCAL VOC 2007 database \cite{everingham2010pascal} in order to achieve good discrimination between classes of this database. The optimization used the criterion of Area-Under-Curve metric in an image retrieval task within the labelled image database, i.e. given a query image from a set of data, find the nearest match in a database.  Both training and testing images were taken from a partitioning of the PASCAL VOC database, and performance was measured in separate test sets.  Stochastic Gradient Descent was used. In addition, the weight set was constrained so as to sum to zero at each point in space across all convolution filters, and were constrained to be spatially antisymmetric about one axis.  No further optimizations were applied to the two early layers of the CNN once this optimisation had been done, and the optimization did not use any of the images we describe in experiments in Section~\ref{sec:experiments}.
+Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \cite{everingham2010pascal} in order to achieve good discrimination between classes of this database. The optimisation used the criterion of Area-Under-Curve metric in an image retrieval task within the labelled image database, i.e. given a query image from a set of data, find the nearest match in a database.  Both training and testing images were taken from a partitioning of the PASCAL VOC database, and performance was measured in separate test sets.  Stochastic Gradient Descent was used. In addition, the weight set was constrained so as to sum to zero at each point in space across all convolution filters, and were constrained to be spatially antisymmetric about one axis.  No further optimisations were applied to the two early layers of the CNN once this optimisation had been done, and the optimisation did not use any of the images described in experiments in Section~\ref{sec:experiments}.
 
 The architecture of the CNN and the order of tensors used to represent the data flowing through it is shown in Figure~\ref{fig:arch}.
 
@@ -285,26 +284,17 @@ responses \cite{petrou2008next}. Nevertheless, it captures the behaviour of a si
 \label{fig:arch}
 \end{figure}
 
-\subsection{Dictionary Encoding}
-The convolutional network to produce a joint encoding of orientation and spatial position within a patch yields an order 5 tensor once applied to an intensity-only video sequence.  Consider two order 5 tensors, $\tens{A}$ and $\tens{B}$, each of which represents an encoding of a video-sequence.  One of these, $\tens{A}$, will be treated as modelling a simple V1 population code in a sequence captured during a journey; the other, $\tens{B}$ is treated as a visual memory of a previous journey.  Searching this order 5-space for particular patterns is difficult: for a wide-angle input video of size $208\times117$ pixels, for example, an order 4 tensor (corresponding to one time-point) contains around 230,000 elements.  The first two modes of $\tens{A}$ and $\tens{B}$ correspond to location in the image plane; the next two dimensions provide the population code over a patch of pixel data, and the final mode corresponds to time.  
-
-
-One solution to the search problem is to apply vector quantization to some of the dimensions.  For example, by treating three of the five dimensions ($i_1,i_2,i_5$) as observations of variables across the remaining two dimensions $(i_3,i_4)$, a dictionary, $\mathcal{V}$ can be constructed; an encoding of a single frame using this dictionary can then be achieved using an order 2 tensor.  This reduces the frame comparison problem to one that is performed by comparing dictionary encodings. The dictionary encoding acts as a simple technique for dimensionality reduction, but it allows a more efficient comparison between a visual memory and a new visual stimulus within the modelled population code. The $k-$means clustering algorithm was used because of its simplicity and reasonable scalability when dictionary sizes range from the order of hundreds of terms to the order of thousands.
-
-The dictionary encoding is applied at the frame-level, so that each frame in a video sequence is represented by an order 1 tensor.  The complete sequence of frames of a journey, then, is represented by an order 2 tensor, with dimensions $N_F\times|\mathcal{V}|.$ 
-
-
 \section{Artificial Place Cells (APC)}
 
 \subsection{Modelling a Single Place Cell: the Tuning Curve Encoder}
 
 Given a series of video frames extracted from footage recorded during indoor navigation, I made use of the visual path concept \cite{RiveraWearable, matsumoto1996visual, ohno1996autonomous}, to perform  matching, or association, between locations of a physical environment being traversed and a database of previously captured journeys.
 
-The proposal -- an evolution of that suggested for sensor and WiFi-based localisation -- is that an appearance-based method using visual features could be easily mined to create a form of \textit{virtual landmarks}.  Such landmarks could be used to retrieve similar image locations around the locale of a landmark. The similarity scores obtained from appearance-based comparison methods, applied between sequences of frames of a journey and these virtual landmarks, should exhibit a behaviour that is similar to those recorded in mammalian place cells (Fig. \ref{fig:BPCdragoi}). In other words, one should obtain high scores when locations are visually similar or spatially close, and low ones when they are dissimilar, with a concave behaviour of scores with distance to the landmark. Requiring such behaviour of location sensing computational units would make them close to the behaviour of biological place cells. 
+The proposal -- an evolution of that suggested for sensor and WiFi-based localisation~\cite{wang2012no} -- is that an appearance-based method using visual features could be easily mined to create a form of \textit{virtual landmarks}.  Such landmarks could be used to retrieve similar image locations around the locale of a landmark. The similarity scores obtained from appearance-based comparison methods, applied between sequences of frames of a journey and these virtual landmarks, should exhibit a behaviour that is similar to those recorded in mammalian place cells (Figure \ref{fig:BPCdragoi}). In other words, one should obtain high scores when locations are visually similar or spatially close, and low ones when they are dissimilar, with a concave behaviour of scores with distance to the landmark. Requiring such behaviour of location sensing computational units would make them close to the behaviour of biological place cells. 
 
 In order to model the place cell behaviour based on the visual input provided by cameras, one first needs a way of describing the collection of patches in an image near to a virtual landmark, and a means of comparing two images through their individual patch similarities. 
 
-I used a subset of the visual features described in detail in Chapter \ref{ch:chapter4}, namely: keypoint-SIFT (SIFT) \cite{lowe2004distinctive}, dense-SIFT (DSIFT)~\cite{vedaldi2010vlfeat}, single-frame (SF-GABOR) and spatio-temporal (ST-GABOR) Gabor based descriptors, and spatio-temporal Gaussian based descriptors~\cite{RiveraWearable}. Table \ref{tab:methods} provides a summary of the techniques and shows the number of elements of each descriptor. Similar to the comparison established in the previous chapter, we chose a state-of-the-art SLAM method, Engel's LSD-SLAM~\cite{engel2014lsd}.
+I used a combination of the CNN that simulates simple-cell responses and population coding described in Section~\ref{sec:tensornotation} -- single-frame (SF-GABOR) --; and a subset of the visual features described in detail in Chapter \ref{ch:chapter4}, namely: keypoint-SIFT (SIFT) \cite{lowe2004distinctive}, dense-SIFT (DSIFT)~\cite{vedaldi2010vlfeat} and spatio-temporal (ST-GABOR) Gabor based descriptors, and spatio-temporal Gaussian based descriptors~\cite{RiveraWearable}. Table \ref{tab:methods} provides a summary of the techniques and shows the number of elements of each descriptor. Similar to the comparison established in the previous chapter, a state-of-the-art SLAM method, Engel's LSD-SLAM~\cite{engel2014lsd} was chosen.
 
 
 \begin{figure}[]
@@ -330,12 +320,21 @@ I used a subset of the visual features described in detail in Chapter \ref{ch:ch
 
 In order to model place cells based on the visual input provided by a camera, the collection of patches has to be performed and two images should be compared through their individual patch similarities. When there are several frames involved, the encoding can be computationally expensive, and clumsy to search and compare one frame vs many.  This is the topic now addressed.
 
+\subsection{Dictionary Encoding}
+The convolutional network to produce a joint encoding of orientation and spatial position within a patch yields an order 5 tensor once applied to an intensity-only video sequence.  Consider two order 5 tensors, $\tens{A}$ and $\tens{B}$, each of which represents an encoding of a video-sequence.  One of these, $\tens{A}$, will be treated as modelling a simple V1 population code in a sequence captured during a journey; the other, $\tens{B}$ is treated as a visual memory of a previous journey.  Searching this order 5-space for particular patterns is difficult: for a wide-angle input video of size $208\times117$ pixels, for example, an order 4 tensor (corresponding to one time-point) contains around 230,000 elements.  The first two modes of $\tens{A}$ and $\tens{B}$ correspond to location in the image plane; the next two dimensions provide the population code over a patch of pixel data, and the final mode corresponds to time.  
+
+
+One solution to the search problem is to apply vector quantisation to some of the dimensions.  For example, by treating three of the five dimensions ($i_1,i_2,i_5$) as observations of variables across the remaining two dimensions $(i_3,i_4)$, a dictionary, $\mathcal{V}$ can be constructed; an encoding of a single frame using this dictionary can then be achieved using an order 2 tensor.  This reduces the frame comparison problem to one that is performed by comparing dictionary encodings. The dictionary encoding acts as a simple technique for dimensionality reduction, but it allows a more efficient comparison between a visual memory and a new visual stimulus within the modelled population code. The $k-$means clustering algorithm was used because of its simplicity and reasonable scalability when dictionary sizes range from the order of hundreds of terms to the order of thousands.
+
+The dictionary encoding is applied at the frame-level, so that each frame in a video sequence is represented by an order 1 tensor.  The complete sequence of frames of a journey, then, is represented by an order 2 tensor, with dimensions $N_F\times|\mathcal{V}|.$ 
+
+
 
 \subsection{Artificial Place Cells in the tensor population model}
 \label{sec:APC}
 
 %Finally, we express the artificial place cells in the tensor formulation. 
-Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, the aim is now to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Fig.~\ref{fig:HistEncodings}).
+Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, the aim is now to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Figure~\ref{fig:HistEncodings}).
 
 \begin{figure}
 \centering
@@ -345,14 +344,14 @@ Given the population code for a video sequence, represented by the tensor $\tens
 \end{figure}
 
 
-In line with the findings described in Section \ref{ch:chapter4}, we found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms through a \textit{kernel} function that will be described in the next section. That is, individual fibres, one a single order 1 tensor $\mathbf{v}_q$ and a second $\mathbf{v}_{db}$ drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to to methods of localisation that are discussed in the next section.  
+In line with the findings described in Section \ref{ch:chapter4}, I found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms through a \textit{kernel} function that will be described in the next section. That is, individual fibres, one a single order 1 tensor $\mathbf{v}_q$ and a second $\mathbf{v}_{db}$ drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to to methods of localisation that are discussed in the next section.  
 
 
 %\subsection{Encoding Frames of Video}
 %
 %Given a sequence of video frames, each of which is described by a collection of descriptor vectors, the task of comparing frames can be done by comparing vector pairs.  Whilst a pair of frames captured in two different journeys might differ for a number of reasons that include partial occlusion, motion blur, lighting changes and object/scene changes, one would expect that there might be some patches that are similar.  However, in a 1 minute video, one might capture 1,500 frames, with each frame containing several thousand patch descriptors, each of them a high-dimensional vector.
 %
-%One solution to this ``curse of dimensionality'' is to use the simple vector quantisation approach introduced in Chapter \ref{ch:chapter4} (VQ, $4^{th}$ module of the pipeline described in Fig. \ref{fig:pipeline}, and described as hard assignment, or HA in the previous context), creating a mapping (codebook) that reduces each of the descriptors to a single number representing the identifier of an area of descriptor space.  For this set of experiments, we applied the $k$-means algorithm with $k = 400$ to samples of video data acquired from corridors in order to generate the VQ codebook. Patch descriptors were $L_2$ normalized prior to applying the $k$-means algorithm, then each frame was separately encoded into a 400-element Frame-Encoding Vector (FEV). 
+%One solution to this ``curse of dimensionality'' is to use the simple vector quantisation approach introduced in Chapter \ref{ch:chapter4} (VQ, $4^{th}$ module of the pipeline described in Figure \ref{fig:pipeline}, and described as hard assignment, or HA in the previous context), creating a mapping (codebook) that reduces each of the descriptors to a single number representing the identifier of an area of descriptor space.  For this set of experiments, we applied the $k$-means algorithm with $k = 400$ to samples of video data acquired from corridors in order to generate the VQ codebook. Patch descriptors were $L_2$ normalised prior to applying the $k$-means algorithm, then each frame was separately encoded into a 400-element Frame-Encoding Vector (FEV). 
 %
 %
 %Given a sequence of video frames which are encoded as a set of descriptor vectors the problem of comparing frames can be done by comparing individual vector pairs.  Whilst a pair of frames captured in two different journeys might differ for a number of reasons that include partial occlusion, motion blur, lighting changes and object/scene changes, one would expect that there might be some patches that are similar.  Patch-based comparisons attempt to perform exactly this.  However, in a 1 minute video, one might capture 1,500 frames, with each frame containing several thousand descriptors, each of them a high-dimensional vector.
@@ -361,7 +360,7 @@ In line with the findings described in Section \ref{ch:chapter4}, we found that 
 
 \subsection{Modelling place cell behaviour}
 \label{sec:kerneltoAPC}
-In order to model place cell behaviour it is necessary to map pairs of frames onto a scalar value that is analogous -- perhaps after a non-linearity and affine scaling -- to a firing rate. Consider two image frames that are captured at positions $P$ and $Q$, and are spaced a distance, $\ell_{PQ}$, apart (Fig. \ref{fig:creatingAPCs}). As the distance $\ell_{PQ}$ varies, the mapping should yield a smoothly varying result. In addition, biological place cell (BPC) behaviour often displays a concave relationship between firing rate and distance from the location of peak response (often, the location of some landmark) as illustrated in Fig.~\ref{fig:APCresponses} and Fig.~\ref{fig:creatingAPCs}.
+In order to model place cell behaviour it is necessary to map pairs of frames onto a scalar value that is analogous -- perhaps after a non-linearity and affine scaling -- to a firing rate. Consider two image frames that are captured at positions $P$ and $Q$, and are spaced a distance, $\ell_{PQ}$, apart (Figure \ref{fig:creatingAPCs}). As the distance $\ell_{PQ}$ varies, the mapping should yield a smoothly varying result. In addition, biological place cell (BPC) behaviour often displays a concave relationship between firing rate and distance from the location of peak response (often, the location of some landmark) as illustrated in Figure~\ref{fig:APCresponses} and Figure~\ref{fig:creatingAPCs}.
 
 
 \begin{figure}
@@ -378,12 +377,14 @@ In order to model place cell behaviour it is necessary to map pairs of frames on
 \end{figure}
 
 
-One way to mimic the behaviour of BPCs within APCs becomes patent when we revisit the \textit{kernel} function we introduced in the previous chapter. This \textit{kernel} mapped a pair of frame encoding vectors (FEVs) onto a positive scalar value. I used the following mapping between two vectors, or single order tensors $\mathbf{v}_q$ and $\mathbf{v}_{db}$ (following the notation of previous sections):
+One way to mimic the behaviour of BPCs within APCs becomes patent when revisiting the \textit{kernel} function introduced in the previous chapter. This \textit{kernel} mapped a pair of BOVW-encoded image descriptors onto a positive scalar value. These functions can be equally applied to two BOVW vectors (in the case of the non-biology inspired descriptors) and two single-order tensors (when referring to the V1-inspired descriptors or SF-GABOR). As both representations are mathematically equivalent, I unified the terms into Frame Encoding Vectors (FEVs) to denote both BOVW vectors and V1 single-order tensors.
+
+I used the following mapping between two FEVs $\mathbf{v}_q$ and $\mathbf{v}_{db}$ (following the notation of previous sections):
 \be
 \kappa_{\chi^2}(\mathbf{v}_q,\mathbf{v}_{db}) = \sum_{j=1}^{400}\frac{v_q(j)\cdot v_{db}(j)}{v_q(j)+v_{db}(j)}
 \ee
 
-This maps the two FEVs onto a scalar value that takes a maximum when the two vectors are identical. The behaviour of this kernel mapping between a fixed frame and a series of frames from a sequence is shown in Fig.~\ref{fig:APCSingleNoisy}.  As one moves along the horizontal axis from left to right, vectors from each frame in a section of a video sequence are compared against those of a {\em reference} frame (virtual visual landmark) from another sequence.  The location of the reference frame corresponds to the location in the new sequence at which one observes the peak in the curve (around frame 690) of Fig.~\ref{fig:APCSingleNoisy}; this location corresponds to the effective position of the virtual landmark, which is the field of view in front of the camera at that (frame) location.  The variability of responses is high, but it is not unlike the types of variation found in biological place cell behaviour.  
+This maps the two FEVs onto a scalar value that takes a maximum when the two vectors are identical. The behaviour of this kernel mapping between a fixed frame and a series of frames from a sequence is shown in Figure~\ref{fig:APCSingleNoisy}.  As one moves along the horizontal axis from left to right, vectors from each frame in a section of a video sequence are compared against those of a {\em reference} frame (virtual visual landmark) from another sequence.  The location of the reference frame corresponds to the location in the new sequence at which one observes the peak in the curve (around frame 690) of Figure~\ref{fig:APCSingleNoisy}; this location corresponds to the effective position of the virtual landmark, which is the field of view in front of the camera at that (frame) location.  The variability of responses is high, but it is not unlike the types of variation found in biological place cell behaviour.  
 
 
 %\begin{figure}
@@ -392,7 +393,7 @@ This maps the two FEVs onto a scalar value that takes a maximum when the two vec
 %   \setlength\figureheight{0.3\textwidth}
 %	\setlength\figurewidth{0.7\textwidth}
 %		\input{gfx/Chapter05/tikz/single_tuning_curve.tex}
-%  \caption{Single APC tuning curve (raw measurements in red) and a smoothed version (blue trace).  The reference frame is located around frame 690. The APC response must be thresholded before using it for accurate position inference; suprathreshold responses from a number of APCs at different positions in the same corridor are shown in Fig.~\ref{fig:APCMany}.}
+%  \caption{Single APC tuning curve (raw measurements in red) and a smoothed version (blue trace).  The reference frame is located around frame 690. The APC response must be thresholded before using it for accurate position inference; suprathreshold responses from a number of APCs at different positions in the same corridor are shown in Figure~\ref{fig:APCMany}.}
 %  \label{fig:APCSingleNoisy}
 %\end{figure}
 
@@ -420,7 +421,7 @@ This maps the two FEVs onto a scalar value that takes a maximum when the two vec
 
 \section{Creating Place Fields}
 
-The similarity function $\kappa_{\chi^2}$ is an important component in producing APC behaviour from single order tensors (or FEVs if we unify the nomenclature with that of Chapter~\ref{ch:chapter4}).  However, regions of the APC response curve which are almost flat contain very little information from the point of inferring the position of a stimulus that elicits some response. In other words, regions of the curve where the gradient with respect to distance to the peak of the curve, $\ell$, is small, convey relatively little information about the camera's location. Other regions of the curve show rapid change with distance from the peak. In order to synthesize useful ``tuning curves'' for APCs, we need to define sub- and supra-threshold regions for each APC that we wish to define (Fig.~\ref{fig:Supra}).
+The similarity function $\kappa_{\chi^2}$ is an important component in producing APC behaviour from frame encoding vectors.  However, regions of the APC response curve which are almost flat contain very little information from the point of inferring the position of a stimulus that elicits some response. In other words, regions of the curve where the gradient with respect to distance to the peak of the curve, $\ell$, is small, convey relatively little information about the camera's location. Other regions of the curve show rapid change with distance from the peak. In order to synthesise useful ``tuning curves'' for APCs, sub- and supra-threshold regions need to be defined for each APC (Figure~\ref{fig:Supra}).
 
 \begin{figure}
 \centering
@@ -447,7 +448,7 @@ r_i(\ell) = U(\kappa_{\chi^2}(\mathbf{v}_{\ell},\mathbf{v}_{r_i}) - T_i)\cdot \k
 \ee
 where $U(\cdot)$ represents the unit step function and $T_i$ represents a suitable threshold. Curves acquired by averaging responses from several journeys with respect to the same APC location may be referred to as an APC {\em tuning curve}.
 
-By defining APCs at regular intervals along a corridor, a simple population code for location can be devised. In Fig.~\ref{fig:APCMany}, the {\em average} response from each of several such APC cell responses is plotted along the length of one corridor.  These curves are produced by setting APCs to be spaced every 4 m within the corridor, and constructing the average APC responses.  In Fig.~\ref{fig:APCMany}, ground truth was used to register the curves for illustrative purposes.
+By defining APCs at regular intervals along a corridor, a simple population code for location can be devised. In Figure~\ref{fig:APCMany}, the {\em average} response from each of several such APC cell responses is plotted along the length of one corridor.  These curves are produced by setting APCs to be spaced every 4 m within the corridor, and constructing the average APC responses.  In Figure~\ref{fig:APCMany}, ground truth was used to register the curves for illustrative purposes.
 
 \begin{figure}
 \centering
@@ -467,7 +468,7 @@ The responses of the collection of APCs provide important information as a popul
 %
 %
 %\label{sec:APC}
-%Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, we now aim to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Fig.~\ref{fig:HistEncodings}).
+%Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, we now aim to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Figure~\ref{fig:HistEncodings}).
 %
 %\begin{figure}
 %\centering
@@ -482,9 +483,9 @@ The responses of the collection of APCs provide important information as a popul
 
 
 \subsection{Location from APC Activations}
-Conceptually, given a series of APC responses to visual cues of a person's location along some journey -- illustrated in Fig.~\ref{fig:APCresponses} -- there are two obvious ways of estimating location, $\ell$.  The first is simply to use the APC which displays maximum activation (firing rate) as a rough indicator of where the person is. That is, given a set of activations $p(r_i|\ell)$, the location of the camera that captured a particular image frame is provided by the index, $i$ associated with maximizing $p(r_i|\ell)$. This provides a precision that is limited by the width the APCs, but requires little more than ensuring that place cell responses are reasonably well-separated. This is similar to the ``best-estimate'' approach of Chapter~\ref{ch:chapter4}.
+Conceptually, given a series of APC responses to visual cues of a person's location along some journey -- illustrated in Figure~\ref{fig:APCresponses} -- there are two obvious ways of estimating location, $\ell$.  The first is simply to use the APC which displays maximum activation (firing rate) as a rough indicator of where the person is. That is, given a set of activations $p(r_i|\ell)$, the location of the camera that captured a particular image frame is provided by the index, $i$, associated with maximizing $p(r_i|\ell)$. This provides a precision that is limited by the width the APCs, but requires little more than ensuring that place cell responses are reasonably well-separated. This is similar to the ``best-match'' estimate approach of Chapter~\ref{ch:chapter4}.
 
-The second technique to infer location achieves more accurate localisation of a camera from its captured visual data by using the joint distribution $p(\mathbf{r}|\ell)$, of APC responses, $\mathbf{r}$ to infer location $\ell$ relative to some designated ground truth.  We use a single index, $i$, to refer to the response of a unique place cell, $r_i$.
+The second technique to infer location achieves more accurate localisation of a camera from its captured visual data by using the joint distribution $p(\mathbf{r}|\ell)$, of APC responses, $\mathbf{r}$ to infer location $\ell$ relative to some designated ground truth.  I use a single index, $i$, to refer to the response of a unique place cell, $r_i$.
 
  First, a rough location may be identified by using \texttt{arg max}($r_i$) over the index, $i$; then, the responses of neighbouring APCs can be used to obtain sub-cell localisation.  In order to apply this principle, one needs sufficiently accurate estimates of $p(\mathbf{r}|\ell) = p(r_1,r_2,r_3,...,r_C|\ell)$, where $r_C$ is the total number of place cells in some region of a path.   Given several active cells that are a subset of all place cells in a location, sub-APC localisation is possible using APC responses from previous journeys using empirical Bayes' techniques. For example, if three cells are active, the chain rule can be used to obtain successively refined estimates of $\ell$:
 \begin{eqnarray}
@@ -502,9 +503,9 @@ p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
 
 \subsection{Overview of the System}
 \label{ch05:overview}
-In the experimental work to be discussed in the next section, a Generalized Regression Neural Network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and uses radial-basis functions.  The responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
+In the experimental work to be discussed in the next section, a Generalised Regression Neural Network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and uses radial-basis functions.  The responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
 
-An overview of the pipeline for processing the frames to generate APCs is shown in Fig.~\ref{fig:pipeline}. The performance of different methods will be discussed in Section~\ref{sec:experiments}.
+An overview of the pipeline for processing the frames to generate APCs is shown in Figure~\ref{fig:pipeline}. The performance of different methods will be discussed in Section~\ref{sec:experiments}.
 
 
 %\subsection{System Pipeline}
@@ -512,7 +513,7 @@ An overview of the pipeline for processing the frames to generate APCs is shown 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{gfx/Chapter05/nn_pipeline.pdf}
-\caption{Overview of the training pipeline. The diagram of the neural network is merely illustrative, it does not represent the real architecture used.}
+\caption{Overview of the training pipeline. The diagram of the neural network is merely illustrative, it does not represent the real architecture used.\td{Consider editing it}{Perhaps change the modules from gradients to kernels for FEV construction}{}}
 \label{fig:pipeline}
 \end{figure}
 
@@ -523,16 +524,16 @@ An overview of the pipeline for processing the frames to generate APCs is shown 
 \section{Experiments and Results}
 \label{sec:ch5experiments}
 
-In order to test the APC concept, I performed a series of experiments using the RSM dataset~\cite{RiveraWearable}. We recall from Chapter \ref{ch:chapter4} that this dataset contains visual data of more than 3 km of indoor journeys acquired with two devices: a hand-held Nexus 4 and a wearable Google Glass. Corridors varied in length between 32 m and 60 m and the sequences comprise more than 120,000 frames with ground truth acquired with surveying equipment. The original resolution of the dataset is $1280 \times 720$ pixels per frame which we down-sampled to $208 \times 117$. 
+In order to test the APC concept, I performed a series of experiments using the RSM dataset~\cite{RiveraWearable}. Recall from Chapter \ref{ch:chapter4} that this dataset contains visual data of more than 3 km of indoor journeys acquired with two devices: a hand-held Nexus 4 and a wearable Google Glass. Corridors varied in length between 32 m and 60 m and the sequences comprise more than 120,000 frames with ground truth acquired with surveying equipment. The original resolutions of the dataset are $1920\times 180$  and $1280 \times 720$ pixels per frame which I down-sampled to $208 \times 117$. 
 
 
-%within one building of the Royal School of Mines at Imperial College.  Using a surveyor's wheel, we mapped out a number of one-dimensional corridors, measuring distance travelled and location within a corridor whilst simultaneously recording video-sequences from either a hand-held or a wearable camera. The surveyors wheel was modified to connect it directly to a data acquisition system (Raspberry Pi), which was synchronized to network time. Different human subjects held or wore the equipment, and walked at different rates along the corridors selected for the experiment. The video sequences were captured at between 25 to 30 frames per second at a resolution of $1280 \times 720$ pixels per frame, and were down-sampled to a pixel size of $208 \times 117$ per frame.  In total, over 100,000 frames of data were collected, corresponding to over $3 km$ of journey information.  Corridors varied in length between 32 m and 60 m.
+%within one building of the Royal School of Mines at Imperial College.  Using a surveyor's wheel, we mapped out a number of one-dimensional corridors, measuring distance travelled and location within a corridor whilst simultaneously recording video-sequences from either a hand-held or a wearable camera. The surveyors wheel was modified to connect it directly to a data acquisition system (Raspberry Pi), which was synchronised to network time. Different human subjects held or wore the equipment, and walked at different rates along the corridors selected for the experiment. The video sequences were captured at between 25 to 30 frames per second at a resolution of $1280 \times 720$ pixels per frame, and were down-sampled to a pixel sise of $208 \times 117$ per frame.  In total, over 100,000 frames of data were collected, corresponding to over $3 km$ of journey information.  Corridors varied in length between 32 m and 60 m.
 
 %Using the network architecture, dictionary encoding and APC models described in earlier sections, the APC responses are generated from real data sequences.
 
 %\subsection{APC modelling experiments}
 
-%In Fig.~\ref{fig:APCSingleNoisy}eNoisy}, we show place cell responses from a single location, captured with multiple journeys.  The variability of responses is significant, but not unlike the types of variation found in biological variability, where multiple trials are usually required, together with averaging, in order to tease out average firing rate curves.
+%In Figure~\ref{fig:APCSingleNoisy}eNoisy}, we show place cell responses from a single location, captured with multiple journeys.  The variability of responses is significant, but not unlike the types of variation found in biological variability, where multiple trials are usually required, together with averaging, in order to tease out average firing rate curves.
 
 %\begin{figure}
 %	\centering
@@ -543,18 +544,18 @@ In order to test the APC concept, I performed a series of experiments using the 
 %	\caption{Single APC tuning curve (raw measurements in red) and a smoothed
 %version (blue trace). The APC response must be thresholded before using it
 %for accurate position inference; super-threshold responses from a number of
-%APCs at different positions in the same corridor are shown in Fig. ~\ref{fig:multipleAPCs}.}
+%APCs at different positions in the same corridor are shown in Figure ~\ref{fig:multipleAPCs}.}
 %\label{fig:APCSingleNoisy}
 %\end{figure}
 
-%In Fig.~\ref{fig:APCMany}, the average responses from each of several APC cell responses is plotted along a length of corridor in one corridor.  These curves are produced by setting place cell locations to be spaced every 4 m within a single corridor, and constructing the average APC responses using the $\kappa_{\chi^2}$ distance metric between dictionary-encoded population codes.
+%In Figure~\ref{fig:APCMany}, the average responses from each of several APC cell responses is plotted along a length of corridor in one corridor.  These curves are produced by setting place cell locations to be spaced every 4 m within a single corridor, and constructing the average APC responses using the $\kappa_{\chi^2}$ distance metric between dictionary-encoded population codes.
 
 
 
 \subsection{APC-level Localisation}
 \label{subsec:inferloc}
 
-The first method used to infer location -- based on identifying the APC with maximum activity -- was tested in several corridors of the experimental data.  First, a visualization showing the locations of APCs with maximum activation is shown in Fig.~\ref{fig:floorplan}; these are indicated on the floor plan of one of the building sections that was used to conduct the experiment.  Locations are staggered across the width of the corridor in order to visualize the individual activations of the 8 APCs defined within this corridor. The second technique to estimate location relies on the overlap of the responses from APCs and the use of a GRNN. Table \ref{table:methodComparison} compares the two localisation techniques for different methods of descriptor generation. A dictionary based on a single device type was used, but all the combinations of remaining passes were submitted as queries. The neural network regressor shows better results, achieving errors as low as 2.49 m for SF-GABOR, even with the majority of the queries coming from a different device that was not used to learn the dictionary. Very low errors were observed using a single device, as may be seen in Fig.~\ref{fig:sublocMethodComp}. The performance of LSD-SLAM, when tested on the same sequences, is also reported, but tracking was lost in roughly 40\% of sequences. This is probably because LSD-SLAM performs best on sequences acquired with global-shutter, fish-eye lenses. The RSM dataset does not use such cameras. A tracking recovery exception catch was therefore implemented to keep LSD-SLAM running. 
+The first method used to infer location -- based on identifying the APC with maximum activity -- was tested in several corridors of the experimental data.  First, a visualisation showing the locations of APCs with maximum activation is shown in Figure~\ref{fig:floorplan}; these are indicated on the floor plan of one of the building sections that was used to conduct the experiment.  Locations are staggered across the width of the corridor in order to visualise the individual activations of the 8 APCs defined within this corridor. The second technique to estimate location relies on the overlap of the responses from APCs and the use of a GRNN. Table \ref{table:methodComparison} compares the two localisation techniques for different methods of descriptor generation. A dictionary based on a single device type was used, but all the combinations of remaining passes were submitted as queries. The neural network regressor shows better results, achieving errors as low as 2.49 m for the V1-inspired SF-GABOR, even with the majority of the queries coming from a different device that was not used to learn the dictionary. Very low errors were observed using a single device, as may be seen in Figure~\ref{fig:sublocMethodComp}. The performance of LSD-SLAM, when tested on the same sequences, is also reported, but tracking was lost in roughly 40\% of the sequences. This is probably because LSD-SLAM performs best on sequences acquired with global-shutter, fish-eye lenses. The RSM dataset does not use such cameras. A tracking recovery exception catch was therefore implemented to keep LSD-SLAM running. 
 
 
 
@@ -562,7 +563,7 @@ The first method used to infer location -- based on identifying the APC with max
 %\begin{figure}
 %\begin{center}
 %\includegraphics[width=.8\linewidth]{gfx/Chapter05/placeCellsExperiment_withDetection_5px_horiz.png}
-%\caption{Using ground truth from a surveyor's wheel, activations from APCs are overlaid onto the floor plan in which video data was acquired. Different colours refer to individual APCs, and activations are staggered across the width of the corridor to allow visualization.}
+%\caption{Using ground truth from a surveyor's wheel, activations from APCs are overlaid onto the floor plan in which video data was acquired. Different colours refer to individual APCs, and activations are staggered across the width of the corridor to allow visualisation.}
 %\label{fig:floorplan}
 %\end{center}
 %\end{figure}
@@ -572,7 +573,7 @@ The first method used to infer location -- based on identifying the APC with max
 \subsection{Sub-APC Localisation}
 
 
-By arranging for APC responses to be up to 4 m in width, the responses from several cells can be used to perform accurate inference of spatial position using a single section of corridor.  The success of this technique is illustrated in Fig.~\ref{fig:sublocMethodComp}. Note that average absolute errors are very small compared to distances traversed.
+By arranging for APC responses to be up to 4 m in width, the responses from several cells can be used to perform accurate inference of spatial position using a single section of corridor.  The success of this technique is illustrated in Figure~\ref{fig:sublocMethodComp}. Note that average absolute errors are very small compared to distances traversed.
 
 
 \begin{figure}
@@ -620,12 +621,12 @@ absolute localisation errors range from below one metre to 1.49 m. Ground truth 
 
 
 
-The GRNN relied on the overlap of the responses of the place cells to perform location inference. By varying the threshold beyond which place cells are considered active, it is possible to have very long-tailed APC responses, spanning several metres.  This yields APC behaviour that is similar to that of rate-coding in place cells observed in biology. The blue trace on Fig.~\ref{fig:threshEval} shows an example of the average cell width in metres as the threshold on the $\kappa_{\chi^2}$ comparison metric is varied. The red trace illustrates the average error, also in metres, that is obtained from the GRNN regressor. Having low APC response overlap deprives the network of sufficient non-zero inputs, leading to poor accuracy in position inference.
+The GRNN relied on the overlap of the responses of the place cells to perform location inference. By varying the threshold beyond which place cells are considered active, it is possible to have very long-tailed APC responses, spanning several metres.  This yields APC behaviour that is similar to that of rate-coding in place cells observed in biology. The blue trace on Figure~\ref{fig:threshEval} shows an example of the average cell width in metres as the threshold on the $\kappa_{\chi^2}$ comparison metric is varied. The red trace illustrates the average error, also in metres, that is obtained from the GRNN regressor. Having low APC response overlap deprives the network of sufficient non-zero inputs, leading to poor accuracy in position inference.
 
 
 One of the key problems with using different cameras -- even if they are calibrated -- is the difference in field of view of one imaging device with respect to another.  A Nexus 4 smartphone and a wearable Google Glass were used to conduct experiments into the effect of the dictionary on the localisation using the sub-APC (GRNN) approach. 
 
-A set of 10 journeys through one of the corridors of the RSM building with different devices was taken for this experiment.  Some of the journeys were included in the database, others were used to conduct queries.  The partitioning of the data was permuted, varying the number of journeys in the database and the number of query journeys kept out of the database.  Journeys which were used for queries did not contribute to the learning of the dictionary, which was repeated for each permutation. Fig. \ref{fig:multiDevice}  shows the difference in absolute error of Nexus and Glass queries when only passes from one device (in this case, the Nexus) were used for the dictionary learning. 
+A set of 10 journeys through one of the corridors of the RSM building with different devices was taken for this experiment.  Some of the journeys were included in the database, others were used to conduct queries.  The partitioning of the data was permuted, varying the number of journeys in the database and the number of query journeys kept out of the database.  Journeys which were used for queries did not contribute to the learning of the dictionary, which was repeated for each permutation. Figure \ref{fig:multiDevice}  shows the difference in absolute error of Nexus and Glass queries when only passes from one device (in this case, the Nexus) were used for the dictionary learning. 
 
 
 \begin{figure}[h!]
@@ -702,7 +703,7 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 
 
 \subsection{Computational load metrics}
-The main computational load for the place-cell computation is due to the dictionary learning, which enables fast lookup of individual frames -- encoded as a single vector of terms from the vocabulary.  The dictionary is built by randomly selecting 200 frames from each sequence, and randomly selecting 800 examples of the joint spatial-temporal encoding, which consists of $D$-dimensional vectors (see Table~\ref{tab:methods}). Dictionary learning takes around 1 hour for approximately 50 video sequences of the whole corridor dataset on a 64 GB machine using 400 words. Once learned, encoding a new frame and looking it up takes less than 200 ms using unoptimized \textit{MATLAB} code. 
+The main computational load for the place-cell computation is due to the dictionary learning, which enables fast lookup of individual frames -- encoded as a single vector of terms from the vocabulary.  The dictionary is built by randomly selecting 200 frames from each sequence, and randomly selecting 800 examples of the joint spatial-temporal encoding, which consists of $D$-dimensional frame encoding vectors (see Table~\ref{tab:methods}). Dictionary learning takes around 1 hour for approximately 50 video sequences of the whole corridor dataset on a 64 GB machine using 400 words. Once learned, encoding a new frame and looking it up takes less than 200 ms using unoptimised MATLAB code. 
 
 %\section{Discussion}
 %
@@ -712,17 +713,16 @@ The main computational load for the place-cell computation is due to the diction
 
 \section{Conclusion}
 
-Place cell physiology and function is of immense interest for a number of reasons. To my knowledge, there is no computational architecture that reproduces place-cell responses in the form of tuning curves artificially from video sequences, and there is no biologically plausible model for place cell encoding that can be applied to the recorded video sequences we have used in this work.  Furthermore, competing camera-based localisation techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate location: motion is a requirement.  The place cell model proposed and evaluated in this chapter does not require motion at location estimation time: a single frame gives a possible response.
+Place cell physiology and function is of immense interest for a number of reasons. To my knowledge, there is no computational architecture that reproduces place-cell responses in the form of tuning curves artificially from video sequences, and there is no biologically plausible model for place cell encoding that can be applied to the recorded video sequences I have used in this work.  Furthermore, competing camera-based localisation techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate location: motion is a requirement.  The place cell model proposed and evaluated in this chapter does not require motion at location estimation time: a single frame gives a possible response.
 
 A number of questions observed from this study motivates further work in the search of a plausible biological answer. First, it is the nature of the place cells what defines their width after thresholding, and thus their sensitivity to locations. In biology, neurons are known to reach a certain threshold potential before they fire an action potential or impulse that can propagate along the axon and eventually trigger similar responses on other cells. We are planning to study this effect and extend the model of the place cell by also incorporating a model of its firing that takes into account the shape of the firing envelope and the causes of the activity.
 
+Perhaps a greater problem, from a biological perspective, is that it is unclear how grid cells might fit into the model proposed in this chapter.  One intriguing prediction is that grid cells are implicit in the existence of place cells; in other words, place cells are not entirely formed from grid cells, but working place cells create a grid-like pattern of activation if one grid cell is wired to several spaced place cells.  This observation may be related to observed loop-like connectivity observed between hippocampus and entorhinal cortex. 
 
-Perhaps a greater problem, from a biological perspective, is that it is unclear how grid cells might fit into the model we have proposed in this chapter.  One intriguing prediction is that grid cells are implicit in the existence of place cells; in other words, place cells are not entirely formed from grid cells, but working place cells create a grid-like pattern of activation if one grid cell is wired to several spaced place cells.  This observation may be related to observed loop-like connectivity observed between hippocampus and entorhinal cortex. 
-
-In third place, I have found that the best performing methods are SF-GABOR and SIFT (sparse and dense). This poses another question worth investigating and is that of the relationship of better performance with the closeness of the local patch description method with models of early vision. It is known that the 2D Gabor filters in SF/ST-GABOR descriptors present the orientation-selective simple cell receptive fields behaviour of the primary visual cortex (V1). Similarly, the difference of Gaussians (DoG) space representation found in Lowe's SIFT keypoint detection may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behaviour of complex cells in V1.
+In third place, I have found that the best performing methods are SF-GABOR and SIFT (sparse and dense). This poses another question worth investigating and is that of the relationship of better performance with the closeness of the local patch description method with models of early vision. As described in Section~\ref{sec:tensornotation}, the 2D Gabor filters in SF/ST-GABOR descriptors present the orientation-selective simple cell receptive fields behaviour of the primary visual cortex (V1). Similarly, the difference of Gaussians (DoG) space representation found in Lowe's SIFT keypoint detection may be seen as an approximation of the spatial receptive field of a retinal ganglion cell. Lowe also suggested that the process behind the computation of the orientation of the frequencies is similar to the behaviour of complex cells in V1.
 
 
-In conclusion, the work described in this chapter demonstrates that computational models of place cells can provide effective estimates of camera location without relying on tracking or construction of a geometric model of the local environment. To my knowledge, there has been no reported computational architecture that reproduces biological place cell responses in the form of tuning curves from video sequences, and there have been no other demonstrable computational models for place cell positional encoding that can be applied to the recorded video sequences of the form we used in this work.  Furthermore, competing camera-based localisation techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate position: motion is therefore a requirement.  The place cell model proposed and evaluated in this chapter does not require motion at location estimation time: a single frame yields a hypothetical location.
+In conclusion, the work described in this chapter demonstrates that computational models of place cells can provide effective estimates of camera location without relying on tracking or construction of a geometric model of the local environment. To my knowledge, there has been no reported computational architecture that reproduces biological place cell responses in the form of tuning curves from video sequences, and there have been no other demonstrable computational models for place cell positional encoding that can be applied to the recorded video sequences of the form used in this work.  Furthermore, competing camera-based localisation techniques such as SLAM rely on relative object camera motion to infer structure and to then either perform odometry or to estimate position: motion is therefore a requirement.  The place cell model proposed and evaluated in this chapter does not require motion at location estimation time: a single frame yields a hypothetical location.
 
 
 %*****************************************
