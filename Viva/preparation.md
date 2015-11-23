@@ -16,6 +16,10 @@
  
  * Be ready to explain Table 5, std calculation and voting mechanism.
 
+## 4. Modelling hippocampal place cells for visual localisation
+
+ * Study concept of CNNs and biological inspiration
+ * Study connection of CNN formulation for SF-GABOR with weight sharing -> TensorFlow?
 ## References
 
 [^1] Zhu, Vondrick, Ramanan and Fowlkes, *Do we need more training data or better models for object detection?*, BMVC 2012. [Link](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.259.7748&rep=rep1&type=pdf)
