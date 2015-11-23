@@ -6,32 +6,33 @@
 \caption{A  comic strip by Jorge Cham from his series ``Piled Higher and Deeper'' \cite{Cham}}
 \end{figure}
 
-The main goal of this thesis was to explore appearance-based methods in the novel contexts of wearable and hand-held object recognition and visual localisation, with emphasis on whether biologically-inspired algorithms can have a positive impact on performance. Therefore, around this idea we defined individual hypotheses for the work described in each chapter. As means to achieve this objective we collected two large datasets; provided a thorough evaluation of baseline and custom-created image description methods; developed a biologically inspired model of place cells for visual localisation and produced a prototype system for assistive localisation using wearable/hand-held visual input and tactile feedback.
+The main goal of this thesis was to explore appearance-based methods in the novel contexts of wearable and hand-held object recognition and visual localisation. In Chapter~\ref{ch:chapter5} I also explored a biologically-inspired algorithm for localisation based on visual input.
 
-In this final section we will extend this summary for each of these contributions and address some future perspectives.
+As means to achieve this objective I collected two large datasets; provided a thorough evaluation of baseline and custom-created image description methods; developed a biologically inspired model of place cells for visual localisation and produced a prototype system for assistive localisation using wearable/hand-held visual input and tactile feedback.
+
+In this final section I will extend this summary for each of these contributions and suggest some future directions.
 
 \section{Summary of contributions}
 
 \begin{enumerate}
-\item \textbf{Context based image retrieval (CBIR) methods for wearable and assistive applications} First, we have analysed the impact of computer vision in mobile and wearable technologies in an assistive context, providing complete studies of appearance-based methods for two key applications, hand-held object recognition of household products and indoor navigation.
+\item \textbf{Appearance-based methods for wearable and assistive applications} First, I have analysed the impact of computer vision in mobile and wearable technologies in an assistive context, providing studies of appearance-based methods for two applications, hand-held object recognition of household products and indoor navigation.
 
-\item \textbf{Artificial Place Cell Model} Second, we have provided a novel artificial place cell (APC) model for their biological counterparts found in the hippocampus, and tested it under the same challenging conditions of indoor navigation by using a generalised regression neural network as a training mechanism for learning a positional ground truth from a database.
+\item \textbf{Artificial Place Cell Model} Second, I have provided a novel artificial place cell (APC) model that appear to replicate rate-coding behaviour of their biological counterparts found in the hippocampus. These models were tested under challenging conditions of indoor navigation by using a generalised regression neural network as a training mechanism for learning a positional ground truth from a database.
 
-\item \textbf{Prototype of an assistive application} Third, we took these previous findings to the next step and develop a prototype client-server Android application for assistive localisation from wearable and hand-held devices using their visual input and a haptic feedback tablet (the Senseg\texttrademark) to provide tactile cues to the location estimates. With this work we laid out the foundations for an achievable solution from the commercial perspective and stressed the importance of inclusive design.
+\item \textbf{Prototype of an assistive application} I took these previous findings to the next step and developed a prototype client-server Android application for assistive localisation from wearable and hand-held devices using their visual input and a haptic feedback tablet (the Senseg\texttrademark) to provide tactile cues to the location estimates. With this work I laid out the foundations for a crowdsourcing approach that extens the idea of using sensor data from wearable devices to localise a person.
 
-
-\item \textbf{Two novel datasets} These contributions are accompanied by two important datasets, namely the SHORT dataset for hand-held object recognition and the RSM dataset of \emph{visual paths}.
+\item \textbf{Two novel datasets} These contributions are accompanied by two datasets, namely the SHORT dataset for hand-held object recognition and the RSM dataset of \emph{visual paths}.
 \end{enumerate}
 
-As we can see, from the computer vision application development pipeline devised in Figure ~\ref{fig:cv_dev_pipeline} we have accomplished all the stages.
+These contributions can be considered modules of the computer vision application development pipeline devised in Figure ~\ref{fig:cv_dev_pipeline}.
 
 \section{Concluding remarks}
 
-\subsection{Context based image retrieval (CBIR) methods for wearable and assistive applications}
+\subsection{Appearance-based methods for wearable and assistive applications}
 
-The research question for Chapters \ref{ch:chapter2},~\ref{ch:chapterSHORT},~\ref{ch:chapter4} was whether the appearance-based CBIR methods extensively used in the object recognition field could be applied to the challenging scenarios of wearable and assistive applications, with emphasis in two key applications: object recognition and visual indoor localisation. Therefore in Chapter \ref{ch:chapter2} we studied the particularities of this use case, and defined simple image matching methods and metrics and test them with prototype data so we could specify the data and performance requirements for the more thorough evaluation carried out in the following chapters.
+The research question for Chapters \ref{ch:chapter2},~\ref{ch:chapterSHORT},~\ref{ch:chapter4} was whether the appearance-based methods extensively used in the object recognition field could be applied to the scenarios of wearable and assistive applications, with emphasis on two key applications: object recognition and visual indoor localisation. Therefore in Chapter \ref{ch:chapter2} I studied the particularities of this use case, and defined simple image matching methods and metrics testing them with pilot data so that the data and performance requirements for the more thorough evaluation could be carried out in the following chapters.
 
-The work described in Chapter~\ref{ch:chapterSHORT} focuses on hand-held object recognition. We described the acquisition of the SHORT dataset and the evaluation of popular appearance-based methods against this dataset. The dataset proved to be extremely challenging even for algorithms that had practically solved other datasets. With the arrival of new datasets such as SHORT and ImageNet, these algorithms' performance decay, and the community is switching the focus to more flexible learning methods particularly deep learning.
+The work described in Chapter~\ref{ch:chapterSHORT} focuses on hand-held object recognition. I described the acquisition of the SHORT dataset and the evaluation of popular appearance-based methods against this dataset. The dataset proved to be extremely challenging even for algorithms that had practically solved other datasets. With the arrival of new datasets such as SHORT and ImageNet, these algorithms' performance decay, and the community is switching the focus to more flexible learning methods particularly deep learning.
 
 In Chapter~\ref{ch:chapter4} we studied another important application, indoor visual localisation from hand-held and wearable cameras. We acquired another large dataset, the RSM dataset, built a benchmark and developed a series of appearance-based methods and metrics we believe are more descriptive than the current state of the art. In the benchmark, we showed how our custom methods outperformed standard methods such as dense SIFT or HOG3D, but also the state of the art SLAM method for indoor scenarios, LSD-SLAM. Concretely, the top performing one, SF-GABOR, exhibited a localisation error $\mu_{e,SF-GABOR} = 1.31 $ m whilst LSD-SLAM $\mu_{e,LSD-SLAM} = 2.48 $ m.  We also argued that the power of SLAM resides in the robustness of its tracking mechanisms. Our methods, on the other hand have shown good results when tested in isolation, where no tracking was applied; therefore we believe they can work alongside SLAM to reduce estimation errors during SLAM's optimisation stages, the same way OpenFABMAP is used in the own LSD-SLAM.
 
