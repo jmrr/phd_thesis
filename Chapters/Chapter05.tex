@@ -5,7 +5,14 @@
 
 \section{Introduction}
 
-Animals use a variety of environmental cues in order to recognise their location.  One of the key behaviours found in a certain type of biological neuron -- known as place cells -- is a rate-coding effect: a neuron's rate of firing decreases with distance from some landmark location. In this chapter, I used visual information from wearable and hand-held cameras in order to reproduce this rate-coding effect in artificial place cells (APCs).  The accuracy of localisation using these APCs was evaluated using the different visual descriptors presented in Chapter~\ref{ch:chapter4} and different place cell widths. Simple localisation using APCs was feasible by noting the identity of the APC yielding the maximum response. I also propose using joint coding within a number of automatically defined APCs as a population code for self-localisation. Using both approaches it was possible to demonstrate good self-localisation from very small images taken in indoor settings. The error performance using APCs is favourable when compared with ground-truth and LSD-SLAM, even without the use of a motion model.
+Animals use a variety of environmental cues in order to recognise their location.  One of the key behaviours found in a certain type of biological neuron -- known as place cells -- is a rate-coding effect: a neuron's rate of firing decreases with distance from some landmark location. In this chapter, I used visual information from wearable and hand-held cameras in order to reproduce this rate-coding effect in artificial place cells (APCs). 
+
+In order to achieve place cell modelling, it was necessary to develop an efficient algorithm for searching tensor representations of the population model for the cortical area V1 in joint space-time-frequency encodings of video sequences.  This algorithm is based around the use of a dictionary technique, which is also used for the place cell modelling. Specifically, the location inference system based on APCs uses  dimensionality reduction of the tensor-valued representations of  population codes through vector quantization.  Kernel similarity measures are then applied to the descriptions of population codes in order to mimic biological place-cell behaviour.
+
+This computational framework enhances the approach taken in Chapter~\ref{ch:chapter4} -- in which localisation was based on the location of the best match -- with a population coding approach: a population of artificial place cells (APCs). 
+
+The accuracy of localisation using these APCs was evaluated using the different visual descriptors presented in Chapter~\ref{ch:chapter4} and different place cell widths. Simple localisation using APCs was feasible by noting the identity of the APC yielding the maximum response. I also propose using joint coding within a number of automatically defined APCs as a population code for self-localisation. Using both approaches it was possible to demonstrate good self-localisation from very small images taken in indoor settings. The error performance using APCs is favourable when compared with ground-truth and LSD-SLAM, even without the use of a motion model.
+
 
 \subsection{Motivation}
 
@@ -20,8 +27,18 @@ Biological place cells display location-dependent firing. I describe how to mimi
 \subsection{Summary of Contributions}
 
 The approach to indoor localisation described in this chapter is novel for several reasons. 
-First, I propose a new formulation for SF-GABOR that shows the links between the biology of place cells and convolutional neural networks (CNN). To accomplish this, I describe SF-GABOR in terms of a tensor operator between input images and a series of spatial filters. This enhances the approach taken in Chapter~\ref{ch:chapter4} -- in which localisation was based on the location of the best match -- with a population coding approach: a population of artificial place cells (APCs). Second, I describe the appearance-based localisation model that mimic the behaviour of hippocampal place cells; the computational units of this behaviour, the APCs, are able to use distinctive information from image queries based on the recall of previously visited places. Third, I describe a complete pipeline of visual localisation that incorporates a decoder for the APC activity; this decoder takes the form of a Generalized Regression Neural Network (GRNN). Finally, we provide an evaluation of the proposed localisation method using the RSM dataset described in Section~\ref{sec:Dataset}.
 
+\begin{itemize}
+
+\item First, I introduce a convolutional neural network -- formalized through using \textit{tensor convolution} -- to provide a description of spatial processing in the form of a population code \cite{berens2012fast}; this code mimics the dependency of average firing rate of simple cells in visual cortical area V1, an important and extensive visual region in primates and man, under different patterns of visual stimuli. This CNN effectively implies a new formulation for SF-GABOR that shows the links between the biology of place cells and convolutional neural networks (CNN). To accomplish this, I describe SF-GABOR in terms of a tensor operator between input images and a series of spatial filters.  The work is relevant to recent developments in neural network architectures, and in particular to convolutional neural networks \cite{krizhevsky2012imagenet, lecun1995convolutional}.  To our knowledge, convolutional networks have not been applied for self-localization from visual data, and this represents another domain of application for the this architecture.
+
+\item Second, I demonstrate the use of the V1 population code model and simple learning techniques to model place cell behaviour; this allows us to model biological place cells (BPCs) with artificial place cells (APCs), producing a gentle decay in the strength of a response (firing rate) with the spatial distance of an observer to particular landmarks. These landmarks are implicit and consist of orientation patterns within scenes. In a more general view, the computational units of this behaviour, the APCs, are able to use distinctive information from image queries based on the recall of previously visited places. 
+
+\item Third, I describe a complete pipeline of visual localisation that incorporates a decoder for the APC activity; this decoder takes the form of a Generalized Regression Neural Network (GRNN). 
+
+\item Finally, I demonstrate self-localisation and provide an evaluation of the proposed localisation method using the RSM dataset described in Section~\ref{sec:Dataset}.
+
+\end{itemize}
 
 \section{Background}
 
@@ -85,6 +102,7 @@ Milford and colleagues have also applied SLAM techniques to biologically inspire
 
 \section{A visual input model based on CNNs}
 \label{sec:tensornotation}
+
 
 %The purpose of this section is to provide a new formulation for the single-frame Gabor-based  descriptors, introduced in Chapter~\ref{ch:chapter4} and used for visual localisation based on the location of the best match found in the database of previous journeys. In this chapter, however, we enhance localisation by taking a population coding approach
 
