@@ -83,7 +83,7 @@ Milford and colleagues have also applied SLAM techniques to biologically inspire
 %However, we believe those vision models do not capture all the information bandwidth that is required in the same proportion by our brains to provide localisation.
 
 
-\section{A Convolutional Neural Network (CNN) formulation for SF-GABOR}
+\section{A visual input model based on CNNs}
 \label{sec:tensornotation}
 
 %The purpose of this section is to provide a new formulation for the single-frame Gabor-based  descriptors, introduced in Chapter~\ref{ch:chapter4} and used for visual localisation based on the location of the best match found in the database of previous journeys. In this chapter, however, we enhance localisation by taking a population coding approach
@@ -686,9 +686,9 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 \subsection{Computational load metrics}
 The main computational load for the place-cell computation is due to the dictionary learning, which enables fast lookup of individual frames -- encoded as a single vector of terms from the vocabulary.  The dictionary is built by randomly selecting 200 frames from each sequence, and randomly selecting 800 examples of the joint spatial-temporal encoding, which consists of $D$-dimensional vectors (see Table~\ref{tab:methods}). Dictionary learning takes around 1 hour for approximately 50 video sequences of the whole corridor dataset on a 64 GB machine using 400 words. Once learned, encoding a new frame and looking it up takes less than 200 ms using unoptimized \textit{MATLAB} code. 
 
-\section{Discussion}
-
-One of main the conclusions from the results of the previous section is that those methods that more closely model biological structures such as SIFT (sparse and dense) and SF-GABOR, achieve best results in the tests we have performed. This section will explore a new formulation for our single-frame Gabor (SF-GABOR) that can simultaneously explain the Gabor filters as plausible models of the simple cells found in the V1 and the first-layer weights yielded from convolutional neural networks successful used in many applications \cite{nlp}, \cite{imagenet} in the past few years.
+%\section{Discussion}
+%
+%One of main the conclusions from the results of the previous section is that those methods that more closely model biological structures such as SIFT (sparse and dense) and SF-GABOR, achieve best results in the tests we have performed. This section will explore a new formulation for our single-frame Gabor (SF-GABOR) that can simultaneously explain the Gabor filters as plausible models of the simple cells found in the V1 and the first-layer weights yielded from convolutional neural networks successful used in many applications \cite{nlp}, \cite{imagenet} in the past few years.
 
 
 
