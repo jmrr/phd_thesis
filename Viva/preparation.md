@@ -16,6 +16,10 @@
  
  * Be ready to explain Table 5, std calculation and voting mechanism.
 
+## 3. Hand-held object recognition
+
+ * Revise Fisher Vector: good resource in [VLCEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
+
 ## 4. Modelling hippocampal place cells for visual localisation
 
  * Study concept of CNNs and biological inspiration
@@ -25,3 +29,4 @@
 [^1] Zhu, Vondrick, Ramanan and Fowlkes, *Do we need more training data or better models for object detection?*, BMVC 2012. [Link](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.259.7748&rep=rep1&type=pdf)
 
 [^2] Xavier Amatriain, *More data or better models?* [Link](http://technocalifornia.blogspot.co.uk/2012/07/more-data-or-better-models.html)
+[^3] Perronin, F. and Dance, C., 2006, *Fisher Kernels on Visual Vocabularies for Image Categorization*
