@@ -1,25 +1,14 @@
 %************************************************
-\chapter{Appearance-based indoor localisation: A comparison of patch descriptor performance}\label{ch:chapter4} % $\mathbb{ZNR}$
+\chapter{Appearance-based indoor localisation: A comparison of patch descriptor performance}\label{ch:chapter4} 
 %************************************************
 
 \section{Introduction}
 \label{sec:intro}
 
-Self-localisation within an indoor space has numerous real-world 
-applications, ranging from navigation inside public spaces and large shopping and social environments to
- assistive devices for people with visual impairment.   Harvesting information from 
-radio-strength signals and radio beacons to perform localisation is an emerging technology.  
-However, few potential solutions are as compelling as those using  visual information, 
- captured from wearable or hand-held cameras, and conveyed into knowledge about how 
-to navigate a space. 
+Self-localisation within an indoor space has numerous real-world applications, ranging from navigation inside public spaces and large shopping and social environments to assistive devices for people with visual impairment.   Harvesting information from radio-strength signals and radio beacons to perform localisation is an emerging technology.  However, few potential solutions are as compelling as those using  visual information,  captured from wearable or hand-held cameras, and conveyed into knowledge about how to navigate a space. 
 
-This work proposes an alternative approach to geometric and SLAM-based 
-localisation.  Location is, instead, inferred through visual queries against the
- journeys of other users, rather than by explicit map-building or geometric inference. 
-I test this idea  in a new dataset of \emph{visual paths}~\cite{Rivera-Rubio2014}, 
-containing  more than \SI{3}{km} of video sequences captured through {\em multiple} passes 
-along 10 corridors  in a large building with ground truth. I compare custom-designed 
-descriptors  with SIFT~\cite{Lowe2004} and HOG3D~\cite{Klaser2008}.  Standard Bag-of-Visual Words (BoVWs) approaches are used to index and associate views between journeys. The results suggest that, even without tracking, significant cues can be captured and used to infer location.  The application to wearable camera technology -- whereby image cues are harvested from volunteered journeys, can then be used to help other users of the same space navigate -- is the eventual goal of this work, which is a natural extension to recently reported approaches based on harvesting environmental signals from smartphones \cite{Wang2012}.
+This work proposes an alternative approach to geometric and SLAM-based localisation.  Location is, instead, inferred through visual queries against the journeys of other users, rather than by explicit map-building or geometric inference. 
+I test this idea  in a new dataset of \emph{visual paths}~\cite{Rivera-Rubio2014}, containing  more than \SI{3}{km} of video sequences captured through {\em multiple} passes along 10 corridors  in a large building with ground truth. I compare custom-designed descriptors  with SIFT~\cite{Lowe2004} and HOG3D~\cite{Klaser2008}.  Standard Bag-of-Visual Words (BoVWs) approaches are used to index and associate views between journeys. The results suggest that, even without tracking, significant cues can be captured and used to infer location.  The application to wearable camera technology -- whereby image cues are harvested from volunteered journeys, can then be used to help other users of the same space navigate -- is the eventual goal of this work, which is a natural extension to recently reported approaches based on harvesting environmental signals from smartphones \cite{Wang2012}.
 
 
 %We do not, for one moment, suggest that one would attempt to use vision to localise without incorporating data from other sensors that are worn, including radio signal strength, accelerometers and magnetometers.  Instead, 
