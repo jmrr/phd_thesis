@@ -34,6 +34,8 @@ make my-papers # To process multibib reference lists (see below)
   - [ ] Check reasons why no tracking, ACVR is good!
   - [ ] In Fig. 32 make circles bigger and indicate Corridor #
               
+- [ ] Place cell models
+  - [ ] Substitute pipeline diagram for FEV generation
 
 
 #####Multibib instructions
