@@ -503,7 +503,7 @@ p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
 
 \subsection{Overview of the System}
 \label{ch05:overview}
-In the experimental work to be discussed in the next section, a Generalised Regression Neural Network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and uses radial-basis functions.  The responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
+In the experimental work to be discussed in the next section, a Generalised Regression Neural Network was used to provide sub-APC position estimates, obviating the need to construct {\em ad-hoc} empirical estimators.  This regression network consists of two-layers, and uses radial-basis functions (RBFs).  The responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train it as a regressor.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
 
 An overview of the pipeline for processing the frames to generate APCs is shown in Figure~\ref{fig:pipeline}. The performance of different methods will be discussed in Section~\ref{sec:experiments}.
 
