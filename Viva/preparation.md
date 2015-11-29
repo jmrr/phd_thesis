@@ -20,10 +20,12 @@
 
  * Revise Fisher Vector: good resource in [VLCEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
 
-## 4. Modelling hippocampal place cells for visual localisation
+## 5. Modelling hippocampal place cells for visual localisation
 
  * Study concept of CNNs and biological inspiration
  * Study connection of CNN formulation for SF-GABOR with weight sharing -> TensorFlow?
+ * Study RBFs. [Good video resource](https://www.youtube.com/watch?v=O8CfrnOPtLc)
+
 ## References
 
 [^1] Zhu, Vondrick, Ramanan and Fowlkes, *Do we need more training data or better models for object detection?*, BMVC 2012. [Link](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.259.7748&rep=rep1&type=pdf)
