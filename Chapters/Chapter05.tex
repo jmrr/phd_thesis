@@ -501,11 +501,11 @@ p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
 
 
 
-\subsection{Overview of the System}
+\subsection{A Generalised Regression Neural Network (GRNN) for sub-APC localisation}
 \label{ch05:overview}
 In the experimental work to be discussed in the next section, a Generalised Regression Neural Network (GRNN) was used to provide sub-APC position estimates, obviating the need to construct \textit{ad-hoc} empirical estimators. This network takes APC responses as inputs, providing a position as a regression estimate. 
 
-This GRNN network consists of two layers: the first layer has radial basis functions (RBF) neurons with a spread of 0.1. The second is a linear output layer that calculates the position estimates from the RBF outputs. This supervised phase of training used a subset of videos to infer spatial location from the ground truth camera position of this subset of the dataset.  The trained network was then applied to infer the spatial position in videos from the remainder of the dataset. In the experiments, the responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train the network.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
+This GRNN network consists of two layers: the first layer has radial basis functions (RBF) neurons with a spread of 0.1. The second is a linear output layer that calculates real-valued position estimates from the RBF outputs. This supervised phase of training used a subset of videos to infer spatial location from the ground truth camera position of this subset of the dataset.  The trained network was then applied to infer the spatial position in videos from the remainder of the dataset. In the experiments, the responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train the network.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
 
 An overview of the pipeline for processing the frames to generate APCs is shown in Figure~\ref{fig:pipeline}. The performance of different methods will be discussed in Section~\ref{sec:experiments}.
 
@@ -515,7 +515,7 @@ An overview of the pipeline for processing the frames to generate APCs is shown 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{gfx/Chapter05/nn_pipelineFEV.pdf}
-\caption{Overview of the training pipeline. The diagram of the neural network is merely illustrative, it does not represent the real architecture used.}
+\caption{Overview of the training pipeline. The sequences of visual information are processed to generate Frame Encoding Vectors (FEVs). The activation model based on thresholded $\chi^2$ kernel distances between FEVs is used to generate the APCs. A RBF-based regression network is used to learn sub-APC locations from training sequences. The diagram of the neural network is merely illustrative, it does not represent the real architecture used. The represented FEVs are also diagrammatic.}
 \label{fig:pipeline}
 \end{figure}
 
