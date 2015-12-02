@@ -6,6 +6,8 @@
 
   I can defend this with the same arguments of [^1] but perhaps more interestingly for viva discussion is [^2]. Basically it depends on the type of problem. There are two possible situations where a model might not perform well: the **high variance** case, where the model is too complicated for the amount of data we have, leading to *overfitting*; and the **high bias** case where the model is too simple to explain the data we have, where adding more data will not help.
 
+ * Good review of appearance-based methods (for object recognition) by [Roth and Winter (2008)](http://machinelearning.wustl.edu/uploads/Main/appearance_based_methods.pdf)
+
 ## 2. Mobile visual assistive apps: a description of the problem and motivation
 
  * Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.

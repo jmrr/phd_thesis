@@ -22,6 +22,22 @@ In recent years, \textit{big data}, or the use of massive amounts of structured 
 
 \section{Appearance-based methods}
 
+
+
+%In this report we focus on generative methods, i.e., the goal is to represent
+%the image data in a suitable way. Therefore, objects can be described
+%by different cues. These include model-based approaches (e.g., [11, 12, 124]),
+%shape-based approaches (e.g., ), and appearance-based models. Model-based
+%approaches try to represent (approximate) the object as a collection of three
+%dimensional, geometrical primitives (boxes, spheres, cones, cylinders, generalized
+%cylinders, surface of revolution) whereas shape-based methods represent
+%an object by its shape/contour. In contrast, for appearance-based
+%models only the appearance is used, which is usually captured by different
+%two-dimensional views of the object-of-interest. Based on the applied features
+%these methods can be sub-divided into two main classes, i.e., local and
+%global approaches.
+
+
 Concept of filter,
 
 Concept of a feature, image processing, etc. leading to a representation of an image with various applications.
@@ -29,7 +45,20 @@ Concept of a feature, image processing, etc. leading to a representation of an i
 Applications of appearance-based methods.
 
 
-\section{Biologically inspired models} 
+\section{Biological evidence of place cell visual localisation} 
+
+Place cell behavior is usually found by obtaining electrical recordings from several biological neurons (CA1) in specific regions of the hippocampus; by comparing firing rates between neurons and relative to background firing rates, one can infer which neurons are displaying place-cell behavior. The concept of a BPC is illustrated in Fig.~\ref{fig:Maze}.  The coloured circles depict locations within a maze in which individual place cells show elevated firing relative to other place cells.  Through observing this electrical behavior over many trials, firing patterns can be decoded, and used as an indication of where the rat is along the maze: in the simplest case, the BPC which fires maximally is taken as the rat's approximate location in space. \\
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=.6\linewidth]{./gfx/Chapter01/bio_place_cells_rat.pdf}
+\caption{Illustration of place cells; this figure is from experiments of S.P. Layton in behaving rats. Small coloured circles depict individual biological place-cells having maximum activation (firing rate) compared to all other place cells throughout the navigation space. Licensed for use under the Creative Commons Attribution-ShareAlike 3.0 License.}
+\label{fig:Maze}
+\end{figure}
+
+There is no suggestion that the inference in place cells is purely a binary form of ``you are here'' type of response.  Instead, it is likely that the firing rates of several place cells are combined to more accurately infer position \cite{hafting2005microstructure}, a process that might involve both phase-locked patterns of firing and rate codes \cite{dragoi2006temporal}. Place cell selectivity itself is thought to arise from a combination of inputs and cell responses inside and outside hippocampal areas. Rate coding \cite{van2001rate} is just one mechanism by which groups of neurons are thought to encode and represent sensory information. A rate code can be interpreted by estimating average firing rates (over trials) within the same neuron. %Examples of average firing rates from individual place cells are illustrated in a rat moving along a one-dimensional (linear track) corridor in Fig.~\ref{fig:RateCode}.\\
+The visual information captured by the eyes of an animal should be seen as only one of the many sensory and internal cues that lead to the spatially selective nature of biological place-cell responses \cite{hassabis2009decoding}. Nevertheless, in many animals, and certainly in humans and primates, vision is a particularly strong cue as to one's position \cite{epstein1998cortical}.
+
 
 \section{Mobile visual assistive apps}
 
