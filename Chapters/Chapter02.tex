@@ -6,11 +6,11 @@
 
 Although the use of computer vision to analyse images from smartphones and wearable cameras is in its infancy, the opportunity to exploit these devices for various assistive applications is beginning to emerge. In this chapter, we consider two potential applications of computer vision in the assistive context for blind and partially sighted users. These two applications are intended to help provide answers to the questions posed in Chapter~\ref{ch:introduction}: ``Where am I?'' and ``What am I holding?''.
 
-Taking into account the context of mobile devices and assistive applications, we present our motivation to study an appearance based method for indoor localization and object recognition, and describe two pilot studies that lay the foundations for the work described in subsequent chapters:
+Taking into account the context of mobile devices and assistive applications, I present the motivation to study an appearance based method for indoor localization and object recognition, and describe two pilot studies that lay the foundations for the work described in subsequent chapters:
 
 \begin{itemize}
 \item First, we suggest how to go about providing estimates of the indoor location of a user through queries submitted by a smartphone camera against a database of {\em visual paths} -- descriptions of the visual appearance of common journeys that might be taken with a hand-held or wearable device. Our proposal is that such journeys could be harvested from, for example, sighted volunteers. Initial tests using bootstrap statistics do indeed suggest that there is sufficient information within such visual path data to provide indications of: a) along which of several routes a user might be navigating; b) where along a particular path they might be.
-\item The second pilot presented in this chapter is a study of the need for a new benchmarking database and test set for answering the second question of ``What am I holding?''. The database acquisition and evaluation experiments will be discussed in detail in Chapter \ref{ch:chapterSHORT}, however in this chapter we will discuss the requirements that are needed for specific mobile context and assistive applications.
+\item The second pilot presented in this chapter is a study of the need for a new benchmarking database and test set for answering the second question of ``What am I holding?''. The database acquisition and evaluation experiments will be discussed in detail in Chapter \ref{ch:chapterSHORT}, however in this chapter I will discuss the requirements that are needed for specific mobile context and assistive applications.
 \end{itemize}
 
 
@@ -24,7 +24,7 @@ Techniques for WiFi localization are entering mainstream use through, at one lev
 Indeed, no matter how good other sources of information are, few can replace the contextual information of visual inference.  During navigation, using natural vision, sighted individuals are able to {\em from one consistent information source}: a) recognise their location relative to previous journeys; b) locate entrances and exits; c) detect obstructions; d) recognise people; e) assess human intent;
 f) identify objects or activities of personal interest.
 
-Invoking computer vision to \textit{simultaneously} solve all of these tasks is a current challenge.  Our purpose is to assess the feasibility and accuracy of existing computer vision techniques to meet some of these needs.  The primary question we address in this section relates to the first topic in the list above: can we use computer vision to recognise location against previous journeys?
+Invoking computer vision to \textit{simultaneously} solve all of these tasks is a current challenge.  Our purpose is to assess the feasibility and accuracy of existing computer vision techniques to meet some of these needs.  The primary question addressed in this section relates to the first topic in the list above: can we use computer vision to recognise location against previous journeys?
 
 \subsection{Related Approaches}
  
@@ -35,7 +35,7 @@ Also relevant to this pilot study, several methods of indoor localization using 
 
 \subsection{Visual Paths} 
 
- As we will see later in more detail in Chapter \ref{ch:chapter4}, methods such as SLAM and PTAM attempt to simultaneously map world geometry and localise a camera within that geometry.  Our question is slightly different: we seek to identify where we might be relative to previous journeys taken along the same route, either by ourselves or other people.  Thus, we introduce the idea of the \textit{visual path}, a stream of descriptions captured from visual information as we traverse from location $A$ to location $B$, or from location $C$ to $D$. Such streams could be captured from the cameras of other users moving in the same physical space.
+ As we will see later in more detail in Chapter \ref{ch:chapter4}, methods such as SLAM and PTAM attempt to simultaneously map world geometry and localise a camera within that geometry.  Our question is slightly different: we seek to identify where one might be relative to previous journeys taken along the same route, either by ourselves or other people.  Thus, I introduce the idea of the \textit{visual path}, a stream of descriptions captured from visual information as we traverse from location $A$ to location $B$, or from location $C$ to $D$. Such streams could be captured from the cameras of other users moving in the same physical space.
 
 We can split the path localization problem into two distinct tasks.  The first is to determine which of $P$ possible paths one is navigating along, and the second is to determine where along a particular visual path one is located.  In the context of computer vision, a key question concerns the \textit{distinctiveness} of information along paths, either as indicators of a particular journey or as indicators of location along a known journey.  Note that we do not explicitly attempt to localise with respect to a map -- our suggestion is to localise with respect to a journey.  In the context of many users, this would appear to be a sensible way to harvest information about locations that might be frequently reconfigured in a manner that would reduce dependence on an explicit mapping processes.
 
