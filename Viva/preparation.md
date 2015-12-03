@@ -26,7 +26,7 @@
 
  * Study concept of CNNs and biological inspiration
  * Study connection of CNN formulation for SF-GABOR with weight sharing -> TensorFlow?
- * Study RBFs. [Good video resource](https://www.youtube.com/watch?v=O8CfrnOPtLc)
+ * Study RBFs. [Good video resource](https://www.youtube.com/watch?v=O8CfrnOPtLc), and [short paper](http://hermes.etc.upt.ro/docs/cercetare/articole/NafornitaI2.pdf)
 
 ## References
 
