@@ -35,8 +35,8 @@ make my-papers # To process multibib reference lists (see below)
   - [ ] In Fig. 32 make circles bigger and indicate Corridor #
               
 - [ ] Place cell models
-  - [ ] Substitute pipeline diagram for FEV generation
-
+  - [x] Substitute pipeline diagram for FEV generation
+  - [ ] Update tensor stuff with latest IEEE paper
 
 #####Multibib instructions
 To process multibib multiple reference lists that allows to have my personal list of publications and the general bibliography of the library:
