@@ -12,13 +12,13 @@
 
  * Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.
 
+## 3. Hand-held object recognition
+
  * From Fig. 12 with the 4 categories, think why some perform good or bad.
 
  * Definition of PR curve.
  
  * Be ready to explain Table 5, std calculation and voting mechanism.
-
-## 3. Hand-held object recognition
 
  * Revise Fisher Vector: good resource in [VLCEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
 
