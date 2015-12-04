@@ -405,9 +405,9 @@ The above analyses were undertaken for several videos and object categories unde
 
 \subsection{Classification Accuracy Based on Sequential Video Frames} \label{sec:expResults2}
 
-Classification accuracy using the individual voting metric (Section~\ref{subsec:evaluationframes}) was computed for six categories of SHORT dataset (Table~\ref{table:testData}). A video $\mathbf{Q}$, comprising of query frames $Q_i, i = 1,2,...,N$, is classified as the $k$-th category, $C_k$, to which the majority of query frames, $Q_i$, were matched to. The accuracy was calculated for twelve videos of each object based on different limits for the number of queries allowed, $N$.
+Classification accuracy using the individual voting metric was computed for seven categories of SHORT dataset (Table~\ref{table:vfAnalysis7prods}). As we saw in Section~\ref{subsec:evaluationframes}, a video $\mathbf{Q}$, comprising of query frames $Q_i, i = 1,2,...,N$, is classified as the $k$-th category, $C_k$, to which the majority of query frames, $Q_i$, were matched to. The accuracy was calculated for twelve videos of each object based on different limits for the number of queries allowed, $N$.
 
-Table~\ref{table:testData} shows that the classification accuracy increases as we increase the limit of query frames, except for occasional dips which occur due to instability as a person rotates the object in their hand. In comparison to the classification accuracy of individual queries, classification based on sequential video frames using voting gives a much higher accuracy. The standard deviation across categories also decreases as more frames are used to provide an object category estimate. 
+Table~\ref{table:vfAnalysis7prods} shows that the classification accuracy increases as we increase the limit of query frames, except for occasional dips which occur due to instability as a person rotates the object in their hand. In comparison to the classification accuracy of individual queries, classification based on sequential video frames using voting gives a much higher accuracy. The standard deviation of the classification accuracy across videos of the same category also decreases as more frames are used to provide an object category estimate. 
 
 
 \begin{table}[h!]
@@ -431,7 +431,7 @@ ID & Acc (\%) & Acc & Std & Acc & Std & Acc & Std & Acc & Std & Acc & Std \\
 \bottomrule
 \end{tabularx}
 \caption{Classification accuracy of different objects for different number of sequential query frames (fr). Accuracy is defined as the number of video sequences correctly classified divided by the total number of sequences queried. Each of these short video sequences contain only one product.}
-\label{table:testData}
+\label{table:vfAnalysis7prods}
 \end{table}
 
 

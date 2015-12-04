@@ -23,7 +23,7 @@ make my-papers # To process multibib reference lists (see below)
 - [ ] Chage Fig. for Figure 
 
 - [ ] SHORT chapter
-  - [ ] Brief definition of voting metric
+  - [x] Brief definition of voting metric
   - [ ] Brief explanation of how std was calculated in Table 5
   - [ ] Clarify Table 5
 
