@@ -16,6 +16,7 @@ make my-papers # To process multibib reference lists (see below)
 	- [ ] Spanish
 - [ ] Publications
 - [ ] Acknowledgments 
+  - [ ] Add Saad and Ioannis' work in declaration.	
 - [ ] Listings and acronyms (probably delete?)
 - [ ] Fig. 38, Improve by changing to mean +/- s.d.
 - [ ] Homogeneize table captions, top or bottom
