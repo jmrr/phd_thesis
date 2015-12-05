@@ -125,7 +125,7 @@ Adopting the notation and nomenclature of Kolda \cite{kolda2009tensor}.  Tensors
 
  where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed.   These indices associate the modes of the tensors being convolved together, but $\tens{A}$ and $\tens{B}$ should be of equal order. Moreover, the dimensions of the modes that are not participating in the convolution should be equal.
 
-The tensor convolution operator maps tensor, $\tens{A}$, to an equal- or higher-order tensor $\tens{C}$ by the following:
+The tensor convolution operator maps tensor, $\tens{A}$, to an equal order tensor $\tens{C}$ by the following:
 \begin{eqnarray}
 \tens{A}\,\, \overset{\mathcal{M}}{[ \ast ]}\, {\tens{B}} &=& \sum_{i'_{m_1}},\ldots\,\sum_{i_{M}'}   
 a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{N_{\tens{A}}}} \times \nonumber \\
@@ -179,6 +179,9 @@ N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}|
 \end{equation}
 
 Modes that do not participate in the convolution or the permutation must have equal dimension. Finally, where a third mode is implicit in one of the arguments of the permuted indices (such as for an order 2 tensor that is being permuted with an order 3 tensor), this is indicated by a ``dot'' symbol (e.g. $\mathcal{P} = \lbrace (\cdot,3))$.
+
+\noindent{\textit{Remark}} The modes of permutation may be thought of as describing the scaffolding of a convolutional network, and is related to the topology of a multi-layered network \cite{chang2015deep}. 
+
 
 \end{definition}
 
