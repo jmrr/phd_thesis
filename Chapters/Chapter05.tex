@@ -178,7 +178,7 @@ The permutation operator $\pi(i|j)$ denotes that the fibre number of the tensor 
 N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}| 
 \end{equation}
 
-Modes that do not participate in the convolution or the permutation must have equal dimension. Finally, where a third mode is implicit in one of the arguments of the permuted indices (such as for an order 2 tensor that is being permuted with an order 3 tensor), this is indicated by a ``dot'' symbol (e.g. $\mathcal{P} = \lbrace (\cdot,3))$.
+Modes that do not participate in the convolution or the permutation must have equal dimension. Finally, where a third mode is implicit in one of the arguments of the permuted indices (such as for an order 2 tensor that is being permuted with an order 3 tensor), this is indicated by a ``dot'' symbol (e.g. $\mathcal{P} = \lbrace (\cdot,3)\rbrace$).
 
 \noindent{\textit{Remark}} The modes of permutation may be thought of as describing the scaffolding of a convolutional network, and is related to the topology of a multi-layered network \cite{chang2015deep}. 
 
@@ -209,39 +209,25 @@ More generally, when the directional operators are not necessarily partial deriv
 
 The operator $\mathcal{O}_k$ is some form of discrete, directional spatial operator. Eq~\ref{eq:IntroG} generalises a two-dimensional gradient field at scale $\sigma$; it permits more than 2 directions of peak angular sensitivity, and unlike the operator $\mathcal{D}_k$, there is no requirement that $\mathcal{O}_k$ be linear.
 
-%
-%Using oriented Gabor filters, an order 3 tensor $\tens{G}$ is constructed by:
-%\begin{equation}
-%\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
-%\end{equation}
-%where $[ \ast ]$ represents {\it tensor convolution} in the modes $i_1$ and $i_2$ (see Appendix \ref{appendixTensorConv}). $\tens{K}_{G}$ is an order 3 tensor of dimension $7 \times 7 \times 8$. The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. i.e. for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$.  The tensor $\tens{K}_{G}$ holds antisymmetric Gabor functions, one direction per slice of the third mode ($i_3$). 
-%
-%To create the descriptors from the multi-directional tensor $\tens{G}(\sigma,\lambda)$, a {\it permuted tensor convolution} (Appendix \ref{appendixTensorConv}) is applied between $\tens{G}(\sigma,\lambda)$ and a {\it pooling tensor} $\tens{P}$:  
-%
-%\begin{equation}
-%\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
-%   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
-%\end{equation}
-%The pooling tensor is also an order 3 tensor, that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalised neighbourhood of unit width and height in Figure~\ref{fig:PoolerResponses}. The resulting order 4 tensor, $\tens{D}$, may be reshaped \citep{kolda2009tensor} into an order 3 tensor containing 136 slices along mode $i_3$. Descriptors are obtained by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
-%
-%Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \citep{everingham2010pascal} for retrieval accuracy. No further optimisation was applied for the experiments on the RSM dataset as described in this chapter.
-%
-%
-%%%
-
-
+%% V1-like units
+\paragraph*{Level 1: V1-Like Units} 
 
 Using grey-scale image sequences represented as an order 3 tensor, $\tens{F}$, an order 4 tensor $\tens{G}$ is constructed using the first-level of a convolutional network by:
 \begin{equation}
-\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, \overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}\, {\tens{K}_{G}} \right )
+\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, 
+   \underset{\lbrace (\cdot,3)\rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{K}_{G}} \right )
 \end{equation}
-where $[ \ast ]$ represents \textit{tensor convolution} in the modes $i_1$ and $i_2$ (see Definition~\ref{def:convop}. Image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are orientation selective in the image plane, organised one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments reported in this thesis, I took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.
+where $[ \ast ]$ represents \textit{tensor convolution} in the modes $i_1$ and $i_2$ (see Definition~\ref{def:convop}. Image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are generally orientation selective in the image plane, organised one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments reported in this thesis, I took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.
 
 The function $R_+(\cdot)$ is the ramp function applied element-wise to its tensor-valued argument. For an order 0 tensor, $x$, (scalar) the ramp function is defined by
 \begin{equation}
 R_+(x) = \frac{x + |x|}{2}
 \end{equation}
-i.e. it is a non-linear activation function; for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$. 
+
+\ie it is a non-linear activation function; for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$. 
+
+\paragraph*{Level 2: Spatial Poolers} 
+
 
 \begin{figure}
 \begin{center}
@@ -252,13 +238,14 @@ i.e. it is a non-linear activation function; for a tensor with elements $a_{i_1,
 \end{figure}
 
 The second level of the convolutional network groups the orientation-selective outputs of the first level of convolution over different regions of a local image patch. It is obtained by applying a \textit{permuted tensor convolution} between $\tens{G}(\sigma,\lambda)$ and a \textit{pooling tensor} $\tens{P}$:  
+
 \begin{equation}
 \tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
    \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
 \end{equation}
-The pooling tensor is also an order 3 tensor that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch; the values in this tensor are visualised over a normalised neighbourhood of unit width and height in Figure~\ref{fig:PoolingTensor}. The resulting order 5 tensor, $\tens{D}$, is of dimension $I_1\times I_2 \times 8 \times 17 \times N_F$. Because the slices of this tensor create different pooling regions over a patch, it is distinctly different to the pooling operations of standard CNNs, which typically use a single fixed spatial smoothing operator for each pooling layer, and not multiple poolers for which weights are learned. 
 
-In the notation used until Section \ref{sec:tensornotation}, tensor $\tens{D}$ was used to generate the SF-GABOR descriptor, by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
+The pooling tensor is also an order 3 tensor that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch. The values in this tensor are visualised over a normalised neighbourhood of unit width and height in Figure~\ref{fig:PoolingTensor}. The resulting order 5 tensor, $\tens{D}$, is of dimension $I_1\times I_2 \times 8 \times 17 \times N_F$. Because the slices of this tensor create different pooling regions over a patch, it is distinctly different to the pooling operations of standard CNNs, which typically use a single fixed spatial smoothing operator for each pooling layer, and not multiple poolers for which weights are learnt. 
+
 
 \begin{figure}[!t]
 \centering
@@ -278,10 +265,15 @@ In the notation used until Section \ref{sec:tensornotation}, tensor $\tens{D}$ w
 %The response field was subsampled to yield approximately 2000 descriptors per frame, each of 136 elements.
 
 \subsection{Subsampling}
+
 Since the poolers are designed to be spatially smoothing, the subsampling operation can be applied directly to dimensions $i_1$ and $i_2$ of $\tens{D}$. This maintains $\tens{D}$ as an order 5 tensor, but reduces the dimensions over the two modes representing in-plane spatial location. 
+
+In the notation used until Section \ref{sec:tensornotation}, tensor $\tens{D}$ was used to generate the SF-GABOR descriptor, by sampling $\tens{D}$ every 3 pixels along modes $i_1$ and $i_2$, generating around 2,000 descriptor vectors per frame, each of 136 elements.
+
 
 
 \subsection{Learning CNN Weights}
+
 Even with the use of weight-sharing \cite{lecun1995convolutional}, deep convolutional networks require learning anywhere of the order of millions to tens of millions of parameters. In contrast, the two-layer network described above, which uses functional spatial forms for the spatial weights layers required learning a much smaller number of parameters.  Weight learning was performed by optimising over the Gabor parameters of wavelength and spatial scale, and the pooling parameters used in the second layer of permuted convolution.
 
 Both the pooling patterns and the Gabor parameters $\sigma$ and $\lambda$ were optimised on the PASCAL VOC 2007 database \cite{everingham2010pascal} in order to achieve good discrimination between classes of this database. The optimisation used the criterion of Area-Under-Curve metric in an image retrieval task within the labelled image database, i.e. given a query image from a set of data, find the nearest match in a database.  Both training and testing images were taken from a partitioning of the PASCAL VOC database, and performance was measured in separate test sets.  Stochastic Gradient Descent was used. In addition, the weight set was constrained so as to sum to zero at each point in space across all convolution filters, and were constrained to be spatially antisymmetric about one axis.  No further optimisations were applied to the two early layers of the CNN once this optimisation had been done, and the optimisation did not use any of the images described in experiments in Section~\ref{sec:experiments}.
@@ -333,14 +325,11 @@ I used a combination of the CNN that simulates simple-cell responses and populat
 In order to model place cells based on the visual input provided by a camera, the collection of patches has to be performed and two images should be compared through their individual patch similarities. When there are several frames involved, the encoding can be computationally expensive, and clumsy to search and compare one frame vs many.  This is the topic now addressed.
 
 \subsection{Dictionary Encoding}
-The convolutional network to produce a joint encoding of orientation and spatial position within a patch yields an order 5 tensor once applied to an intensity-only video sequence.  Consider two order 5 tensors, $\tens{A}$ and $\tens{B}$, each of which represents an encoding of a video-sequence.  One of these, $\tens{A}$, will be treated as modelling a simple V1 population code in a sequence captured during a journey; the other, $\tens{B}$ is treated as a visual memory of a previous journey.  Searching this order 5-space for particular patterns is difficult: for a wide-angle input video of size $208\times117$ pixels, for example, an order 4 tensor (corresponding to one time-point) contains around 230,000 elements.  The first two modes of $\tens{A}$ and $\tens{B}$ correspond to location in the image plane; the next two dimensions provide the population code over a patch of pixel data, and the final mode corresponds to time.  
+The convolutional network to produce a joint encoding of orientation and spatial position within a patch yields an order 5 tensor once applied to an intensity-only video sequence.  Consider one order 4 and one order 5 tensors, $\tens{A}$ and $\tens{B}$. One of these, $\tens{A}$, will be treated as a description of a V1-type of population code in a frame captured during a journey. $\tens{B}$ is treated as a visual memory of a previous journey. The first two modes of $\tens{A}$ and $\tens{B}$ correspond to location in the image plane; the next two dimensions provide the population code over a patch of pixel data, and the fifth mode of $\tens{B}$ corresponds to time. We want the place cell response to emerge from comparisons between tensors $\tens{A}$ and $\tens{B}$.
 
+However, searching this order 5-space for particular patterns is difficult: for a wide-angle input video of size $208\times117$ pixels, for example, an order 4 tensor (corresponding to one time-point) contains around 230,000 elements. One solution to the search problem is to apply vector quantisation to some of the dimensions.  For example, by treating three of the five dimensions ($i_1,i_2,i_5$) as observations of variables across the remaining two dimensions $(i_3,i_4)$, a dictionary, $\mathcal{V}$ can be constructed. The encoding of a single frame using this dictionary can then be achieved using an order 1 tensor, and the sequence held in $\tens{B}$ by an order 2 tensor. This reduces the frame comparison problem to one that is performed by comparing dictionary-encoded descriptions of the population code. The dictionary encoding acts as a simple technique for dimensionality reduction, and it allows a more efficient comparison between a visual memory and a new visual stimulus within the modelled population code. As we saw in \ref{ch:chapter4}, we used the $k$-means algorithm for vector quantisation because of its simplicity and reasonable scalability when dictionary sizes range from the order of hundreds of terms to the order of thousands. We chose $k$ = 400 as the dictionary size and allowed a maximum of 20 iterations for computing the dictionary.
 
-One solution to the search problem is to apply vector quantisation to some of the dimensions.  For example, by treating three of the five dimensions ($i_1,i_2,i_5$) as observations of variables across the remaining two dimensions $(i_3,i_4)$, a dictionary, $\mathcal{V}$ can be constructed; an encoding of a single frame using this dictionary can then be achieved using an order 2 tensor.  This reduces the frame comparison problem to one that is performed by comparing dictionary encodings. The dictionary encoding acts as a simple technique for dimensionality reduction, but it allows a more efficient comparison between a visual memory and a new visual stimulus within the modelled population code. The $k-$means clustering algorithm was used because of its simplicity and reasonable scalability when dictionary sizes range from the order of hundreds of terms to the order of thousands.
-
-The dictionary encoding is applied at the frame-level, so that each frame in a video sequence is represented by an order 1 tensor.  The complete sequence of frames of a journey, then, is represented by an order 2 tensor, with dimensions $N_F\times|\mathcal{V}|.$ 
-
-
+Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{|\mathcal{V}|}$, the modes corresponding to the joint orientation and spatial encoding over patches are collapsed to a single term for each patch, and the set of numbers over an entire frame (modes $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Fig.~\ref{fig:HistEncodings}).  These frame-encoded vectors take the form of a single vector (or order 1 tensor) for a given frame, and a matrix (or order 2 tensor) with dimensions $N_F\times|\mathcal{V}|$ for a prior journey sequence held in memory. 
 
 \subsection{Artificial Place Cells in the tensor population model}
 \label{sec:APC}
