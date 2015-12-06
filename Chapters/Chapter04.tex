@@ -158,11 +158,6 @@ These poolers were suggested by Alexiou for visual object recognition \cite{Alex
 In Chapter \ref{ch:chapter5} I provide another formulation for the SF-GABOR descriptor that makes use of a tensor notation. This will be needed to understand a convolutional neural network (CNN) interpretation of artificial place cell models based on the SF-GABOR descriptors.
 
 \subsection{Space-Time descriptors}
-%We therefore chose to explore a denser sampling of the image through capturing patterns over space-time patches in a dense fashion.  We tried three approaches to achieve this.  These are a) the HOG3D descriptor from \cite{Klaser2008}; and two novel techniques, one b) based on antisymmetric Gabor functions of space and time; and one c) incorporating smoothing in time, and gradients in space.  These approaches are somewhat similar to that described in Section \ref{sec:ODPF}, in the sense of using spatial derivatives and incorporating information across time, increasing description accuracy at the expense of computational load (see Table~\ref{table:comput_load}).  A further point to note is that the methods in this section do not make use of colour, using grey-scale information only from the intensity channel of HSI space. Although discarding an important potential visual cue of location, this allowed us to compare performance against a previously described method of HOG3D, providing some confidence that the new techniques are at least comparable to methods already in use.  
-%
-%The three approaches described in this section require two additional processes. First, an explicit calculation of the direction of the space-time, or gradient vector, that encodes visual motion is carried out.  Secondly, to reduce the information obtained from a dense collection of descriptors so as to make frame-by-frame query possible, a dictionary-learning approach was taken to map descriptors to atoms, then to map atoms to histograms for the database and queries.  This increased complexity does not greatly affect run-time queries when efficiently implemented, but does contribute to on-line vocabulary building and encoding in order to enable efficient performance at query time.
-%
-
 
 Given the potential richness available from space-time information, three distinct approaches were explored to generate space-time patch descriptors.  When generating the descriptor associated with each patch, all  approaches yield multiple descriptors per frame, and all take into account neighbouring frames in time.  In contrast to a sparse-sampling approach of a keypoint-based descriptor, all three densely sample the video sequence.  The three methods are i) HOG 3D~\cite{Klaser2008}; ii) a space-time, antisymmetric Gabor filtering process (ST-GABOR); and iii) a spatial derivative, temporal Gaussian (ST-GAUSS) filter.
 
@@ -196,7 +191,7 @@ After performing the three separate filtering operations, each pixel of each fra
 
 
 \subsection{Quantisation and histogram encoding}
-
+\label{sec:quant_and_encod}
 An initial conjecture was that whole frames from a sequence could be indexed compactly, using the single-frame descriptor (LW-COLOR).  This was found to lead to disappointing performance (see Section~\ref{sec:ch4results}). For the case of many descriptors-per-frame, i.e.\ descriptors that are patch-based, there is the added problem of generating around 2,000 descriptors per frame, if dense sampling is used.  Vector quantisation (VQ) was applied to the descriptors, then histograms of quantised descriptors were used to encode each frame as a histogram of visual words \citep{Csurka2004}. The dictionary was always built by excluding the entire journey from which queries are to be taken. 
 
 The resulting dictionaries were then used to encode the descriptors of the $M-1$ training passes and the remaining query pass. This sequence of processes is commonly known as a bag-of-visual-words (BOVW) pipeline. Two different approaches to the encoding of descriptors were taken, one based on standard $k$-means, using a Euclidean distance measure (hard assignment, ``HA''), and one corresponding to the vector of locally aggregated descriptors (VLAD) \citep{Arandjelovic}. These histograms were all $L_2$-normalised.  
@@ -336,7 +331,7 @@ Error distributions allow us to quantify the accuracy of being able to estimate 
 
 Using the kernels introduced in Section~\ref{sec:kernel_encodings}, location inference was attempted. One kernel is shown in Figure~\ref{fig:kernel}, where the rows represent each frame from the query pass, and the columns represent each frame from one of the remaining database passes of that corridor. The values of the kernel along a row represent a ``score'' between a query and different database frames given by applying the kernel mapping functions described in \citep{Vedaldi2012} for the $\chi^2$ and Hellinger kernel depending on the case. In this experiment, the position of the best matching database image to the query frame was calculated. The error between this and the ground truth $\epsilon$, in m, is then determined. I used the ground-truth information acquired as described in Section \ref{sec:Dataset}. 
 
-In order to characterise the reliability of such scores, bootstrap estimates of error distributions were obtained by using 1 million trials. Specifically, permuting the paths that are held in the database and randomly selecting queries from the remaining path, these error distributions in localisation can be obtained. The bootstrap estimates consisted of repeated runs with random selections of groups of frames, revealing the variability in these estimates, including that due to different numbers of paths and passes being within the database. In Appendix \ref{appendixCDF} I describe the algorithm to generate the cumulative distribution functions (CDFs) in more detail. The distribution of the errors gives us a probability density estimate, from which one can get the cumulative distribution function (CDF) $P(x \leq |\epsilon|)$. 
+In order to characterise the reliability of such scores, bootstrap estimates of error distributions were obtained by using 10 million trials. Specifically, permuting the paths that are held in the database and randomly selecting queries from the remaining path, these error distributions in localisation can be obtained. The bootstrap estimates consisted of 1,000 repeated runs with random selections of 10,000 frames each, revealing the variability in these estimates, including that due to different numbers of paths and passes being within the database. In Appendix \ref{appendixCDF} I describe the algorithm to generate the cumulative distribution functions (CDFs) in more detail. The distribution of the errors gives us a probability density estimate, from which one can get the cumulative distribution function (CDF) $P(x \leq |\epsilon|)$. 
 
 The outcome is shown in Figure~\ref{fig:CDFall}, where the variability in the lines indicate the range of the results obtained during permuting the observations as described above.
 
@@ -544,14 +539,14 @@ Figure~\ref{fig:slamperfA} and \ref{fig:slamperfB} illustrate the localisation p
 	\subfloat[(a)][Errors obtained from one experiment using LSD-SLAM. The maximum absolute error was just over $1$ m. ]{
 	\setlength\figureheight{0.5\textwidth}	
 	\setlength\figurewidth{0.8\textwidth}
-	\input{./gfx/Chapter04/tikz/lsd_slam_performance_good.tex} %TIKZ
+	\input{./gfx/Chapter04/tikz/lsd_slam_performance_good.tex}\label{fig:slamperfA} %TIKZ
 	%\includegraphics[width=0.45\textwidth]	{./gfx/Chapter04/lsd_slam_good.pdf}\label{fig:slamperfA}
 	}
 	\quad
 	\subfloat[(b)][Errors obtained from another experiment using LSD-SLAM. In this case, the absolute error peaked at around $5$ m. ]{
 	\setlength\figureheight{0.5\textwidth}
 	\setlength\figurewidth{0.8\textwidth}
-	\input{./gfx/Chapter04/tikz/lsd_slam_performance_normal.tex} %TIKZ
+	\input{./gfx/Chapter04/tikz/lsd_slam_performance_normal.tex}\label{fig:slamperfB} %TIKZ
 	%\includegraphics[width=0.45\textwidth]{./gfx/Chapter04/lsd_slam_normal.pdf}\label{fig:slamperfB}
 	}
 	\caption{Localisation performance in LSD-SLAM; this shows that in different corridors, the accuracy of LSD-SLAM can change quite significantly. See text for details of the SLAM parameters and the nature of the dataset, but note that these were obtained at an image resolution of $1024 \times 576$ pixels. At lower resolutions, loss of tracking dominated the experiments. The difference in the $x$ and $y$ axis labelling is because experiments in a) and b) are obtained from two different corridors with different lengths and different number of frames.}
@@ -563,12 +558,21 @@ Figure~\ref{fig:slamperfA} and \ref{fig:slamperfB} illustrate the localisation p
 
 CDFs, as introduced in Section \ref{sec:CDFs} illustrate very well the differences in the performance of methods. As we can see from Figure \ref{fig:cdf} our appearance-based method using Gabor-based descriptors outperforms LSD-SLAM in the RSM dataset. 
 
+\begin{figure}
+\centering
+%\setlength\figureheight{0.6\textwidth}
+%\setlength\figurewidth{0.8\textwidth}
+%\input{gfx/Chapter06/tikz/sfgabor_vs_lsdslam.tex} %
+\includegraphics[width=0.8\textwidth]{gfx/Chapter04/SF_GABORvsLSD_SLAM.pdf}
+\caption{CDF of SF-GABOR and LSD-SLAM when sampling 10 million random queries from all the error measurements. The width of the curves represent the variability of the result data. The bounds are the maximum and minimum CDF values obtained from the Monte-Carlo sampling.}
+\label{fig:cdf}
+\end{figure}
+
 Another perspective to these results can be seen from Table~\ref{tbl:cdftable}, where we can see a head to head comparison for the probabilities of achieving a localisation error smaller than $\epsilon$. We can see how SF-GABOR achieves smaller localisation errors than LSD-SLAM with a larger probability. For the sample of CDF values obtained, we can see that SF-GABOR can localise with an error below 2.5 m in the 95.95\% of the times, whilst LSD-SLAM can only guarantee errors below 2.5 m 59.88\% of the times on average.
 
-This does not imply that the appearance-based technique used \textit{replaces} SLAM or its equivalents -- it is merely a different context of usage. A user who is interested in getting from $A$ to $B$ may be less interested in mapping the geometry along that route than whether their trajectory matches that of other users who have previously made the same journey. In the scenario described, and in which performance is being compared, the journey of a user is assessed against those made by other people who have made the same journey -- location becomes journey-relative, not map-relative. The usage scenario also means that loop closure may not be possible. However, localisation systems m aim for a combined solution, as LSD-SLAM seems to perform better given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of the solutions proposed \citep{Rivera-Rubio2015PRL} or a combination of both.
+This does not imply that the appearance-based technique used \textit{replaces} SLAM or its equivalents -- it is merely a different context of usage. A user who is interested in getting from $A$ to $B$ may be less interested in mapping the geometry along that route than whether their trajectory matches that of other users who have previously made the same journey. In the scenario described, and in which performance is being compared, the journey of a user is assessed against those made by other people who have made the same journey -- location becomes journey-relative, not map-relative. The usage scenario also means that loop closure may not be possible. However, localisation systems may aim for a combined solution, as LSD-SLAM seems to perform better given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of the solutions proposed \citep{Rivera-Rubio2015PRL} or a combination of both.
 
 %A final point to remember is that the cameras that are used in capturing the journeys are not necessarily identical, and certainly may be uncalibrated.
-
 
 \begin{table}
 \caption{Cumulative distribution function values against localisation error in metres ($\epsilon$). $P(|\epsilon| \leq x)$, expressed as a percentage. From this table, the best appearance method achieves a probability of 90\% of localising with an error below $2$ m, whilst LSD-SLAM achieves just above 50\% accuracy level for that error boundary, and required images 5 times larger. In addition, the performance of LSD-SLAM was significantly worse (compare the minimum performance colums) on some corridors and journeys, bringing the overall average down across the RSM dataset relative to appearance-based localisation.}
@@ -599,12 +603,9 @@ This does not imply that the appearance-based technique used \textit{replaces} S
 \end{table}
 
 
-
 \subsubsection{Reproducibility errors}
 
-Another comparison is illustrated by Figure \ref{fig:reprod}. These are RSM corridors 1 and 3 (C1 and C3) average reproducibilities for multiple ``leave one out'' passes. These diagrams show how whilst LSD-SLAM reports worse average results in terms of errors it has a localisation error consistency comparable to that of SF-GABOR, and better than that, errors rarely go beyond the 5 meters boundary, with an average of $\mu_e = 2.48 \pm 2.37$ m. Conversely, SF-GABOR present outliers, but for some sequences the error is consistently below 1 m ($\mu_e = 1.31 \pm 0.39$), supporting its suitability for the indoor localisation context.
-
-Box and whisker plots that evaluate the comparative reproducibility in localisation are presented in Figure \ref{fig:reprod}. These illustrate the reproducibility within RSM corridors 1 and 3 (C1 and C3) for multiple ``leave-one-out'' passes. The plots suggest that whilst LSD-SLAM yielded worse results in terms of error, it has a consistency in performance that is comparable to that of SF-GABOR. Also, the errors for LSD-SLAM rarely go beyond $5$ m, with an average of $\mu_e = 2.48 \pm 2.37$ m. Conversely, the appearance based method contains some outliers; even so, for some sequences the error is of the order or lower ($\mu_e = 1.31 \pm 0.39$ m) than the best reported for SLAM, supporting the idea of an appearance-based localisation approach for indoor navigation. 
+Another comparison is illustrated by Figure \ref{fig:reprod}. These box-and-whisker plots evaluate the comparative reproducibility in localisation between the best appearance-based method, SF-GABOR, and LSD-SLAM within RSM corridors 1 and 3 (C1 and C3) for multiple ``leave-one-out'' passes. The plots suggest that whilst LSD-SLAM yielded worse results in terms of error, it has a consistency in performance that is comparable to that of SF-GABOR. Also, the errors for LSD-SLAM rarely go beyond $5$ m, with an average of $\mu_e = 2.48 \pm 2.37$ m. Conversely, the appearance based method contains some outliers; even so, for some sequences the error is of the same order of magnitude or lower ($\mu_e = 1.31 \pm 0.39$ m) than the best reported for SLAM, supporting the idea of an appearance-based localisation approach for indoor navigation. 
 
 \begin{figure}
 \centering
@@ -623,22 +624,11 @@ Box and whisker plots that evaluate the comparative reproducibility in localisat
 In Section \ref{visloc_perf} I calculated the average absolute positional error (in m) and the standard deviation of the absolute positional errors for a variety of methods. Here, I reproduce the AUC results for the method SF-GABOR, which ranged from 96.11\% to 96.39\%. For the case of LSD-SLAM, the AUC ranged from 89.71\% to 90.61\% All queries were again performed by adopting the leave-one-out strategy, but because of the high repeatability of results, random frame-level sampling was not applied.  
 
 
-\begin{figure}[h!]
-\centering
-%\setlength\figureheight{0.6\textwidth}
-%\setlength\figurewidth{0.8\textwidth}
-%\input{gfx/Chapter06/tikz/sfgabor_vs_lsdslam.tex} %
-\includegraphics[width=0.8\textwidth]{gfx/Chapter04/SF_GABORvsLSD_SLAM.pdf}
-\caption{CDF of SF-GABOR and LSD-SLAM when sampling 1000 random queries from all the error measurements. The width of the curves represent the variability of the result data. The bounds are the maximum and minimum CDF values obtained from the Monte-Carlo sampling.}
-\label{fig:cdf}
-\end{figure}
-
-
 
 %------------------------------------------------------------------------- 
 \section{A visualisation of the frame distribution with t-SNE}
 
-In the previous sections I have extensively studied the case of the localisation within a journey, answering the question ``where am I along the path?'' that was introduced in Chapter \ref{ch:chapter2}. In a visual paths retrieval system divided in different journeys inside a building, to be able to answer the question ``in which path am I on?'' with precision would give this system the necessary prior information to provide a better location and also suggest path planning, which would be specially relevant in an assitive context as we will see in Chapter \ref{ch:chapter6}. Although the journey selection was beyond the scope of this thesis, it was informative to study the behaviour of a state-of-the-art dimensionality reduction technique in a rather challenging scenario of having such highly dimensional data (the BOVW-encoded vectors have 4,000 elements). Therefore I chose t-SNE as a technique for visualizing in two or three dimensions the high dimensional descriptor space of our RSM dataset.
+In the previous sections I have extensively studied the case of the localisation within a journey, answering the question ``where am I along the path?'' that was introduced in Chapter \ref{ch:chapter2}. In a visual path retrieval system divided in different journeys inside a building, to be able to answer the question ``in which path am I on?'' with precision would give this system the necessary prior information to provide a better location and also suggest path planning, which would be specially relevant in an assitive context as we will see in Chapter \ref{ch:chapter6}. Although the journey selection was beyond the scope of this thesis, it was informative to study the behaviour of a state-of-the-art dimensionality reduction technique in a rather challenging scenario of having such highly dimensional data (the BOVW-encoded vectors have 4,000 elements). Therefore I chose t-SNE as a technique for visualising in two or three dimensions the high dimensional descriptor space of our RSM dataset.
 
 t-distributed stochastic neighbor embedding (t-SNE) is a machine learning algorithm for dimensionality reduction developed by Laurens van der Maaten and Geoffrey Hinton \cite{maaten2009learning}. It is a nonlinear dimensionality reduction technique that is particularly well suited for embedding high-dimensional data into a space of two or three dimensions, which can then be visualised in a scatter plot. Specifically, it models each high-dimensional object by a two- or three-dimensional point in such a way that similar objects are modelled by nearby points and dissimilar objects are modelled by distant points.
 
@@ -651,7 +641,7 @@ In other words, t-SNE is a dimensionality reduction technique that aims to prese
 \label{fig:tsne3d}
 \end{figure}
 
-In Figure \ref{fig:tsne3d} we can see the 4,000-dimension visual word reduced to three dimensions and in Figure \ref{fig:tsne2d} we can see the two-dimensional embedding. The embeddings were generated using more than 50,000 randomly selected examples from all the corridors. In this particular plot I selected dense-SIFT descriptors encoded with Hard-Assignment using k-means to create the visual word examples.
+In Figure \ref{fig:tsne3d} we can see the 4,000-dimension visual word reduced to three dimensions and in Figure \ref{fig:tsne2d} we can see the two-dimensional embedding. The embeddings were generated using more than 50,000 randomly selected examples from all the corridors. Following the method described in Section~\ref{sec:quant_and_encod}, I selected for this particular example dense-SIFT descriptors encoded with hard assignment (HA), using $k$-means to create the visual word examples.
 
 As we can see from the images, the difficulty of generating two or three-dimensional embeddings of such a high dimensional and complex dataset is notable. However, patterns showing how examples from the same corridors can display a sequential relationship within the embeddings.
 
@@ -663,7 +653,7 @@ As we can see from the images, the difficulty of generating two or three-dimensi
 \label{fig:tsne2d}
 \end{figure}
 
-The present thesis gives an emphasis on understanding \textit{visual path} data from a journey perspective, from a crowdsource collection of journeys in particular. However, although of limited practical use the within journey localisation, this visualisation is the first step in understanding the structure of the data from a ``building'' perspective.
+The present thesis gives an emphasis on understanding \textit{visual path} data from a journey perspective, from a crowdsourced collection of journeys in particular. However, although of limited practical use within journey localisation, this visualisation is the first step in understanding the structure of the data from a ``building'' perspective.
 
 It is therefore subject of future work the use of these visualisations to understand the important features of visual paths datasets such as the presence of global clusters that reveal remarkable distinctiveness between journeys or give insight on how to optimise the retrieval based on between-journey differences.
 
