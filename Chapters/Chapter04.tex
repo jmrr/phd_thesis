@@ -126,15 +126,15 @@ At each point in time, the values over the 144 signal channels are also captured
 \subsection{Local descriptors}
 \label{sec:descriptors}
 
-\subsubsection{Keypoint based SIFT (KP-SIFT).}
+\subsubsection{Keypoint based SIFT (KP-SIFT)}
 
 The original implementation of Lowe's SIFT descriptor follows the extraction of interesting points in the image that are stable to certain transformations, the ``SIFT keypoints'' \cite{Lowe2004}. This is widely used across many branches of computer vision, from object recognition to motion detection and SLAM. I used the standard implementation from VLFEAT \cite{Vedaldi2008} to compute $\vec{\nabla}f(x,y;\sigma)$ where $f(x,y;\sigma)$ represents the embedding of image $f(x,y)$ within a Gaussian scale-space at scale $\sigma$. The parameter \emph{PeakThresh}, $t_p$ is used to filter out small local maxima in scale-space that might be originated by noise. Given the small size of the frames in our sequences the minimum threshold $t_p$ was set to $0$.
 
-\subsubsection{Dense SIFT (DSIFT).}
+\subsubsection{Dense SIFT (DSIFT)}
 
 The Dense-SIFT (DSIFT) descriptor \citep{Lazebnik2006} is a popular  alternative to keypoint based SIFT. It sacrifices some invariance properties available with keypoint-based SIFT, producing descriptors that are densely, rather than sparsely, distributed across the image. This DSIFT descriptor was calculated by  sampling of the smoothed estimate of $\vec{\nabla}f(x,y;\sigma)$.  The implementation of the VLFEAT toolbox was chosen, setting $\sigma = 1.2$, with a stride length of 3 pixels. This  yielded around $2,000$ descriptors per frame, each describing a patch of roughly $10 \times 10$ pixels.
 
-\subsubsection{Single Frame Gabor descriptors (SF-GABOR).}
+\subsubsection{Single Frame Gabor descriptors (SF-GABOR)}
 \label{sec:sf-gabor}
 
 An alternative single frame technique based on a tuned, odd-symmetric Gabor-based descriptor is the SF-GABOR. For this, I used our $8$-directional spatial Gabor filters previously tuned on PASCAL VOC data \cite{Everingham2009} in order to provide an implicit encoding of the orientation of local image structures.  Each filter gives rise to a filtered image plane, denoted $\mathbf{G}_{k,\sigma}$.  For each plane, I compute the discrete spatial convolution, $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$, with a series of pooling functions, ${\Phi}_{m,n}$. The latter are produced by spatial sampling of the function:
