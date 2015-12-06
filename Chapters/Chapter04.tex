@@ -532,7 +532,7 @@ The results of the comparison were surprising, and somewhat unsatisfactory. The 
 
 I compared the best performing appearance-based method, SF-GABOR, against the current state-of-the-art in SLAM for indoor sequences, LSD-SLAM.  I first ran the LSD-SLAM code over the 60 video sequences of the RSM dataset and retrieved the results from the visual odometry engine in order to obtain position estimates for each processed frame.  This provided an estimate of the distance travelled by a user, allowing comparison to the results for the appearance-based method. 
 
-The cameras in the devices used to acquire the RSM data are quite different for those suggested for use with LSD-SLAM (recommended: monochrome global-shutter camera with fish eye lens); therefore, the standard LSD-SLAM software was modified to recover from lost tracking when this happened. The semi-dense SLAM parameters were adjusted to adapt best to our conditions and data, specifically, to minimise instances of lost tracking in medium resolution versions of the images, i.e. at a considerably higher resolution than the image required for the appearance-based approach. In \ref{sec:slampars} I provide the parameter values that were used for the experiments.
+The cameras in the devices used to acquire the RSM data are quite different for those suggested for use with LSD-SLAM (recommended: monochrome global-shutter camera with fish eye lens); therefore, the standard LSD-SLAM software was modified to recover from lost tracking when this happened. The semi-dense SLAM parameters were adjusted to adapt best to our conditions and data, specifically, to minimise instances of lost tracking in medium resolution versions ($1024 \times 576$) of the images, i.e. at a considerably higher resolution than the image required for the appearance-based approach. In \ref{sec:slampars} I provide the parameter values that were used for the experiments.
 
 
 \subsubsection{Performance of LSD-SLAM on RSM dataset sequences}
@@ -549,12 +549,12 @@ Figure~\ref{fig:slamperfA} and \ref{fig:slamperfB} illustrate the localisation p
 	}
 	\quad
 	\subfloat[(b)][Errors obtained from another experiment using LSD-SLAM. In this case, the absolute error peaked at around $5$ m. ]{
-	%\setlength\figureheight{0.5\textwidth}
-	%\setlength\figurewidth{0.8\textwidth}
-	%\input{./gfx/Chapter04/tikz/lsd_slam_performance_normal.tex} %TIKZ
-	\includegraphics[width=0.45\textwidth]{./gfx/Chapter04/lsd_slam_normal.pdf}\label{fig:slamperfB}
+	\setlength\figureheight{0.5\textwidth}
+	\setlength\figurewidth{0.8\textwidth}
+	\input{./gfx/Chapter04/tikz/lsd_slam_performance_normal.tex} %TIKZ
+	%\includegraphics[width=0.45\textwidth]{./gfx/Chapter04/lsd_slam_normal.pdf}\label{fig:slamperfB}
 	}
-	\caption{Localisation performance in LSD-SLAM; this shows that in different corridors, the accuracy of LSD-SLAM can change quite significantly. See text for details of the SLAM parameters and the nature of the dataset, but note that these were obtained at an image resolution of $1024 \times 576$ pixels. At lower resolutions, loss of tracking dominated the experiments. The difference in the $x$ and $y$ axis labelling is because experiments in a) and b) are obtained from two different corridors with different lengths and different numbers of frames.}
+	\caption{Localisation performance in LSD-SLAM; this shows that in different corridors, the accuracy of LSD-SLAM can change quite significantly. See text for details of the SLAM parameters and the nature of the dataset, but note that these were obtained at an image resolution of $1024 \times 576$ pixels. At lower resolutions, loss of tracking dominated the experiments. The difference in the $x$ and $y$ axis labelling is because experiments in a) and b) are obtained from two different corridors with different lengths and different number of frames.}
 	\label{fig:slamperf}
 \end{figure}
 
@@ -563,15 +563,15 @@ Figure~\ref{fig:slamperfA} and \ref{fig:slamperfB} illustrate the localisation p
 
 CDFs, as introduced in Section \ref{sec:CDFs} illustrate very well the differences in the performance of methods. As we can see from Figure \ref{fig:cdf} our appearance-based method using Gabor-based descriptors outperforms LSD-SLAM in the RSM dataset. 
 
-Another perspective to these results can be seen from Table~\ref{tbl:cdftable}, where we can see a head to head comparison for the probabilities of achieving a localisation error smaller than $\epsilon$. We can see how SF-GABOR outperforms LSD-SLAM, achieving smaller localisation errors with a larger probability. For the sample of CDF values obtained, we can see that SF-GABOR can localise with an error below 2.5 m in the 95.95\% of the times, whilst LSD-SLAM can only guarantee errors below 2.5 m 59.88\% of the times on average.
+Another perspective to these results can be seen from Table~\ref{tbl:cdftable}, where we can see a head to head comparison for the probabilities of achieving a localisation error smaller than $\epsilon$. We can see how SF-GABOR achieves smaller localisation errors than LSD-SLAM with a larger probability. For the sample of CDF values obtained, we can see that SF-GABOR can localise with an error below 2.5 m in the 95.95\% of the times, whilst LSD-SLAM can only guarantee errors below 2.5 m 59.88\% of the times on average.
 
-This does not imply that the appearance-based technique used \textit{replaces} SLAM or its equivalents -- it is merely a different context of usage. A user who is interested in getting from $A$ to $B$ may be less interested in mapping the geometry along that route than whether their trajectory matches that of other users who have previously made the same journey. In the scenario described, and in which performance is being compared, the journey of a user is assessed against those made by other people who have made the same journey -- location becomes journey-relative, not map-relative. The usage scenario also means that loop closure may not be possible. However, localisation systems should aim for a combined solution, as LSD-SLAM seems to perform better given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of the solutions proposed \citep{Rivera-Rubio2015PRL} or a combination of both.
+This does not imply that the appearance-based technique used \textit{replaces} SLAM or its equivalents -- it is merely a different context of usage. A user who is interested in getting from $A$ to $B$ may be less interested in mapping the geometry along that route than whether their trajectory matches that of other users who have previously made the same journey. In the scenario described, and in which performance is being compared, the journey of a user is assessed against those made by other people who have made the same journey -- location becomes journey-relative, not map-relative. The usage scenario also means that loop closure may not be possible. However, localisation systems m aim for a combined solution, as LSD-SLAM seems to perform better given an appearance-based loop closure method \citep{engel14eccv} such as FabMap, which could be replaced by any of the solutions proposed \citep{Rivera-Rubio2015PRL} or a combination of both.
 
 %A final point to remember is that the cameras that are used in capturing the journeys are not necessarily identical, and certainly may be uncalibrated.
 
 
 \begin{table}
-\caption{Cumulative distribution function values against localisation error in metres ($\epsilon$). $P(|\epsilon| \leq x)$, expressed as a percentage. From this table, the best appearance method achieves a probability of 90\% of localising with an error below $2$ m, whilst LSD-SLAM achieves just above 50\% accuracy level for that error boundary, and required larger images. In addition, the performance of LSD-SLAM was significantly worse (compare the minimum performance colums) on some corridors and journeys, bringing the overall average down across the RSM dataset relative to appearace based localisation.}
+\caption{Cumulative distribution function values against localisation error in metres ($\epsilon$). $P(|\epsilon| \leq x)$, expressed as a percentage. From this table, the best appearance method achieves a probability of 90\% of localising with an error below $2$ m, whilst LSD-SLAM achieves just above 50\% accuracy level for that error boundary, and required images 5 times larger. In addition, the performance of LSD-SLAM was significantly worse (compare the minimum performance colums) on some corridors and journeys, bringing the overall average down across the RSM dataset relative to appearance-based localisation.}
 \label{tbl:cdftable}
 \centering
     \begin{tabular}{lcccc}
