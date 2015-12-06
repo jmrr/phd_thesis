@@ -29,11 +29,11 @@ make my-papers # To process multibib reference lists (see below)
   - [x] Clarify Table 5
 
 - [ ] Visual paths chapter:
-  - [ ] Take some bits from related work section of the ACVR paper as it's better structured.
+  - [x] Take some bits from related work section of the ACVR paper as it's better structured.
   - [x] For the description of the descriptors, go to the PRL paper, it has all the details.
   - [ ] Explain randomization of results using PRL paper.
-  - [ ] Check reasons why no tracking, ACVR is good!
-  - [ ] In Fig. 32 make circles bigger and indicate Corridor #
+  - [x] Check reasons why no tracking, ACVR is good!
+  - [x] In Fig. 32 make circles bigger and indicate Corridor #
               
 - [ ] Place cell models
   - [x] Substitute pipeline diagram for FEV generation
