@@ -44,7 +44,7 @@ This type of crowdsensing approach is gaining interest, with remarkable work fro
 
 \begin{center}
 \includegraphics[width=\linewidth]{./gfx/Chapter04/corridor.pdf}
-\caption{ A sample path (Corridor 1, C1) illustrating the multiple passes through the same space. Each of these passes represents a sequence that is either stored in a database, or represents the queries that are submitted against previous journeys. In the assistive context, the user at point A could be a blind or partially sighted user, and he or she would benefit from solutions to the association problem of a query journey relative to previous ``journey experiences'' along roughly the same path, crowdsourced by $N$ users that may be sighted}
+\caption{ A sample path (Corridor 1, C1) illustrating the multiple passes through the same space. Each of these passes represents a sequence that is either stored in a database, or represents the queries that are submitted against previous journeys. In the assistive context, the user at point A could be a blind or partially sighted user, and he or she would benefit from solutions to the association problem of a query journey relative to previous ``journey experiences'' along roughly the same path, crowdsourced by $N$ users that may be sighted.}
 \label{fig:visualpaths}
 \end{center}
 \end{figure}
@@ -77,11 +77,9 @@ I evaluated the performance of several approaches to matching image queries take
 \end{center}
 \end{figure}
 
-\subsection{Frame-Level Descriptor}
+\subsection{Frame-level descriptor}
 
-Inspired by the use of optical flow in motion estimation~\citep{Weickert2006} and space-time descriptors in action recognition \citep{Wang2009} I estimated in-plane motion vectors using a simple approach.  Derivative filters were applied along $(x,y,t)$ dimensions, yielding a 2D$+t$, i.e. spatio-temporal, gradient field.  To capture variations in chromatic content from the visual sequence, spatio-temporal gradients were computed separately for each of the three RGB channels of the pre-processed video sequences.  This yielded a $3\times 3$ matrix at each point in space, effectively a \textit{chromatic Jacobian} (Eq.~\ref{eq:CJ}).  Temporal smoothing was applied along the time dimension, with a support of 11 neighbouring frames. Finally, the components of the matrix were each averaged (pooled) over 16 distinct spatial regions (see Figure~\ref{fig:pooling4lwcolor}), not very dissimilar to those to be described later in this thesis. 
-
-
+Inspired by the use of optical flow in motion estimation~\citep{Weickert2006} and space-time descriptors in action recognition \citep{Wang2009} I estimated in-plane motion vectors using a simple approach.  Derivative filters were applied along $(x,y,t)$ dimensions, yielding a 2D$+t$, i.e. spatio-temporal, gradient field.  To capture variations in chromatic content from the visual sequence, spatio-temporal gradients were computed separately for each of the three RGB channels of the pre-processed video sequences.  This yielded a $3\times 3$ matrix at each point in space, effectively a \textit{chromatic Jacobian} (Eq.~\ref{eq:CJ}).  
 
 \begin{equation}
 \mathbf{J} = \left (
@@ -94,16 +92,19 @@ Inspired by the use of optical flow in motion estimation~\citep{Weickert2006} an
 \label{eq:CJ}
 \end{equation}
 
+Temporal smoothing was applied along the time dimension, with a support of 11 neighbouring frames. Finally, the components of the matrix were each averaged (pooled) over 16 distinct spatial regions (see Figure~\ref{fig:pooling4lwcolor}), not very dissimilar to those to be described later in this thesis. 
 
-\begin{figure}
+
+
+\begin{figure}[h!]
 \centering
 \includegraphics[width=\linewidth]{./gfx/Chapter04/pooling_lwcolor.png}
-\caption{A maximum projection intensity rendering of 16 pooling regions over space. The $x$ components of descriptor component time series from regions $A$, $B$, $C$ and $D$ are shown in Figure~\ref{fig:Traces}}
+\caption{A maximum projection intensity rendering of 16 pooling regions over space. The $x$ components of descriptor component time series from regions $A$, $B$, $C$ and $D$ are shown in Figure~\ref{fig:Traces}.}
 \label{fig:pooling4lwcolor}
 \end{figure}
 
 
-The rationale is that ego-motion is likely to be an important visual cue in human pedestrian navigation, particularly in close or cluttered spaces. Rather than explicit computation of optical flow, the collection of gradient information over different pooling regions of space captures and encodes relevant motion in the form of time series.  The 16 proposed pooling regions illustrated in Figure \ref{fig:kernel} were selected to capture elements of the chromatic space-time Jacobian within two sectors at different radii from the centre of the frame (e.g. A and C, and B and D); to capture information in pairs of regions (such as A and B) that are diametrically opposed from each other horizontally, and also vertically.  Diagonal regions were also proposed, yielding fairly uniform angular coverage over image space. Spatial and temporal gradients in the centre of the frame were not encoded because this region contains less visible motion over equivalent time scales to the more peripheral regions.  
+The rationale is that ego-motion is likely to be an important visual cue in human pedestrian navigation, particularly in close or cluttered spaces. Rather than explicit computation of optical flow, the collection of gradient information over different pooling regions of space captures and encodes relevant motion in the form of time series.  The 16 proposed pooling regions illustrated in Figure \ref{fig:pooling4lwcolor} were selected to capture elements of the chromatic space-time Jacobian within two sectors at different radii from the centre of the frame (e.g. A and C, and B and D); to capture information in pairs of regions (such as A and B) that are diametrically opposed from each other horizontally, and also vertically.  Diagonal regions were also proposed, yielding fairly uniform angular coverage over image space. Spatial and temporal gradients in the centre of the frame were not encoded because this region contains less visible motion over equivalent time scales to the more peripheral regions.  
 
 
 For each visual path, this yielded a total of $16\times 9 = 144$ separate time-series, or signals, of length approximately equal to the video sequences.  An illustration of the time series for one visual path is shown in Figure~\ref{fig:Traces}. Effectively, for each frame, a 144-dimensional descriptor is captured. The elements of this descriptor describe the weighted average of the Jacobian elements within the respective pooling regions that can be used for indexing and matching visual path locations.
@@ -119,8 +120,7 @@ For each visual path, this yielded a total of $16\times 9 = 144$ separate time-s
 \end{center}
 \end{figure}
 
-At each point in time, the values over the 144 signal channels are also captured into a \textit{single} space-time descriptor per frame: 
-LOR.  Our observations from the components of this descriptor are that a) relative ego-motion is clearly identifiable in the signals; b) stable patterns of motion may also be identified, though changes in the precise trajectory of a user could also lead to perturbations in these signals, and hence to changes in the descriptor vectors. Minor changes in trajectory might, therefore, reduce one's ability to match descriptors between users.  These observations, together with the possibility of partial occlusion, led us to the use of \textit{patch} based descriptors, so that multiple descriptors would be produced for each frame. These are introduced next.
+At each point in time, the values over the 144 signal channels are also captured into a \textit{single} space-time descriptor per frame: LW-COLOR.  Our observations from the components of this descriptor are that a) relative ego-motion is clearly identifiable in the signals; b) stable patterns of motion may also be identified, though changes in the precise trajectory of a user could also lead to perturbations in these signals, and hence to changes in the descriptor vectors. Minor changes in trajectory might, therefore, reduce one's ability to match descriptors between users.  These observations, together with the possibility of partial occlusion, motivated the use of \textit{patch} based descriptors, so that multiple descriptors would be produced for each frame. These are introduced next.
 
 
 \subsection{Local descriptors}
