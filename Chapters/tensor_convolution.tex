@@ -7,52 +7,65 @@ In Kolda's terminology, the {\it order} of the tensor is the number of dimension
 
 In the following definitions, we will refer to the tensors $\tens{A}$, $\tens{B}$ and $\tens{C}$, where $\tens{A}\in\mathbb{R}^{\prod_{n=1}^{N_{\tens{A}}}I_n}$ is of order $N_{\tens{A}}$, containing elements $a_{i_1,i_2,...,i_{N_\tens{A}}}$, and $\tens{B}\in\mathbb{R}^{\prod_{n=1}^{N_{\tens{B}}}J_n}$ is a tensor of order $N_{\tens{B}}$ with elements $b_{j_1,j_2,...,j_{N_{\tens{B}}}}$, and $\tens{C}$ is of order $N_{\tens{C}}$.
 
-\paragraph{Definition 1: Tensor Convolution} We define the tensor convolution operator in modes $\mathcal{M}$ by the following:
-\[
- \overset{\mathcal{M}}{[ \ast ]}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
-\] 
- where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed.   These indices associate the modes of the tensors being convolved together.
+\begin{definition}{\textit{Tensor Convolution}}\label{def:convop}  The tensor convolution operator in modes $\mathcal{M}$ is defined by the following:
 
-The tensor convolution operator maps tensor, $\tens{A}$, to an equal- or higher-order tensor $\tens{C}$ by the following:
+\begin{equation}
+ \overset{\mathcal{M}}{[ \ast ]}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
+\end{equation}
+
+ where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed.   These indices associate the modes of the tensors being convolved together, but $\tens{A}$ and $\tens{B}$ should be of equal order. Moreover, the dimensions of the modes that are not participating in the convolution should be equal.
+
+The tensor convolution operator maps tensor, $\tens{A}$, to an equal order tensor $\tens{C}$ by the following:
 \begin{eqnarray}
-\tens{A} \,\, \overset{\mathcal{M}}{[ \ast ]}\, {\tens{B}} &=& \nonumber \\
-& &\sum_{i'_{m_1}},\ldots\,\sum_{i_{M}'}   a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{N_{\tens{A}}}} \times \nonumber \\
+\tens{A}\,\, \overset{\mathcal{M}}{[ \ast ]}\, {\tens{B}} &=& \sum_{i'_{m_1}},\ldots\,\sum_{i_{M}'}   
+a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{N_{\tens{A}}}} \times \nonumber \\
 & &b_{i_1,i_2,...,i_{n_1}-i_{m_1}',...,i_{n_M}-i_{m_M}',...,i_{N_{\tens{B}}}}
 \label{eq:t1}
 \end{eqnarray}
-where $\mathcal{M}$, takes the form ofa set of tuples that associate indices in $\tens{A}$ with those in $\tens{B}$ for the convolution:
-\[
+
+where $\mathcal{M}$, takes the form of a set of tuples that associate indices in $\tens{A}$ with those in $\tens{B}$ for the convolution:
+
+\begin{equation}
 \lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace
-\]
+\end{equation}
 
-The order of the result, $N_{\tens{C}}$, will depend on the orders of the tensor $\tens{X}$, the order of $\tens{B}$, and the operator  $\overset{\mathcal{M}}{[ \ast ]}$:
-\[
-N_{\tens{C}} = N_{\tens{A}}+N_{\tens{B}}-|\mathcal{M}|
-\]
+The order of the result, $N_{\tens{C}}$, will be equal to the orders of $\tens{A}$ and $\tens{B}$.
+\end{definition}
 
-\paragraph{Definition 2: Permuted Tensor Convolution} We define the {\it permuted} tensor convolution operator in modes $\mathcal{M}$ permuted over modes $\mathcal{P}$ as a mapping taking the form:
-\[
+
+\begin{definition}{\textit{Permuted Tensor Convolution}} \label{def:permconvop} The \textit{permuted} tensor convolution operator in modes $\mathcal{M}$ permuted over modes $\mathcal{P}$ can be defined as a mapping taking the form:
+
+\begin{equation}
  \underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
-\] 
+ \end{equation}
+ 
  where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed and $\mathcal{P}$ represents the modes of $\tens{A}$ and $\tens{B}$ which are permuted, expanding the order of $\tens{C}$ relative to that of tensor convolution.
 
 The permuted tensor convolution operator maps tensor, $\tens{A}$, to the higher-order tensor $\tens{C}$ by the following:
+
 \begin{eqnarray}
-\tens{A} \,\, \underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}\, {\tens{B}} &=& \nonumber \\
-& &\sum_{i'_{m_1}},\ldots\,\sum_{i_{M}'}   a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{p_1},i_{p_2},...i_{p_P},...,i_{N_{\tens{A}}}} \times \nonumber \\
-& &b_{i_1,i_2,...,i_{n_1}-i_{m_1}',...,i_{n_M}-i_{m_M}',...,i_{\pi(q_1|p_1)},...,i_{\pi(q_P|p_P)},...,i_{N_{\tens{B}}}}
+\tens{A}\,\,\underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}\, {\tens{B}} &=& \sum_{i'_{m_1}}\ldots\,\sum_{i_{M}'}  a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{p_1},i_{p_2},...,i_{p_P},...,i_{N_{\tens{A}}}} \times \nonumber \\
+ & &b_{i_1,...,i_{n_1}-i_{m_1}',...,i_{n_M}-i_{m_M}',...,i_{\pi(q_1|p_1)},...,i_{\pi(q_P|p_P)},...,i_{N_{\tens{B}}}}
 \label{eq:t2}
 \end{eqnarray}
-where $\mathcal{M}$, consistes of the tuples:
-\[
+
+where $\mathcal{M}$, consists of the tuples:
+
+\begin{equation}
 \lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace
-\]
+\end{equation}
+
 and $\mathcal{P}$ by the tuples:
-\[
+
+\begin{equation}
 \lbrace(p_1,q_1),(p_2,q_2),...,(p_{P},q_{P})\rbrace
-\]
+\end{equation}
+
 The permutation operator $\pi(i|j)$ denotes that the fibre number of the tensor in a particular mode are permuted.  The order of the result, $N_{\tens{C}}$, will depend on the orders of the tensors $\tens{A}$ and $\tens{B}$, and the modes participating in the operator $\underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}$, according to:
-\[
-N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}| + |\mathcal{P}|
-\]
+
+\begin{equation}
+N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}| 
+\end{equation}
+
+Modes that do not participate in the convolution or the permutation must have equal dimension. Finally, where a third mode is implicit in one of the arguments of the permuted indices (such as for an order 2 tensor that is being permuted with an order 3 tensor), this is indicated by a ``dot'' symbol (e.g. $\mathcal{P} = \lbrace (\cdot,3)\rbrace$).
 
