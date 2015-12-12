@@ -22,6 +22,8 @@
 
  * Revise Fisher Vector: good resource in [VLCEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
 
+## 4. Appearance-based methods for visual localisation
+ * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
 ## 5. Modelling hippocampal place cells for visual localisation
 
  * Study concept of CNNs and biological inspiration
