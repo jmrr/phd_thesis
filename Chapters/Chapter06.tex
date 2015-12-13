@@ -186,7 +186,7 @@ The incoming frames for both the database creation and query branch are first co
 
 %\subsection{SIFT Descriptor}
 
-For the query frames submitted to the server, I computed the DSIFT descriptor \citep{Lowe1999,LazebnikSP06}, selected for its wide availability within many (operating system and software) environments.  I used the same implementation as in Chapter~\ref{ch:chapter4} with a stride length of 3 pixels. %This produced around $2,000$ descriptors per video frame, each descriptor representing a patch of roughly $10 \times 10$ pixels.  
+For the query frames submitted to the server, I computed the DSIFT descriptor \citep{Lowe1999,Lazebnik2006}, selected for its wide availability within many (operating system and software) environments.  I used the same implementation as in Chapter~\ref{ch:chapter4} with a stride length of 3 pixels. %This produced around $2,000$ descriptors per video frame, each descriptor representing a patch of roughly $10 \times 10$ pixels.  
 
 For the vector quantisation corresponding to the bag-of-visual-words (BoVW) model of this experiment, hard assignment (HA) was used to encode each descriptor vector by assignment to a dictionary entry. The dataset was partitioned by selecting $N_v-1$ of the $N_v$ video sequences of passes through each possible path. This ensured that queries were {\em never} used to build the vocabulary used for testing the localisation accuracy. The dictionary was created by applying the $k$-means algorithm on samples from the video database and loaded on the server ready to accept queries. This time, we also fixed the dictionary size to 4,000 (clusters, words); this allows comparison with the work of others in related fields~\cite{Chatfield2011}.
 
