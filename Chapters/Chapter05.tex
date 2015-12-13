@@ -232,7 +232,7 @@ R_+(x) = \frac{x + |x|}{2}
 \begin{figure}
 \begin{center}
 \includegraphics[width=4.5cm]{gfx/Chapter05/OrientedGabors.pdf}
-\caption{This depiction of simple-cell receptive field (RF) model for V1 responses that captures only spatial -- rather than temporal -- properties in the plane of a captured image, illustrated here for a small patch of pixels. White areas indicate zones where a bright stimulus induces increased firing rate in a single neuron, dark areas represent inhibition of firing, and grey areas have null effect.  Note that the centres of the 8 RFs shown here are actually centered at the origin of local image space (indicated by the red circle) in the first layer of the CNN.  In a {\em second layer}, information is collected from different regions of the local patch and represented as a population code associated with the centre of the circle.}
+\caption{This depiction of simple\--cell receptive field (RF) model for V1 responses that captures only spatial -- rather than temporal -- properties in the plane of a captured image, illustrated here for a small patch of pixels. White areas indicate zones where a bright stimulus induces increased firing rate in a single neuron, dark areas represent inhibition of firing, and grey areas have null effect.  Note that the centres of the 8 RFs shown here are actually centred at the origin of local image space (indicated by the red circle) in the first layer of the CNN.  In a {\em second layer}, information is collected from different regions of the local patch and represented as a population code associated with the centre of the circle.}
 \label{fig:OG}
 \end{center}
 \end{figure}
@@ -283,7 +283,7 @@ The architecture of the CNN and the order of tensors used to represent the data 
 \begin{figure}
 \centering
 \includegraphics[width=1.1\linewidth,trim={0 7cm 0 3cm},clip]{gfx/Chapter05/video_encoding_pipeline.pdf}
-\caption{Illustration of the CNN that simulates simple-cell responses and a population code based on neurons in visual area V1 applied to a video sequence captured from a wearable or hand-held camera.  In terms of biological complexity, this is quite a crude model: does not include strong non-linearities such as divisive normalisation of phase quadrature
+\caption{Illustration of the CNN that simulates simple-cell responses and a population code based on neurons in visual area V1 applied to a video sequence captured from a wearable or hand-held camera.  In terms of biological complexity, this is quite a crude model: does not include strong non\--linearities such as divisive normalisation of phase quadrature
 responses \cite{petrou2008next}. Nevertheless, it captures the behaviour of a significant subset of biological cell responses in area V1 \cite{carandini1997predictions}. Sub-sampling in modes $(i_1,i_2)$ is omitted for clarity.}
 \label{fig:arch}
 \end{figure}
@@ -378,7 +378,7 @@ In order to model place cell behaviour it is necessary to map pairs of frames on
 \end{figure}
 
 
-One way to mimic the behaviour of BPCs within APCs becomes patent when revisiting the \textit{kernel} function introduced in the previous chapter. This \textit{kernel} mapped a pair of BOVW-encoded image descriptors onto a positive scalar value. These functions can be equally applied to two BOVW vectors (in the case of the non-biology inspired descriptors) and two single-order tensors (when referring to the V1-inspired descriptors or SF-GABOR). As both representations are mathematically equivalent, I unified the terms into Frame Encoding Vectors (FEVs) to denote both BOVW vectors and V1 single-order tensors.
+One way to mimic the behaviour of BPCs within APCs becomes patent when revisiting the \textit{kernel} function introduced in the previous chapter. This \textit{kernel} mapped a pair of BOVW-encoded image descriptors onto a positive scalar value. These functions can be equally applied to two BOVW vectors (in the case of the non-biology inspired descriptors) and two single-order tensors (when referring to the V1-inspired descriptors or SF-GABOR). As both representations are mathematically equivalent, I unified the terms into frame encoding vectors (FEVs) to denote both BOVW vectors and V1 single-order tensors.
 
 I used the following mapping between two FEVs $\mathbf{v}_q$ and $\mathbf{v}_{db}$ (following the notation of previous sections):
 \be
@@ -516,7 +516,7 @@ An overview of the pipeline for processing the frames to generate APCs is shown 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{gfx/Chapter05/nn_pipelineFEV.pdf}
-\caption{Overview of the training pipeline. The sequences of visual information are processed to generate Frame Encoding Vectors (FEVs). The activation model based on thresholded $\chi^2$ kernel distances between FEVs is used to generate the APCs. A RBF-based regression network is used to learn sub-APC locations from training sequences. The diagram of the neural network is merely illustrative, it does not represent the real architecture used. The represented FEVs are also diagrammatic.}
+\caption{Overview of the training pipeline. The sequences of visual information are processed to generate frame encoding vectors (FEVs). The activation model based on thresholded $\chi^2$ kernel distances between FEVs is used to generate the APCs. A RBF-based regression network is used to learn sub-APC locations from training sequences. The diagram of the neural network is merely illustrative, it does not represent the real architecture used. The represented FEVs are also diagrammatic.}
 \label{fig:pipeline}
 \end{figure}
 
@@ -637,7 +637,7 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 %\includegraphics[width=\textwidth]{gfx/Chapter05/errorWidthEvalDSIFT_16pc.pdf}
 \setlength\figureheight{0.6\textwidth}
 	\setlength\figurewidth{0.8\linewidth} \input{gfx/Chapter05/tikz/errorWidthEvalDSIFT_16pc.tex}
-\caption{Effect of varying the threshold on place cell width, and therefore overlap and average absolute error in meters.}
+\caption{Effect of varying the threshold on place cell width, and therefore overlap and average absolute error in metres.}
 \label{fig:threshEval}
 \end{figure}
 
