@@ -10,20 +10,19 @@ make my-papers # To process multibib reference lists (see below)
 ```
 ### ToDo
 - [x] Declaration of originality
-- [ ] Dedication
+- [x] Dedication
 - [ ] Abstract
-	- [ ] English
+	- [x] English
 	- [ ] Spanish
-- [ ] Publications
-- [ ] Acknowledgments 
-  - [ ] Add Saad and Ioannis' work in declaration.	
-- [ ] Listings and acronyms (probably delete?)
-- [ ] Fig. 38, Improve by changing to mean +/- s.d.
-- [ ] Homogeneize table captions, top or bottom
-- [ ] Change 'we' for I
-- [ ] Chage Fig. for Figure 
-- [ ] Capitalisation of sections
-- [ ] Palatino for images
+- [x] Publications
+- [x] Acknowledgments 
+- [x] Listings and acronyms (probably delete?)
+- [x] Fig. 38, Improve by changing to mean +/- s.d. It's actually the variability due to different training passes
+- [x] Homogeneize table captions, top or bottom
+- [x] Change 'we' for I
+- [x] Chage Fig. for Figure 
+- [x] Capitalisation of sections
+- [/] Palatino for images
 - [ ] Chapter by chapter spell check
 
 - [ ] SHORT chapter
