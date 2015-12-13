@@ -23,6 +23,8 @@ make my-papers # To process multibib reference lists (see below)
 - [ ] Change 'we' for I
 - [ ] Chage Fig. for Figure 
 - [ ] Capitalisation of sections
+- [ ] Palatino for images
+
 - [ ] SHORT chapter
   - [x] Brief definition of voting metric
   - [/] Brief explanation of how std was calculated in Table 5. I believe it's std across videos of each categorie. Final Acc. is calculated for the videos of each category, but std can be computed as the st dev of accuracy across videos. Example: 10 videos per category, 500 frames each. 5000 estimaes of class are provided, 500 per video. With the voting, only 10 decisions are made, and the Acc. is calcualed as #videos correct class/#videos incorrect class. However, each video can have an Acc. metric, i.e. #frames in video correct/#frames in video incorrect. The variability of this accuracy is captured by Std.
