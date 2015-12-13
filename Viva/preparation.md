@@ -11,7 +11,8 @@
 ## 2. Mobile visual assistive apps: a description of the problem and motivation
 
  * Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.
-
+ * What if Fig. 4 only shows within corridor results? Then the case should be that query and db from different corridors should be a much lower number.
+ * What is $L_{\infinity}$-type normalization?
 ## 3. Hand-held object recognition
 
  * From Fig. 12 with the 4 categories, think why some perform good or bad.

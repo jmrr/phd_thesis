@@ -24,6 +24,7 @@ make my-papers # To process multibib reference lists (see below)
 - [ ] Chage Fig. for Figure 
 - [ ] Capitalisation of sections
 - [ ] Palatino for images
+- [ ] Chapter by chapter spell check
 
 - [ ] SHORT chapter
   - [x] Brief definition of voting metric
