@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="cv_dev_pipeline.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -22,9 +22,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="491.4037"
-     inkscape:cy="-630.4247"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="910.32677"
+     inkscape:cy="-196.94682"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -118,7 +118,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -182,7 +182,7 @@
            x="-676.80219"
            y="335.15387"
            style="font-size:32px;text-align:center;text-anchor:middle;font-family:Palatino;-inkscape-font-specification:Palatino" /></flowRegion><flowPara
-         id="flowPara4542">Algorighm prototype design</flowPara></flowRoot>    <text
+         id="flowPara4542">Algorithm prototype design</flowPara></flowRoot>    <text
        xml:space="preserve"
        style="font-size:20px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman"
        x="-325.26913"
@@ -222,7 +222,7 @@
          sodipodi:role="line"
          x="121.53979"
          y="408.74094"
-         id="tspan4556">optimization</tspan></text>
+         id="tspan4556">optimisation</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:32px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Palatino;-inkscape-font-specification:Palatino"
@@ -248,6 +248,6 @@
          sodipodi:role="line"
          id="tspan4568"
          x="-135.36044"
-         y="187.6716"></tspan></text>
+         y="187.6716" /></text>
   </g>
 </svg>
