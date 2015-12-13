@@ -287,8 +287,7 @@ A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$
 
 
 \begin{table}[ht]
-\caption{A summary of the dataset with thumbnails}
-\label{tbl:Datasets}
+
 
 \begin{center}
 
@@ -323,8 +322,9 @@ A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$
 			        & 55.9  & 55.4 & 56.4 & 1471          & 1180 & 1817 \\ \hline \hline
 	\multicolumn{2}{l}{Total}      & \multicolumn{3}{c}{3.042 km} & \multicolumn{3}{c}{90,302 frames} \\ \hline
     \end{tabular}
-
 \end{center}
+\caption{A summary of the dataset with thumbnails}
+\label{tbl:Datasets}
 \end{table}
 
 
@@ -336,8 +336,7 @@ A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$
 The methods for a) describing spatial or space-time structure, b) indexing and comparing the data are summarised in Table~\ref{tbl:Methods}. The choice of parameters was selected to allow a) as consistent a combination of methods as possible, allowing fair comparisons of the effect of one type of encoding or spatio-temporal operator to be isolated from others b) to select parameter choices close to other research in the area, e.g.\ for image categorisation, the chosen dictionary sizes of $\approx 256$, $\approx 400$ and $\approx 4000$ words are common. 
 
 \begin{table}
-\caption{A summary of the different encoding methods and their relationships to different descriptors. The number of elements of each descriptor is also reported (\textbf{Dim}).}
-\label{tbl:Methods}
+
 \small
 \centering
     \begin{tabular}{l p{0.5cm} p{0.9cm} p{0.5cm} p{2.5cm} c }
@@ -358,6 +357,9 @@ The methods for a) describing spatial or space-time structure, b) indexing and c
     ~                   & ~       & ~          & ~      & VLAD-256 & Hellinger \\ \hline
     \end{tabular}
     \normalsize
+    
+    \caption{A summary of the different encoding methods and their relationships to different descriptors. The number of elements of each descriptor is also reported (\textbf{Dim}).}
+\label{tbl:Methods}
 \end{table}
 
 
@@ -592,8 +594,6 @@ This does not imply that the appearance-based technique used should \textit{repl
 %A final point to remember is that the cameras that are used in capturing the journeys are not necessarily identical, and certainly may be uncalibrated.
 
 \begin{table}
-\caption{Cumulative distribution function values against localisation error in metres ($\epsilon$). $P(|\epsilon| \leq x)$, expressed as a percentage. From this table, the best appearance-based method achieves a probability of 90\% of localising with an error below $2$ m, whilst LSD-SLAM achieves just above 50\% accuracy level for that error boundary, and required images 5 times larger. In addition, the performance of LSD-SLAM was significantly worse (compare the minimum performance colums) on some corridors and journeys, bringing the overall average down across the RSM dataset relative to appearance-based localisation.}
-\label{tbl:cdftable}
 \centering
     \begin{tabular}{lcccc}
     %\begin{tabular}{lSSSSSS}
@@ -617,6 +617,8 @@ This does not imply that the appearance-based technique used should \textit{repl
     2.50 & 0.96 & (0.95, 0.97)  & 0.60 & (0.58, 0.61) \\
     \bottomrule
     \end{tabular}
+    \caption{Cumulative distribution function values against localisation error in metres ($\epsilon$). $P(|\epsilon| \leq x)$, expressed as a percentage. From this table, the best appearance-based method achieves a probability of 90\% of localising with an error below $2$ m, whilst LSD-SLAM achieves just above 50\% accuracy level for that error boundary, and required images 5 times larger. In addition, the performance of LSD-SLAM was significantly worse (compare the minimum performance colums) on some corridors and journeys, bringing the overall average down across the RSM dataset relative to appearance-based localisation.}
+\label{tbl:cdftable}
 \end{table}
 
 
