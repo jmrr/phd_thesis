@@ -25,6 +25,7 @@
 
 ## 4. Appearance-based methods for visual localisation
  * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
+ * Great SLAM overview [Link](http://www.computervisionblog.com/2016/01/why-slam-matters-future-of-real-time.html)
 ## 5. Modelling hippocampal place cells for visual localisation
 
  * Study concept of CNNs and biological inspiration
