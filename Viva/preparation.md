@@ -1,6 +1,6 @@
 # Viva-voce examination preparation notes
 
-## 1. Introduction
+### 1. Introduction
 
  * *However, relying almost entirely in the use of data to solve the problem has sometimes caused the loss of perspective and very poor improvements on performance or none at all [^1].*
 
@@ -8,12 +8,12 @@
 
  * Good review of appearance-based methods (for object recognition) by [Roth and Winter (2008)](http://machinelearning.wustl.edu/uploads/Main/appearance_based_methods.pdf)
 
-## 2. Mobile visual assistive apps: a description of the problem and motivation
+### 2. Mobile visual assistive apps: a description of the problem and motivation
 
  * Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.
  * What if Fig. 4 only shows within corridor results? Then the case should be that query and db from different corridors should be a much lower number.
  * What is $L_{\infinity}$-type normalization?
-## 3. Hand-held object recognition
+### 3. Hand-held object recognition
 
  * From Fig. 12 with the 4 categories, think why some perform good or bad.
 
@@ -23,14 +23,22 @@
 
  * Revise Fisher Vector: good resource in [VLCEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
 
-## 4. Appearance-based methods for visual localisation
+### 4. Appearance-based methods for visual localisation
  * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
  * Great SLAM overview [Link](http://www.computervisionblog.com/2016/01/why-slam-matters-future-of-real-time.html)
-## 5. Modelling hippocampal place cells for visual localisation
+### 5. Modelling hippocampal place cells for visual localisation
 
  * Study concept of CNNs and biological inspiration
  * Study connection of CNN formulation for SF-GABOR with weight sharing -> TensorFlow?
  * Study RBFs. [Good video resource](https://www.youtube.com/watch?v=O8CfrnOPtLc), and [short paper](http://hermes.etc.upt.ro/docs/cercetare/articole/NafornitaI2.pdf)
+
+
+## From College's preparation videos:
+
+[] Prepare and possibly bring 10-12 key papers
+[] Prepare extra figures and bring them so you can further explain some topics. (Presentation images?)
+[] Be aware of the papers that have been published recently between the submission and the viva.
+[] Short 10-20 presentation can help prepare.
 
 ## References
 
