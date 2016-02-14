@@ -1,6 +1,6 @@
 # Viva-voce examination preparation notes
 
-### 1. Introduction
+## 1. Introduction
 
  * *However, relying almost entirely in the use of data to solve the problem has sometimes caused the loss of perspective and very poor improvements on performance or none at all [^1].*
 
@@ -8,12 +8,45 @@
 
  * Good review of appearance-based methods (for object recognition) by [Roth and Winter (2008)](http://machinelearning.wustl.edu/uploads/Main/appearance_based_methods.pdf)
 
-### 2. Mobile visual assistive apps: a description of the problem and motivation
+## 2. Mobile visual assistive apps: a description of the problem and motivation
 
  * Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.
  * What if Fig. 4 only shows within corridor results? Then the case should be that query and db from different corridors should be a much lower number.
- * What is $L_{\infinity}$-type normalization?
-### 3. Hand-held object recognition
+ * What is $L_{\infinity}$ -type normalization?
+ 
+#### Similar approaches
+
+ 1. [Pradeep, Medioni & Weiland (2010)](http://iris.usc.edu/Outlines/papers/2010/pradeep-medioni-weiland-cvavi10.pdf): *Robot Vision for the Visually Impaired*. Head-mounted, stereo-vision. They provide SLAM to BPS users. Visual odometry + feature
+based SLAM + mapping the environment using stereo 3D data triangulation. This map is used to perform 3D traversability to
+steer the user away from obstacles. Tactile feedback is provided through microvibrations conveyed to waist and shoulder
+motors. Their SLAM is based on Rao-Blackwellised particle filter (RBPF) in a FastSLAM framework. Effectively there are two
+mapping processes going on. The SLAM one also used to give camera pose estimates, and its mapping is only a "by-product". The
+traversability map is obtained by registering and processing dense 3D point clouds obtained by stereo triangulation and
+only computed when camera motion > th.
+    * Drawbacks: tracking algorithms fail with too much blur, need resets and odometry reinit. Bumblebee camera to
+    cumbersome, hampering mobility, thus not a realistic solution.
+ 2. [Wang et al.](http://www.cse.buffalo.edu/~lusu/cse721/papers/No%20Need%20to%20War-Drive%20Unsupervised%20Indoor%20Localization.pdf): *Unloc, No need to war-drive: unsupervised indoor localization*. By observing signatures that are
+ present in certain locations on one or more several sensing dimensions (one or more sensors), mapping can be achieved.
+ These signatures can be envisioned as internal landmarks of a building, which can be used to recalibrate mobile phone's
+ positions whilst dead-reckoning can be used to track distance (with accelerometers' step count) travelled. **War-drive**
+ is not needed, nor are floorplans. Given the crowdsourcing of these journeys, dead-reckoning is recalibrated over time.
+    - Acceleromenter, gyroscope, compass for dead-reckoning.
+    - Combinations of these to detect special landmarks, i.e. elevators, stairs.
+    - Organic Landmarks (OLMs): clustered landmarks.
+    - Distinctive WiFi areas to provide landmarks:
+        - Distinctive WiFi areas are locations < 4 m2 which have low similarity with other areas. This similarity is
+        computed as a sum of the ratios between min and max RSSI of the same AP at two distinct locations *l<sub>1</sub>* and *l<sub>2</sub>*.
+        By enforcing a low threshold on this similarity only the very distinctive (and thus very few) locations would pass it.
+ 3. [Shen et al.](http://research.microsoft.com/en-us/um/people/moscitho/Publications/NSDI_2013.pdf): *Walkie Markie:
+ Indoor pathway mapping made easy*. WiFi landmarks to reconstruct indoor pathway maps by fusing crowdsourced user
+ trajectories obtained from IMUs on users' mobile phones. They rely on the different WiFi APs strength along the route,
+ and their strength overlap to define WiFi-Marks (landmarks). They claim they need 5-6 journeys to map with a max error of 3m.
+ They infer the mapping using a spring network where each edge of the graph is assumed as a spring. The rest length is
+  the dead-reckoned trajectory.The interesting point is that they use the RSSI trend instead of absolute values, making
+  it robust to signal fluctuations and device diversity. Also one AP can may determine multiple WiFi-Marks.
+
+ 
+## 3. Hand-held object recognition
 
  * From Fig. 12 with the 4 categories, think why some perform good or bad.
 
@@ -21,12 +54,12 @@
  
  * Be ready to explain Table 5, std calculation and voting mechanism.
 
- * Revise Fisher Vector: good resource in [VLCEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
+ * Revise Fisher Vector: good resource in [VLFEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
 
-### 4. Appearance-based methods for visual localisation
+## 4. Appearance-based methods for visual localisation
  * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
  * Great SLAM overview [Link](http://www.computervisionblog.com/2016/01/why-slam-matters-future-of-real-time.html)
-### 5. Modelling hippocampal place cells for visual localisation
+## 5. Modelling hippocampal place cells for visual localisation
 
  * Study concept of CNNs and biological inspiration
  * Study connection of CNN formulation for SF-GABOR with weight sharing -> TensorFlow?
@@ -35,10 +68,10 @@
 
 ## From College's preparation videos:
 
-[] Prepare and possibly bring 10-12 key papers
-[] Prepare extra figures and bring them so you can further explain some topics. (Presentation images?)
-[] Be aware of the papers that have been published recently between the submission and the viva.
-[] Short 10-20 presentation can help prepare.
+- [ ] Prepare and possibly bring 10-12 key papers
+- [ ] Prepare extra figures and bring them so you can further explain some topics. (Presentation images?)
+- [ ] Be aware of the papers that have been published recently between the submission and the viva.
+- [ ] Short 10-20 presentation can help prepare.
 
 ## References
 
