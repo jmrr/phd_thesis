@@ -1,6 +1,5 @@
 #Jose Rivera-Rubio PhD Thesis
 
-### Building instructions
 
 Requires `GNU make`:
 
@@ -21,7 +20,7 @@ make my-papers # To process multibib reference lists (see below)
 - [x] Homogeneize table captions, top or bottom
 - [x] Change 'we' for I
 - [x] Chage Fig. for Figure 
-- [x] Capitalisation of sections
+- [ ] Capitalisation of sections
 - [/] Palatino for images
 - [x] Chapter by chapter spell check
 
