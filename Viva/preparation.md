@@ -48,6 +48,14 @@ only computed when camera motion > th.
  
 ## 3. Hand-held object recognition
 
+ * From Introduction:
+   > *The same images can be used for training and query, therefore training data may contain unsystematic views of an
+   >  object. Training a classifier with this data may introduce bias and can lead to ``solving'' the dataset, i.e. over
+   > fitting the categorisation model to the particularities of the training set.*
+
+    If training and query sets are of totally different quality, classifiers have it very difficult to overfit, so they
+    will have to learn the particularities of the products in isolation.
+
  * From Fig. 12 with the 4 categories, think why some perform good or bad.
 
  * Definition of PR curve.
