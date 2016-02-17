@@ -56,6 +56,10 @@ only computed when camera motion > th.
     If training and query sets are of totally different quality, classifiers have it very difficult to overfit, so they
     will have to learn the particularities of the products in isolation.
 
+ * Section 3.3.4: Why a "scaled" average?
+   Essentially, it's a way of normalising across the database so matching scores $\mu^{(n)}$ are weighted positively if the
+   pair of images being matched have many pairwise descriptor comparisons that pass the criterion $f_u$.
+
  * From Fig. 12 with the 4 categories, think why some perform good or bad.
 
  * Definition of PR curve, mAP (from Ioannis' comments)
