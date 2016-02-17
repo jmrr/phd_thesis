@@ -58,7 +58,7 @@ only computed when camera motion > th.
 
  * From Fig. 12 with the 4 categories, think why some perform good or bad.
 
- * Definition of PR curve.
+ * Definition of PR curve, mAP (from Ioannis' comments)
  
  * Be ready to explain Table 5, std calculation and voting mechanism.
 
