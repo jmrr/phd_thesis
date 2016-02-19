@@ -60,6 +60,13 @@ only computed when camera motion > th.
    Essentially, it's a way of normalising across the database so matching scores $\mu^{(n)}$ are weighted positively if the
    pair of images being matched have many pairwise descriptor comparisons that pass the criterion $f_u$.
 
+ * Explain LLC and SPM
+   - [x] LLC: Locality Constrained Linear Coding (LLC) is a 3-step method to encode an image:
+        1. k(=5)-NN between the descriptors of an image and the visual words in a BOW dictionary
+        2. Calculate coefficients **w** solving $(C+\lambdaI_5)\mathbf{w}$ = 1_{5x1} for each descriptor in the image
+        3. The image gets encoded by doing max pooling of the coefficients. In the endan image is represented by 1xN
+        (N = dictionary size) vector of max pooled LLC coefficients of all the descriptor in the image.
+
  * From Fig. 12 with the 4 categories, think why some perform good or bad.
 
  * Definition of PR curve, mAP (from Ioannis' comments)
