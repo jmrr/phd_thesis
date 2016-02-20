@@ -11,8 +11,10 @@
 ## 2. Mobile visual assistive apps: a description of the problem and motivation
 
  * Figure 4: There's some imperfect distribution of the 'within' 50 cm of the query.
- * What if Fig. 4 only shows within corridor results? Then the case should be that query and db from different corridors should be a much lower number.
- * What is $L_{\infinity}$ -type normalization?
+ * What if Fig. 4 only shows within corridor results? Then the case should be that query and db from different corridors
+ should be a much lower number.
+ * What is $L_{\infinity}$ -type normalisation? This is a special case of L_p normalisations where the max() of the vector
+ to be normalised is taken.
  
 #### Similar approaches
 
@@ -30,7 +32,7 @@ only computed when camera motion > th.
  These signatures can be envisioned as internal landmarks of a building, which can be used to recalibrate mobile phone's
  positions whilst dead-reckoning can be used to track distance (with accelerometers' step count) travelled. **War-drive**
  is not needed, nor are floorplans. Given the crowdsourcing of these journeys, dead-reckoning is recalibrated over time.
-    - Acceleromenter, gyroscope, compass for dead-reckoning.
+    - Accelerometer, gyroscope, compass for dead-reckoning.
     - Combinations of these to detect special landmarks, i.e. elevators, stairs.
     - Organic Landmarks (OLMs): clustered landmarks.
     - Distinctive WiFi areas to provide landmarks:
@@ -60,20 +62,42 @@ only computed when camera motion > th.
    Essentially, it's a way of normalising across the database so matching scores $\mu^{(n)}$ are weighted positively if the
    pair of images being matched have many pairwise descriptor comparisons that pass the criterion $f_u$.
 
- * Explain LLC and SPM
+ * Section 3.4.1. What do you mean by *[...] the descriptor matching method, despite not encoding geometric relationships
+ between keypoints [...]* Once we do descriptor to descriptor distance comparisons, the geometric information (location
+ of the descriptor) is lost, unlike with the spatial pyramid matching (SPM) approach.
+ * Explain LLC, FV and SPM
    - [x] LLC: Locality Constrained Linear Coding (LLC) is a 3-step method to encode an image:
         1. k(=5)-NN between the descriptors of an image and the visual words in a BOW dictionary
         2. Calculate coefficients **w** solving $(C+\lambdaI_5)\mathbf{w}$ = 1_{5x1} for each descriptor in the image
         3. The image gets encoded by doing max pooling of the coefficients. In the endan image is represented by 1xN
         (N = dictionary size) vector of max pooled LLC coefficients of all the descriptor in the image.
-
- * From Fig. 12 with the 4 categories, think why some perform good or bad.
+    - [ ] Fisher Vector:
+    - [x] Spatial binning: SPM:
+    A standard way of introducing weak geometry in a BOW representation. It introduces the concept of spatial histograms,
+    and can be extended to any encoding method. Spatial regions are obtained by dividing the image in 3 levels:
+        - 1x1
+        - 3x1 (a horizontal strip)
+        - 2x2 (four quadrants),
+    a total of 8 regions. Encoded histograms are obtained per region, then l_2 normalised and then stacked.
+ * From Fig. 12 with the 4 categories, think why some perform good or bad. The generation of the histograms or encoding
+ for each region can be obtained by sum pooling, in which case the encodings of the descriptors in a given region are
+ combined additively, or max pooling, in which case each bin in the encoding is assigned a value equal to the maximum
+ across descriptor encodings in that region.
 
  * Definition of PR curve, mAP (from Ioannis' comments)
  
  * Be ready to explain Table 5, std calculation and voting mechanism.
 
  * Revise Fisher Vector: good resource in [VLFEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html) and [^3]
+
+#### Similar approaches
+* Groceries dataset: Grozi-120
+* Generalistic datasets: Caltech-101,256, PASCAL VOC, ImageNet
+
+#### Key Publications
+
+* [Chatfield et al., 2011](http://www.robots.ox.ac.uk/~vedaldi/assets/pubs/chatfield11devil.pdf): *The devil is in the details*
+
 
 ## 4. Appearance-based methods for visual localisation
  * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
