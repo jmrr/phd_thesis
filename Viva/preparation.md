@@ -107,18 +107,41 @@ may determine multiple WiFi-Marks.
         3. The image gets encoded by doing max pooling of the coefficients.
          In the end an image is represented by 1xN (N = dictionary size)
          vector of max pooled LLC coefficients of all the descriptor in the
-         image.
-    - [ ] Fisher Vector: The FV is an image representation obtained by pooling
-    local image features. It is frequently used
+         image. From a set of descriptors extracted from an image, a
+         [Gaussian Mixture Model](http://www.vlfeat.org/api/gmm.html)
+         fitting the distribution of descriptors associates each descriptor
+         **x_i** into a mode *k* of the mixture with a strength given by the
+         posterior probability *q_ik*. For each mode we compute the mean and
+          covariance deviation vectors across the length dimension of the
+          descriptor. The FV of image I is the stacking of the mean and
+          covariance vectors for each of the K modes in the Gaussian
+          mixtures. These vectors can be seen as the difference between the
+          descriptors and the centres of the GMM, which can be seen as a
+          soft visual vocabulary.
+           If for example we have SIFT descriptors, with D = 128
+          and K = 256 Gaussian mixtures, the FV will have dimension
+          65536=128*2*256.
+    - [x] Fisher Vector: The FV is an image representation obtained by pooling
+    local image features. It is frequently used as a global image descripor
+    in visual classification.
+
+        **Good resource on FV**: [VLFEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html)
+     and [^3]
     - [x] Spatial binning: SPM: A standard way of introducing weak geometry in
     a BOW representation. It introduces the concept of spatial histograms, and
     can be extended to any encoding method. Spatial regions are obtained by
     dividing the image in 3 levels:
         - 1x1
-        - 3x1 (a horizontal strip)
-        - 2x2 (four quadrants), a total of 8 regions.
+        - 3x1 (a horizontal strip) or 2x2
+        - 2x2 (four quadrants), a total of 8 regions; or 4x4 for a total of 21.
     Encoded histograms are obtained per region, then l_2 normalised and then
     stacked.
+
+ * Why do you claim FV perform better?
+ One of the main arguments from the literature to support this claim is that
+  because FVs encode relative displacement between a descriptor and a
+  codeword they can add some extra information that is normally lost in the
+  quantisation process.
  * From Fig. 12 with the 4 categories, think why some perform good or
  bad. The generation of the histograms or encoding for each region can be
  obtained by sum pooling, in which case the encodings of the descriptors
@@ -128,8 +151,6 @@ may determine multiple WiFi-Marks.
 
 * Definition of PR curve, mAP (from Ioannis' comments)
 * Be ready to explain Table 5, std calculation and voting mechanism.
-* Revise Fisher Vector: good resource in [VLFEAT page](http://www.vlfeat
-.org/api/fisher-fundamentals.html) and [^3]
 
 #### Similar approaches
 * Groceries dataset: Grozi-120
