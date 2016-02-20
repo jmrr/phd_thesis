@@ -76,14 +76,20 @@ may determine multiple WiFi-Marks.
 
 ## 3. Hand-held object recognition
 
- * From Introduction:
+* Main purpose: a dataset with so much variability in standard results.
+And we are using these different algorithms to show this variability. So this
+test is not a benchmark but rather an analysis of the dataset so the research
+community can make use of different number of training images and do analysis
+etc.
+
+* From Introduction:
  > *The same images can be used for training and query,
  > therefore training data may contain unsystematic views of an object.
  > Training a classifier with this data may introduce bias and can lead to
  > ``solving'' the dataset, i.e. over fitting the categorisation model to the
  > particularities of the training set.*
 
-    If training and query sets are of totally different quality, classifiers
+ If training and query sets are of totally different quality, classifiers
     have it very difficult to overfit, so they will have to learn the
     particularities of the products in isolation.
 
@@ -137,20 +143,82 @@ may determine multiple WiFi-Marks.
     Encoded histograms are obtained per region, then l_2 normalised and then
     stacked.
 
- * Why do you claim FV perform better?
+* Definition of PR curve, mAP and classification rates:
+    1. Average Precision is obtained by using all the training examples in linear
+kernel and an SVM for each product (one vs all). The testing is done by
+computing the linear kernel between the training samples and the testing
+queries. The resulted probability estimates from the SVM are ranked and the
+precision recall curves are obtained in which the average precision per product
+is computed.
+
+    2. Classification rates. These rates are acquired by using 30 positive and 30
+negative examples randomly picked from the training set to train the SVM and 30
+positive and 30 negative queries to perform the testing. This method is
+repeated 20 times to obtains the mean and stds. (only the mean is reported)
+
+    The  average precision indicates the ranking position of a TP query. For
+instance if the classifier assigns a correct product label what is the ranked
+position of the labelled product. In this case whatever is below 3% is worse
+than random. The classification rates indicated the ability of the classifier
+to correct label predictions without the ranking, so it’s pure classification
+no retrieval involved as in AvPrecision. In this case anything below 50% is
+worse than random.
+
+    *Final note*: Another way popular to machine learning is multiclass
+    accuracy ( deep learning is using it). Find the labels in the test set
+    using your classifier regardless the size of the kernel. For each image
+    assign the high prop label. Finally you do Estimated_Labels==True_labels;
+    you sum and divide by the number of images you tested.
+
+    Now if many classes co-exist in the same image is better to use per class mAP
+where the average mAP (overall) will be a better measure for this tasks.
+
+* Why PR curves? We use PR curves as we are using multiple binary classifiers,
+SVMs trained for each class, to determine if each query belongs to a certain
+class or not. In this context of binary classification, the focus is on
+positives and precision and recall are obtained by varying a certain threshold
+or given rank. We take queries from one class at a time, predict their score
+for each of the SVMs trained for each class and assign the class of that SVM
+with highest score. Also a good summary of the PR curve is the average
+precision, which can be computed as the area under the curve or as the mean
+precision at a set of N equally spaced recall levels. This AP measurement
+highlights differences between methods to a greater extent.
+
+* From Fig. 12: why _Descr-Matching_ performs much better? Let's recall that
+we're using Lowe's uniqueness criterion where query descriptors whose scores
+against the db ones do not pass the uniqueness threshold are not counted for
+the average score, therefore yielding a poor match score for the general image.
+Let's say that Lowe's score enforces high precision at a low recall expense at
+the descriptor level.
+_Another definition for Lowe's uniqueness criterion_:unless there's a distinct
+match (i.e. the nearest neighbour and second nearest neighbour are far), reject
+the query.
+
+* Why do you claim FV perform better?
  One of the main arguments from the literature to support this claim is that
   because FVs encode relative displacement between a descriptor and a
   codeword they can add some extra information that is normally lost in the
   quantisation process.
- * From Fig. 12 with the 4 categories, think why some perform good or
+
+* Why FV-S3 has lower mAP than FV-S8? I believe the differences are so small
+ (2%) that they can reveal a saturation in the performance at this sampling
+ density levels.
+
+* From Fig. 13 with the 4 categories, think why some perform good or
  bad. The generation of the histograms or encoding for each region can be
  obtained by sum pooling, in which case the encodings of the descriptors
  in a given region are combined additively, or max pooling, in which case
  each bin in the encoding is assigned a value equal to the maximum across
-    descriptor encodings in that region.
+ descriptor encodings in that region.
 
-* Definition of PR curve, mAP (from Ioannis' comments)
-* Be ready to explain Table 5, std calculation and voting mechanism.
+
+* Explain Table 5, std calculation and voting mechanism. For each video
+frame in a query video, a classification result, or a vote, is provided. The
+final class for the video is assigned according to the majority of votes.
+The std captures the variability of the classification accuracy across
+videos of the same object when this is computed as the ratio between the
+correctly and incorrectly classified frames in each video of the same
+category.
 
 #### Similar approaches
 * Groceries dataset: Grozi-120
