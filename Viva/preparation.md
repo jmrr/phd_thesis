@@ -24,7 +24,7 @@ query.
 * What if Fig. 4 only shows within corridor results? Then the case
 should be that query and db from different corridors should be a much lower
 number.
-* What is $L_{\infinity}$ -type normalisation? This is a special case
+* What is $L_{\infty}$ -type normalisation? This is a special case
 of L_p normalisations where the max() of the vector  to be normalised is
 taken.
 
@@ -83,11 +83,12 @@ community can make use of different number of training images and do analysis
 etc.
 
 * From Introduction:
- > *The same images can be used for training and query,
+
+ > The same images can be used for training and query,
  > therefore training data may contain unsystematic views of an object.
  > Training a classifier with this data may introduce bias and can lead to
- > ``solving'' the dataset, i.e. over fitting the categorisation model to the
- > particularities of the training set.*
+ > _solving_ the dataset, i.e. over fitting the categorisation model to the
+ > particularities of the training set.
 
  If training and query sets are of totally different quality, classifiers
     have it very difficult to overfit, so they will have to learn the
@@ -103,12 +104,13 @@ etc.
  we do descriptor to descriptor distance comparisons, the geometric
  information (location of the descriptor) is lost, unlike with the spatial
  pyramid matching (SPM) approach.
+
  * Explain LLC, FV and SPM
     - [x] LLC: Locality Constrained Linear Coding (LLC) is a 3-step method to
     encode an image:
         1.  k(=5)-NN between the descriptors of an image and the visual words
         in a BOW dictionary
-        2. Calculate coefficients **w** solving $(C+\lambdaI_5)\mathbf{w}$ =
+        2. Calculate coefficients **w** solving $(C+\lambda I_5)\mathbf{w}$ =
         1_{5x1} for each descriptor in the image
         3. The image gets encoded by doing max pooling of the coefficients.
          In the end an image is represented by 1xN (N = dictionary size)
@@ -137,6 +139,7 @@ etc.
     a BOW representation. It introduces the concept of spatial histograms, and
     can be extended to any encoding method. Spatial regions are obtained by
     dividing the image in 3 levels:
+
         - 1x1
         - 3x1 (a horizontal strip) or 2x2
         - 2x2 (four quadrants), a total of 8 regions; or 4x4 for a total of 21.
