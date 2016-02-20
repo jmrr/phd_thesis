@@ -32,9 +32,9 @@ FAB-MAP \citep{cumminsFabMap2010} and its popular open-source implementation, Op
 
 The closest approach to the one described in the present work is perhaps that of \citet{schroth2011mobile}. Schroth and colleagues made use of a purely appearance-based method to provide localisation from image sequences acquired with mobile devices.  However, their experiments are closer to those of the object categorisation community, where tests are performed in a batch fashion and performance is reported as precision-recall or receiver  operating characteristic (ROC) curves. Our view, however, is that localisation error distributions are also a good illustrative metric of performance.  In addition, their use of a $360^{\circ}$ camera to produce a database for training somewhat constrains the effectiveness of the system to the quality and richness of this database, almost ensuring poor results when certain conditions are not captured in the database, as demonstrated by \citet{milford2012seqslam}. Crowdsourced training instances, discussed in Section~\ref{subsec:visual_paths}, provide information that can largely solve the issue \citep{RiveraWearable}. 
 
-The performance of previously reported methods that use a retrieval-type approach, albeit of the order of tens of cm, cannot be taken as representative for the evaluation of the methods presented in this chapter, where I will propose a new performance metric based on localisation error probabilities. 
+The performance of previously reported methods that use a retrieval-type approach, albeit from the order of tens of cm (in the case of ~\cite{Matsumoto1996, Ohno1996} in routes of few metres in length) to few m \cite{schroth2011mobile,milford2012seqslam}, cannot be taken as representative for the evaluation of the methods presented in this chapter, where I will propose a new performance metric based on localisation error probabilities. 
 
-Deliberately, the use of a tracking method such as Kalman filtering is excluded from this work, since it can often hide poor performance of the visual processing. 
+Finally, the use of a tracking method such as Kalman filtering is deliberately excluded from this work, since it can often hide poor performance of the visual processing. 
 
 \subsection{Crowdsourcing visual paths}
 \label{subsec:visual_paths}
