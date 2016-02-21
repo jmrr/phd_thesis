@@ -238,6 +238,37 @@ category.
 * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
 * Great SLAM overview [Link](http://www.computervisionblog.com/2016/01/why-slam-matters-future-of-real-time.html)
 
+### Methods
+
+* **LW_COLOR**: Spatio-temporal chromatic Jacobian pooled over 16 regions to
+ form a 144-dimensional frame level descriptor.
+
+    * What are "lobe outputs" in Fig. 22? They mean the pooled outputs of
+    the spatio-temporal chromatic Jacobian computed at every pixel.
+
+#### Complex descriptors:
+1. DAISY: THe DAISY descriptor is an algorithm that converts local image
+regions into low dimensional invariant descriptors which can be used for
+matching and classification. It can be applied densely or applied to patches
+extracted around interest points.
+
+    a. **Steerable filters** are a type of architecture to synthesise
+    filters of arbitrary orientations from linear combinations of basis
+    filters, allowing one to adaptively "steer" a filter to any orientation,
+    and to determine analytically the filter output as a function of
+    orientation. Oriented filters are useful in many early vision and image
+    processing tasks such as texture analysis, edge detection, motion
+    analysis, etc. Steerable filters enable calculating the filter
+    response at various orientations. Source: [Freeman and Adelson, 1991:](http://people.csail.mit.edu/billf/publications/Design_and_Use_of_Steerable_Filters.pdf)
+    _The design and Use of Steerable Filters_.
+
+### Similar approaches
+
+#### Key publications
+
+[Mikolajczyk and Schmid, 2005](https://www.robots.ox.ac.uk/~vgg/research/affine/det_eval_files/mikolajczyk_pami2004.pdf)
+_A performance evaluation of local descriptors_
+
 ## 5. Modelling hippocampal place cells for visual localisation
 
 * Study concept of CNNs and biological inspiration
