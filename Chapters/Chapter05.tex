@@ -203,7 +203,7 @@ where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the t
 
 More generally, when the directional operators are not necessarily partial derivatives, the discrete spatial orientation tensor at scale $\sigma$ may be introduced as:
 \begin{equation}
-\tens{G(\sigma)}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+\tens{G}_{\sigma}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
 \label{eq:IntroG}
 \end{equation}
 
@@ -214,12 +214,12 @@ The operator $\mathcal{O}_k$ is some form of discrete, directional spatial opera
 
 Using grey-scale image sequences represented as an order 3 tensor, $\tens{F}$, an order 4 tensor $\tens{G}$ is constructed using the first-level of a convolutional network by:
 \begin{equation}
-\tens{G}(\sigma,\lambda) \triangleq R_+ \left ( \tens{F} \, 
+\tens{G}_{\sigma,\lambda} \triangleq R_+ \left ( \tens{F} \, 
    \underset{\lbrace (\cdot,3)\rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{K}_{G}} \right )
 \end{equation}
-where $[ \ast ]$ represents \textit{tensor convolution} in the modes $i_1$ and $i_2$ (see Definition~\ref{def:convop}. Image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are generally orientation selective in the image plane, organised one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments reported in this thesis, I took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.
+where $[ \ast ]$ represents \textit{tensor convolution} in the modes $i_1$ and $i_2$ (see Definition~\ref{def:convop}), and $\lambda$ is a tunable spatial wavelength parameter. The image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are generally orientation selective in the image plane, organised one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$. For the experiments reported in this thesis, I took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.
 
-The function $R_+(\cdot)$ is the ramp function applied element-wise to its tensor-valued argument. For an order $0$ tensor, $x$, (scalar) the ramp function is defined by
+The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. For an order $0$ tensor, $x$, (scalar) the ramp function is defined by
 \begin{equation}
 R_+(x) = \frac{x + |x|}{2}
 \end{equation}
@@ -237,10 +237,10 @@ i.e. it is a non-linear activation function; for a tensor with elements $a_{i_1,
 \end{center}
 \end{figure}
 
-The second level of the convolutional network groups the orientation-selective outputs of the first level of convolution over different regions of a local image patch. It is obtained by applying a \textit{permuted tensor convolution} between $\tens{G}(\sigma,\lambda)$ and a \textit{pooling tensor} $\tens{P}$:  
+The second level of the convolutional network groups the orientation-selective outputs of the first level of convolution over different regions of a local image patch. It is obtained by applying a \textit{permuted tensor convolution} between $\tens{G}_{\sigma,\lambda}$ and a \textit{pooling tensor} $\tens{P}$:  
 
 \begin{equation}
-\tens{D} \triangleq \tens{G}(\sigma,\lambda) \, 
+\tens{D} \triangleq \tens{G}_{\sigma,\lambda} \, 
    \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
 \end{equation}
 
