@@ -131,7 +131,8 @@ etc.
           65536=128*2*256.
     - [x] Fisher Vector: The FV is an image representation obtained by pooling
     local image features. It is frequently used as a global image descripor
-    in visual classification.
+    in visual classification. In comparison with the BOF representation, fewer
+    visual words are required by this more sophisticated representation.
 
         **Good resource on FV**: [VLFEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html)
      and [^3]
@@ -262,12 +263,34 @@ extracted around interest points.
     response at various orientations. Source: [Freeman and Adelson, 1991:](http://people.csail.mit.edu/billf/publications/Design_and_Use_of_Steerable_Filters.pdf)
     _The design and Use of Steerable Filters_.
 
+#### Histogram encodings
+VLAD from [Jegou et al. (2010)](https://lear.inrialpes.fr/pubs/2010/JDSP10/jegou_compactimagerepresentation.pdf)
+_Aggregating local descriptors into a compact image representation_
+and
+[Arandjelovic and Zisserman (2013)](https://courses.cs.washington.edu/courses/cse590v/13au/arandjelovic13.pdf)
+_All about VLAD_: Retrieval oriented encoding where storage requirements are
+required and no info of high dimensional descriptors (e.g. SIFT) can be
+accessed at run time. Keypoints detected with an affine invariant detector,
+SIFT descriptors extracted on kp locations. Vocabulary of _k_ words is
+constructed. _k_ is selected to be coarse (8,64). For each cluster _k_, the
+residuals (vecotr diff between descr and cluster centres) are accumulated
+and the _k_ 128-D are concatenated into a single _k_x128 dimensional
+descriptor. This is the _unnormalized VLAD_. Note that VLAD is similar to
+other descriptors that record residuals such as Fisher vectors and
+super-vector encoding. We use the original VLAD normalisation, where the
+descriptor is $L_2$ normalised. Another normalisation is the signed square
+rooting (SSR) normalisation 1) transform each element of the unnormalised
+vector $\sign(x_i)\sqrt(|x_i|)$ to then $L_2$ normalise this.
+
+
 ### Similar approaches
 
 #### Key publications
 
 [Mikolajczyk and Schmid, 2005](https://www.robots.ox.ac.uk/~vgg/research/affine/det_eval_files/mikolajczyk_pami2004.pdf)
 _A performance evaluation of local descriptors_
+
+
 
 ## 5. Modelling hippocampal place cells for visual localisation
 
