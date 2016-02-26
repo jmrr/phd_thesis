@@ -409,7 +409,8 @@ extracted around interest points.
     _The design and Use of Steerable Filters_.
 
 #### Histogram encodings
-VLAD from [Jegou et al. (2010)](https://lear.inrialpes.fr/pubs/2010/JDSP10/jegou_compactimagerepresentation.pdf)
+* Hard assignment (HA)
+* VLAD from [Jegou et al. (2010)](https://lear.inrialpes.fr/pubs/2010/JDSP10/jegou_compactimagerepresentation.pdf)
 _Aggregating local descriptors into a compact image representation_
 and
 [Arandjelovic and Zisserman (2013)](https://courses.cs.washington.edu/courses/cse590v/13au/arandjelovic13.pdf)
