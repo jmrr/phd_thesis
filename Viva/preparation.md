@@ -118,17 +118,15 @@ etc.
          image. From a set of descriptors extracted from an image, a
          [Gaussian Mixture Model](http://www.vlfeat.org/api/gmm.html)
          fitting the distribution of descriptors associates each descriptor
-         **x_i** into a mode *k* of the mixture with a strength given by the
-         posterior probability *q_ik*. For each mode we compute the mean and
-          covariance deviation vectors across the length dimension of the
-          descriptor. The FV of image I is the stacking of the mean and
-          covariance vectors for each of the K modes in the Gaussian
-          mixtures. These vectors can be seen as the difference between the
-          descriptors and the centres of the GMM, which can be seen as a
-          soft visual vocabulary.
-           If for example we have SIFT descriptors, with D = 128
-          and K = 256 Gaussian mixtures, the FV will have dimension
-          65536=128*2*256.
+         $\vec{x_i}$ into a mode *k* of the mixture with a strength given by the
+   posterior probability $\vec{q_{ik}}$. For each mode we compute the mean and
+   covariance deviation vectors across the length dimension of the descriptor.
+   The FV of image I is the stacking of the mean and covariance vectors for
+   each of the K modes in the Gaussian mixtures. These vectors can be seen as
+   the difference between the descriptors and the centres of the GMM, which can
+   be seen as a soft visual vocabulary. If for example we have SIFT
+   descriptors, with _D_ = 128 and _K_ = 256 Gaussian mixtures, the FV will
+   have dimension 65536=128*2*256.
     - [x] Fisher Vector: The FV is an image representation obtained by pooling
     local image features. It is frequently used as a global image descripor
     in visual classification. In comparison with the BOF representation, fewer
@@ -242,10 +240,157 @@ category.
 ### Methods
 
 * **LW_COLOR**: Spatio-temporal chromatic Jacobian pooled over 16 regions to
- form a 144-dimensional frame level descriptor.
+ form a 144-dimensional frame level descriptor. *Description*: Derivative
+filters are computed along the x,y and t dimensions on each of the 3 RGB
+channels. Temporal smoothing with a support of 11 neighbouring frames is
+applied. Finally, the components of the 3x3 matrix at each of the pixels
+locations are averaged (pooled) over 16 spatial regions. The descriptor is thus
+144-dimensional (3x3x16).
 
-    * What are "lobe outputs" in Fig. 22? They mean the pooled outputs of
+  * What are "lobe outputs" in Fig. 22? They mean the pooled outputs of
     the spatio-temporal chromatic Jacobian computed at every pixel.
+
+* **KP-SIFT**: VLFEAT implementation, _PeakThresh_, used to filter out
+small local maxima (keypoints) in scale-space that might be originated by
+noise. $t_p = 0$ as the frames are small (208x117).
+[VLFEAT link](http://www.vlfeat.org/api/sift.html)
+
+* **DSIFT**: VLFEAT implementation. $\sigma$ = 1.2, was the chosen scale,
+and the stride length (_step_) was set to 3px.
+$smoothingSigma = (binSize/magnif)^2 - .25$ where _magnif_ is the relationship
+between keypoint scale and bin size. By default, _magnif = 3.0_, and
+*binSize*= 3 pixels. [VLFEAT link](http://www.vlfeat.org/overview/dsift.html)
+
+* **SF-GABOR**:
+  * Motivation: Gabor filters provide an implicit encoding of the
+orientation of local image structures. They're also particularly
+appropriate for texture representation and discrimination. Corridors in
+indoor spaces are extremely ambiguous thus we need to maximise texture
+and structure discrimination. Finally, and linking this descriptors with
+the work of Chapter 5, The filters are convolved with the signal,
+resulting in a so-called Gabor space. This process is closely related to
+processes in the primary visual cortex.[Jones and Palmer](http://www.neuro-it.net/pdf_dateien/summer_2004/Jones%201987.pdf)
+showed that the real part of the complex Gabor function is a good fit to the
+receptive field weight functions found in simple cells in a cat's striate cortex.
+
+  * Computation:
+
+   1. Compute 8-directional anti-symmetric spatial Gabor filters:
+
+        $$g(x,y;\lambda,\theta,\psi,\sigma,\gamma) =
+        \exp(-\frac{x'^2 + \gamma^2y'^2}{2\sigma^2})\exp
+        (i2\pi\frac{x'}{\lambda} + \psi)$$
+
+        where:
+
+        $$
+        x' = x \cos\theta + y \sin\theta\,
+        $$
+
+        and
+
+        $$
+        y' = -x \sin\theta + y \cos\theta
+        $$
+
+    Parameters are:
+
+    * $\sigma$  = standard deviation (width) of the Gaussian envelope,
+        this in-turn controls the size of the result (pixels). Size of the
+        output Gabor filter will be $(4\sigma+1)\times(4\sigma+1)$. In
+        our case we chose $\sigma = 2$, therefore the extent of the
+        filters is $9 \times 9$ pixels.
+    * Orientation, or $\theta$ = orientation of the Gabor from the
+    vertical (degrees): the direction of the carrier since $x_theta$
+    and $y_theta$ are rotated by theta. $\theta \pm = {0, 45, 90, 135}$
+
+    * $\lambda = 4$: the wavelength of the carrier (pixels).
+    * Phase $\psi = 0$: the phase offset of the carrier(degrees)
+    * Aspect, or $\gamma = 1$: aspect ratio of Gaussian envelope (0 = no
+    modulation over sin wave, 1 = circular symmetric envelope).
+    Aspect can also be seen as the amount the kernel is "stretched" either
+    along or across the kernel wave pattern, or ellipticity of the support.
+
+   2. Filter the greyscale version of the frames with the Gabor kernels:
+
+       $$G_{k,\sigma} = I(x,y) \ast g(x,y;\lambda,\theta,\psi,\sigma,
+       \gamma)$$
+
+   3. Spatial pooling: $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$,
+    where the pooling patterns $\Phi_{m,n}$ are defined by
+
+        $$\Phi(x,y;m,n) = e^{-\alpha \left
+    [\log_e \left ( \frac{x^2+y^2}{d_n^2}\right )
+    \right ]^2 - \beta |\theta-\theta_m | } $$
+
+    $\alpha = 4$, $\beta = 0.4$l $m$ and $n$ were chosen to produce 8
+    angular regions ($m$ = 0, 1, ...7) at each of 2 distances away $d1$ and
+    $d2$ plus the central region without angular variation. **Total of
+    pooling regions = 17**, **size of pooling maps**: 11 $\times$ 11.
+
+   4. Each of the pooling patterns is applied (by a filtering process) to each
+    of the 8 gradient layers, yielding a 17 $\times$ 8 = 136-dimensional
+    descriptor.
+
+   *Dim*: 136
+
+* HOG3D, from [Kläser et al. (2008)](https://lear.inrialpes.fr/pubs/2008/KMS08/KlaserMarszalekSchmid-BMVC08-3DGradientDescriptor.pdf)
+ Originally used for action recognition. The binning in 3D is done using
+ convex regular polyhedrons. Gradient computation using integral videos
+ (efficient gradient computation for arbitrary scales). Steps:
+    1. Full descriptor: descriptor for a local support region around 3D
+    position in the video. The support region is divided into a set of MxMxM
+    cells. For each cell, an orientation histogram is computed. All cell
+    histograms are concatenated. Final vector is normalised and values are
+    limited to a cut-off value.
+
+    2. Histogram of gradient orientations: this histogram is computed overs
+    a set of gradients. Therefore, a given cell is divided in SxSxS
+    subblocks. For each subblock, its mean gradient is computed an quantised
+    . Sum over all quantised gradients in subblocks give the histogram.
+
+    3. Orientation quantisation. 3D gradients are quantised using a
+    polyhedron. The center point of each face corresponds to a histogram bin
+    . Efficient quantisation via projection of gradient vector on bin axes.
+    We use dodecahedron or icosahedron.
+
+    4. Gradient computation: Gradients need to be computed at different
+    temporal and spatial scales. Other works use a fixed set of precomputed
+    spatio-temporal scales. We propose integral videos. Mean gradients can
+    be computed for any spatio-temporal scale.
+
+    *Dim*: 192
+
+* ST-GABOR (used in activity recognition, structure from motion ...)
+    1. 1-D conv between $I(x,y,t)$ and 3 1-D antisymmetric Gabors: $g_x, g_y$
+    (1$\times$5 px filters), $g_t$ (1$\times$9 pixels filter).
+
+    2. Each pixel has associated triplet of values.
+
+    3. Spatio-temporal (3D) binning. 13 bins composed of:
+
+        - 8 spatial orientations
+        - 5 elevations
+
+    3. Pooling: same 17 regions as SF-GABOR, $\times$ 13 bins: 221 dimensional
+    descriptor
+
+    *Dim*: 221
+
+* ST-GAUSS:Spatial derivatives in space, with smoothing over time.
+    1. 2-D filtering in space: 2 5$\times$5 gradient masks based on
+    derivatives of the Gaussian function, 1-D filtering in the temporal
+    direction (11-point Gaussian smoothing filter ($\sigma =2$).
+
+    2. Quantisation: 8-directional bins applied to the angles of the
+    gradient field. A voting process incorporating magnitude was used to
+    distribute the votes across the bins of a 136-dim descriptor (same
+    weighting used for ST-GABOR).
+
+    3. Pooling using the same petal shaped pattern.
+
+    *Dim*: 136
+
 
 #### Complex descriptors:
 1. DAISY: THe DAISY descriptor is an algorithm that converts local image
@@ -280,7 +425,7 @@ other descriptors that record residuals such as Fisher vectors and
 super-vector encoding. We use the original VLAD normalisation, where the
 descriptor is $L_2$ normalised. Another normalisation is the signed square
 rooting (SSR) normalisation 1) transform each element of the unnormalised
-vector $\sign(x_i)\sqrt(|x_i|)$ to then $L_2$ normalise this.
+vector sgn$(x_i)\sqrt(|x_i|)$ to then $L_2$ normalise this.
 
 
 ### Similar approaches
