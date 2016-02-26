@@ -173,7 +173,7 @@ The Dense-SIFT (DSIFT) descriptor \citep{Lazebnik2006} is a popular  alternative
 \subsubsection{Single-frame Gabor descriptors (SF-GABOR)}
 \label{sec:sf-gabor}
 
-An alternative single-frame technique based on a tuned, odd-symmetric Gabor-based descriptor is the SF-GABOR. For this, I used $8$-directional spatial Gabor filters previously tuned on PASCAL VOC data \cite{Everingham2009} in order to provide an implicit encoding of the orientation of local image structures.  Each filter gives rise to a filtered image plane, denoted $\mathbf{G}_{k,\sigma}$.  For each plane, I compute the discrete spatial convolution, $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$, with a series of pooling functions, ${\Phi}_{m,n}$. The latter are produced by spatial sampling of the function:
+An alternative single-frame technique based on a tuned, odd-symmetric Gabor-based descriptor is the SF-GABOR. For this, I used 8-directional spatial Gabor filters previously tuned on PASCAL VOC data \cite{Everingham2009} in order to provide an implicit encoding of the orientation of local image structures.  Each filter gives rise to a filtered image plane, denoted $\mathbf{G}_{k,\sigma}$.  For each plane, I compute the discrete spatial convolution, $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$, with a series of pooling functions, ${\Phi}_{m,n}$. The latter are produced by spatial sampling of the function:
 
 \begin{equation}
 \Phi(x,y;m,n) = e^{-\alpha \left [\log_e \left ( \frac{x^2+y^2}{d_n^2}\right ) \right ]^2 - \beta |\theta-\theta_m | }
