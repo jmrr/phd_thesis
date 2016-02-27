@@ -467,6 +467,53 @@ _A performance evaluation of local descriptors_
   * a stimulus with uniform intensity covering the entire RF will evoke no
   response.
 
+#### Visual input model based on CNNs:
+
+* Architecture: 2-layer feed-forward CNN to simulate the behaviour of a
+sheet of tissue in V1 containing 200,000 neurons.
+    * First layer: orientation selective, approximately linear simple cells.
+    However, rather than learning the weights, neurons were constrained to be
+    orientation selective and with spatially antisymmetric weights about the
+    axis of orientation selectivity (because we're using the imaginary part
+    of Gabor filters.).
+    * Second layer:Population code for joint position/orientation encoding
+    based on the retinotopic (retinal mapping) arrangement of oriented cells
+    over a region of cortical tissue.
+##### Tensor population model
+**Motivation**: I want to model the visual input as a CNN, and CNNs benefit from a tensor
+representation, since it allows tensor decompositions to be applied and reduce
+the representation into smaller convolution operators, which in turn can help
+achieve computation speed-ups. This is a start to address a problem in
+convolutional networks, or cascades of convolutional layers, where there there
+are two ambiguities. These are
+
+ a) which direction does the convoluton run in? If I have a layer that
+produces 64x64 (spatial) and 64 (unit) dimensions, I can perform 2D convolution
+across the spatial dimension (natural) or perhaps can include - in some way - a
+convolution across the filter unit dimensions.  This is not as crazy as it
+sounds: AlexNet does not use convolution across feature space, but it takes a
+max() across groups of feature maps, like a non-linear 1-d convolution.
+
+ b) One problem is also that the wiring between layers of a conv network is not
+ usually fully appreciated.  For example, if the output of one convolutional
+ unit  in layer k,  (as a spatial field) will typically be convolved with
+ N filters in the next layer.
+ Indeed, the output of each unit of layer k gets convolved  with the N units
+ of the following layer.  This is sometimes not at all clear from diagrams
+ and explanation.
+
+Because of these 2 reasons, the lab is working on a description that is
+unambiguous, and is doing this in terms of multi-way arrays (tensor
+operations).  Whilst doing this, it emerged that there is no unambiguous
+definition for the tensor convolution - meaning convolution between multi-way
+arrays  - that aligns with what is actually done in NNs.   So, like many areas
+of science, we have a situation where -if you like - the experimental approach
+has run ahead of the theoretical tools.
+
+We cannot tell if the theoretical tools will not lead to further advances, but
+it is difficult to tell without taking steps to formalise the operators used in
+the networks.
+
 
 * What element do you use of the Gabor filters: magnitude, phase, real,
 imaginary parts?
@@ -506,7 +553,8 @@ suitable for use with a linear classifier (e.g. SVM, where the decision is
 based on the value of a linear combination of the features)
 
 * [Krizhevksy and Hinton, 2012](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
-_ImageNet Classification with Deep Convolutional Neural Networks_
+_ImageNet Classification with Deep Convolutional Neural Networks_, aka
+**AlexNet**
 First outperforming state-of-the-art shallow methods in image classification.
 Pre-processing: cropping images around the center, and substracted mean activity
 over the training set of each pixel.
@@ -545,8 +593,9 @@ accelerates the early stages of learning by providing the ReLUs (rectified
 linear units or approximations of the sigmoid or $tanh(x)$) with positive
 inputs. We initialized the neuron biases in the remaining layers with the
 constant 0.
-
-
+**NOTE**: The third dimension for AlexNet notation is the depth of the
+activation volume. More info, essential resource from CNN course at Stanford
+[here](http://cs231n.github.io/convolutional-networks/).
 
 
 ## From College's preparation videos:
