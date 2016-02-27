@@ -262,6 +262,7 @@ between keypoint scale and bin size. By default, _magnif = 3.0_, and
 *binSize*= 3 pixels. [VLFEAT link](http://www.vlfeat.org/overview/dsift.html)
 
 * **SF-GABOR**:
+
   * Motivation: Gabor filters provide an implicit encoding of the
 orientation of local image structures. They're also particularly
 appropriate for texture representation and discrimination. Corridors in
@@ -275,58 +276,54 @@ receptive field weight functions found in simple cells in a cat's striate cortex
 
   * Computation:
 
-   1. Compute 8-directional anti-symmetric spatial Gabor filters:
+    1. Compute 8-directional anti-symmetric spatial Gabor filters:
 
-        $$g(x,y;\lambda,\theta,\psi,\sigma,\gamma) =
-        \exp(-\frac{x'^2 + \gamma^2y'^2}{2\sigma^2})\exp
-        (i2\pi\frac{x'}{\lambda} + \psi)$$
+    $$g(x,y;\lambda,\theta,\psi,\sigma,\gamma) =
+\exp(-\frac{x'^2 + \gamma^2y'^2}{2\sigma^2})
+\exp(i2\pi\frac{x'}{\lambda} + \psi) $$
 
-        where:
+    where:
 
-        $$
-        x' = x \cos\theta + y \sin\theta\,
-        $$
+    $$x' = x \cos\theta + y \sin\theta$$,
 
-        and
+    and
 
-        $$
-        y' = -x \sin\theta + y \cos\theta
-        $$
+    $$y' = -x \sin\theta + y \cos\theta$$
 
     Parameters are:
 
-    * $\sigma$  = standard deviation (width) of the Gaussian envelope,
+      * $\sigma$  = standard deviation (width) of the Gaussian envelope,
         this in-turn controls the size of the result (pixels). Size of the
         output Gabor filter will be $(4\sigma+1)\times(4\sigma+1)$. In
         our case we chose $\sigma = 2$, therefore the extent of the
         filters is $9 \times 9$ pixels.
-    * Orientation, or $\theta$ = orientation of the Gabor from the
+      * Orientation, or $\theta$ = orientation of the Gabor from the
     vertical (degrees): the direction of the carrier since $x_theta$
     and $y_theta$ are rotated by theta. $\theta \pm = {0, 45, 90, 135}$
 
-    * $\lambda = 4$: the wavelength of the carrier (pixels).
-    * Phase $\psi = 0$: the phase offset of the carrier(degrees)
-    * Aspect, or $\gamma = 1$: aspect ratio of Gaussian envelope (0 = no
+      * $\lambda = 4$: the wavelength of the carrier (pixels).
+      * Phase $\psi = 0$: the phase offset of the carrier(degrees)
+      * Aspect, or $\gamma = 1$: aspect ratio of Gaussian envelope (0 = no
     modulation over sin wave, 1 = circular symmetric envelope).
     Aspect can also be seen as the amount the kernel is "stretched" either
     along or across the kernel wave pattern, or ellipticity of the support.
 
    2. Filter the greyscale version of the frames with the Gabor kernels:
 
-       $$G_{k,\sigma} = I(x,y) \ast g(x,y;\lambda,\theta,\psi,\sigma,
+
+   $$G_{k,\sigma} = I(x,y) \ast g(x,y;\lambda,\theta,\psi,\sigma,
        \gamma)$$
 
    3. Spatial pooling: $\mathbf{G}_{k,\sigma} \ast {\Phi}_{m,n}$,
     where the pooling patterns $\Phi_{m,n}$ are defined by
 
-        $$\Phi(x,y;m,n) = e^{-\alpha \left
-    [\log_e \left ( \frac{x^2+y^2}{d_n^2}\right )
-    \right ]^2 - \beta |\theta-\theta_m | } $$
+   $$\Phi(x,y;m,n) = e^{-\alpha \left [\log_e \left
+ (\frac{x^2+y^2}{d_n^2}\right )\right ]^2 - \beta |\theta-\theta_m | }$$
 
-    $\alpha = 4$, $\beta = 0.4$l $m$ and $n$ were chosen to produce 8
-    angular regions ($m$ = 0, 1, ...7) at each of 2 distances away $d1$ and
-    $d2$ plus the central region without angular variation. **Total of
-    pooling regions = 17**, **size of pooling maps**: 11 $\times$ 11.
+   $\alpha = 4$, $\beta = 0.4$l $m$ and $n$ were chosen to produce 8
+   angular regions ($m$ = 0, 1, ...7) at each of 2 distances away $d1$ and
+   $d2$ plus the central region without angular variation. **Total of
+   pooling regions = 17**, **size of pooling maps**: 11 $\times$ 11.
 
    4. Each of the pooling patterns is applied (by a filtering process) to each
     of the 8 gradient layers, yielding a 17 $\times$ 8 = 136-dimensional
@@ -363,7 +360,7 @@ receptive field weight functions found in simple cells in a cat's striate cortex
 
 * ST-GABOR (used in activity recognition, structure from motion ...)
     1. 1-D conv between $I(x,y,t)$ and 3 1-D antisymmetric Gabors: $g_x, g_y$
-    (1$\times$5 px filters), $g_t$ (1$\times$9 pixels filter).
+    (1 $\times$ 5 px filters), $g_t$ (1 $\times$ 9 pixels filter).
 
     2. Each pixel has associated triplet of values.
 
@@ -378,7 +375,7 @@ receptive field weight functions found in simple cells in a cat's striate cortex
     *Dim*: 221
 
 * ST-GAUSS:Spatial derivatives in space, with smoothing over time.
-    1. 2-D filtering in space: 2 5$\times$5 gradient masks based on
+    1. 2-D filtering in space: 2 5 $\times$ 5 gradient masks based on
     derivatives of the Gaussian function, 1-D filtering in the temporal
     direction (11-point Gaussian smoothing filter ($\sigma =2$).
 
@@ -440,12 +437,116 @@ _A performance evaluation of local descriptors_
 
 ## 5. Modelling hippocampal place cells for visual localisation
 
-* Study concept of CNNs and biological inspiration
-* Study connection of CNN formulation for SF-GABOR with weight sharing
+- [ ] Study concept of CNNs and biological inspiration
+    - [x] Biological inspiration: simple and complex cells
+    - [ ] CNNs
+- [ ] Study connection of CNN formulation for SF-GABOR with weight sharing
    -> TensorFlow?
-* Study RBFs.
-* [Good video resource](https://www.youtube.com/watch?v=O8CfrnOPtLc), and
-* [short paper](http://hermes.etc.upt.ro/docs/cercetare/articole/NafornitaI2.pdf)
+- [ ] Study RBFs. [Good video resource](https://www.youtube.com/watch?v=O8CfrnOPtLc)
+, and [short paper](http://hermes.etc.upt.ro/docs/cercetare/articole/NafornitaI2.pdf)
+
+
+### Introduction
+
+#### Simple and complex cells
+[[source]](http://fourier.eng.hmc.edu/e180/lectures/v1/node7.html)
+
+
+* **Simple cells**, found mainly in V1 layers 4 and 6;
+  * have distinct excitatory and inhibitory regions within RF;
+  * linearity of spatial summation within both the excitatory and inhibitory
+   regions (i.e. larger area of stimulus -> larger response than stimulus
+   covering a smaller area in the region).
+  * Antagonism between excitatory and inhibitory regions.
+* **Complex cells**, found mainly in V1 L2,3,5:
+  * Have no clear division of excitatory and inhibitory regions inside their
+   RFs
+  * a bar with width about one third to one half of the width of the RF in
+  the optimal orientation of the cell will evoke maximal response,
+  independent of where it is placed inside the RF;
+  * a stimulus with uniform intensity covering the entire RF will evoke no
+  response.
+
+
+* What element do you use of the Gabor filters: magnitude, phase, real,
+imaginary parts?
+  - [ ] Answer:
+
+#### Similar approaches
+
+* RatSLAM
+* SeqSLAM (Mildford and Wyeth, 2012): place localisation based on sequences
+of image matches. Surprising performance on imagery taken during a changing
+weather conditions.
+
+##### Key publications
+
+[ Ji et al., (2010)](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6165309)
+or [conference paper](http://www.cs.odu.edu/~sji/papers/pdf/Ji_ICML10.pdf)
+_3D Convolutional Neural Networks for Human Action Recognition_
+They consider the automated recognition of human actions in surveillance
+videos. Most current methods build classifiers based on complex handcrafted
+features computed from the raw inputs. Convolutional neural networks (CNNs) are
+a type of deep model that can act directly on the raw inputs. However, such
+models are currently limited to handling 2D inputs. In this paper, we develop a
+novel 3D CNN model for action recognition. This model extracts features from
+both the spatial and the temporal dimensions by performing 3D convolutions,
+thereby capturing the motion information encoded in multiple adjacent frames.
+The developed model generates multiple channels of information from the input
+frames, and the final feature representation combines information from all
+channels.
+
+* [Chatfield et al. (2014)](http://arxiv.org/pdf/1405.3531.pdf)
+_Return of the Devil in the Details: Delving Deep into Convolutional Nets_
+CNNs: handcrafted structure; shallow approaches: handcrafted feature
+extractors. The paper assesses different deep architectures on a common
+ground. They focus on _image representations_, i.e. encoding functions
+$\phi$, mapping an image $I$ to a vector  $\phi(I) \in \mathbb{R}^d$
+suitable for use with a linear classifier (e.g. SVM, where the decision is
+based on the value of a linear combination of the features)
+
+* [Krizhevksy and Hinton, 2012](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
+_ImageNet Classification with Deep Convolutional Neural Networks_
+First outperforming state-of-the-art shallow methods in image classification.
+Pre-processing: cropping images around the center, and substracted mean activity
+over the training set of each pixel.
+Architecture: 8-learned layers: 5 conv and 3 fully connected. The output of the
+last fully-connected layer is fed to a 1000-way softmax which produces a
+distribution over the 1000 class labels. Their network maximizes the
+multinomial logistic regression objective, which is equivalent to maximizing
+the average across training cases of the log-probability of the correct label
+under the prediction distribution.
+The kernels of the second, fourth, and fifth convolutional layers are connected
+only to those kernel maps in the previous layer which reside on the same GPU
+(see Figure 2). The kernels of the third convolutional layer are connected to
+all kernel maps in the second layer. The neurons in the fullyconnected layers
+are connected to all neurons in the previous layer. Response-normalization
+layers follow the first and second convolutional layers. Max-pooling layers, of
+the kind described in Section 3.4, follow both response-normalization layers as
+well as the fifth convolutional layer. The ReLU non-linearity is applied to the
+output of every convolutional and fully-connected layer. The first
+convolutional layer filters the 224×224×3 input image with 96 kernels of size
+11×11×3 with a stride of 4 pixels (this is the distance between the receptive
+field centers of neighboring neurons in a kernel map). The second convolutional
+layer takes as input the (response-normalized and pooled) output of the first
+convolutional layer and filters it with 256 kernels of size 5 × 5 × 48. The
+third, fourth, and fifth convolutional layers are connected to one another
+without any intervening pooling or normalization layers. The third
+convolutional layer has 384 kernels of size 3 × 3 × 256 connected to the
+(normalized, pooled) outputs of the second convolutional layer. The fourth
+convolutional layer has 384 kernels of size 3 × 3 × 192 , and the fifth
+convolutional layer has 256 kernels of size 3 × 3 × 192. The fully-connected
+layers have 4096 neurons each.
+Learning: We initialized the weights in each layer from a zero-mean Gaussian
+distribution with standard deviation 0.01. We initialized the neuron biases in
+the second, fourth, and fifth convolutional layers, as well as in the
+fully-connected hidden layers, with the constant 1. This initialization
+accelerates the early stages of learning by providing the ReLUs (rectified
+linear units or approximations of the sigmoid or $tanh(x)$) with positive
+inputs. We initialized the neuron biases in the remaining layers with the
+constant 0.
+
+
 
 
 ## From College's preparation videos:
@@ -453,9 +554,11 @@ _A performance evaluation of local descriptors_
 - [ ] Prepare and possibly bring 10-12 key papers
 - [ ] Prepare extra figures and bring them so you can further explain some
 topics. (Presentation images?)
+  - [ ] Figure of pooling patterns
+  - [ ] Figure of simple cells vs complex cells
 - [ ] Be aware of the papers that have been published recently between the
 submission and the viva.
-- [ ] Short 10-20 presentation can help prepare.
+- [ ] Short **10'**-20' presentation can help prepare.
 
 ## References
 
