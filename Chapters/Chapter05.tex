@@ -125,7 +125,7 @@ Adopting the notation and nomenclature of Kolda \cite{kolda2009tensor}, tensors 
 
  where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed.   These indices associate the modes of the tensors being convolved together, but $\tens{A}$ and $\tens{B}$ should be of equal order. Moreover, the dimensions of the modes that are not participating in the convolution should be equal.
 
-The tensor convolution operator maps tensor, $\tens{A}$, to an equal order tensor $\tens{C}$ by the following:
+The tensor convolution operator maps equal-order tensors, $\tens{A}$ and $\tens{B}$, to a tensor $\tens{C}$ by the following:
 \begin{eqnarray}
 \tens{A}\,\, \overset{\mathcal{M}}{[ \ast ]}\, {\tens{B}} &=& \sum_{i'_{m_1}},\ldots\,\sum_{i_{M}'}   
 a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{N_{\tens{A}}}} \times \nonumber \\
@@ -345,7 +345,7 @@ Given the population code for a video sequence, represented by the tensor $\tens
 \end{figure}
 
 
-In line with the findings described in Chapter \ref{ch:chapter4}, I found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms through a \textit{kernel} function that will be described in the next section. That is, individual fibres, one a single order 1 tensor $\mathbf{v}_q$ and a second $\mathbf{v}_{db}$ drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to the methods of localisation that are discussed in the next section.  
+In line with the findings described in Chapter \ref{ch:chapter4}, I found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms through a \textit{kernel} function that will be described in the next section. That is, individual fibres, one a single order 1 tensor $\mathbf{v}_q$ and a second $\mathbf{v}_{db}$ drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell-like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to the methods of localisation that are discussed in the next section.  
 
 
 %\subsection{Encoding Frames of Video}
