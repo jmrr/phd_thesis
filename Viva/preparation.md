@@ -487,7 +487,7 @@ achieve computation speed-ups. This is a start to address a problem in
 convolutional networks, or cascades of convolutional layers, where there there
 are two ambiguities. These are
 
- a) which direction does the convoluton run in? If I have a layer that
+ a) which direction does the convolution run in? If I have a layer that
 produces 64x64 (spatial) and 64 (unit) dimensions, I can perform 2D convolution
 across the spatial dimension (natural) or perhaps can include - in some way - a
 convolution across the filter unit dimensions.  This is not as crazy as it
@@ -514,6 +514,21 @@ We cannot tell if the theoretical tools will not lead to further advances, but
 it is difficult to tell without taking steps to formalise the operators used in
 the networks.
 
+**Tensor notation**:
+
+- The _order_ of a tensor is the number of dimensions, also known as ways or
+modes. Vectors (tensors of order one) are denoted by boldface lowercase
+letters. In some fields, the order of the tensor is referred to as the rank of
+the tensor.
+
+- _Fibers_ are the higher-order analogue of matrix rows and columns. A fiber is
+defined by fixing every index but one. A matrix column is a mode-1 fiber and a
+matrix row is a mode-2 fiber.
+
+- _Slices_ are two-dimensional sections of a tensor, defined by fixing all
+but two indices.
+
+###### Questions
 
 * What element do you use of the Gabor filters: magnitude, phase, real,
 imaginary parts?
@@ -554,8 +569,9 @@ based on the value of a linear combination of the features)
 
 * [Krizhevksy and Hinton, 2012](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 _ImageNet Classification with Deep Convolutional Neural Networks_, aka
-**AlexNet**
-First outperforming state-of-the-art shallow methods in image classification.
+**AlexNet* (essential ["supervision"](http://image-net.org/challenges/LSVRC/2012/supervision.pdf))
+
+  First outperforming state-of-the-art shallow methods in image classification.
 Pre-processing: cropping images around the center, and substracted mean activity
 over the training set of each pixel.
 Architecture: 8-learned layers: 5 conv and 3 fully connected. The output of the
@@ -596,6 +612,15 @@ constant 0.
 **NOTE**: The third dimension for AlexNet notation is the depth of the
 activation volume. More info, essential resource from CNN course at Stanford
 [here](http://cs231n.github.io/convolutional-networks/).
+- Clarification 1: _the extent of the connectivity along the depth axis is
+always equal to the depth of the input volume (e.g. 3 in the case of RGB
+images)_
+- Clarification 2: _The connections are local in space (a patch along width
+and height), but always full along the entire depth of the input volume.
+ For example, suppose that the input volume has size [32x32x3], (e.g.
+ an RGB CIFAR-10 image). If the receptive field is of size 5x5, then each
+ neuron in the Conv Layer will have weights to a [5x5x3] region in the input
+ volume, for a total of 5*5*3 = 75 weights._
 
 
 ## From College's preparation videos:
