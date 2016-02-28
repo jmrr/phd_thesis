@@ -528,6 +528,15 @@ matrix row is a mode-2 fiber.
 - _Slices_ are two-dimensional sections of a tensor, defined by fixing all
 but two indices.
 
+- Order of the output $C$ of the tensor convolution between $A$ and $B$:
+
+$$N_C = N_A = N_B$$, as we're fixing the output size to be the same as input
+ size.
+
+- Order of the output $C$ of the permuted tensor convolution between $A$ and
+$B$:
+
+$$ N_C = min(N_A,N_B) + |P|$$ where P is the set of modes being permuted.
 ###### Questions
 
 * What element do you use of the Gabor filters: magnitude, phase, real,
@@ -617,11 +626,23 @@ always equal to the depth of the input volume (e.g. 3 in the case of RGB
 images)_
 - Clarification 2: _The connections are local in space (a patch along width
 and height), but always full along the entire depth of the input volume.
- For example, suppose that the input volume has size [32x32x3], (e.g.
- an RGB CIFAR-10 image). If the receptive field is of size 5x5, then each
- neuron in the Conv Layer will have weights to a [5x5x3] region in the input
- volume, for a total of 5*5*3 = 75 weights._
+For example, suppose that the input volume has size [32x32x3], (e.g.
+an RGB CIFAR-10 image). If the receptive field is of size 5x5, then each
+neuron in the Conv Layer will have weights to a [5x5x3] region in the input
+volume, for a total of 5*5*3 = 75 weights._
 
+
+# Conclusion and future work
+
+### Future work
+
+##### Additional future work for visual localisation
+* Integrate descriptors with SLAM via Open FAB-MAP or [LIBVISO2](http://www.cvlibs.net/software/libviso/)
+* Hierarchical localisation. Talk about Google's [PlaNet](http://arxiv.org/abs/1602.05314)
+
+
+###### Other resources:
+[]Reminder of 2 convolution](http://www.songho.ca/dsp/convolution/convolution2d_example.html)
 
 ## From College's preparation videos:
 
