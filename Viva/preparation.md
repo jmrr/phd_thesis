@@ -1,31 +1,39 @@
 # Viva-voce examination preparation notes
 
-## 1. Introduction
+# 1. Introduction
 
 * *However, relying almost entirely in the use of data to solve the problem
 has sometimes caused the loss of perspective and very poor improvements on
-performance or none at all [^1].*
+performance or none at all [1].*
 
-I can defend this with the same arguments of [^1] but perhaps more
-interestingly for viva discussion is [^2]. Basically it depends on the type
+I can defend this with the same arguments of [1] but perhaps more
+interestingly for viva discussion is [2]. Basically it depends on the type
 of problem. There are two possible situations where a model might not perform
 well: the **high variance** case, where the model is too complicated for the
 amount of data we have, leading to *overfitting*; and the **high bias** case
 where the model is too simple to explain the data we have, where adding more
 data will not help.
 
+[1] Zhu, Vondrick, Ramanan and Fowlkes, *Do we need more training data or
+better models for object detection?*, BMVC 2012.
+[Link](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.259.7748&rep=rep1&type=pdf)
+
+[2] Xavier Amatriain, *More data or better models?*
+[Link](http://technocalifornia.blogspot.co.uk/2012/07/more-data-or-better-models.html)
+
+
 * Good review of appearance-based methods (for object recognition) by [Roth and
 Winter (2008)](http://machinelearning.wustl.edu/uploads/Main/appearance_based_methods.pdf)
 
-## 2. Mobile visual assistive apps: a description of the problem and motivation
+# 2. Mobile visual assistive apps: a description of the problem and motivation
 
-* Figure 4: There's some imperfect distribution of the 'within' 50 cm of the
+* Fig. 4: There's some imperfect distribution of the 'within' 50 cm of the
 query.
 * What if Fig. 4 only shows within corridor results? Then the case
 should be that query and db from different corridors should be a much lower
 number.
 * What is $L_{\infty}$ -type normalisation? This is a special case
-of L_p normalisations where the max() of the vector  to be normalised is
+of $L_p$ normalisations where the max() of the vector  to be normalised is
 taken.
 
 #### Similar approaches
@@ -43,7 +51,7 @@ also used to give camera pose estimates, and its mapping is only a
 dense 3D point clouds obtained by stereo triangulation and only computed when
 camera motion > th.
     * Drawbacks: tracking algorithms fail with too much blur,
-need resets and odometry reinit. Bumblebee camera to cumbersome, hampering
+need resets and odometry reinit. Bumblebee camera too cumbersome, hampering
 mobility, thus not a realistic solution.
 2. [Wang et al.](http://www.cse.buffalo.edu/~lusu/cse721/papers/No%20Need%20to%20War-Drive%20Unsupervised%20Indoor%20Localization.pdf):
 *Unloc, No need to war-drive: unsupervised indoor localization*. By observing
@@ -51,8 +59,8 @@ signatures that are present in certain locations on one or more several
 sensing dimensions (one or more sensors), mapping can be achieved. These
 signatures can be envisioned as internal landmarks of a building, which can be
 used to recalibrate mobile phone's positions whilst dead-reckoning can be used
-to track distance (with accelerometers' step count) travelled. **War-drive**
-is not needed, nor are floorplans. Given the crowdsourcing of these journeys,
+to track distance (with accelerometers' step count) travelled. **War-drive
+is not needed, nor are floorplans**. Given the crowdsourcing of these journeys,
 dead-reckoning is recalibrated over time. - Accelerometer, gyroscope, compass
 for dead-reckoning. - Combinations of these to detect special landmarks, i.e.
 elevators, stairs. - Organic Landmarks (OLMs): clustered landmarks. -
@@ -67,20 +75,27 @@ locations would pass it.
 reconstruct indoor pathway maps by fusing crowdsourced user trajectories
 obtained from IMUs on users' mobile phones. They rely on the different WiFi
 APs strength along the route, and their strength overlap to define WiFi-Marks
-(landmarks). They claim they need 5-6 journeys to map with a max error of 3m.
+(landmarks). They claim they need 5-6 journeys to map with a max error of 3 m.
 They infer the mapping using a spring network where each edge of the graph is
 assumed as a spring. The rest length is the dead-reckoned trajectory.The
 interesting point is that they use the RSSI trend instead of absolute values,
-making it robust to signal fluctuations and device diversity. Also one AP can
+making it robust to signal fluctuations and device diversity. Also one AP
 may determine multiple WiFi-Marks.
 
-## 3. Hand-held object recognition
+# 3. Hand-held object recognition
 
-* Main purpose: a dataset with so much variability in standard results.
+* Main purpose: a dataset with a clear distinction between quality of
+images in training set and test set. Some cases require this curation e.g.
+online retailers and bodies handling sensitive information such as the NHS
+which requires this quality of the information. The big bottleneck is that
+current dataset cannot provide this curation so we had to find a source of
+quality that guarantees the quality of information such as our training set
+which can slo be enriched with abundant metadata. We were also seeking
+variability in standard results.
 And we are using these different algorithms to show this variability. So this
 test is not a benchmark but rather an analysis of the dataset so the research
 community can make use of different number of training images and do analysis
-etc.
+towards best description of the data, etc.
 
 * From Introduction:
 
@@ -94,13 +109,13 @@ etc.
     have it very difficult to overfit, so they will have to learn the
     particularities of the products in isolation.
 
- * Section 3.3.4: Why a "scaled" average? Essentially, it's a way of
+ * Section 3.4: Why a "scaled" average? Essentially, it's a way of
  normalising across the database so matching scores $\mu^{(n)}$ are weighted
  positively if the pair of images being matched have many pairwise descriptor
  comparisons that pass the criterion $f_u$.
 
- * Section 3.4.1. What do you mean by *[...] the descriptor matching method,
- despite not encoding geometric relationships between keypoints [...]* Once
+ * Section 3.4.1. What do you mean by [...] *the descriptor matching method,
+ despite not encoding geometric relationships between keypoints* [...] Once
  we do descriptor to descriptor distance comparisons, the geometric
  information (location of the descriptor) is lost, unlike with the spatial
  pyramid matching (SPM) approach.
@@ -110,8 +125,8 @@ etc.
     encode an image:
         1.  k(=5)-NN between the descriptors of an image and the visual words
         in a BOW dictionary
-        2. Calculate coefficients **w** solving $(C+\lambda I_5)\mathbf{w}$ =
-        1_{5x1} for each descriptor in the image
+        2. Calculate coefficients **w** solving $(C+\lambda I_5)\mathbf{w} =
+        1_{5x1}$ for each descriptor in the image
         3. The image gets encoded by doing max pooling of the coefficients.
          In the end an image is represented by 1xN (N = dictionary size)
          vector of max pooled LLC coefficients of all the descriptor in the
@@ -126,14 +141,14 @@ etc.
    the difference between the descriptors and the centres of the GMM, which can
    be seen as a soft visual vocabulary. If for example we have SIFT
    descriptors, with _D_ = 128 and _K_ = 256 Gaussian mixtures, the FV will
-   have dimension 65536=128*2*256.
+   have dimension 65536=128 $\times$ 2 $\times$ 256.
     - [x] Fisher Vector: The FV is an image representation obtained by pooling
     local image features. It is frequently used as a global image descripor
     in visual classification. In comparison with the BOF representation, fewer
     visual words are required by this more sophisticated representation.
 
         **Good resource on FV**: [VLFEAT page](http://www.vlfeat.org/api/fisher-fundamentals.html)
-     and [^3]
+     and [3]
     - [x] Spatial binning: SPM: A standard way of introducing weak geometry in
     a BOW representation. It introduces the concept of spatial histograms, and
     can be extended to any encoding method. Spatial regions are obtained by
@@ -142,7 +157,7 @@ etc.
         - 1x1
         - 3x1 (a horizontal strip) or 2x2
         - 2x2 (four quadrants), a total of 8 regions; or 4x4 for a total of 21.
-    Encoded histograms are obtained per region, then l_2 normalised and then
+    Encoded histograms are obtained per region, then $l_2$ normalised and then
     stacked.
 
 * Definition of PR curve, mAP and classification rates:
@@ -163,8 +178,8 @@ instance if the classifier assigns a correct product label what is the ranked
 position of the labelled product. In this case whatever is below 3% is worse
 than random. The classification rates indicated the ability of the classifier
 to correct label predictions without the ranking, so it’s pure classification
-no retrieval involved as in AvPrecision. In this case anything below 50% is
-worse than random.
+no retrieval involved as in Avg. Precision (AP). In this case anything below
+50% is worse than random.
 
     *Final note*: Another way popular to machine learning is multiclass
     accuracy ( deep learning is using it). Find the labels in the test set
@@ -207,7 +222,10 @@ the query.
  density levels.
 
 * From Fig. 13 with the 4 categories, think why some perform good or
- bad. The generation of the histograms or encoding for each region can be
+ bad. Some almost always show front view, others contain specular
+ reflections, shiny surfaces, large difference between sides, etc.
+
+* The generation of the histograms or encoding for each region can be
  obtained by sum pooling, in which case the encodings of the descriptors
  in a given region are combined additively, or max pooling, in which case
  each bin in the encoding is assigned a value equal to the maximum across
@@ -231,8 +249,10 @@ category.
 * [Chatfield et al., 2011](http://www.robots.ox.ac.uk/~vedaldi/assets/pubs/chatfield11devil.pdf):
  *The devil is in the details*
 
+* Perronin, F. and Dance, C., 2006, *Fisher Kernels on Visual Vocabularies
+for Image Categorization*
 
-## 4. Appearance-based methods for visual localisation
+# 4. Appearance-based methods for visual localisation
 
 * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
 * Great SLAM overview [Link](http://www.computervisionblog.com/2016/01/why-slam-matters-future-of-real-time.html)
@@ -435,7 +455,7 @@ _A performance evaluation of local descriptors_
 
 
 
-## 5. Modelling hippocampal place cells for visual localisation
+# 5. Modelling hippocampal place cells for visual localisation
 
 - [ ] Study concept of CNNs and biological inspiration
     - [x] Biological inspiration: simple and complex cells
@@ -479,6 +499,7 @@ sheet of tissue in V1 containing 200,000 neurons.
     * Second layer:Population code for joint position/orientation encoding
     based on the retinotopic (retinal mapping) arrangement of oriented cells
     over a region of cortical tissue.
+
 ##### Tensor population model
 **Motivation**: I want to model the visual input as a CNN, and CNNs benefit from a tensor
 representation, since it allows tensor decompositions to be applied and reduce
@@ -662,7 +683,7 @@ floor plan of that part of the building.
     through vibrating hand-held devices.
     - Modern tactile feedback in displays:
       - Piezoelectric sensors, shape moemry alloys, micromachined devices,
-      air jets, electrorheological fluids (viscosity = f(\vec{E})),
+      air jets, electrorheological fluids (viscosity = $f(\vec{E})$),
       vibrotactile displays.
       - Poupyrev claim tactile feedback provides stimulation on a
       subconscious level, taking cognitive load off the user.
@@ -727,11 +748,4 @@ submission and the viva.
 
 ## References
 
-[^1] Zhu, Vondrick, Ramanan and Fowlkes, *Do we need more training data or
-better models for object detection?*, BMVC 2012.
-[Link](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.259.7748&rep=rep1&type=pdf)
 
-[^2] Xavier Amatriain, *More data or better models?*
-[Link](http://technocalifornia.blogspot.co.uk/2012/07/more-data-or-better-models.html)
-[^3] Perronin, F. and Dance, C., 2006, *Fisher Kernels on Visual Vocabularies
-for Image Categorization*
