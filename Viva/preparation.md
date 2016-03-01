@@ -632,7 +632,76 @@ neuron in the Conv Layer will have weights to a [5x5x3] region in the input
 volume, for a total of 5*5*3 = 75 weights._
 
 
-# Conclusion and future work
+# 6. An assistive haptic interface for appearance-based indoor navigation
+**Contribution**: to explore the feasibility and usefulness of an App that
+provides a haptic interface for appearance-based indoor localisation.
+
+** Concept** : A BPS user wants to travel from A to B in a building. They
+launch an App which starts collecting images from the camera of a haptic
+feedback devices, the Senseg tablet, or from a wearable camera paired with
+this (Google Glass). These images are sent to the server, which estimates
+the location of the user based on an appearance-based visual localisation
+algorithm. The estimated location is sent back to the user's device where it
+is interpreted and conveyed in the form of a haptic cue over a pre-loaded
+floor plan of that part of the building.
+
+### Accesible technology
+* Non vision:
+  * Classical aids
+  * Radio frequency systems
+    - GPS-based: good outdoors, not reliable indoors (p ~ fW)
+    - RFID, WiFI, Bluetooth beacons, Zigbee body sensors: all need
+    deployment, which makes it costly.
+    - Drishti: GPS outdoors, US positioning indoors, also requiring deployment.
+  * Tactile interfaces
+    - Elektroftalm: block of Se, photoconductivity to drive a sensory
+    stimulus to the foreheads to distinguish dark vs light.
+    - Bliss: images from an optical sensor translated to a tactile
+    stimulator (vibrations on a 12x12 phototransistor).
+    - Hartcher-O'Brien distance to a wall measured by sensors and conveyed
+    through vibrating hand-held devices.
+    - Modern tactile feedback in displays:
+      - Piezoelectric sensors, shape moemry alloys, micromachined devices,
+      air jets, electrorheological fluids (viscosity = f(\vec{E})),
+      vibrotactile displays.
+      - Poupyrev claim tactile feedback provides stimulation on a
+      subconscious level, taking cognitive load off the user.
+    - The **Senseg**: tactile display that allows a user to feel ~frictional
+     forces produced by isolated electrodes (tixels) that create a small
+     attractive force to the skin of the finger. By modulating this force, a
+      device can convey the sensation of different textures.
+  * Computer vision for assistive navigation
+    - Geometry inferring methods:
+      - Aladren et al.: RGB-D sensor to detect obstacle-free paths.
+      - SLAM-based:
+        * Alcantarilla et al. incorp. optic flow estimation into visual
+        SLAM: benefits in crowded spaces and obstacle det.
+        * Ali and Nordin: EKF-SLAM approach to track SIFT feats., which were
+         also used to provide semantics (object and path recognition and
+         obstacle avoidance). Caveats: enforce tracking and impose the true
+         pathway also as a prior for the tracking.
+  * Appearance-based methods for inclusive visual navigation
+    - Schroth et al. (NAVVIS): prototype app that pre-selected some relevant
+     visual words that are sent to the client for matching.
+    - Ali and Nordin: AB methodthat uses SIFT to construct a weighted
+    topological map of the environment stored in a white cane to provide
+    path planning based on a loaded map.
+    - Nguyen et al.: Combined FAP-MAP+SLAM to construct a db of images with
+    an odometry model using AB methods but introducing markers to make it
+    easier. They also introduced a KF-SLAM to track the detected features
+    and improve robustness.
+  * Crowdourcing: accessibility or pure user-based crowdsourcing.
+
+### System overview
+* Data sources:
+  - 15 s of video at normal walking speed covers 20 m of
+distance. Frames are 208 x 117 greyscale, i.e. ~ 20Kpx*8b/1px = 20kB, less
+than 1 s using UMTS uplink.
+  - 80 s of video @ 25 fps < 3 MB. 20 journeys < 50 MB
+* Algorithm choice: DSIFT, C code, still 2nd in performance.
+* Senseg: allows different textures to be felt at different locations and at
+ varying range of intensities, as specified by the programmer.
+# 7. Conclusion and future work
 
 ### Future work
 
@@ -642,7 +711,8 @@ volume, for a total of 5*5*3 = 75 weights._
 
 
 ###### Other resources:
-[]Reminder of 2 convolution](http://www.songho.ca/dsp/convolution/convolution2d_example.html)
+* Reminder of 2 convolution](http://www.songho
+.ca/dsp/convolution/convolution2d_example.html)
 
 ## From College's preparation videos:
 
@@ -653,7 +723,7 @@ topics. (Presentation images?)
   - [ ] Figure of simple cells vs complex cells
 - [ ] Be aware of the papers that have been published recently between the
 submission and the viva.
-- [ ] Short **10'**-20' presentation can help prepare.
+- [x] Short **10'**-20' presentation can help prepare.
 
 ## References
 
