@@ -766,6 +766,8 @@ than 1 s using UMTS uplink.
 * Algorithm choice: DSIFT, C code, still 2nd in performance.
 * Senseg: allows different textures to be felt at different locations and at
  varying range of intensities, as specified by the programmer.
+
+ 
 # 7. Conclusion and future work
 
 ### Future work
@@ -783,8 +785,8 @@ than 1 s using UMTS uplink.
 - [ ] Prepare and possibly bring 10-12 key papers
 - [ ] Prepare extra figures and bring them so you can further explain some
 topics. (Presentation images?)
-  - [x] Figure of pooling patterns
-  - [ ] Figure of simple cells vs complex cells
+    - [x] Figure of pooling patterns
+    - [ ] Figure of simple cells vs complex cells
 - [x] Be aware of the papers that have been published recently between the
 submission and the viva. Kendall and Cipolla 2015 on deep learning for
 appearance-based visual localisation
