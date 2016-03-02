@@ -133,8 +133,8 @@ towards best description of the data, etc.
          image. From a set of descriptors extracted from an image, a
          [Gaussian Mixture Model](http://www.vlfeat.org/api/gmm.html)
          fitting the distribution of descriptors associates each descriptor
-         $\vec{x_i}$ into a mode *k* of the mixture with a strength given by the
-   posterior probability $\vec{q_{ik}}$. For each mode we compute the mean and
+         $\mathbf{x_i}$ into a mode *k* of the mixture with a strength given by the
+   posterior probability $\mathbf{q_{ik}}$. For each mode we compute the mean and
    covariance deviation vectors across the length dimension of the descriptor.
    The FV of image I is the stacking of the mean and covariance vectors for
    each of the K modes in the Gaussian mixtures. These vectors can be seen as
@@ -259,7 +259,7 @@ for Image Categorization*
 
 ### Methods
 
-* **LW_COLOR**: Spatio-temporal chromatic Jacobian pooled over 16 regions to
+* **LW-COLOR**: Spatio-temporal chromatic Jacobian pooled over 16 regions to
  form a 144-dimensional frame level descriptor. *Description*: Derivative
 filters are computed along the x,y and t dimensions on each of the 3 RGB
 channels. Temporal smoothing with a support of 11 neighbouring frames is
@@ -287,12 +287,13 @@ between keypoint scale and bin size. By default, _magnif = 3.0_, and
 orientation of local image structures. They're also particularly
 appropriate for texture representation and discrimination. Corridors in
 indoor spaces are extremely ambiguous thus we need to maximise texture
-and structure discrimination. Finally, and linking this descriptors with
+and structure discrimination. Finally, and linking these descriptors with
 the work of Chapter 5, The filters are convolved with the signal,
 resulting in a so-called Gabor space. This process is closely related to
-processes in the primary visual cortex.[Jones and Palmer](http://www.neuro-it.net/pdf_dateien/summer_2004/Jones%201987.pdf)
-showed that the real part of the complex Gabor function is a good fit to the
-receptive field weight functions found in simple cells in a cat's striate cortex.
+processes in the primary visual cortex. [Jones and Palmer](http://www.neuro-it.net/pdf_dateien/summer_2004/Jones%201987.pdf)
+showed that the imaginary part (odd-symmetric) of the complex Gabor function
+is a good fit to the receptive field weight functions found in simple cells
+in a cat's striate cortex.
 
   * Computation:
 
@@ -304,7 +305,7 @@ receptive field weight functions found in simple cells in a cat's striate cortex
 
     where:
 
-    $$x' = x \cos\theta + y \sin\theta$$,
+    $$x' = x \cos\theta + y \sin\theta$$
 
     and
 
@@ -313,13 +314,13 @@ receptive field weight functions found in simple cells in a cat's striate cortex
     Parameters are:
 
       * $\sigma$  = standard deviation (width) of the Gaussian envelope,
-        this in-turn controls the size of the result (pixels). Size of the
+        this in turn controls the size of the result (pixels). Size of the
         output Gabor filter will be $(4\sigma+1)\times(4\sigma+1)$. In
         our case we chose $\sigma = 2$, therefore the extent of the
         filters is $9 \times 9$ pixels.
       * Orientation, or $\theta$ = orientation of the Gabor from the
-    vertical (degrees): the direction of the carrier since $x_theta$
-    and $y_theta$ are rotated by theta. $\theta \pm = {0, 45, 90, 135}$
+    vertical (degrees): the direction of the carrier since $x_\theta$
+    and $y_\theta$ are rotated by theta. $\theta \pm = {0, 45, 90, 135}$
 
       * $\lambda = 4$: the wavelength of the carrier (pixels).
       * Phase $\psi = 0$: the phase offset of the carrier(degrees)
@@ -340,9 +341,9 @@ receptive field weight functions found in simple cells in a cat's striate cortex
    $$\Phi(x,y;m,n) = e^{-\alpha \left [\log_e \left
  (\frac{x^2+y^2}{d_n^2}\right )\right ]^2 - \beta |\theta-\theta_m | }$$
 
-   $\alpha = 4$, $\beta = 0.4$l $m$ and $n$ were chosen to produce 8
-   angular regions ($m$ = 0, 1, ...7) at each of 2 distances away $d1$ and
-   $d2$ plus the central region without angular variation. **Total of
+   $\alpha = 4$, $\beta = 0.4$ $m$ and $n$ were chosen to produce 8
+   angular regions ($m$ = 0, 1, ...7) at each of 2 distances away $d_1$ and
+   $d_2$ plus the central region without angular variation. **Total of
    pooling regions = 17**, **size of pooling maps**: 11 $\times$ 11.
 
    4. Each of the pooling patterns is applied (by a filtering process) to each
@@ -351,7 +352,7 @@ receptive field weight functions found in simple cells in a cat's striate cortex
 
    *Dim*: 136
 
-* HOG3D, from [Kläser et al. (2008)](https://lear.inrialpes.fr/pubs/2008/KMS08/KlaserMarszalekSchmid-BMVC08-3DGradientDescriptor.pdf)
+* **HOG3D**, from [Kläser et al. (2008)](https://lear.inrialpes.fr/pubs/2008/KMS08/KlaserMarszalekSchmid-BMVC08-3DGradientDescriptor.pdf)
  Originally used for action recognition. The binning in 3D is done using
  convex regular polyhedrons. Gradient computation using integral videos
  (efficient gradient computation for arbitrary scales). Steps:
@@ -378,7 +379,7 @@ receptive field weight functions found in simple cells in a cat's striate cortex
 
     *Dim*: 192
 
-* ST-GABOR (used in activity recognition, structure from motion ...)
+* **ST-GABOR** (used in activity recognition, structure from motion ...)
     1. 1-D conv between $I(x,y,t)$ and 3 1-D antisymmetric Gabors: $g_x, g_y$
     (1 $\times$ 5 px filters), $g_t$ (1 $\times$ 9 pixels filter).
 
@@ -394,10 +395,10 @@ receptive field weight functions found in simple cells in a cat's striate cortex
 
     *Dim*: 221
 
-* ST-GAUSS:Spatial derivatives in space, with smoothing over time.
+* **ST-GAUSS**:Spatial derivatives in space, with smoothing over time.
     1. 2-D filtering in space: 2 5 $\times$ 5 gradient masks based on
     derivatives of the Gaussian function, 1-D filtering in the temporal
-    direction (11-point Gaussian smoothing filter ($\sigma =2$).
+    direction (11-point Gaussian smoothing filter ($\sigma =2$)).
 
     2. Quantisation: 8-directional bins applied to the angles of the
     gradient field. A voting process incorporating magnitude was used to
@@ -410,7 +411,7 @@ receptive field weight functions found in simple cells in a cat's striate cortex
 
 
 #### Complex descriptors:
-1. DAISY: THe DAISY descriptor is an algorithm that converts local image
+1. DAISY: The DAISY descriptor is an algorithm that converts local image
 regions into low dimensional invariant descriptors which can be used for
 matching and classification. It can be applied densely or applied to patches
 extracted around interest points.
@@ -436,8 +437,9 @@ required and no info of high dimensional descriptors (e.g. SIFT) can be
 accessed at run time. Keypoints detected with an affine invariant detector,
 SIFT descriptors extracted on kp locations. Vocabulary of _k_ words is
 constructed. _k_ is selected to be coarse (8,64). For each cluster _k_, the
-residuals (vecotr diff between descr and cluster centres) are accumulated
-and the _k_ 128-D are concatenated into a single _k_x128 dimensional
+residuals (vector difference between descriptor and cluster centres) are
+accumulated and the _k_ 128-D are concatenated into a single $k
+\times 128$ $dimensional
 descriptor. This is the _unnormalized VLAD_. Note that VLAD is similar to
 other descriptors that record residuals such as Fisher vectors and
 super-vector encoding. We use the original VLAD normalisation, where the
@@ -457,13 +459,14 @@ _A performance evaluation of local descriptors_
 
 # 5. Modelling hippocampal place cells for visual localisation
 
-- [ ] Study concept of CNNs and biological inspiration
+- [x] Study concept of CNNs and biological inspiration
     - [x] Biological inspiration: simple and complex cells
-    - [ ] CNNs
+    - [x] CNNs
 - [ ] Study connection of CNN formulation for SF-GABOR with weight sharing
    -> TensorFlow?
 - [ ] Study RBFs. [Good video resource](https://www.youtube.com/watch?v=O8CfrnOPtLc)
 , and [short paper](http://hermes.etc.upt.ro/docs/cercetare/articole/NafornitaI2.pdf)
+
 
 
 ### Introduction
@@ -558,11 +561,49 @@ $$N_C = N_A = N_B$$, as we're fixing the output size to be the same as input
 $B$:
 
 $$ N_C = min(N_A,N_B) + |P|$$ where P is the set of modes being permuted.
+
 ###### Questions
 
 * What element do you use of the Gabor filters: magnitude, phase, real,
 imaginary parts?
-  - [ ] Answer:
+  - [x] Answer: antisymmetric imaginary parts.
+* Why RBF for regression?
+  - [x] They are particularly well suited when we want close points to
+influence more than far away points, just like place cells.
+
+    $$ h(\mathbf{x}) = \sum_{n=1}^N w_n \exp(- \gamma || \mathbf{x} -
+    \mathbf{x}_n||^2)$$
+
+RBFs are radial because of the $||\mathbf{x} - \mathbf{x}_n||$ and it's a basis
+function because $\exp(- \gamma || \mathbf{x} -  \mathbf{x}_n||^2)$ is a basis.
+
+What is the learning algorithm to get the parameters $w_1, ..., w_N$ to
+minimise certain error? It can be solved without using gradient descent or
+any optimisation algorithm!!
+
+$$\mathbf{\Phi} \mathbf{w} = \mathbf{y}$$
+
+$$\mathbf{w} = \mathbf{\Phi}^{-1} \mathbf{y}$$
+
+$\Phi$ is the matrix of bases. And the solution can be interpreted as an
+**exact interpolation**, i.e. the kernel, in this case a Gaussian is
+interpolating (Gaussian is the best interpolation) between the points to give
+ us all the values.
+
+The value of $\gamma$ helps us define the spread of the basis. It should be
+adapted to the data and it can also be inferred. $\gamma$ is related to our
+"spread" parameter. Large $\gamma$ means short spread and poor interpolation
+. Small $\gamma$ means a large spread and it can be too coarse. We chose 0.1.
+
+We use an **RBF network** because we want to have as many features (neurons,
+i.e. the radial basis) to interpolate as place cells, and provide a real-valued
+output for all the values in between (sublocalise). Once we have the network,
+those neurons depend on the distance $||\mathbf{x} - \mathbf{\mu}_n||$, so if the
+distance is large the influence dies, just as the place cells model.
+The interpretation is RBFs look at local regions without worrying about the
+far away points. They learn about the locality. Normal neural networks do
+interfere at any point.
+
 
 #### Similar approaches
 
@@ -573,7 +614,7 @@ weather conditions.
 
 ##### Key publications
 
-[ Ji et al., (2010)](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6165309)
+* [ Ji et al., (2010)](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6165309)
 or [conference paper](http://www.cs.odu.edu/~sji/papers/pdf/Ji_ICML10.pdf)
 _3D Convolutional Neural Networks for Human Action Recognition_
 They consider the automated recognition of human actions in surveillance
@@ -595,13 +636,14 @@ extractors. The paper assesses different deep architectures on a common
 ground. They focus on _image representations_, i.e. encoding functions
 $\phi$, mapping an image $I$ to a vector  $\phi(I) \in \mathbb{R}^d$
 suitable for use with a linear classifier (e.g. SVM, where the decision is
-based on the value of a linear combination of the features)
+based on the value of a linear combination of the features).
 
 * [Krizhevksy and Hinton, 2012](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 _ImageNet Classification with Deep Convolutional Neural Networks_, aka
-**AlexNet* (essential ["supervision"](http://image-net.org/challenges/LSVRC/2012/supervision.pdf))
+**AlexNet** (essential ["supervision"](http://image-net.org/challenges/LSVRC/2012/supervision.pdf))
 
-  First outperforming state-of-the-art shallow methods in image classification.
+    First outperforming state-of-the-art shallow methods in image
+   classification.
 Pre-processing: cropping images around the center, and substracted mean activity
 over the training set of each pixel.
 Architecture: 8-learned layers: 5 conv and 3 fully connected. The output of the
@@ -657,7 +699,7 @@ volume, for a total of 5*5*3 = 75 weights._
 **Contribution**: to explore the feasibility and usefulness of an App that
 provides a haptic interface for appearance-based indoor localisation.
 
-** Concept** : A BPS user wants to travel from A to B in a building. They
+**Concept** : A BPS user wants to travel from A to B in a building. They
 launch an App which starts collecting images from the camera of a haptic
 feedback devices, the Senseg tablet, or from a wearable camera paired with
 this (Google Glass). These images are sent to the server, which estimates
@@ -683,7 +725,7 @@ floor plan of that part of the building.
     through vibrating hand-held devices.
     - Modern tactile feedback in displays:
       - Piezoelectric sensors, shape moemry alloys, micromachined devices,
-      air jets, electrorheological fluids (viscosity = $f(\vec{E})$),
+      air jets, electrorheological fluids (viscosity = $f(\mathbf{E})$),
       vibrotactile displays.
       - Poupyrev claim tactile feedback provides stimulation on a
       subconscious level, taking cognitive load off the user.
@@ -704,7 +746,7 @@ floor plan of that part of the building.
   * Appearance-based methods for inclusive visual navigation
     - Schroth et al. (NAVVIS): prototype app that pre-selected some relevant
      visual words that are sent to the client for matching.
-    - Ali and Nordin: AB methodthat uses SIFT to construct a weighted
+    - Ali and Nordin: AB method that uses SIFT to construct a weighted
     topological map of the environment stored in a white cane to provide
     path planning based on a loaded map.
     - Nguyen et al.: Combined FAP-MAP+SLAM to construct a db of images with
@@ -732,18 +774,18 @@ than 1 s using UMTS uplink.
 
 
 ###### Other resources:
-* Reminder of 2 convolution](http://www.songho
-.ca/dsp/convolution/convolution2d_example.html)
+* [Reminder of 2 convolution](http://www.songho.ca/dsp/convolution/convolution2d_example.html)
 
 ## From College's preparation videos:
 
 - [ ] Prepare and possibly bring 10-12 key papers
 - [ ] Prepare extra figures and bring them so you can further explain some
 topics. (Presentation images?)
-  - [ ] Figure of pooling patterns
+  - [x] Figure of pooling patterns
   - [ ] Figure of simple cells vs complex cells
-- [ ] Be aware of the papers that have been published recently between the
-submission and the viva.
+- [x] Be aware of the papers that have been published recently between the
+submission and the viva. Kendall and Cipolla 2015 on deep learning for
+appearance-based visual localisation
 - [x] Short **10'**-20' presentation can help prepare.
 
 ## References
