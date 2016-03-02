@@ -256,7 +256,9 @@ for Image Categorization*
 
 * Why probabilities of error in localisation are better performance metrics than PR or ROC curves (retrieval ones).
 * Great SLAM overview [Link](http://www.computervisionblog.com/2016/01/why-slam-matters-future-of-real-time.html)
-
+  * SLAM algorithms: able to simultaneously build 3D maps of the world while tracking the camera pose.
+From point observations (e.g. descriptors, or keypoints) and intrisic camera parameters, the 3D structure
+of a scene is computed from the estimated motion of the camera (i.e. SfM).
 ### Methods
 
 * **LW_COLOR**: Spatio-temporal chromatic Jacobian pooled over 16 regions to
