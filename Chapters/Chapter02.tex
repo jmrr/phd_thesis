@@ -66,7 +66,7 @@ Let us first consider the comparison of individual query descriptors, $\mathbf{v
 
 \begin{equation}
 \centering
-\mathbf{D}^{(i|n)}_p =  \mathds{1}_{M^{(i)}\times 1} \otimes \mathbf{v}_n^{(j)} - \mathbf{V}^{(i)}_p
+\mathbf{D}^{(i|n)}_p =  \mathds{1}_{M^{(i)}\times 1} \otimes \mathbf{v}_n^{(j)} - \mathbf{V}^{(i)}_p,
 \end{equation}
 
 where $\mathds{1}$ is a vector of ones, and $\otimes$ denotes the Kronecker product.
@@ -74,7 +74,7 @@ Then, the elements along the diagonal of
 
 \begin{equation}
 \centering
- \mathbf{D}^{(i|n)}_p[\mathbf{D}^{(i|n)}_p]^T
+ \mathbf{D}^{(i|n)}_p[\mathbf{D}^{(i|n)}_p]^T,
 \end{equation}
 
 are collated into a vector, $\mathbf{d}^{(i|n)}_p \in [0,\mathbb{R}^+]^{M^{(i)}}$ of squared Euclidean distances between the $n^{th}$ descriptor from a query image and each of the $M^{(i)}$ descriptors derived from the $i^{th}$ image along the path $C_p$. 
@@ -84,7 +84,7 @@ Many descriptors in the query image will not be sufficiently distinct to be usef
 
 \begin{equation}
 \centering
-\mu^{(i,j)}_p=\frac{1}{|\mathcal{D}|}\sum_{n\in \mathcal{D}} d^{(i|n)}_{[1]}
+\mu^{(i,j)}_p=\frac{1}{|\mathcal{D}|}\sum_{n\in \mathcal{D}} d^{(i|n)}_{[1]},
 \end{equation}
 
 is calculated where $\mathcal{D}$ is the set of query descriptors that pass the distinctiveness test, as described here. Again, note that path subscript $p$ has been omitted from the right-hand side of this expression to represent the sorted distances.
@@ -94,7 +94,7 @@ is calculated where $\mathcal{D}$ is the set of query descriptors that pass the 
 
 \begin{equation}
 \centering
-\gamma^{(i,j)} = \frac{||\mu^{(i,j)}_p||_{\infty}-\mu^{(i,j)}_p}{||\mu^{(i,j)}_p||_{\infty}}
+\gamma^{(i,j)} = \frac{||\mu^{(i,j)}_p||_{\infty}-\mu^{(i,j)}_p}{||\mu^{(i,j)}_p||_{\infty}}.
 \end{equation}
 
 This score is calculated between pairs of query and database images, and one may identify two types of categories that these query comparisons fall into.  In the first case, the images come from the same path (although query and visual path database are, of course, distinct).  In the other case, queries come from different paths.  The results are shown in Figure~\ref{fig:gammaDistribution} where $f_\gamma$ denotes the probability density distribution (PDF) of the $\gamma$ score and $QC_x$ and $DC_x$ indicate query and database corridor $x$ respectively.   
