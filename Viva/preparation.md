@@ -441,7 +441,7 @@ SIFT descriptors extracted on kp locations. Vocabulary of _k_ words is
 constructed. _k_ is selected to be coarse (8,64). For each cluster _k_, the
 residuals (vector difference between descriptor and cluster centres) are
 accumulated and the _k_ 128-D are concatenated into a single $k
-\times 128$ $dimensional
+\times 128$$ dimensional
 descriptor. This is the _unnormalized VLAD_. Note that VLAD is similar to
 other descriptors that record residuals such as Fisher vectors and
 super-vector encoding. We use the original VLAD normalisation, where the
@@ -510,7 +510,7 @@ sheet of tissue in V1 containing 200,000 neurons.
 representation, since it allows tensor decompositions to be applied and reduce
 the representation into smaller convolution operators, which in turn can help
 achieve computation speed-ups. This is a start to address a problem in
-convolutional networks, or cascades of convolutional layers, where there there
+convolutional networks, or cascades of convolutional layers, where there
 are two ambiguities. These are
 
  a) which direction does the convolution run in? If I have a layer that
