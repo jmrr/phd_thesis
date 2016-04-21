@@ -120,7 +120,7 @@ Adopting the notation and nomenclature of Kolda \cite{kolda2009tensor}, tensors 
 \begin{definition}{\textit{Tensor Convolution}}\label{def:convop}  The tensor convolution operator in modes $\mathcal{M}$ is defined by the following:
 
 \begin{equation}
- \overset{\mathcal{M}}{[ \ast ]}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
+ \overset{\mathcal{M}}{[ \ast ]}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C},
 \end{equation}
 
  where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed.   These indices associate the modes of the tensors being convolved together, but $\tens{A}$ and $\tens{B}$ should be of equal order. Moreover, the dimensions of the modes that are not participating in the convolution should be equal.
@@ -136,7 +136,7 @@ a_{i_1,i_2,...,i_{m_1}',...,i_{M}',...,i_{N_{\tens{A}}}} \times \nonumber \\
 where $\mathcal{M}$, takes the form of a set of tuples that associate indices in $\tens{A}$ with those in $\tens{B}$ for the convolution:
 
 \begin{equation}
-\lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace
+\lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace.
 \end{equation}
 
 The order of the result, $N_{\tens{C}}$, will be equal to the orders of $\tens{A}$ and $\tens{B}$.
@@ -147,7 +147,7 @@ The order of the result, $N_{\tens{C}}$, will be equal to the orders of $\tens{A
 \begin{definition}{\textit{Permuted Tensor Convolution}} \label{def:permconvop} The \textit{permuted} tensor convolution operator in modes $\mathcal{M}$ permuted over modes $\mathcal{P}$ can be defined as a mapping taking the form:
 
 \begin{equation}
- \underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C}
+ \underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}: \left (\tens{A},\tens{B}  \right ) \longmapsto \tens{C},
  \end{equation}
  
  where $\mathcal{M}$ is a set of $|\mathcal{M}|$ tuples representing paired indices of $\tens{A}$ and $\tens{B}$ over which the convolution is performed and $\mathcal{P}$ represents the modes of $\tens{A}$ and $\tens{B}$ which are permuted, expanding the order of $\tens{C}$ relative to that of tensor convolution.
@@ -163,19 +163,19 @@ The permuted tensor convolution operator maps tensor, $\tens{A}$, to the higher-
 where $\mathcal{M}$, consists of the tuples:
 
 \begin{equation}
-\lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace
+\lbrace(m_1,n_1),(m_2,n_2),...,(m_{M},n_{M})\rbrace;
 \end{equation}
 
 and $\mathcal{P}$ by the tuples:
 
 \begin{equation}
-\lbrace(p_1,q_1),(p_2,q_2),...,(p_{P},q_{P})\rbrace
+\lbrace(p_1,q_1),(p_2,q_2),...,(p_{P},q_{P})\rbrace.
 \end{equation}
 
 The permutation operator $\pi(i|j)$ denotes that the fibre number of the tensor in a particular mode are permuted.  The order of the result, $N_{\tens{C}}$, will depend on the orders of the tensors $\tens{A}$ and $\tens{B}$, and the modes participating in the operator $\underset{\mathcal{P}}{\overset{\mathcal{M}}{[ \ast ]}}$, according to:
 
 \begin{equation}
-N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}| 
+N_{\tens{C}} = N_{\tens{A}} + N_{\tens{B}} - |\mathcal{M}|.
 \end{equation}
 
 Modes that do not participate in the convolution or the permutation must have equal dimension. Finally, where a third mode is implicit in one of the arguments of the permuted indices (such as for an order 2 tensor that is being permuted with an order 3 tensor), this is indicated by a ``dot'' symbol (e.g. $\mathcal{P} = \lbrace (\cdot,3)\rbrace$).
@@ -197,13 +197,13 @@ Recognising that SIFT operates with vector fields of the form:
 \vec{\nabla} f(x,y;\sigma) &=& \frac{\partial f(x,y;\sigma)}{\partial x}\vec{x} + \frac{\partial f(x,y;\sigma)}{\partial y}\vec{y}\nonumber \\
 &=& \frac{\partial f(i_1,i_2;\sigma)}{\partial i_1}\mathbf{i}_1 + \frac{\partial f(i_1,i_2;\sigma)}{\partial i_2}\mathbf{i}_2\\
 \label{eq:sift2}
-&=& \bigcup_{k=1}^2 \mathcal{D}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+&=& \bigcup_{k=1}^2 \mathcal{D}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k, 
 \end{eqnarray}
 where spatial dimensions $(x,y)$ are now represented by modes $i_1,i_2$ in the tensor notation of Kolda \citep{kolda2009tensor}, and Eq.~\ref{eq:sift2} follows from Eq.~\ref{eq:sift1} because of the orthogonality of unit vectors $\vec{x}$ and $\vec{y}$.  $\mathcal{D}_k$ is a derivative operator along dimension (mode) $i_k$. 
 
 More generally, when the directional operators are not necessarily partial derivatives, the discrete spatial orientation tensor at scale $\sigma$ may be introduced as:
 \begin{equation}
-\tens{G}_{\sigma}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k 
+\tens{G}_{\sigma}  = \bigcup_{k=1}^K \mathcal{O}_k [ f(i_1,i_2;\sigma) ] \mathbf{i}_k.
 \label{eq:IntroG}
 \end{equation}
 
@@ -215,13 +215,13 @@ The operator $\mathcal{O}_k$ is some form of discrete, directional spatial opera
 Using grey-scale image sequences represented as an order 3 tensor, $\tens{F}$, an order 4 tensor $\tens{G}$ is constructed using the first-level of a convolutional network by:
 \begin{equation}
 \tens{G}_{\sigma,\lambda} \triangleq R_+ \left ( \tens{F} \, 
-   \underset{\lbrace (\cdot,3)\rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{K}_{G}} \right )
+   \underset{\lbrace (\cdot,3)\rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{K}_{G}} \right ),
 \end{equation}
 where $[ \ast ]$ represents \textit{tensor convolution} in the modes $i_1$ and $i_2$ (see Definition~\ref{def:convop}), and $\lambda$ is a tunable spatial wavelength parameter. The image sequence, $\tens{F}$, is of dimensions $I_1\times I_2 \times N_F$, where $N_F$ represents the number of image frames in the sequence. The tensor $\tens{K}_{G}$ holds convolution weights that model simple-cell behaviour. These weights are generally orientation selective in the image plane, one direction per slice of the third mode ($i_3$) of $\tens{K}_{G}$; directions span the 2D plane. For the experiments reported in this thesis, I took $\tens{K}_{G}$ to be of dimension $7 \times 7 \times 1\times 8$; the small spatial scale of the tensor is in line with the filters used in recent convolutional networks, but is also quite appropriate for small images.
 
 The function $R_+(\cdot)$ is the one-sided ramp function applied element-wise to its tensor-valued argument. For an order $0$ tensor, $x$, (scalar) the ramp function is defined by
 \begin{equation}
-R_+(x) = \frac{x + |x|}{2}
+R_+(x) = \frac{x + |x|}{2},
 \end{equation}
 
 i.e. it is a non-linear activation function; for a tensor with elements $a_{i_1,i_2,...,i_N}$ it creates a tensor of the same order and size with the elements $|a_{i_1,i_2,...,i_N}|$. 
@@ -241,7 +241,7 @@ The second level of the convolutional network groups the orientation-selective o
 
 \begin{equation}
 \tens{D} \triangleq \tens{G}_{\sigma,\lambda} \, 
-   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}
+   \underset{\lbrace i_3 \rbrace}{\overset{\lbrace i_1,i_2\rbrace}{[ \ast ]}}\, {\tens{P}}.
 \end{equation}
 
 The pooling tensor is also an order 3 tensor that defines 17 pooling regions with respect to each location in image space, distributed in a radial and angular fashion across a patch. The values in this tensor are visualised over a normalised neighbourhood of unit width and height in Figure~\ref{fig:PoolingTensor}. The resulting order 5 tensor, $\tens{D}$, is of dimension $I_1\times I_2 \times 8 \times 17 \times N_F$. Because the slices of this tensor create different pooling regions over a patch, it is distinctly different to the pooling operations of standard CNNs, which typically use a single fixed spatial smoothing operator for each pooling layer, and not multiple poolers for which weights are learnt. 
@@ -381,9 +381,9 @@ In order to model place-cell behaviour it is necessary to map pairs of frames on
 One way to mimic the behaviour of BPCs within APCs becomes patent when revisiting the \textit{kernel} function introduced in the previous chapter. This \textit{kernel} mapped a pair of BOVW-encoded image descriptors onto a positive scalar value. These functions can be equally applied to two BOVW vectors (in the case of the non-biologically inspired descriptors) and two single-order tensors (when referring to the V1-inspired descriptors or SF-GABOR). As both representations are mathematically equivalent, I unified the terms into \textbf{frame encoding vectors} (\textbf{FEVs}) to denote both BOVW vectors and V1 single-order tensors.
 
 I used the following mapping between two FEVs $\mathbf{v}_q$ and $\mathbf{v}_{db}$ (following the notation of previous sections):
-\be
-\kappa_{\chi^2}(\mathbf{v}_q,\mathbf{v}_{db}) = \sum_{j=1}^{400}\frac{v_q(j)\cdot v_{db}(j)}{v_q(j)+v_{db}(j)}
-\ee
+\begin{equation}
+\kappa_{\chi^2}(\mathbf{v}_q,\mathbf{v}_{db}) = \sum_{j=1}^{400}\frac{v_q(j)\cdot v_{db}(j)}{v_q(j)+v_{db}(j)}.
+\end{equation}
 
 This maps the two FEVs onto a scalar value that takes a maximum when the two vectors are identical. The behaviour of this kernel mapping between a fixed frame and a series of frames from a sequence is shown in Figure~\ref{fig:APCSingleNoisy}.  As one moves along the horizontal axis from left to right, vectors from each frame in a section of a video sequence are compared against those of a {\em reference} frame (virtual visual landmark) from another sequence.  The location of the reference frame corresponds to the location in the new sequence at which one observes the peak in the curve (around frame 690) of Figure~\ref{fig:APCSingleNoisy}; this location corresponds to the effective position of the virtual landmark, which is the field of view in front of the camera at that (frame) location.  The variability of responses is high, but it is not unlike the types of variation found in biological place-cell behaviour.  
 
@@ -444,9 +444,9 @@ The similarity function $\kappa_{\chi^2}$ is an important component in producing
 
 
  The place cell is modelled by extracting the frame encoding vector, $\mathbf{v}_{r_i}$, when the camera is at position $r_i$ from one or more reference journeys and calculating the supra-threshold response to some frame $\mathbf{v}_{\ell}$ acquired at location $\ell$. As $\ell$ is varied, $\kappa_{\chi^2}(\mathbf{v}_{\ell},\mathbf{v}_{r_i})$ changes accordingly.  The set of supra-thresholded response curves, $r_i(\ell)$, is generated using:
-\be
-r_i(\ell) = U(\kappa_{\chi^2}(\mathbf{v}_{\ell},\mathbf{v}_{r_i}) - T_i)\cdot \kappa_{\chi^2}(\mathbf{v}_{\ell},\mathbf{v}_{r_i})
-\ee
+\begin{equation}
+r_i(\ell) = U(\kappa_{\chi^2}(\mathbf{v}_{\ell},\mathbf{v}_{r_i}) - T_i)\cdot \kappa_{\chi^2}(\mathbf{v}_{\ell},\mathbf{v}_{r_i}).
+\end{equation}
 where $U(\cdot)$ represents the unit step function and $T_i$ represents a suitable threshold. Curves acquired by averaging responses from several journeys with respect to the same APC location may be referred to as an APC {\em tuning curve}.
 
 By defining APCs at regular intervals along a corridor, a simple population code for location can be devised. In Figure~\ref{fig:APCMany}, the {\em average} response from each of several such APC cell responses is plotted along the length of one corridor.  These curves are produced by setting APCs to be spaced every 4 m within the corridor, and constructing the average APC responses.  In Figure~\ref{fig:APCMany}, ground truth was used to register the curves for illustrative purposes.
