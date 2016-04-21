@@ -156,10 +156,9 @@ For this reason, I include an evaluation of the performance of an object recogni
 Let us consider $N$ training images $\mathbf{T}^{(n)}, n = 1, 2, ..., N$. A SIFT\footnote{Sparse or keypoint SIFT, not to be mistaken with dense-SIFT (DSIFT) introduced later in the thesis.} database was first constructed by computing $I^{(n)}$ descriptor vectors $\mathbf{y}_i^{(n)}, i = 1, 2, ..., I^{(n)}$ using VLFEAT~\cite{Vedaldi2008}. Each descriptor is of dimension $128\times 1$, so is in line with the commonly used configuration, as described by Lowe~\cite{lowe2004distinctive}.
 
 Consider, now, a query image, $\mathbf{Q}$ yielding $J$ SIFT descriptor vectors, $\mathbf{x}_j, j = 1,2,...,J$. The Euclidean distance~\cite{Vedaldi2008} in descriptor space was first computed between query descriptors, $\mathbf{x}_j$, and the training set descriptors, $\mathbf{y}_i^{(n)}$, for each training image, $\mathbf{T}^{(n)}$. Distances were then sorted for each compared descriptor pair.  This was repeated for each image, yielding sets $\mathcal{U}^{(n)}$ consisting of tuples of indices $(p,q)$ such that
+
 \begin{equation}
-
-f_\mathcal{U}^{(n)} := \lbrace (p,q): f_\mathcal{U}(\mathbf{x}_q,\mathbf{y}_p^{(n)})=1\rbrace,\,\,\forall n,
-
+\mathcal{U}^{(n)} := \lbrace (p,q): f_\mathcal{U}(\mathbf{x}_q,\mathbf{y}_p^{(n)})=1\rbrace,\,\,\forall n,
 \end{equation}
 
 where $f_{\mathcal{U}}$ is a uniqueness criterion on descriptor distances within each image pair. The implementation of VLFEAT~\cite{Vedaldi2008} was used, based on the approach suggested by Lowe~\cite{lowe2004distinctive} to define the set of matching descriptor pairs between the query image, $\mathbf{Q}$, and each training image, $\mathbf{T}^{(n)}$. $f_{\mathcal{U}}$ is defined so that descriptor pairs which meet the criterion evaluate to 1, and otherwise to 0. 
