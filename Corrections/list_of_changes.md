@@ -15,6 +15,7 @@ You will find below a list of recommended changes to the thesis based on the dis
 3. Improve the quality of the Introduction chapter as discussed during the viva, including referencing to the state of the art
 
 4. Use punctuation for all equations
+I have added punctuation to all the equations except those where the period (.) has a mathematical meaning.
 
 5. Clearly define in the Introduction chapter your assumptions and the associated limitations of the modelling (intrinsic calibration, camera pose, occlusions, impact of the framerate, lack of tracking, motion blur)
 
