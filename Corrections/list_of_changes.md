@@ -24,6 +24,7 @@ I have added punctuation to all the equations except those where the period (.) 
 7. Several figures are inaccurate or contain insufficient information in the caption
 
   - Remove Fig. 1
+    I have removed Fig. 1 and the references to it in the 3rd paragraph of Chapter 1 and in Section 7.1.
 
   - Remove Fig. 3 
   
