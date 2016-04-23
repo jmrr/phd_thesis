@@ -23,11 +23,11 @@ I have added punctuation to all the equations except those where the period (.) 
 
 7. Several figures are inaccurate or contain insufficient information in the caption
 
-  a. Remove Fig. 1
+  - Remove Fig. 1
 
-  b. Remove Fig. 3 
+  - Remove Fig. 3 
   
-  c. Improve the captions of the figures so that they are self-contained.
+  - Improve the captions of the figures so that they are self-contained.
 
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
 
