@@ -44,6 +44,10 @@ You will find below a list of recommended changes to the thesis based on the dis
 11. Discuss why using a dimension of 2000 for the descriptors (HOG-3D) is reasonable for the problem at hand
 
 12. Remove Sec. 4.8 as discussed during the viva
+  - [x] I have removed this section entirely from the main body of the
+  thesis, and placed it in Appendix A.4. I make reference to this appendix in
+  Section 7.3.2 as part of the future work of the appearance-based localisation
+  topic.
 
 13. Remove the last sentence of Point 1 on page 97 
 
