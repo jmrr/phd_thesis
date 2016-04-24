@@ -51,8 +51,9 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 13. Remove the last sentence of Point 1 on page 97
 
-    - [x] I have removed the sentence and added the following text to account
+  - [x] I have removed the sentence and added the following text to account
      for the latest developments in CNNs for visual self-localisation:
+
     > Specifically, Kendell et al. [88] have applied deep convolutional neural
     networks to camera pose regression, therefore learning location and orientation
     simultaneously. Also using monocular commodity cameras, Giusti et
@@ -85,7 +86,9 @@ You will find below a list of recommended changes to the thesis based on the dis
     A. Giusti, J. Guzzi, D. Ciresan, F. Lin He, J. P. Rodriguez, F. Fontana, M. Faessler, C. Forster, J. Schmidhuber, G. A. Di Caro, D. Scaramuzza, L. Gambardella. A Machine Learning Approach to Visual Perception of Forest Trails for Mobile Robots. IEEE Robotics and Automation Letters, 2015. [link](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?reload=true&arnumber=7358076)
 
     - [x] I have added the reference and comments to the first point of
-    Section 5.1.2.
+    Section 5.1.2 and 5.3. I have also added the relevant references by
+    Kendall & Cipolla [87, 88].
+
 
 22. Some figure captions can be improved to help understanding (e.g. in Fig2, state what the colour means)
 
