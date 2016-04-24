@@ -27,6 +27,7 @@ I have added punctuation to all the equations except those where the period (.) 
     I have removed Fig. 1 and the references to it in the 3rd paragraph of Chapter 1 and in Section 7.1.
 
   - Remove Fig. 3 
+    I have removed Fig. 3 from Chapter 2. In its place, I have used Fig. 53 from Chapter 6 and updated the caption. An adaptation of Fig. 3 has been added to Chapter 4, the "core" of the visual paths study, modifying the caption and references accordingly.
   
   - Improve the captions of the figures so that they are self-contained.
 
