@@ -8,7 +8,7 @@
 You will find below a list of recommended changes to the thesis based on the discussion during the viva voce examination.
 
 
-1. There are a few repetitions of concepts across the thesis and the overall ‘story’ is sometimes fragmented. Remove the repetitions and improve the flow of the description as discussed during the viva.
+1.[x] There are a few repetitions of concepts across the thesis and the overall ‘story’ is sometimes fragmented. Remove the repetitions and improve the flow of the description as discussed during the viva.
 
 2. Define all key terms in a table
 
@@ -23,13 +23,13 @@ I have added punctuation to all the equations except those where the period (.) 
 
 7. Several figures are inaccurate or contain insufficient information in the caption
 
-  - Remove Fig. 1
-    I have removed Fig. 1 and the references to it in the 3rd paragraph of Chapter 1 and in Section 7.1.
+    - Remove Fig. 1
+      I have removed Fig. 1 and the references to it in the 3rd paragraph of Chapter 1 and in Section 7.1.
 
-  - Remove Fig. 3 
-    I have removed Fig. 3 from Chapter 2. In its place, I have used Fig. 53 from Chapter 6 and updated the caption. An adaptation of Fig. 3 has been added to Chapter 4, the "core" of the visual paths study, modifying the caption and references accordingly.
+    - Remove Fig. 3 
+      I have removed Fig. 3 from Chapter 2. In its place, I have used Fig. 53 from Chapter 6 and updated the caption. An adaptation of Fig. 3 has been added to Chapter 4, the "core" of the visual paths study, modifying the caption and references accordingly.
   
-  - Improve the captions of the figures so that they are self-contained.
+    - Improve the captions of the figures so that they are self-contained.
 
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
 
@@ -59,7 +59,7 @@ I have added punctuation to all the equations except those where the period (.) 
 
 21. Add and comment on the following reference
 
-  A. Giusti, J. Guzzi, D. Ciresan, F. Lin He, J. P. Rodriguez, F. Fontana, M. Faessler, C. Forster, J. Schmidhuber, G. A. Di Caro, D. Scaramuzza, L. Gambardella. A Machine Learning Approach to Visual Perception of Forest Trails for Mobile Robots. IEEE Robotics and Automation Letters, 2015. http://ieeexplore.ieee.org/xpl/articleDetails.jsp?reload=true&arnumber=7358076
+    A. Giusti, J. Guzzi, D. Ciresan, F. Lin He, J. P. Rodriguez, F. Fontana, M. Faessler, C. Forster, J. Schmidhuber, G. A. Di Caro, D. Scaramuzza, L. Gambardella. A Machine Learning Approach to Visual Perception of Forest Trails for Mobile Robots. IEEE Robotics and Automation Letters, 2015. [link](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?reload=true&arnumber=7358076)
 
 22. Some figure captions can be improved to help understanding (e.g. in Fig2, state what the colour means)
 
@@ -75,7 +75,7 @@ I have added punctuation to all the equations except those where the period (.) 
 
 28. Page60: consider removing section 4.2.6?
 
-29. Section 4.3.2, revise title
+[  ] 29. Section 4.3.2, revise title
 
 30. Page 91, consider removing section 4.8
 
