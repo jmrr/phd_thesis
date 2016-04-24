@@ -123,6 +123,8 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 17. References [54] and [55] are corresponding to the same paper
 
+  - [x] These two references have been merged.
+
 18. Reference [26]: two authors are missing
 
 19. Important information is missing in several references [87], [77], [33], [144] (revise all references)
