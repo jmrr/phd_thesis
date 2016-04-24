@@ -36,7 +36,8 @@ You will find below a list of recommended changes to the thesis based on the dis
     - Improve the captions of the figures so that they are self-contained.
 
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
-  The dataset of the problem at hand, the RSM dataset, might seem very
+
+  - [x] The dataset of the problem at hand, the RSM dataset, might seem very
   ambiguous and certainly lacking texture information at some points (e.g.
   sections where the view only shows the walls, ceiling and floor). However,
   other sections are more distinctive and contain elements that once
@@ -60,7 +61,8 @@ You will find below a list of recommended changes to the thesis based on the dis
   the comparison.
 
 9. Discuss why using a dimension of 256 for the GMM is reasonable for the problem at hand
-  This change was addressed in #8.
+
+  - [x] This change was addressed in #8.
 
 10. Clarify the meaning of the sentence on page 56: “Using visual information is towards the higher end ….” (or remove that sentence) 
   - [x] I have simplified the sentence, that now reads: *Using visual information
