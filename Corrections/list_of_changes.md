@@ -127,6 +127,8 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 18. Reference [26]: two authors are missing
 
+  - [x] Fixed, added Gong and Xiang.
+
 19. Important information is missing in several references [87], [77], [33], [144] (revise all references)
 
 20. The thesis report would benefit from proofreading
