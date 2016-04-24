@@ -40,7 +40,8 @@ You will find below a list of recommended changes to the thesis based on the dis
 9. Discuss why using a dimension of 256 for the GMM is reasonable for the problem at hand
 
 10. Clarify the meaning of the sentence on page 56: “Using visual information is towards the higher end ….” (or remove that sentence) 
-
+  - [x] I have simplified the sentence, that now reads: *Using visual information
+  for localisation holds great potential but lacks reliability [...]*
 11. Discuss why using a dimension of 2000 for the descriptors (HOG-3D) is reasonable for the problem at hand
 
 12. Remove Sec. 4.8 as discussed during the viva
