@@ -37,7 +37,7 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
 
-  - [x] The dataset of the problem at hand, the RSM dataset, might seem very
+ - [x] The dataset of the problem at hand, the RSM dataset, might seem very
   ambiguous and certainly lacking texture information at some points (e.g.
   sections where the view only shows the walls, ceiling and floor). However,
   other sections are more distinctive and contain elements that once
@@ -51,7 +51,7 @@ You will find below a list of recommended changes to the thesis based on the dis
   proved success for other tasks such as object categorisation (Chatfield
   et al., 2011).
 
-  Finally, I have added to Section 4.5.1 the fact that an evaluation with
+    Finally, I have added to Section 4.5.1 the fact that an evaluation with
   smaller dictionary (64 words for the case of VLAD and 400 for HA) was
   conducted but showed poorer results. The following comment was included:
 
