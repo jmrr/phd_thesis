@@ -36,13 +36,50 @@ You will find below a list of recommended changes to the thesis based on the dis
     - Improve the captions of the figures so that they are self-contained.
 
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
+  The dataset of the problem at hand, the RSM dataset, might seem very
+  ambiguous and certainly lacking texture information at some points (e.g.
+  sections where the view only shows the walls, ceiling and floor). However,
+  other sections are more distinctive and contain elements that once
+  captured by a dictionary can provide better retrieval performance. This is
+  the case of research posters, permanent exhibition stands, pieces of
+  furniture, etc. As dictionaries are computed over the whole sequence,
+  large dictionary sizes can assure that this information is collected.
+
+  Another reason for the choice of a large dictionary size was for the
+  reproducibility of the results with appearance-based methods that have
+  proved success for other tasks such as object categorisation (Chatfield
+  et al., 2011).
+
+  Finally, I have added to Section 4.5.1 the fact that an evaluation with
+  smaller dictionary (64 words for the case of VLAD and 400 for HA) was
+  conducted but showed poorer results. The following comment was included:
+
+  > Large dictionary sizes for an ambiguous dataset such as RSM might not seem
+  adequate. However, internal experiments with smaller dictionary sizes
+  (64 for VLAD and 400 for HA) showed poorer results and were not included in
+  the comparison.
 
 9. Discuss why using a dimension of 256 for the GMM is reasonable for the problem at hand
+  This change was addressed in #8.
 
 10. Clarify the meaning of the sentence on page 56: “Using visual information is towards the higher end ….” (or remove that sentence) 
   - [x] I have simplified the sentence, that now reads: *Using visual information
   for localisation holds great potential but lacks reliability [...]*
+
 11. Discuss why using a dimension of 2000 for the descriptors (HOG-3D) is reasonable for the problem at hand
+    - [x] The size of 2,000 refers to the number of descriptors extracted from the
+    dense methods. This size is directly related with the stride length of
+    the dense grids used. These were standard (Chatfield et al., 2011) and
+    provide robustness against obstacles and temporal variations present in
+    the scene with no computational overhead in the case of DSIFT (VLFEAT,
+    2015). A comment has been added in Section 4.6.2:
+
+    > Dense methods are known to provide a better coverage of the scene and
+    in principle should show better performance~\cite{tuytelaars2010dense}.
+    However the performance of KP-SIFT is in the range of its dense counterpart
+    and above other dense methods such as ST-GAUSS, ST-GABOR and HOG3D, thus
+    casting doubt on the need for such a dense sampling
+    ($\approx$ 2,000 descriptors per image).
 
 12. Remove Sec. 4.8 as discussed during the viva
   - [x] I have removed this section entirely from the main body of the
