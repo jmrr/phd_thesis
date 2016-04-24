@@ -130,6 +130,10 @@ You will find below a list of recommended changes to the thesis based on the dis
   - [x] Fixed, added Gong and Xiang.
 
 19. Important information is missing in several references [87], [77], [33], [144] (revise all references)
+ - 87: Klein and Murray
+ - 77 Huitl, Rinshagen...
+ - 33 Jorge Cham (Accessed...)
+ - 144 mine, code.
 
 20. The thesis report would benefit from proofreading
 
