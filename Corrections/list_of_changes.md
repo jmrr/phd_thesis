@@ -49,7 +49,22 @@ You will find below a list of recommended changes to the thesis based on the dis
   Section 7.3.2 as part of the future work of the appearance-based localisation
   topic.
 
-13. Remove the last sentence of Point 1 on page 97 
+13. Remove the last sentence of Point 1 on page 97
+
+    - [x] I have removed the sentence and added the following text to account
+     for the latest developments in CNNs for visual self-localisation:
+    > Specifically, Kendell et al. [88] have applied deep convolutional neural
+    networks to camera pose regression, therefore learning location and orientation
+    simultaneously. Also using monocular commodity cameras, Giusti et
+    al. [63] train a deep neural network as a supervised image classifier to
+    compute the main direction of travel within a trail compared to the viewing
+    direction. These are, to our knowledge, the first applications of convolutional
+    networks for self-localisation from monocular visual data. These methods
+    achieve extraordinary localisation results in the order of 2 m.
+    However, they often lack a theoretical formulation of the operators used in
+    their neural networks. The tensor operations described in this chapter
+    represent an effort towards an unambiguous theoretical tool that can help
+    formalise the operators used in state-of-the-art experimental methods.
 
 14. Provide a reference to Lowe’s work for the choice of the value of $\alpha$ (0.7)
 
@@ -69,6 +84,9 @@ You will find below a list of recommended changes to the thesis based on the dis
 
     A. Giusti, J. Guzzi, D. Ciresan, F. Lin He, J. P. Rodriguez, F. Fontana, M. Faessler, C. Forster, J. Schmidhuber, G. A. Di Caro, D. Scaramuzza, L. Gambardella. A Machine Learning Approach to Visual Perception of Forest Trails for Mobile Robots. IEEE Robotics and Automation Letters, 2015. [link](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?reload=true&arnumber=7358076)
 
+    - [x] I have added the reference and comments to the first point of
+    Section 5.1.2.
+
 22. Some figure captions can be improved to help understanding (e.g. in Fig2, state what the colour means)
 
 23. Remove on page2 the sentence “In recent years …. at all” 
@@ -86,9 +104,9 @@ You will find below a list of recommended changes to the thesis based on the dis
 29. Section 4.3.2, revise title
 
 30. Page 91, consider removing section 4.8
-
+  - [x] Done. Same correction as #12.
 31. Page97, paragraph 1, last sentence, the claim is invalid, revise or remove
-
+  - [x] done. Same correction as #13.
 32. Page143, fig53, consider moving it to introduction?
   - [x] I have moved Fig. 53 and adapted caption and references. It
   describes a higher level concept of *visual path* therefore I agree with
