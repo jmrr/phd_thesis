@@ -75,7 +75,7 @@ I have added punctuation to all the equations except those where the period (.) 
 
 28. Page60: consider removing section 4.2.6?
 
-[  ] 29. Section 4.3.2, revise title
+-[  ] 29. Section 4.3.2, revise title
 
 30. Page 91, consider removing section 4.8
 
