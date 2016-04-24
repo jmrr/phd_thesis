@@ -652,37 +652,6 @@ In Section \ref{visloc_perf} I calculated the average absolute positional error 
 
 
 
-%------------------------------------------------------------------------- 
-\section{A visualisation of the frame distribution with t-SNE}
-
-In the previous sections I have extensively studied the case of the localisation within a journey, answering the question ``where am I along the path?'' that was introduced in Chapter \ref{ch:chapter2}. In a visual path retrieval system divided in different journeys inside a building, to be able to answer the question ``in which path am I on?'' with precision would give this system the necessary prior information to provide a better location and also suggest path planning, which would be specially relevant in an assistive context as we will see in Chapter \ref{ch:chapter6}. Although the journey selection was beyond the scope of this thesis, it was informative to study the behaviour of a state-of-the-art dimensionality reduction technique in a rather challenging scenario of having such highly dimensional data (the BOVW-encoded vectors have 4,000 elements). Therefore I chose t-SNE as a technique for visualising in two or three dimensions the high dimensional descriptor space of the RSM dataset.
-
-t-distributed stochastic neighbour embedding (t-SNE) is a machine learning algorithm for dimensionality reduction developed by Laurens van der Maaten and Geoffrey Hinton \cite{maaten2009learning}. It is a non-linear dimensionality reduction technique that is particularly well suited for embedding high-dimensional data into a space of two or three dimensions, which can then be visualised in a scatter plot. Specifically, it models each high-dimensional object by a two- or three-dimensional point in such a way that similar objects are modelled by nearby points and dissimilar objects are modelled by distant points.
-
-In other words, t-SNE is a dimensionality reduction technique that aims to preserve the local structure of the data. For this reason I wanted to compute the visual path descriptions of the RSM dataset and build the foundations for future work on journey/corridor selection.
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{gfx/Chapter04/tsne_dsift_3d.pdf}
-\caption{Distribution of the BOVW data of the RSM dataset in a reduced 3D space when visualised with t-SNE. Colours refer to different corridors in the dataset. Note that there is some evidence of the locally connected paths in the visual-words space.}
-\label{fig:tsne3d}
-\end{figure}
-
-In Figure \ref{fig:tsne3d} we can see the 4,000-dimension visual word reduced to three dimensions and in Figure \ref{fig:tsne2d} we can see the two-dimensional embedding. The embeddings were generated using more than 50,000 randomly selected examples from all the corridors. Following the method described in Section~\ref{sec:quant_and_encod}, I selected for this particular example dense-SIFT descriptors encoded with hard assignment (HA), using $k$-means to create the visual word examples.
-
-As we can see from the images, the difficulty of generating two or three-dimensional embeddings of such a high dimensional and complex dataset is notable. However, there are patterns showing how examples from the same corridors can display a sequential relationship within the embeddings.
-
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{gfx/Chapter04/tsne_dsift_2d.pdf}
-\caption{Distribution of the BOW data of the RSM dataset in a reduced 2D space when visualised with t-SNE. It is easy to identify some sets of points that form locally one-dimensional structures. Though they are not always contiguous for one corridor, the concept of visual paths appears at least partially justified.}
-\label{fig:tsne2d}
-\end{figure}
-
-The present thesis gives an emphasis on understanding \textit{visual path} data from a journey perspective, from a crowdsourced collection of journeys in particular. However, although of limited practical use within journey localisation, this visualisation is the first step in understanding the structure of the data from a ``building'' perspective.
-
-It is therefore subject of future work the use of these visualisations to understand the important features of visual paths datasets such as the presence of global clusters that reveal remarkable distinctiveness between journeys or give insight on how to optimise the retrieval based on between-journey differences.
 
 %------------------------------------------------------------------------- 
 \section{Conclusion}
@@ -692,8 +661,6 @@ I have presented three main contributions to the topic of indoor localisation us
 The results show that there is significant localisation information in the visual data, and that errors as small as \SI{1.5}{m} over a \SI{50}{m} distance can be achieved, even without tracking. As mentioned above, the results have been reported in two ways: a) average absolute positional errors, and b) error distributions, both of which allow image descriptions to be assessed for their localisation capability.  The latter could also be used to build a measurement model for inclusion in a Kalman or particle filter  aimed at supporting human ambulatory navigation. 
 
 As a baseline for these results, I provide a comparison with the state of the art method in SLAM, LSD-SLAM, with the best appearance-based method, SF-GABOR. It was found, rather surprisingly, that appearance-based localisation appeared to be at least as accurate as that of LSD-SLAM without loop closure over a distance of around 50 m. In particular, SF-GABOR presents a lower average localisation error ($\mu_{e,SF-GABOR} = 1.59 $ m $< \mu_{e,LSD-SLAM} = 2.48 $ m). It was also found that a\-ppea\-rance\--based localisation was achievable with low resolution images, of around 30,000 pixels per image -- a 5\% of the number of pixels in the frames used for the LSD-SLAM experiment. This lowers the computational burden, a potentially important factor in an assistive context where device power autonomy can hinder the use of power-hungry computer vision algorithms. In addition, the small file sizes required for the appearance-based localisation approach reduces the bandwidth and storage required for crowdsourcing data. Results show that 1,500-frame sequences, sufficient for a 50 m corridor at normal walking speeds, consumed no more than 2 MB once compressed, meaning that the journey segments required can feasibly be crowdsourced from several users within a building.
-
-Finally, the high-dimensional visual word space representing the RSM dataset is visualised in 2D and 3D using t-SNE, a powerful dimensionality reduction algorithm for visualisations. The aim of this visualisation is to lay the foundations for future studies on retrieval at the building or large scale level, rather than at the journey level as in this thesis.
 
 We plan to introduce tracking in future work. There are, of course, numerous other enhancements that one could make for a system that uses visual data; integration of data from other sensors springs to mind, such as inertial sensing, magnetometers and RSSI.  Although fusing independent and informative data sources would theoretically lead to improvements in performance, we would argue that the methods applied to infer location from each information source should be rigorously tested, both in isolation and as part of an integrated system.  This would help ensure that real-world systems would be somewhat robust to sensor failure. We anticipate that using vision to associate locations in the journeys of several users through their visual paths could play an important role in navigation. In fact, in the next chapter I delve deeper into the importance of appearance-based retrieval techniques in localisation and explore the similarities of these techniques with those present in biology. I develop a model of biological mimicry to configure a localisation system inspired in biological place cells found in mammals.
 

@@ -5,16 +5,17 @@
 %\markboth{\spacedlowsmallcaps{Appendix}}{\spacedlowsmallcaps{Appendix}}
 \chapter{Appendices}
 
-
+%------------------------------------------------------------------------- 
 \section{Algorithm for generating cumulative error distributions}
 \input{Chapters/cdf_algorithm}
+%------------------------------------------------------------------------- 
 
 \newpage
 \input{Chapters/tensor_convolution}
 
+
+%------------------------------------------------------------------------- 
 \newpage
-
-
 \section{LSD-SLAM parameters}
 \label{sec:slampars}
 
@@ -36,8 +37,12 @@
 
 $^{(*)}$  The values for the keyframe weights, KFUsage-Weight and KFDist-weight were increased following the suggestions of LSD-SLAM authors. By increasing these weights the thresholds to take keyframes are lowered, therefore more keyframes are taken, gaining robustness against tracking at the expense of a larger map, more loop closures and slower processing. Although both affect the amount of keyframes that are selected, KF\-Dist\-Weight is an indirect weight applied to the distance between frames that has an influence in the keyframe selection threshold. KFUsageWeight on the other hand, directly modifies the keyframe selection threshold.
 
+%------------------------------------------------------------------------- 
 \newpage
+\input{Chapters/tsne}
 
+%------------------------------------------------------------------------- 
+\newpage
 \section{Tactile feedback experiment protocol}
 \input{Chapters/experiment}
 
