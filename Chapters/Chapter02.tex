@@ -39,7 +39,14 @@ Several methods of indoor localisation using smartphone\--re\-le\-vant technolog
 
 The path localisation problem can be split into two distinct tasks.  The first is to determine which of $P$ possible paths one is navigating along, and the second is to determine where along a particular visual path one is located.  In the context of computer vision, a key question concerns the \textit{distinctiveness} of information along paths, either as indicators of a particular journey or as indicators of location along a known journey.  Note that localisation with respect to a map is not explicitly attempted -- the suggestion is to localise with respect to a journey.  In the context of many users, this would appear to be a sensible way to harvest information about locations that might be frequently reconfigured in a manner that would reduce dependence on explicit mapping processes.
 
-Though SLAM and PTAM are strong candidates for assistive techniques, there is also the need to combine mapping with object detection and other types of semantic information.  Putting these systems in the category of mapping and localisation, I explore the possibility that rather than mapping out a space, a user might be more interested in merely following a path that has been traversed by others.  It is in this long-term, collaborative context that the visual path concept would sit: we wish to allow users to compare their journeys against those of others through these visual paths (see Figure \ref{fig:pathexample}).
+Though SLAM and PTAM are strong candidates for assistive techniques, there is also the need to combine mapping with object detection and other types of semantic information.  Putting these systems in the category of mapping and localisation, I explore the possibility that rather than mapping out a space, a user might be more interested in merely following a path that has been traversed by others.  It is in this long-term, collaborative context that the visual path concept would sit: we wish to allow users to compare their journeys against those of others through these visual paths (see Figure \ref{fig:associatingViews}).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{./gfx/Chapter02/AssociatingViews.pdf}
+\caption{Crowdsourcing indoor journeys (``visual paths'') from multiple users.  Users $A$ and $B$ make the same journey at different points in time, but can associate their journeys through storing their visual paths on a server; other users $C$ and $D$, make different journeys, but again can associate their experiences with each other. The statistical tests reported in this chapter compare the within-path queries and between-path queries, as well as within-path, between-location scores based on image comparisons.}
+\label{fig:associatingViews}
+\end{figure}
 
 In tracing along different paths, one might ask how distinctive the visual content is along one path relative to the appearance along another. In this pilot study I used a standard keypoint and descriptor type approaches -- the SIFT keypoint and descriptor -- to describe visual paths captured by users as they walked along indoor environments. The same type of image description will be subject of a dedicated study in Chapter \ref{ch:chapter4}.
 
@@ -51,14 +58,6 @@ For the preliminary work described in this chapter, \textit{sparse}\footnote{Als
 \subsection{Visual Path Descriptions} First, consider a number $M_p^{(i)}$ of descriptor vectors, $\mathbf{v}_m^{(i)}, m=1,2,\ldots,M^{(i)}$ produced from an image, $\mathbf{I}^{(i)}_p$, with each vector being of  dimension $L \times 1$.  These descriptors are stacked into the rows of an $M^{(i)}\times L$ descriptor matrix, $\mathbf{V}^{(i)}_p$ associated with image $\mathbf{I}^{(i)}_p$.  A \textit{set} of images, $\lbrace \mathbf{I}^{(i)}_p\rbrace_{i=1,2,\ldots\,N_p}$ is now collected for path $C_p$, and for each of these, a descriptor matrix is produced.  A visual path $C_p$ is then encoded by the set of matrices of descriptors, denoted $\mathcal{M}_p=\lbrace \mathbf{V}^{(i)}_p \rbrace_{i=1,2,\ldots,N_p}$ generated from the set of images taken along that path.
  
 Query images, $\mathbf{J}^{(j)}$, $j=1,2,\ldots,N_q$ are now acquired, separately.  A particular query image is also mapped to matrix of descriptors $\mathbf{Q}^{(j)}$. We wish to know which of the $P$ paths the query image $\mathbf{J}^{(j)}$ has been taken on; this is answered by comparing the query descriptor matrix against the set of path descriptors for all paths, $\lbrace \mathcal{M}_p \rbrace_{p=1,2,\ldots, P}$.
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{./gfx/Chapter02/pathexample.pdf}
-\caption{Diagram illustrating the nature of visual paths and queries.  There are different paths recorded in the databases. The statistical tests reported in this chapter compare the within-path queries and between-path queries, as well as within-path, between-location scores based on image comparisons.}
-\label{fig:pathexample}
-\end{figure}
-
 
 \subsection{Pairwise Descriptor Comparisons} \label{subsec:pairwise}
 
