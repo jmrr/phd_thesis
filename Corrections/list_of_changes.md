@@ -37,7 +37,7 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
 
- - [x] The dataset of the problem at hand, the RSM dataset, might seem very
+  - [x] The dataset of the problem at hand, the RSM dataset, might seem very
   ambiguous and certainly lacking texture information at some points (e.g.
   sections where the view only shows the walls, ceiling and floor). However,
   other sections are more distinctive and contain elements that once
@@ -108,6 +108,14 @@ You will find below a list of recommended changes to the thesis based on the dis
     formalise the operators used in state-of-the-art experimental methods.
 
 14. Provide a reference to Lowe’s work for the choice of the value of $\alpha$ (0.7)
+
+  - [x] I have added a reference and a comment:
+
+    > 0 < α < 1 is set to around 0.7, and any query descriptors that do not
+   satisfy this condition are discarded. This “uniqueness criterion” was chosen
+   by Lowe as the ratio of closest to second-closest neighbours of each
+   descriptor that provides the best ratio of probabilities for correct versus
+   incorrect matches [105].
 
 15. Clearly summarise in the Conclusion chapter the limitations of your methods, based on the experimental validation 
 
