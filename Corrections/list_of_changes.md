@@ -51,8 +51,7 @@ You will find below a list of recommended changes to the thesis based on the dis
   proved success for other tasks such as object categorisation (Chatfield
   et al., 2011).
 
-    Finally, I have added to Section 4.5.1 the fact that an evaluation with
-  smaller dictionary (64 words for the case of VLAD and 400 for HA) was
+  Finally, I have added to Section 4.5.1 the fact that an evaluation with a smaller dictionary (64 words for the case of VLAD and 400 for HA) was
   conducted but showed poorer results. The following comment was included:
 
   > Large dictionary sizes for an ambiguous dataset such as RSM might not seem
