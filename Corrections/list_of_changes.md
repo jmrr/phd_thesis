@@ -158,6 +158,9 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 27. Page40, define what positive and negative queries are.
 
+  - [x] I have slighlty rewritten Section 3.5.1 and introduced the sentence:
+  >  When testing for each category, a query can be a positive or a negative depending whether it belongs to the category being tested or not. In this scenario, a one-against-all binary classifier leads to four possible outcomes [...]
+
 28. Page60: consider removing section 4.2.6?
 
   - [x] I have removed this section as I consider that the introduction of Chapter 5 already provides enough information regarding the biological motivation of the methods.
