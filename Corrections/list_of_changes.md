@@ -111,7 +111,7 @@ You will find below a list of recommended changes to the thesis based on the dis
 
   - [x] I have added a reference and a comment:
 
-    > 0 < α < 1 is set to around 0.7, and any query descriptors that do not
+   >$0 < \alpha < 1$ is set to around 0.7, and any query descriptors that do not
    satisfy this condition are discarded. This “uniqueness criterion” was chosen
    by Lowe as the ratio of closest to second-closest neighbours of each
    descriptor that provides the best ratio of probabilities for correct versus
@@ -160,7 +160,11 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 28. Page60: consider removing section 4.2.6?
 
+  - [x] I have removed this section as I consider that the introduction of Chapter 5 already provides enough information regarding the biological motivation of the methods.
+
 29. Section 4.3.2, revise title
+
+  - [x] I have changed this title for the more informative: *Frame-level descriptor: One descriptor per frame*
 
 30. Page 91, consider removing section 4.8
   - [x] Done. Same correction as #12.
