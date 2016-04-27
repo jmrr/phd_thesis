@@ -155,6 +155,9 @@ You will find below a list of recommended changes to the thesis based on the dis
 
 26. Page 24, 1st paragraph, revise the sentence starting “Since…”
 
+  - [x] I have simplified the sentence that now reads:
+  > Since a key reason for incorporating computer vision into navigational aides would be to detect path obstructions and hazards, Chapter 4 introduces a set of benchmarks using a collection of standard and custom *dense* descriptors that seem to be specially well-suited for this task.
+
 27. Page40, define what positive and negative queries are.
 
   - [x] I have slighlty rewritten Section 3.5.1 and introduced the sentence:
