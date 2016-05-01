@@ -152,9 +152,9 @@ when the subject navigates a previously visited place.
  following ones:
 
  - [x] 87: Klein and Murray
- - [x] 77 Huitl, Rinshagen...
- - [x]33 Jorge Cham (Accessed...)
- - [x] 144 mine, code.
+ - [x] 77: Huitl, Rinshagen...
+ - [x] 33: Jorge Cham (Accessed...)
+ - [x] 144: mine, code.
 
 20. The thesis report would benefit from proofreading
 
