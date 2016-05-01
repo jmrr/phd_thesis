@@ -169,6 +169,9 @@ when the subject navigates a previously visited place.
 
 22. Some figure captions can be improved to help understanding (e.g. in Fig2, state what the colour means)
 
+  - [x] I have improved the figure captions throughout the thesis. In
+  particular, for Figures 1, 2, 11, 19, 25, 34, 41, 42, 46, 48.
+
 23. Remove on page2 the sentence “In recent years …. at all” 
 
 24. Define “feature” and “descriptor”

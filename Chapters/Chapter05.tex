@@ -250,7 +250,7 @@ The pooling tensor is also an order 3 tensor that defines 17 pooling regions wit
 \begin{figure}[!t]
 \centering
 \includegraphics[width=3.5in]{gfx/Chapter05/PoolingTensorRender.png}
-\caption{Illustration of the order 3 pooling tensor, visualised using transparency and colours to depict the spatial arrangement of values in the third mode. }
+\caption{Illustration of the order 3 pooling tensor, visualised using transparency and colours to depict the spatial arrangement of values in the third mode. The 17 pooling regions corresponding to the $11 \times 11 \times 17$ tensor are divided in a) a central region, b) 8 ``petals'' at a distance $d1$ from the center with 8 different orientations and c) another 8 ``petals'' at a distance $d2$ on the same orientations. Best viewed in the electronic version.}
 \label{fig:PoolingTensor}
 \end{figure}
 
@@ -414,7 +414,7 @@ This maps the two FEVs onto a scalar value that takes a maximum when the two vec
   \setlength\figurewidth{.8\textwidth}
   \input{gfx/Chapter05/tikz/receptive_place_field.tex}
   %\includegraphics[width=4.5in]{gfx/Chapter05/receptive_place_field.pdf}
-  \caption{The variability of individual artificial place field (APC) responses, displayed using mean and the variability of the response over ensembles.}
+  \caption{The variability of individual artificial place field (APC) responses, displayed using mean and the variability of the response over ensembles. Each line corresponds to the place cell field shape when testing against one specific pass.}
   \label{fig:APCVariability}
 \end{figure}
 
@@ -427,7 +427,7 @@ The similarity function $\kappa_{\chi^2}$ is an important component in producing
 \begin{figure}
 \centering
   \includegraphics[width=.8\linewidth]{gfx/Chapter05/tuning_curve-thresh.pdf}
-\caption{Sub-threshold and supra-threshold regions can be identified by setting a threshold on the amplitude of the $\kappa_{\chi^2}$ similarity measure; the height of the threshold controls the support region of supra-threshold region of an artificial place cell.}
+\caption{Sub-threshold and supra-threshold regions can be identified by setting a threshold on the amplitude of the $\kappa_{\chi^2}$ similarity measure; the height of the threshold controls the support region (i.e. the place cell width) of supra-threshold region of an artificial place cell.}
 \label{fig:Supra}
 \end{figure}
 
@@ -457,7 +457,7 @@ By defining APCs at regular intervals along a corridor, a simple population code
   \setlength\figurewidth{.9\linewidth}
   \input{gfx/Chapter05/tikz/APCRealResponses.tex}
 %\includegraphics[width=4in]{gfx/Chapter05/APCRealResponses.pdf}
-\caption{Responses from APCs.  The APCs are defined every 4 $m$ within a corridor, using ground truth information described in the experimental section.  Once defined, these APCs provide two different methods of localisation. In this example, 10 values for $i$ are used for $r_i$.}
+\caption{Responses from APCs, each colour representing one APC.  The APCs are defined every 4 $m$ within a corridor, using ground truth information described in the experimental section.  Once defined, these APCs provide two different methods of localisation. In this example, 10 values for $i$ are used for $r_i$.}
 \label{fig:APCMany}
 \end{figure}
 
@@ -594,7 +594,7 @@ absolute localisation errors range from below one metre to 1.49 m. Ground truth 
 \begin{figure}
 \centering
 \includegraphics[height=\linewidth]{gfx/Chapter05/placeCellsExperiment_withDetection_5px.png}
-\caption{Using ground truth from a surveyor's wheel, activations from APCs are overlaid onto the floor plan in which video data was acquired. Different colours refer to individual APCs. For this visualisation experiment, 8 APCs were constructed.}
+\caption{Using the ground truth information acquired with the surveyor's wheel for the passes in the database, activations from APCs are overlaid onto the floor plan in which video data was acquired. Different colours refer to individual APCs. For this visualisation experiment, 8 APCs were constructed.}
 \label{fig:floorplan}
 \end{figure}
 
@@ -648,7 +648,7 @@ A set of 10 journeys through one of the corridors of the RSM building with diffe
 \setlength\figureheight{0.6\textwidth}
 	\setlength\figurewidth{0.8\linewidth}
 		\input{gfx/Chapter05/tikz/nexusVsGlass_sf_gabor_C2.tex}
-\caption{Multi-device sub-APC localisation test.}
+\caption{Multi-device sub-APC localisation test. Green represents localisation results when only passes from the Nexus were used for the dictionary learning. Blue represents the localisation results when passes acquired with both Nexus and Glass devices were used for the dictionary learning. In particular, the light blue shade represents the variability of the results for the cross-device scenario for dictionaries created with different combinations of passes from the two devices. The dark-blue line shows the average performance for the cross-device scenario. Note the substantially worse cross-device performance.}
 \label{fig:multiDevice}
 \end{figure}
 
