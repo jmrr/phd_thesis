@@ -14,6 +14,7 @@ You will find below a list of recommended changes to the thesis based on the dis
 2. Define all key terms in a table
 
  - [x] I have included all the key terms in a glossary section before the introduction. The key terms are the following:
+
 	- **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
 be an interesting point, an edge or a shape present in the image.
 	- **Keypoints** Also called interesting points, keypoints are a specific type of features that capture special local
@@ -144,11 +145,16 @@ when the subject navigates a previously visited place.
 
   - [x] Fixed, added Gong and Xiang.
 
-19. Important information is missing in several references [87], [77], [33], [144] (revise all references)
- - 87: Klein and Murray
- - 77 Huitl, Rinshagen...
- - 33 Jorge Cham (Accessed...)
- - 144 mine, code.
+19. Important information is missing in several references [87], [77], [33],
+ [144], (revise all references):
+ I have revised all the references, deleting unnecessary URLs, adding
+ 'Accessed + date' for webpage resources and added the missing details in the
+ following ones:
+
+ - [x] 87: Klein and Murray
+ - [x] 77 Huitl, Rinshagen...
+ - [x]33 Jorge Cham (Accessed...)
+ - [x] 144 mine, code.
 
 20. The thesis report would benefit from proofreading
 
