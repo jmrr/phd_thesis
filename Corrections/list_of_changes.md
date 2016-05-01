@@ -11,6 +11,10 @@ You will find below a list of recommended changes to the thesis based on the dis
 1. There are a few repetitions of concepts across the thesis and the overall
  ‘story’ is sometimes fragmented. Remove the repetitions and improve the flow of the description as discussed during the viva.
 
+ - [x] I have proof-read and revised the general flow of the story. I have
+ removed repetitions, in particular those pertaining to Chapter 5, removing
+ Section 5.4.3 as it had too much overlap with Section 5.4.4.
+
 2. Define all key terms in a table
 
  - [x] I have included all the key terms in a glossary section before the introduction. The key terms are the following:
@@ -165,6 +169,8 @@ when the subject navigates a previously visited place.
  - [x] 144: mine, code.
 
 20. The thesis report would benefit from proofreading
+
+  - [x] Addressed in 1.
 
 21. Add and comment on the following reference
 

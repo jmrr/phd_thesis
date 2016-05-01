@@ -331,11 +331,7 @@ However, searching this order 5-space for particular patterns is difficult: for 
 
 Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{|\mathcal{V}|}$, the modes corresponding to the joint orientation and spatial encoding over patches are collapsed to a single term for each patch, and the set of numbers over an entire frame (modes $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Fig.~\ref{fig:HistEncodings}).  These frame-encoded vectors take the form of a single vector (or order 1 tensor) for a given frame, and a matrix (or order 2 tensor) with dimensions $N_F\times|\mathcal{V}|$ for a prior journey sequence held in memory. 
 
-\subsection{Artificial place cells in the tensor population model}
-\label{sec:APC}
 
-%Finally, we express the artificial place cells in the tensor formulation. 
-Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, the aim is now to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Figure~\ref{fig:HistEncodings}).
 
 \begin{figure}
 \centering
@@ -343,20 +339,6 @@ Given the population code for a video sequence, represented by the tensor $\tens
 \caption{Two image frames should have similar representations along the fibre in the order 2 tensor that contains an encoded image sequence.  Here, two similar frames are shown with (diagrammatic) representations taken from along the fibre corresponding to particular frames.  The elements of the fibre correspond to dictionary terms, and the occurrence of each term is recorded.  I used the $\kappa_{\chi^2}$ similarity measure that is explained in Section~\ref{sec:kerneltoAPC}.}
 \label{fig:HistEncodings}
 \end{figure}
-
-
-In line with the findings described in Chapter \ref{ch:chapter4}, I found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms through a \textit{kernel} function that will be described in the next section. That is, individual fibres, one a single order 1 tensor $\mathbf{v}_q$ and a second $\mathbf{v}_{db}$ drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell-like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to the methods of localisation that are discussed in the next section.  
-
-
-%\subsection{Encoding Frames of Video}
-%
-%Given a sequence of video frames, each of which is described by a collection of descriptor vectors, the task of comparing frames can be done by comparing vector pairs.  Whilst a pair of frames captured in two different journeys might differ for a number of reasons that include partial occlusion, motion blur, lighting changes and object/scene changes, one would expect that there might be some patches that are similar.  However, in a 1 minute video, one might capture 1,500 frames, with each frame containing several thousand patch descriptors, each of them a high-dimensional vector.
-%
-%One solution to this ``curse of dimensionality'' is to use the simple vector quantisation approach introduced in Chapter \ref{ch:chapter4} (VQ, $4^{th}$ module of the pipeline described in Figure \ref{fig:pipeline}, and described as hard assignment, or HA in the previous context), creating a mapping (codebook) that reduces each of the descriptors to a single number representing the identifier of an area of descriptor space.  For this set of experiments, we applied the $k$-means algorithm with $k = 400$ to samples of video data acquired from corridors in order to generate the VQ codebook. Patch descriptors were $L_2$ normalised prior to applying the $k$-means algorithm, then each frame was separately encoded into a 400-element Frame-Encoding Vector (FEV). 
-%
-%
-%Given a sequence of video frames which are encoded as a set of descriptor vectors the problem of comparing frames can be done by comparing individual vector pairs.  Whilst a pair of frames captured in two different journeys might differ for a number of reasons that include partial occlusion, motion blur, lighting changes and object/scene changes, one would expect that there might be some patches that are similar.  Patch-based comparisons attempt to perform exactly this.  However, in a 1 minute video, one might capture 1,500 frames, with each frame containing several thousand descriptors, each of them a high-dimensional vector.
-
 
 
 \subsection{Modelling place-cell behaviour}
@@ -462,25 +444,6 @@ By defining APCs at regular intervals along a corridor, a simple population code
 \end{figure}
 
 The responses of the collection of APCs provide important information as a population code \cite{pouget2000information}.  By changing the threshold level, the support region of the APCs can be altered, leading to greater or lesser degrees of overlap, and (see Section \ref{sec:experiments}), different performance.
-
-
-%
-%\subsection{Multiple APCs}
-%
-%
-%\label{sec:APC}
-%Given the population code for a video sequence, represented by the tensor $\tens{S}_p$, we now aim to model the behaviour of place-cells themselves.   Population codes for individual frames are represented by the occurrences with which certain patterns in modes $i_3,i_4$ are observed within a frame.   Once encoded using the dictionary $\mathcal{V}$, which contains terms $t_1,t_2,...,t_{\mathcal{V}}$, the dimensions corresponding to the joint orientation and spatial encoding over patches is collapsed to a single term for each patch, and the set of numbers over the entire frame (dimensions $i_1,i_2$) are converted into a term-frequency representation \cite{Wu:2008} (see Figure~\ref{fig:HistEncodings}).
-%
-%\begin{figure}
-%\centering
-%\includegraphics[width=3.5in]{gfx/Chapter05/HistogramEncodings.pdf}
-%\caption{Two image frames should have similar representations along the fibre in the order 2 tensor that contains an encoded image sequence.  Here, two similar frames are shown with (diagrammatic) representations taken from along the fibre corresponding to particular frames.  The elements of the fibre correspond to dictionary terms, and the occurrence of each term is recorded.  We used the $\chi^2$ similarity measure.}
-%\label{fig:HistEncodings}
-%\end{figure}
-%
-%
-%We found that the $\chi^2$ similarity measure was an appropriate way to compare two histograms. That is, individual fibres, one a single order 1 tensor $\mathbf{q}$ and a second drawn from a previously encoded sequence from a different journey, $\tens{S}_p$, yielded behaviour that decayed gently from the true location of the query shot when using the $\chi^2$ similarity measure, provided that very low similarity scores were thresholded out.  That is, due to the presence of noise, there is a threshold to the $\chi^2$ score above which place-cell like behaviour could be observed.  By varying the height at which APCs are considered to be active, the width of an APC response can be altered.  Altering APCs width is key to to methods of localisation that are discussed in the next section.  
-
 
 
 \subsection{Location from APC activations}
