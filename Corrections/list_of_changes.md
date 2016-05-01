@@ -135,7 +135,15 @@ when the subject navigates a previously visited place.
 
 15. Clearly summarise in the Conclusion chapter the limitations of your methods, based on the experimental validation 
 
-16. The formatting of the references should be improved and made uniform 
+16. The formatting of the references should be improved and made uniform
+
+ - [x] I have reviewed and homogenised the format in all the references. In
+ particular:
+   - [x] For the journal articles I have made sure volume and pages were
+   included.
+   - [ ] For the conference proceedings, I have homogenised the name of the
+   proceedings, sometimes the title of the book was inverted.
+   - [x] For URLs, I have added the date I last accessed the resource.
 
 17. References [54] and [55] are corresponding to the same paper
 
