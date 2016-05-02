@@ -13,7 +13,9 @@ You will find below a list of recommended changes to the thesis based on the dis
 
  - [x] I have proof-read and revised the general flow of the story. I have
  removed repetitions, in particular those pertaining to Chapter 5, removing
- Section 5.4.3 as it had too much overlap with Section 5.4.4.
+ Section 5.4.3 as it had too much overlap with Section 5.4.4 and improving 5
+ .4.2. I have also improved the Introduction therefore addressing #3 and
+ added the main assumptions and limitations to the Introduction and Conclusion.
 
 2. Define all key terms in a table
 
@@ -29,7 +31,13 @@ be an interesting point, an edge or a shape present in the image.
     - **Biological Place Cells** BPCs are a specific type of neuron found in mammals that exhibit an increased firing rate when the subject navigates a previously visited place.
     - **Artificial Place Cells** The computational models of the BPCs presented in this thesis.
  
-3. Improve the quality of the Introduction chapter as discussed during the viva, including referencing to the state of the art
+3. Improve the quality of the Introduction chapter as discussed during the viva,
+ including referencing to the state of the art
+ - [x] I have improved the Introduction removing vague paragraphs (#23),
+ including references to the state of the art ([114], [91], [84], [59],
+ [158], [99], [110] and [163]). I have also defined the assumptions and
+ limitation of the modelling of the  different sub-projects (#5), and
+ clarified some design choices (#6).
 
 4. Use punctuation for all equations
   - [x] I have added punctuation to all the equations except those where the
@@ -172,8 +180,8 @@ be an interesting point, an edge or a shape present in the image.
     A. Giusti, J. Guzzi, D. Ciresan, F. Lin He, J. P. Rodriguez, F. Fontana, M. Faessler, C. Forster, J. Schmidhuber, G. A. Di Caro, D. Scaramuzza, L. Gambardella. A Machine Learning Approach to Visual Perception of Forest Trails for Mobile Robots. IEEE Robotics and Automation Letters, 2015. [link](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?reload=true&arnumber=7358076)
 
     - [x] I have added the reference and comments to the first point of
-    Section 5.1.2 and 5.3. I have also added the relevant references by
-    Kendall & Cipolla [87, 88].
+    Section 5.1.2 and 5.3 and in the Introduction. I have also added the
+    relevant references by Kendall & Cipolla [87, 88].
 
 
 22. Some figure captions can be improved to help understanding (e.g. in Fig2, state what the colour means)
