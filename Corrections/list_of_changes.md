@@ -18,20 +18,16 @@ You will find below a list of recommended changes to the thesis based on the dis
 2. Define all key terms in a table
 
  - [x] I have included all the key terms in a glossary section before the introduction. The key terms are the following:
-    - **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
+ - **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
 be an interesting point, an edge or a shape present in the image.
-    - **Keypoints** Also called interesting points, keypoints are a specific type of features that capture special local
-properties around a coordinate point within the image.
-	- **Descriptors** They are descriptions of a visual feature present in the image such as colour, texture or shape. They are
-related to keypoints as these can be used as locations for the computation of descriptors that measure local properties of the image.
-	- **Visual Path** A collection of image frames that are induced by the relative motion of a person in a scene. 
-	- **Journey** In our context, a visual path that has a start ’A’ and end ’B’ points.
-	- **Corridor** In the present thesis, a corridor represents a the recording of a segment of a journey that in great
-proportion traverses a corridor within a building.
-	- **Pass** Each of the recording instances of the same corridor in the RSM dataset.
-	- **Biological Place Cells** BPCs are a specific type of neuron found in mammals that exhibit an increased firing rate
-when the subject navigates a previously visited place.
-	- **Artificial Place Cells** The computational models of the BPCs presented in this thesis.
+    - **Keypoints** Also called interesting points, keypoints are a specific type of features that capture special local properties around a coordinate point within the image.
+    - **Descriptors** They are descriptions of a visual feature present in the image such as colour, texture or shape. They are related to keypoints as these can be used as locations for the computation of descriptors that measure local properties of the image.
+    - **Visual Path** A collection of image frames that are induced by the relative motion of a person in a scene.
+    - **Journey** In our context, a visual path that has a start ’A’ and end ’B’ points.
+    - **Corridor** In the present thesis, a corridor represents a the recording of a segment of a journey that in great proportion traverses a corridor within a building.
+    - **Pass** Each of the recording instances of the same corridor in the RSM dataset.
+    - **Biological Place Cells** BPCs are a specific type of neuron found in mammals that exhibit an increased firing rate when the subject navigates a previously visited place.
+    - **Artificial Place Cells** The computational models of the BPCs presented in this thesis.
  
 3. Improve the quality of the Introduction chapter as discussed during the viva, including referencing to the state of the art
 
