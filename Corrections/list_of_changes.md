@@ -45,6 +45,95 @@ be an interesting point, an edge or a shape present in the image.
 
 5. Clearly define in the Introduction chapter your assumptions and the associated limitations of the modelling (intrinsic calibration, camera pose, occlusions, impact of the framerate, lack of tracking, motion blur)
 
+ - [x] I have defined the assumptions and limitations of the methods
+ throughout the Introduction and Conclusion chapters. Concretely:
+   - Introduction:
+     - Last paragraph in Section 1.2 now reads:
+
+       > My hypothesis in this aspect is that appearance-based methods can
+      be, in isolation, valid solutions for many challenging problems simultaneously, and combined with other sensing (e.g. WiFi, inertial and depth sensors) and inference techniques (e.g. tracking) it can be a complementary technology that help improve the overall performance of the different approaches on their own. Specifically, as a means to test this hypothesis, I have used only vision approaches to test the feasibility of hand-held and wearable object recognition and visual localisation. Moreover, it is also my goal to evaluate which appearance-based techniques adapt better to the needs of these challenging scenarios in terms of accuracy, power, time and computational load and assess their room for performance.
+
+     - I have created Section 1.5 "Technical assumptions and limitations of the
+     modelling" to give an overview of the main assumptions and limitations
+     of the different sub-projects. This section elaborates as follows:
+
+       >Through the different sub-projects presented in this thesis I have
+      made a number of technical assumptions that provide a context to the
+      research and might pose limitations to the modelling. Future work, as we
+      will see in Chapter 7 often addresses these limitations, but I have included
+      them in the Introduction for clarity. I enumerate these assumptions
+      divided per sub-project next.
+
+       >**Hand-held object recognition** In this project, the main
+        assumption is the separation of the training and test sets of the SHORT
+        dataset. The training set is comprised of high quality models of the
+        100 grocery products, presenting systematic variability in the views to
+        capture multiple angles and elevations. The test set is comprised of a
+        large quantity of unstructured queries (multiple non-calibrated
+        sensors, camera optics, devices, etc.) and provision for assistive
+        testing with the introduction of queries taken by sighted or
+        blindfolded users.
+
+        > **Visual localisation from hand-held and wearable cameras**
+        The version of the RSM released with the thesis did not include people
+        in its sequences and the only occlusions present were cleaning objects
+        and semi-stationary furniture that were present in some sequences and
+        not in the others.
+
+        >Additionally, despite including different illumination conditions, no
+        changes in the viewpoint were included. This can be a limitation in
+        establishing where the algorithms tested in Chapter 4
+        might fail. Nevertheless, descriptor density and a high frame rate
+        ($\geq$ 24 fps) were used as a mitigation strategy for the presence of
+        obstacles.
+
+        >Another assumption in this project was the use of
+        one-dimensional
+        positional ground truth, instead of the customary 6D position (location
+        and pose) that methods from the robotics (SLAM) community use. This
+        simplification was intentional at this stage of the project, as the
+        dataset comprises narrow spaces and contains restricted views (frontal,
+        with low variability in the angle of acquisition). This has proven to
+        be sufficient for the testing of appearance-based algorithms,
+        especially when a comparison against a state-of-the-art SLAM is also
+        provided. However it still represents a limitation of the system that
+        hinders the evaluation of more SLAM methods with the RSM dataset.
+
+        > Apart from the lack of multiple views of the same sequences, other
+        artifacts such as motion blur and the lack of an analysis adding
+        tracking to the methods represent a limitation in the generalisation of
+        the results presented in this thesis. Although the lack of tracking is
+        a deliberated design choice in order to perform the analysis of the
+        appearance-based methods in isolation, it must be taken as a limitation
+        of the system in a final application, since as we will see in
+        Chapter~\ref{ch:chapter4}, SLAM methods benefit from tracking
+        algorithms to supply bad image associations.
+
+        > **Localisation from place-cell models**
+        The creation of place cells is based on the assumptions that a) there
+        will be sufficient frame rate in the sequences as to create the
+        distinctive concave shape of the place cells via associations from
+        multiple visual paths; and b) the similarity of contiguous frames in
+        the sequence is sufficient to yield a similar description obtained with
+        the appearance-based methods.
+
+        >The first assumption does not pose a limitation, as the datasets
+        acquired nowadays can easily have an even higher frame
+        rate [163]. The second assumption, however, might rely up
+        to some extent on the absence of obstacles. The experimental work
+        described in Chapter 5 will discuss the use of dense
+        appearance-based methods as a mitigation strategy.
+
+        > **A prototype of an assistive haptic App for visual
+        localisation**
+        This prototype works as a client-server application that assumes a
+        robust connection between the client and the server. This limitation
+        must be taken into account in a real scenario, together with the
+        possibility of testing the different modules of the application
+        pipeline in different sides of the application: e.g. descriptor
+        computation to be carried out in the client instead of in the server.
+
+
 6. Clearly state in the Introduction why estimating a 1-dimensional position in the path is more desirable than estimating the 6-dimensional position (location and pose) as related methods do 
 
 7. Several figures are inaccurate or contain insufficient information in the caption
