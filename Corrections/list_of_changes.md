@@ -136,6 +136,21 @@ be an interesting point, an edge or a shape present in the image.
 
 6. Clearly state in the Introduction why estimating a 1-dimensional position in the path is more desirable than estimating the 6-dimensional position (location and pose) as related methods do 
 
+ - [x] I have addressed this as part of #5, adding a paragraph in Section 1
+ .5 reproduced here for convenience:
+
+    >Another assumption in this project was the use of
+    one-dimensional
+    positional ground truth, instead of the customary 6D position (location
+    and pose) that methods from the robotics (SLAM) community use. This
+    simplification was intentional at this stage of the project, as the
+    dataset comprises narrow spaces and contains restricted views (frontal,
+    with low variability in the angle of acquisition). This has proven to
+    be sufficient for the testing of appearance-based algorithms,
+    especially when a comparison against a state-of-the-art SLAM is also
+    provided. However it still represents a limitation of the system that
+    hinders the evaluation of more SLAM methods with the RSM dataset.
+
 7. Several figures are inaccurate or contain insufficient information in the caption
 
     - Remove Fig. 1
@@ -147,7 +162,7 @@ be an interesting point, an edge or a shape present in the image.
       53 from Chapter 6 and updated the caption. An adaptation of Fig. 3 has been added to Chapter 4, the "core" of the visual paths study, modifying the caption and references accordingly.
   
     - Improve the captions of the figures so that they are self-contained.
-
+      - [x] I have addressed this as part of #22.
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
 
   - [x] The dataset of the problem at hand, the RSM dataset, might seem very
