@@ -133,6 +133,34 @@ be an interesting point, an edge or a shape present in the image.
         pipeline in different sides of the application: e.g. descriptor
         computation to be carried out in the client instead of in the server.
 
+   - Conclusion: I have summarised the main limitations and added comments
+   in the future work section on how to address these. In particualr,
+   related to the RSM dataset:
+
+   > Another limitation of the current version of the RSM dataset is the absence of
+obstacles and obstructions such as the presence of people in the sequences.
+This can have an impact in the performance of the algorithms that should be
+assessed. We are planning to incorporate “natural” sequences to the next
+version of the dataset, and there is ongoing work within the group to produce
+automatically blurred faces of people present in the sequences to preserve
+anonymity and maintain the open status of the dataset.
+
+    > Finally, as mentioned earlier, one of the biggest limitations of the
+    dataset is the absence of 3D ground truth. Therefore we have the
+    opportunity to expand the dataset with 2 o 3D ground truth but maintaining
+    the natural particularities of human motion. Rich 3D ground truth have
+    traditionally been provided by robots, depriving these datasets from real
+    human motion traits.
+
+    > [...]
+    Finally, a limitation of the evaluation presented in Chapter 5 was the
+    lack of a comparison with "natural"" sequences with obstacles and the
+    presence of people in the scenes. This evaluation is forecast to be included
+    in future work, as despite the high frame-rate and descriptor density,
+    the use of sequences with the presence of human obstacles and other obstructions
+    might have a large impact in the performance of the methods described.
+
+
 
 6. Clearly state in the Introduction why estimating a 1-dimensional position in the path is more desirable than estimating the 6-dimensional position (location and pose) as related methods do 
 
@@ -245,7 +273,9 @@ be an interesting point, an edge or a shape present in the image.
    incorrect matches [105].
 
 15. Clearly summarise in the Conclusion chapter the limitations of your methods, based on the experimental validation 
-
+  - [x] I have addressed this correction as part of #5, in the sub-section
+  dedicated to the Conclusion.
+  
 16. The formatting of the references should be improved and made uniform
 
  - [x] I have reviewed and homogenised the format in all the references. In
@@ -306,7 +336,7 @@ be an interesting point, an edge or a shape present in the image.
    Section 2.2.6 on the $\gamma$ score as it relates to the question "which
    path am I on?" related to the future work that can originate from this PhD
    thesis.
-   
+
 26. Page 24, 1st paragraph, revise the sentence starting “Since…”
 
   - [x] I have simplified the sentence that now reads:
