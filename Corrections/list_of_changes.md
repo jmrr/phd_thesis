@@ -13,13 +13,14 @@ You will find below a list of recommended changes to the thesis based on the dis
 
  - [x] I have proof-read and revised the general flow of the story. I have
  removed repetitions, in particular those pertaining to Chapter 5, removing
- Section 5.4.3 as it had too much overlap with Section 5.4.4 and improving 5
- .4.2. I have also improved the Introduction therefore addressing #3 and
+ Section 5.4.3 as it had too much overlap with Section 5.4.4 and improving 5.4.2.
+  I have also improved the Introduction therefore addressing #3 and
  added the main assumptions and limitations to the Introduction and Conclusion.
 
 2. Define all key terms in a table
 
- - [x] I have included all the key terms in a glossary section before the introduction. The key terms are the following:
+ - [x] I have included all the key terms in a glossary section before the
+ Introduction. The key terms are the following:
  - **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
 be an interesting point, an edge or a shape present in the image.
     - **Keypoints** Also called interesting points, keypoints are a specific type of features that capture special local properties around a coordinate point within the image.
@@ -36,7 +37,7 @@ be an interesting point, an edge or a shape present in the image.
  - [x] I have improved the Introduction removing vague paragraphs (#23),
  including references to the state of the art ([114], [91], [84], [59],
  [158], [99], [110] and [163]). I have also defined the assumptions and
- limitation of the modelling of the  different sub-projects (#5), and
+ limitations of the modelling of the  different sub-projects (#5), and
  clarified some design choices (#6).
 
 4. Use punctuation for all equations
@@ -133,27 +134,26 @@ be an interesting point, an edge or a shape present in the image.
         pipeline in different sides of the application: e.g. descriptor
         computation to be carried out in the client instead of in the server.
 
-   - Conclusion: I have summarised the main limitations and added comments
+     - Conclusion: I have summarised the main limitations and added comments
    in the future work section on how to address these. In particualr,
-   related to the RSM dataset:
+   r  elated to the RSM dataset:
 
-   > Another limitation of the current version of the RSM dataset is the absence of
-obstacles and obstructions such as the presence of people in the sequences.
+        > Another limitation of the current version of the RSM dataset is the
+    absence of obstacles and obstructions such as the presence of people in the sequences.
 This can have an impact in the performance of the algorithms that should be
 assessed. We are planning to incorporate “natural” sequences to the next
 version of the dataset, and there is ongoing work within the group to produce
 automatically blurred faces of people present in the sequences to preserve
 anonymity and maintain the open status of the dataset.
 
-    > Finally, as mentioned earlier, one of the biggest limitations of the
+        > Finally, as mentioned earlier, one of the biggest limitations of the
     dataset is the absence of 3D ground truth. Therefore we have the
     opportunity to expand the dataset with 2 o 3D ground truth but maintaining
     the natural particularities of human motion. Rich 3D ground truth have
     traditionally been provided by robots, depriving these datasets from real
     human motion traits.
 
-    > [...]
-    Finally, a limitation of the evaluation presented in Chapter 5 was the
+        > [...] Finally, a limitation of the evaluation presented in Chapter 5 was the
     lack of a comparison with "natural"" sequences with obstacles and the
     presence of people in the scenes. This evaluation is forecast to be included
     in future work, as despite the high frame-rate and descriptor density,
@@ -164,8 +164,7 @@ anonymity and maintain the open status of the dataset.
 
 6. Clearly state in the Introduction why estimating a 1-dimensional position in the path is more desirable than estimating the 6-dimensional position (location and pose) as related methods do 
 
- - [x] I have addressed this as part of #5, adding a paragraph in Section 1
- .5 reproduced here for convenience:
+ - [x] I have addressed this as part of #5, adding a paragraph in Section 1.5 reproduced here for convenience:
 
     >Another assumption in this project was the use of
     one-dimensional
@@ -226,13 +225,13 @@ anonymity and maintain the open status of the dataset.
 11. Discuss why using a dimension of 2000 for the descriptors (HOG-3D) is reasonable for the problem at hand
     - [x] The size of 2,000 refers to the number of descriptors extracted from the
     dense methods. This size is directly related with the stride length of
-    the dense grids used. These were standard (Chatfield et al., 2011) and
+    the dense grids used. These are standard (Chatfield et al., 2011) and
     provide robustness against obstacles and temporal variations present in
     the scene with no computational overhead in the case of DSIFT (VLFEAT,
     2015). A comment has been added in Section 4.6.2:
 
     > Dense methods are known to provide a better coverage of the scene and
-    in principle should show better performance~\cite{tuytelaars2010dense}.
+    in principle should show better performance [168].
     However the performance of KP-SIFT is in the range of its dense counterpart
     and above other dense methods such as ST-GAUSS, ST-GABOR and HOG3D, thus
     casting doubt on the need for such a dense sampling
@@ -267,7 +266,7 @@ anonymity and maintain the open status of the dataset.
   - [x] I have added a reference and a comment:
 
    >$0 < \alpha < 1$ is set to around 0.7, and any query descriptors that do not
-   satisfy this condition are discarded. This “uniqueness criterion” was chosen
+   satisfy this condition is discarded. This “uniqueness criterion” was chosen
    by Lowe as the ratio of closest to second-closest neighbours of each
    descriptor that provides the best ratio of probabilities for correct versus
    incorrect matches [105].
@@ -275,7 +274,7 @@ anonymity and maintain the open status of the dataset.
 15. Clearly summarise in the Conclusion chapter the limitations of your methods, based on the experimental validation 
   - [x] I have addressed this correction as part of #5, in the sub-section
   dedicated to the Conclusion.
-  
+
 16. The formatting of the references should be improved and made uniform
 
  - [x] I have reviewed and homogenised the format in all the references. In
@@ -296,18 +295,19 @@ anonymity and maintain the open status of the dataset.
 
 19. Important information is missing in several references [87], [77], [33],
  [144], (revise all references):
- I have revised all the references, deleting unnecessary URLs, adding
+
+ - [x] I have revised all the references, deleting unnecessary URLs, adding
  'Accessed + date' for webpage resources and added the missing details in the
  following ones:
 
- - [x] 87: Klein and Murray
- - [x] 77: Huitl, Rinshagen...
- - [x] 33: Jorge Cham (Accessed...)
- - [x] 144: mine, code.
+   - [x] 87: Klein and Murray
+   - [x] 77: Huitl, Rinshagen...
+   - [x] 33: Jorge Cham (Accessed...)
+   - [x] 144: mine, code.
 
 20. The thesis report would benefit from proofreading
 
-  - [x] Addressed in 1.
+  - [x] Addressed in #1.
 
 21. Add and comment on the following reference
 
@@ -340,12 +340,16 @@ anonymity and maintain the open status of the dataset.
 26. Page 24, 1st paragraph, revise the sentence starting “Since…”
 
   - [x] I have simplified the sentence that now reads:
-  > Since a key reason for incorporating computer vision into navigational aides would be to detect path obstructions and hazards, Chapter 4 introduces a set of benchmarks using a collection of standard and custom *dense* descriptors that seem to be specially well-suited for this task.
+
+    > Since a key reason for incorporating computer vision into navigational
+ aides would be to detect path obstructions and hazards, Chapter 4 introduces a set of benchmarks using a collection of standard and custom *dense* descriptors that seem to be specially well-suited for this task.
 
 27. Page40, define what positive and negative queries are.
 
   - [x] I have slighlty rewritten Section 3.5.1 and introduced the sentence:
-  >  When testing for each category, a query can be a positive or a negative depending whether it belongs to the category being tested or not. In this scenario, a one-against-all binary classifier leads to four possible outcomes [...]
+
+    >  When testing for each category, a query can be a positive or a
+   negative depending whether it belongs to the category being tested or not. In this scenario, a one-against-all binary classifier leads to four possible outcomes [...]
 
 28. Page60: consider removing section 4.2.6?
 
@@ -358,7 +362,7 @@ anonymity and maintain the open status of the dataset.
 30. Page 91, consider removing section 4.8
   - [x] Done. Same correction as #12.
 31. Page97, paragraph 1, last sentence, the claim is invalid, revise or remove
-  - [x] done. Same correction as #13.
+  - [x] Done. Same correction as #13.
 32. Page143, fig53, consider moving it to introduction?
   - [x] I have moved Fig. 53 and adapted caption and references. It
   describes a higher level concept of *visual path* therefore I agree with
