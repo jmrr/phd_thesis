@@ -106,7 +106,7 @@ be an interesting point, an edge or a shape present in the image.
         a deliberated design choice in order to perform the analysis of the
         appearance-based methods in isolation, it must be taken as a limitation
         of the system in a final application, since as we will see in
-        Chapter~\ref{ch:chapter4}, SLAM methods benefit from tracking
+        Chapter 4, SLAM methods benefit from tracking
         algorithms to supply bad image associations.
 
         > **Localisation from place-cell models**
