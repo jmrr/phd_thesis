@@ -96,14 +96,14 @@ is calculated where $\mathcal{D}$ is the set of query descriptors that pass the 
 \gamma^{(i,j)} = \frac{||\mu^{(i,j)}_p||_{\infty}-\mu^{(i,j)}_p}{||\mu^{(i,j)}_p||_{\infty}}.
 \end{equation}
 
-This score is calculated between pairs of query and database images, and one may identify two types of categories that these query comparisons fall into.  In the first case, the images come from the same path (although query and visual path database are, of course, distinct).  In the other case, queries come from different paths.  The results are shown in Figure~\ref{fig:gammaDistribution} where $f_\gamma$ denotes the probability density distribution (PDF) of the $\gamma$ score and $QC_x$ and $DC_x$ indicate query and database corridor $x$ respectively.   
+This score is calculated between pairs of query and database images, and one may identify two types of categories that these query comparisons fall into.  In the first case, the images come from the same path (although query and visual path database are, of course, distinct).  In the other case, queries come from different paths. %The results are shown in Figure~\ref{fig:gammaDistribution} where $f_\gamma$ denotes the probability density distribution (PDF) of the $\gamma$ score and $QC_x$ and $DC_x$ indicate query and database corridor $x$ respectively.   
 
-\begin{figure}[ht]
-\centering
-{\includegraphics[width=\linewidth]{./gfx/Chapter02/path_pdf_analysisWithShadedBetweensALLDB.pdf}}
-\caption{Tests of visual distinctiveness along paths: Distributions for the $\gamma$ score. Path level queries, capturing the behaviour of the $\gamma$ score for different corridors.}
-\label{fig:gammaDistribution}
-\end{figure}
+%\begin{figure}[ht]
+%\centering
+%{\includegraphics[width=\linewidth]{./gfx/Chapter02/path_pdf_analysisWithShadedBetweensALLDB.pdf}}
+%\caption{Tests of visual distinctiveness along paths: Distributions for the $\gamma$ score. Path level queries, capturing the behaviour of the $\gamma$ score for different corridors.}
+%\label{fig:gammaDistribution}
+%\end{figure}
  
 
 
@@ -147,7 +147,9 @@ The dataset contains a mixture of stills and video clips, including nearly 135,0
 
 I acquired a number of visual paths with a mobile phone (Nexus 4) in what was the pilot study for the RSM dataset (\url{http://rsm.bicv.org}) described in later chapters.  These visual paths take the form of video acquisitions, captured with the phone pointing in the direction of motion, and recording at 30 fps at 1920 $\times$ 1080 resolution. The images were then downsampled to a resolution of 192 $\times$ 108 pixels. The number of images captured along the paths raises the complexity of the image matching problem task: there are typically 2,000 images per path.
 
-For the analysis of the distribution of the scores $\gamma$ and $\rho$, as shown in Figure~\ref{fig:gammaDistribution} and \ref{fig:rhoDistribution}, VLFEAT's~\cite{Vedaldi2008} implementation of SIFT~\cite{lowe2004distinctive} descriptors has been used.
+%For the analysis of the distribution of the scores $\gamma$ and $\rho$, as shown in Figure~\ref{fig:gammaDistribution} and \ref{fig:rhoDistribution}, VLFEAT's~\cite{Vedaldi2008} implementation of SIFT~\cite{lowe2004distinctive} descriptors has been used.
+
+For the analysis of the distribution of the scores $\gamma$ and $\rho$, VLFEAT's~\cite{Vedaldi2008} implementation of SIFT~\cite{lowe2004distinctive} descriptors has been used.
 
 \begin{figure}
 \begin{center}

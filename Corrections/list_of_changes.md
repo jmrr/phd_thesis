@@ -302,7 +302,11 @@ be an interesting point, an edge or a shape present in the image.
   - [x] These and other definitios have been addressed in #2.
 
 25. Consider removing section 2.2.6 & Fig4?
-
+  - [x] I have removed Figure 4 as it was misleading. I have decided to keep
+   Section 2.2.6 on the $\gamma$ score as it relates to the question "which
+   path am I on?" related to the future work that can originate from this PhD
+   thesis.
+   
 26. Page 24, 1st paragraph, revise the sentence starting “Since…”
 
   - [x] I have simplified the sentence that now reads:
