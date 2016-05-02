@@ -18,10 +18,9 @@ You will find below a list of recommended changes to the thesis based on the dis
 2. Define all key terms in a table
 
  - [x] I have included all the key terms in a glossary section before the introduction. The key terms are the following:
-
-	- **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
+    - **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
 be an interesting point, an edge or a shape present in the image.
-	- **Keypoints** Also called interesting points, keypoints are a specific type of features that capture special local
+    - **Keypoints** Also called interesting points, keypoints are a specific type of features that capture special local
 properties around a coordinate point within the image.
 	- **Descriptors** They are descriptions of a visual feature present in the image such as colour, texture or shape. They are
 related to keypoints as these can be used as locations for the computation of descriptors that measure local properties of the image.
@@ -187,6 +186,8 @@ when the subject navigates a previously visited place.
   particular, for Figures 1, 2, 11, 19, 25, 34, 41, 42, 46, 48.
 
 23. Remove on page2 the sentence “In recent years …. at all” 
+  - [x] I have removed the vague sentence and rewritten that paragraph, also
+  according to the Introduction rewriting specified in #3.
 
 24. Define “feature” and “descriptor”
 
