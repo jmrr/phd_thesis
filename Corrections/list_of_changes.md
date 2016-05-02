@@ -135,24 +135,20 @@ be an interesting point, an edge or a shape present in the image.
         computation to be carried out in the client instead of in the server.
 
      - Conclusion: I have summarised the main limitations and added comments
-   in the future work section on how to address these. In particualr,
-   r  elated to the RSM dataset:
-
+   in the future work section on how to address these. In particualr, related to the RSM dataset:
         > Another limitation of the current version of the RSM dataset is the
-    absence of obstacles and obstructions such as the presence of people in the sequences.
+        absence of obstacles and obstructions such as the presence of people in the sequences.
 This can have an impact in the performance of the algorithms that should be
 assessed. We are planning to incorporate “natural” sequences to the next
 version of the dataset, and there is ongoing work within the group to produce
 automatically blurred faces of people present in the sequences to preserve
 anonymity and maintain the open status of the dataset.
-
         > Finally, as mentioned earlier, one of the biggest limitations of the
     dataset is the absence of 3D ground truth. Therefore we have the
     opportunity to expand the dataset with 2 o 3D ground truth but maintaining
     the natural particularities of human motion. Rich 3D ground truth have
     traditionally been provided by robots, depriving these datasets from real
     human motion traits.
-
         > [...] Finally, a limitation of the evaluation presented in Chapter 5 was the
     lack of a comparison with "natural"" sequences with obstacles and the
     presence of people in the scenes. This evaluation is forecast to be included
