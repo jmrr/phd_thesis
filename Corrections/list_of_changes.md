@@ -27,7 +27,7 @@ be an interesting point, an edge or a shape present in the image.
     - **Descriptors** They are descriptions of a visual feature present in the image such as colour, texture or shape. They are related to keypoints as these can be used as locations for the computation of descriptors that measure local properties of the image.
     - **Visual Path** A collection of image frames that are induced by the relative motion of a person in a scene.
     - **Journey** In our context, a visual path that has a start ’A’ and end ’B’ points.
-    - **Corridor** In the present thesis, a corridor represents a the recording of a segment of a journey that in great proportion traverses a corridor within a building.
+    - **Corridor** In the present thesis, a corridor represents the recording of a segment of a journey that in great proportion traverses a corridor within a building.
     - **Pass** Each of the recording instances of the same corridor in the RSM dataset.
     - **Biological Place Cells** BPCs are a specific type of neuron found in mammals that exhibit an increased firing rate when the subject navigates a previously visited place.
     - **Artificial Place Cells** The computational models of the BPCs presented in this thesis.
@@ -136,7 +136,8 @@ be an interesting point, an edge or a shape present in the image.
 
      - Conclusion: I have summarised the main limitations and added comments
    in the future work section on how to address these. In particualr, related to the RSM dataset:
-        > Another limitation of the current version of the RSM dataset is the absence of
+   
+        >Another limitation of the current version of the RSM dataset is the absence of
 obstacles and obstructions such as the presence of people in the sequences.
 This can have an impact in the performance of the algorithms that should be
 assessed. We are planning to incorporate “natural” sequences to the next
@@ -144,13 +145,13 @@ version of the dataset, and there is ongoing work within the group to produce
 automatically blurred faces of people present in the sequences to preserve
 anonymity and maintain the open status of the dataset.
 
-        > Finally, as mentioned earlier, one of the biggest limitations of the dataset is
+        >Finally, as mentioned earlier, one of the biggest limitations of the dataset is
 the absence of 3D ground truth. Therefore we have the opportunity to expand the
 dataset with 2 o 3D ground truth but maintaining the natural particularities of
 human motion. Rich 3D ground truth have traditionally been provided by robots,
 depriving these datasets from real human motion traits.
 
-        > [...] Finally, a limitation of the evaluation presented in Chapter 5 was the
+        >[...] Finally, a limitation of the evaluation presented in Chapter 5 was the
 lack of a comparison with "natural" sequences with obstacles and the presence
 of people in the scenes. This evaluation is forecast to be included in future
 work, as despite the high frame-rate and descriptor density, the use of
@@ -273,7 +274,6 @@ have a large impact in the performance of the methods described.
   dedicated to the Conclusion.
 
 16. The formatting of the references should be improved and made uniform
-
  - [x] I have reviewed and homogenised the format in all the references. In
  particular:
    - [x] For the journal articles I have made sure volume and pages were
@@ -283,27 +283,20 @@ have a large impact in the performance of the methods described.
    - [x] For URLs, I have added the date I last accessed the resource.
 
 17. References [54] and [55] are corresponding to the same paper
-
   - [x] These two references have been merged.
 
 18. Reference [26]: two authors are missing
-
   - [x] Fixed, added Gong and Xiang.
 
 19. Important information is missing in several references [87], [77], [33],
  [144], (revise all references):
-
- - [x] I have revised all the references, deleting unnecessary URLs, adding
- 'Accessed + date' for webpage resources and added the missing details in the
- following ones:
-
-   - [x] 87: Klein and Murray
-   - [x] 77: Huitl, Rinshagen...
-   - [x] 33: Jorge Cham (Accessed...)
-   - [x] 144: mine, code.
+   - [x] I have revised all the references, deleting unnecessary URLs, adding 'Accessed + date' for webpage resources and added the missing details in the following ones:
+     - [x] 87: Klein and Murray
+     - [x] 77: Huitl, Rinshagen...
+     - [x] 33: Jorge Cham (Accessed...)
+     - [x] 144: mine, code.
 
 20. The thesis report would benefit from proofreading
-
   - [x] Addressed in #1.
 
 21. Add and comment on the following reference
