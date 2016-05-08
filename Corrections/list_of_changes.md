@@ -278,8 +278,10 @@ have a large impact in the performance of the methods described.
  particular:
    - [x] For the journal articles I have made sure volume and pages were
    included.
-   - [ ] For the conference proceedings, I have homogenised the name of the
+   - [x] For the conference proceedings, I have homogenised the name of the
    proceedings, sometimes the title of the book was inverted.
+   - [x] I have removed all duplicates.
+   - [x] Book chapters are now properly referenced, instead of only pointing to the book.
    - [x] For URLs, I have added the date I last accessed the resource.
 
 17. References [54] and [55] are corresponding to the same paper
