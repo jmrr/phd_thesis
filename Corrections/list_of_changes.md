@@ -117,7 +117,7 @@ be an interesting point, an edge or a shape present in the image.
 11. Discuss why using a dimension of 2000 for the descriptors (HOG-3D) is reasonable for the problem at hand
     - [x] The size of 2,000 refers to the number of descriptors extracted from the dense methods. This size is directly related with the stride length of the dense grids used. These are standard (Chatfield et al., 2011) and provide robustness against obstacles and temporal variations present in the scene with no computational overhead in the case of DSIFT (VLFEAT, 2015). A comment has been added in Section 4.6.2:
 
-    > Dense methods are known to provide a better coverage of the scene and in principle should show better performance [168]. However the performance of KP-SIFT is in the range of its dense counterpart and above other dense methods such as ST-GAUSS, ST-GABOR and HOG3D, thus casting doubt on the need for such a dense sampling ($\approx$ 2,000 descriptors per image).
+      > Dense methods are known to provide a better coverage of the scene and in principle should show better performance [168]. However the performance of KP-SIFT is in the range of its dense counterpart and above other dense methods such as ST-GAUSS, ST-GABOR and HOG3D, thus casting doubt on the need for such a dense sampling ($\approx$ 2,000 descriptors per image).
 
 12. Remove Sec. 4.8 as discussed during the viva
   - [x] I have removed this section entirely from the main body of the thesis, and placed it in Appendix A.4. I make reference to this appendix in Section 7.3.2 as part of the future work of the appearance-based localisation topic.
