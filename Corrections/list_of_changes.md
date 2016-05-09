@@ -51,8 +51,12 @@ be an interesting point, an edge or a shape present in the image.
    - Introduction:
      - Last paragraph in Section 1.2 now reads:
 
-       > My hypothesis in this aspect is that appearance-based methods can
-      be, in isolation, valid solutions for many challenging problems simultaneously, and combined with other sensing (e.g. WiFi, inertial and depth sensors) and inference techniques (e.g. tracking) it can be a complementary technology that help improve the overall performance of the different approaches on their own. Specifically, as a means to test this hypothesis, I have used only vision approaches to test the feasibility of hand-held and wearable object recognition and visual localisation. Moreover, it is also my goal to evaluate which appearance-based techniques adapt better to the needs of these challenging scenarios in terms of accuracy, power, time and computational load and assess their room for performance.
+       > My hypothesis is that appearance-based methods can contribute to the solution to more than one type of assistive application. The first, and obvious problem, is that of object recognition. For this type of application, I created a database and performed experiments to test the performance of hand-held cameras to provide accurate object recognition.
+       >
+       > A second problem is that of self-localisation. The role of computer vision is perhaps less well appreciated in this role, because a widely held view [179] is that a combination of radio signal strength indicators (e.g. WiFi, inertial and depth sensors) and inference techniques (e.g. tracking) are both necessary and sufficient components for solving the self-localisation problem indoors. If vision is to be used, the currently accepted solution is based on structure from motion algorithms [51]. 
+       To assess the potential contribution of appearance based solutions to localisation, I tested the feasibility of hand-held and wearable visual localisation using the biologically-inspired concept of place cells. Located in regions associated with memory in animals, I showed that place cell behaviour can be modelled by using appearance-based approaches.
+       >
+       > For both of these requirements in assistive technology, the performance of appearance-based techniques was characterised when different variants of low-level descriptors were used. For the case of localisation, performance is compared with existing structure from motion algorithms.
 
      - I have created Section 1.5 "Technical assumptions and limitations of the
      modelling" to give an overview of the main assumptions and limitations
@@ -100,15 +104,7 @@ be an interesting point, an edge or a shape present in the image.
         provided. However it still represents a limitation of the system that
         hinders the evaluation of more SLAM methods with the RSM dataset.
 
-        > Apart from the lack of multiple views of the same sequences, other
-        artifacts such as motion blur and the lack of an analysis adding
-        tracking to the methods represent a limitation in the generalisation of
-        the results presented in this thesis. Although the lack of tracking is
-        a deliberated design choice in order to perform the analysis of the
-        appearance-based methods in isolation, it must be taken as a limitation
-        of the system in a final application, since as we will see in
-        Chapter 4, SLAM methods benefit from tracking
-        algorithms to supply bad image associations.
+        > Apart from the lack of multiple views of the same sequences, crowded spaces and other artifacts such as motion blur were excluded from the study. Tracking algorithms, fundamental in SLAM methods to supply bad image associations, were not used. However, this was a deliberate design choice, as in an assistive context for the blind and partially sighted, SLAM’s localisation and mapping lack relevance unless the current journey can be related to previous passes. The analysis of the appearancebased methods is therefore performed in isolation, although adding tracking is contemplated in future work as we will see in Chapter 4.
 
         > **Localisation from place-cell models**
         The creation of place cells is based on the assumptions that a) there
@@ -120,27 +116,19 @@ be an interesting point, an edge or a shape present in the image.
 
         >The first assumption does not pose a limitation, as the datasets
         acquired nowadays can easily have an even higher frame
-        rate [163]. The second assumption, however, might rely up
-        to some extent on the absence of obstacles. The experimental work
-        described in Chapter 5 will discuss the use of dense
-        appearance-based methods as a mitigation strategy.
+        rate [163]. The second assumption, might rely up to some extent on the absence of obstacles, as it is on the other hand customary in SLAM research [113]. The experimental work described in Chapter 5 will discuss the use of dense appearance-based methods as a mitigation strategy.
 
         > **A prototype of an assistive haptic App for visual
         localisation**
-        This prototype works as a client-server application that assumes a
-        robust connection between the client and the server. This limitation
-        must be taken into account in a real scenario, together with the
-        possibility of testing the different modules of the application
-        pipeline in different sides of the application: e.g. descriptor
-        computation to be carried out in the client instead of in the server.
+        This prototype works as a client-server application that assumes a robust connection between the client and the server. However, just as maps can be downloaded dynamically by using the principle of geofencing or caching (e.g. Google Maps), so too descriptors of previous journeys could be dynamically downloaded for certain regions of a building prior to just before entering a location.
+
 
      - Conclusion: I have summarised the main limitations and added comments
    in the future work section on how to address these. In particualr, related to the RSM dataset:
    
         >Another limitation of the current version of the RSM dataset is the absence of
 obstacles and obstructions such as the presence of people in the sequences.
-This can have an impact in the performance of the algorithms that should be
-assessed. We are planning to incorporate “natural” sequences to the next
+This can have an impact in the performance. We are planning to incorporate “natural” sequences to the next
 version of the dataset, and there is ongoing work within the group to produce
 automatically blurred faces of people present in the sequences to preserve
 anonymity and maintain the open status of the dataset.
@@ -154,9 +142,7 @@ depriving these datasets from real human motion traits.
         >[...] Finally, a limitation of the evaluation presented in Chapter 5 was the
 lack of a comparison with "natural" sequences with obstacles and the presence
 of people in the scenes. This evaluation is forecast to be included in future
-work, as despite the high frame-rate and descriptor density, the use of
-sequences with the presence of human obstacles and other obstructions might
-have a large impact in the performance of the methods described.
+work, as despite the high frame-rate and descriptor density, the use of sequences with the presence of human obstacles and other obstructions might impact the performance of the methods described including approaches based on structure from motion.
 
 
 
@@ -164,17 +150,7 @@ have a large impact in the performance of the methods described.
 
  - [x] I have addressed this as part of #5, adding a paragraph in Section 1.5 reproduced here for convenience:
 
-    >Another assumption in this project was the use of
-    one-dimensional
-    positional ground truth, instead of the customary 6D position (location
-    and pose) that methods from the robotics (SLAM) community use. This
-    simplification was intentional at this stage of the project, as the
-    dataset comprises narrow spaces and contains restricted views (frontal,
-    with low variability in the angle of acquisition). This has proven to
-    be sufficient for the testing of appearance-based algorithms,
-    especially when a comparison against a state-of-the-art SLAM is also
-    provided. However it still represents a limitation of the system that
-    hinders the evaluation of more SLAM methods with the RSM dataset.
+    >Another assumption in this project was the use of one-dimensional positional ground truth, instead of the customary 6D position (location and pose) that methods from the robotics (SLAM) community use. This simplification was intentional at this stage of the project, as the dataset comprises narrow spaces and contains restricted views (frontal, with low variability in the angle of acquisition). Moreover, the aim was to investigate a solution which is restricted by the ability to convey simple information to a user: how far are they along a planned route. This has proven to be sufficient for the testing of appearance-based algorithms, especially when a comparison against a state-of-the-art SLAM is also provided. At the same time, SLAM is arguably a poorer fit: it does not easily allow crowdsourcing of previous journeys, and comparisons to those journeys. Self-localisation based on a shared memory acquired from previous journeys (by other people), has already been shown feasible using non-visual data sources. Thus, the appearance based method allows crowdsourcing of shared journeys, a topic I address more fully in Chapter 4.
 
 7. Several figures are inaccurate or contain insufficient information in the caption
 
@@ -263,7 +239,7 @@ have a large impact in the performance of the methods described.
 
   - [x] I have added a reference and a comment:
 
-   >$0 < \alpha < 1$ is set to around 0.7, and any query descriptors that do not
+     >$0 < \alpha < 1$ is set to around 0.7, and any query descriptors that do not
    satisfy this condition is discarded. This “uniqueness criterion” was chosen
    by Lowe as the ratio of closest to second-closest neighbours of each
    descriptor that provides the best ratio of probabilities for correct versus
