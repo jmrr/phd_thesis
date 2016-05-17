@@ -18,12 +18,12 @@ You will find below a list of recommended changes to the thesis based on the dis
 
  - [x] I have included all the key terms in a glossary section before the
  Introduction. The key terms are the following:
- - **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
+    - **Features** A feature is a property of an image that is used to solve a computational task. An example of a feature can
 be an interesting point, an edge or a shape present in the image.
     - **Keypoints** Also called interesting points, keypoints are a specific type of features that capture special local properties around a coordinate point within the image.
     - **Descriptors** They are descriptions of a visual feature present in the image such as colour, texture or shape. They are related to keypoints as these can be used as locations for the computation of descriptors that measure local properties of the image.
     - **Visual Path** A collection of image frames that are induced by the relative motion of a person in a scene.
-    - **Journey** In our context, a visual path that has a start ’A’ and end ’B’ points.
+    - **Journey** In our context, a visual path that has a start 'A' and end 'B' points.
     - **Corridor** In the present thesis, a corridor represents the recording of a segment of a journey that in great proportion traverses a corridor within a building.
     - **Pass** Each of the recording instances of the same corridor in the RSM dataset.
     - **Biological Place Cells** BPCs are a specific type of neuron found in mammals that exhibit an increased firing rate when the subject navigates a previously visited place.
@@ -56,23 +56,23 @@ be an interesting point, an edge or a shape present in the image.
 
        >**Hand-held object recognition** In this project, the main assumption is the separation of the training and test sets of the SHORT dataset. The training set is comprised of high quality models of the 100 grocery products, presenting systematic variability in the views to capture multiple angles and elevations. The test set is comprised of a large quantity of unstructured queries (multiple non-calibrated sensors, camera optics, devices, etc.) and provision for assistive testing with the introduction of queries taken by sighted or blindfolded users.
 
-        > **Visual localisation from hand-held and wearable cameras**
+      > **Visual localisation from hand-held and wearable cameras**
         The version of the RSM released with the thesis did not include people in its sequences and the only occlusions present were cleaning objects and semi-stationary furniture that were present in some sequences and not in the others.
 
-        >Additionally, despite including different illumination conditions, no changes in the viewpoint were included. This can be a limitation in establishing where the algorithms tested in Chapter 4 might fail. Nevertheless, descriptor density and a high frame rate ($\geq$ 24 fps) were used as a mitigation strategy for the presence of obstacles.
+      >Additionally, despite including different illumination conditions, no changes in the viewpoint were included. This can be a limitation in establishing where the algorithms tested in Chapter 4 might fail. Nevertheless, descriptor density and a high frame rate ($\geq$ 24 fps) were used as a mitigation strategy for the presence of obstacles.
 
-        >Another assumption in this project was the use of one-dimensional positional ground truth, instead of the customary 6D position (location and pose) that methods from the robotics (SLAM) community use. This simplification was intentional at this stage of the project, as the dataset comprises narrow spaces and contains restricted views (frontal, with low variability in the angle of acquisition). This has proven to be sufficient for the testing of appearance-based algorithms, especially when a comparison against a state-of-the-art SLAM is also provided. However it still represents a limitation of the system that hinders the evaluation of more SLAM methods with the RSM dataset.
+      >Another assumption in this project was the use of one-dimensional positional ground truth, instead of the customary 6D position (location and pose) that methods from the robotics (SLAM) community use. This simplification was intentional at this stage of the project, as the dataset comprises narrow spaces and contains restricted views (frontal, with low variability in the angle of acquisition). This has proven to be sufficient for the testing of appearance-based algorithms, especially when a comparison against a state-of-the-art SLAM is also provided. However it still represents a limitation of the system that hinders the evaluation of more SLAM methods with the RSM dataset.
 
-        > Apart from the lack of multiple views of the same sequences, crowded spaces and other artifacts such as motion blur were excluded from the study. Tracking algorithms, fundamental in SLAM methods to supply bad image associations, were not used. However, this was a deliberate design choice, as in an assistive context for the blind and partially sighted, SLAM’s localisation and mapping lack relevance unless the current journey can be related to previous passes. The analysis of the appearancebased methods is therefore performed in isolation, although adding tracking is contemplated in future work as we will see in Chapter 4.
+      > Apart from the lack of multiple views of the same sequences, crowded spaces and other artifacts such as motion blur were excluded from the study. Tracking algorithms, fundamental in SLAM methods to supply bad image associations, were not used. However, this was a deliberate design choice, as in an assistive context for the blind and partially sighted, SLAM’s localisation and mapping lack relevance unless the current journey can be related to previous passes. The analysis of the appearance-based methods is therefore performed in isolation, although adding tracking is contemplated in future work as we will see in Chapter 4.
 
-        > **Localisation from place-cell models** The creation of place cells is based on the assumptions that a) there
+      > **Localisation from place-cell models** The creation of place cells is based on the assumptions that a) there
         will be sufficient frame rate in the sequences as to create the distinctive concave shape of the place cells via associations from multiple visual paths; and b) the similarity of contiguous frames in the sequence is sufficient to yield a similar description obtained with the appearance-based methods.
 
-        >The first assumption does not pose a limitation, as the datasets acquired nowadays can easily have an even higher frame rate [163]. The second assumption, might rely up to some extent on the absence of obstacles, as it is on the other hand customary in SLAM research [113]. The experimental work described in Chapter 5 will discuss the use of dense appearance-based methods as a mitigation strategy.
+      >The first assumption does not pose a limitation, as the datasets acquired nowadays can easily have an even higher frame rate [163]. The second assumption, might rely up to some extent on the absence of obstacles, as it is on the other hand customary in SLAM research [113]. The experimental work described in Chapter 5 will discuss the use of dense appearance-based methods as a mitigation strategy.
 
-        > **A prototype of an assistive haptic App for visual localisation**  This prototype works as a client-server application that assumes a robust connection between the client and the server. However, just as maps can be downloaded dynamically by using the principle of geofencing or caching (e.g. Google Maps), so too descriptors of previous journeys could be dynamically downloaded for certain regions of a building prior to just before entering a location.
+      > **A prototype of an assistive haptic App for visual localisation**  This prototype works as a client-server application that assumes a robust connection between the client and the server. However, just as maps can be downloaded dynamically by using the principle of geofencing or caching (e.g. Google Maps), so too descriptors of previous journeys could be dynamically downloaded for certain regions of a building prior to just before entering a location.
 
-     - Conclusion: I have summarised the main limitations and added comments in the future work section on how to address these. In particualr, related to the RSM dataset: 
+     - Conclusion: I have summarised the main limitations and added comments in the future work section on how to address these. In particular, related to the RSM dataset: 
    
         >Another limitation of the current version of the RSM dataset is the absence of obstacles and obstructions such as the presence of people in the sequences. This can have an impact in the performance. We are planning to incorporate “natural” sequences to the next version of the dataset, and there is ongoing work within the group to produce automatically blurred faces of people present in the sequences to preserve anonymity and maintain the open status of the dataset.
 
@@ -89,13 +89,13 @@ be an interesting point, an edge or a shape present in the image.
 7. Several figures are inaccurate or contain insufficient information in the caption
 
     - Remove Fig. 1
-      - [x] I have removed Fig. 1 and the references to it in the 3rd paragraph of Chapter 1 and in Section 7.1.
+        - [x] I have removed Fig. 1 and the references to it in the 3rd paragraph of Chapter 1 and in Section 7.1.
 
     - Remove Fig. 3 
-      - [x] I have removed Fig. 3 from Chapter 2. In its place, I have used Fig. 53 from Chapter 6 and updated the caption. An adaptation of Fig. 3 has been added to Chapter 4, the "core" of the visual paths study, modifying the caption and references accordingly.
+        - [x] I have removed Fig. 3 from Chapter 2. In its place, I have used Fig. 53 from Chapter 6 and updated the caption. An adaptation of Fig. 3 has been added to Chapter 4, the "core" of the visual paths study, modifying the caption and references accordingly.
   
     - Improve the captions of the figures so that they are self-contained.
-      - [x] I have addressed this as part of #22.
+        - [x] I have addressed this as part of #22.
 8. Discuss why using a dimension of 4000 for the dictionary size is reasonable for the problem at hand
 
   - [x] The dataset of the problem at hand, the RSM dataset, might seem very ambiguous and certainly lacking texture information at some points (e.g. sections where the view only shows the walls, ceiling and floor). However, other sections are more distinctive and contain elements that once captured by a dictionary can provide better retrieval performance. This is the case of research posters, permanent exhibition stands, pieces of furniture, etc. As dictionaries are computed over the whole sequence, large dictionary sizes can assure that this information is collected.
@@ -127,7 +127,7 @@ be an interesting point, an edge or a shape present in the image.
   - [x] I have removed the sentence and added the following text to account
      for the latest developments in CNNs for visual self-localisation:
 
-    > Specifically, Kendell et al. [88] have applied deep convolutional neural networks to camera pose regression, therefore learning location and orientation simultaneously. Also using monocular commodity cameras, Giusti et al. [63] train a deep neural network as a supervised image classifier to compute the main direction of travel within a trail compared to the viewing direction. These are, to our knowledge, the first applications of convolutional networks for self-localisation from monocular visual data. These methods achieve extraordinary localisation results in the order of 2 m.
+    > Specifically, Kendall et al. [88] have applied deep convolutional neural networks to camera pose regression, therefore learning location and orientation simultaneously. Also using monocular commodity cameras, Giusti et al. [63] train a deep neural network as a supervised image classifier to compute the main direction of travel within a trail compared to the viewing direction. These are, to our knowledge, the first applications of convolutional networks for self-localisation from monocular visual data. These methods achieve extraordinary localisation results in the order of 2 m.
     However, they often lack a theoretical formulation of the operators used in their neural networks. The tensor operations described in this chapter represent an effort towards an unambiguous theoretical tool that can help formalise the operators used in state-of-the-art experimental methods. 
     
 14. Provide a reference to Lowe’s work for the choice of the value of $\alpha$ (0.7)
@@ -184,7 +184,7 @@ be an interesting point, an edge or a shape present in the image.
 
 24. Define “feature” and “descriptor”
 
-  - [x] These and other definitios have been addressed in #2.
+  - [x] These and other definitions have been addressed in #2.
 
 25. Consider removing section 2.2.6 & Fig4?
   - [x] I have removed Figure 4 as it was misleading. I have decided to keep Section 2.2.6 on the $\gamma$ score as it  relates to the question "which path am I on?" related to the future work that can originate from this PhD thesis.
@@ -214,4 +214,4 @@ be an interesting point, an edge or a shape present in the image.
 31. Page97, paragraph 1, last sentence, the claim is invalid, revise or remove
   - [x] Done. Same correction as #13.
 32. Page143, fig53, consider moving it to introduction?
-  - [x] I have moved Fig. 53 and adapted caption and references. It describes a higher level concept of *visual path* therefore I agree with the examiners, it was more appropriate to place it in the Introduction.
+  - [x] I have moved Fig. 53 and adapted the caption and references. It describes a higher level concept of *visual path* therefore I agree with the examiners, it was more appropriate to place it in the Introduction.
