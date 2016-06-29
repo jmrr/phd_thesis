@@ -24,7 +24,7 @@ Biological place cells display location-dependent firing. I describe how to mimi
 }\end{quotation}
 
 
-\subsection{Summary of Contributions}
+\subsection{Summary of contributions}
 
 The approach to indoor localisation described in this chapter is novel for several reasons. 
 
@@ -49,7 +49,7 @@ John O'Keefe, together with Edvard and May-Britt Moser, received the Nobel Prize
 Humans, like other animals, need a sense of position to perform basic interaction with the environment. This interaction is often finding our way from one place to another and place awareness is integrated with distance and direction information to navigate. 
 
 
-\subsection{Biological Place Cells (BPC)}
+\subsection{Biological place cells (BPC)}
 
 Place cells are special types of neurons located in the hippocampus which attain higher-than-average firing when an animal ``recognises'' a particular place in its environment. Grid cells, located next to the hippocampus in the entorhinal cortex, provide the brain with a reference system for navigation, a ``grid'' that is speculated to be used as a form of coordinate system for the creation of spatial maps. Although the existence of place and grid cells is without question, the computational description of what the cells do is debatable. However, the combination of place and grid cells within neural circuitry appears crucial for the execution of navigation tasks.
 
@@ -465,9 +465,9 @@ p(\ell|\mathbf{r}) & \propto & p(r_3,r_4,r_5|\ell)p(\ell) \nonumber \\
 
 
 
-\subsection{A Generalised Regression Neural Network (GRNN) for sub-APC localisation}
+\subsection{A generalised regression neural network (GRNN) for sub-APC localisation}
 \label{ch05:overview}
-In the experimental work to be discussed in the next section, a Generalised Regression Neural Network (GRNN) was used to provide sub-APC position estimates, obviating the need to construct \textit{ad-hoc} empirical estimators. This network takes APC responses as inputs, providing a position as a regression estimate. 
+In the experimental work to be discussed in the next section, a generalised regression neural network (GRNN) was used to provide sub-APC position estimates, obviating the need to construct \textit{ad-hoc} empirical estimators. This network takes APC responses as inputs, providing a position as a regression estimate. 
 
 This GRNN network consists of two layers: the first layer has radial basis functions (RBF) neurons with a spread of 0.1. The second is a linear output layer that calculates real-valued position estimates from the RBF outputs. This supervised phase of training used a subset of videos to infer spatial location from the ground truth camera position of this subset of the dataset.  The trained network was then applied to infer the spatial position in videos from the remainder of the dataset. In the experiments, the responses from $C = 16$ place cells were input to the network, and ground truth of location within a section of corridor -- up to 4 m long -- used to train the network.  In all experiments, dictionary generation was performed independently of the APC responses used in training the regression network. 
 
@@ -561,7 +561,7 @@ absolute localisation errors range from below one metre to 1.49 m. Ground truth 
 \label{fig:floorplan}
 \end{figure}
 
-\subsection{Parameter Tuning}
+\subsection{Parameter tuning}
 
 %% Subfigure in tikz
 %\begin{figure}[t]
