@@ -17,7 +17,7 @@ Taking into account the context of mobile devices and assistive applications, I 
 
 %% WHERE AM I?
 
-\section{Where Am I?}
+\section{Where am I?}
 
 Techniques for WiFi localisation are entering mainstream use through, at one level, estimates obtained from the physical locations of WiFi access points, simple measures of signal strength or approaches such as ``Walkie-Markie''~\cite{Shen}, which use mul\-ti\-ple\--sensor signatures to infer location.  These technologies hold great potential.  However, accurate localisation still relies strongly on reasonable accurate motion models, and the collection of other cues, such as accelerometry or gyroscopes \cite{Wang2012}.  
 
@@ -26,14 +26,14 @@ f) identify objects or activities of personal interest.
 
 Invoking computer vision to \textit{simultaneously} solve all of these tasks is a current challenge.  The purpose of the initial work reported in this chapter is to assess the feasibility and accuracy of existing computer vision techniques to meet some of these needs.  The primary question addressed in this section relates to the first topic in the list above: can we use computer vision to recognise locations against previous journeys?
 
-\subsection{Related Approaches}
+\subsection{Related approaches}
  
 In Chapters \ref{ch:chapter4}, \ref{ch:chapter5} and \ref{ch:chapter6} a more detailed collection of related methods for indoor localisation is provided with emphasis in the specific context of each chapter. In all of them there are references to simultaneous localisation and mapping (SLAM \cite{Durrant-Whyte2006}) and parallel tracking and mapping (PTAM, \cite{klein2009parallel}) as these and derived approaches are the techniques that  are near state-of-the-art for monocular robot navigation, allowing geometry of a space to be mapped out dynamically at the same time that self-localisation is achieved.  In the assistive context, Pradeep and colleagues successfully applied this to a demonstration for indoor navigation in an assistive device \cite{Pradeep2010}.
 
 Several methods of indoor localisation using smartphone\--re\-le\-vant technology have also been the object of study, including RSSI, dead-reckoning, and combinations of techniques that harvest environmental cues \cite{Wang2012,Shen}. 
  
 
-\subsection{Visual Paths} 
+\subsection{Visual paths} 
 
  As we will see later in more detail in Chapter \ref{ch:chapter4}, methods such as SLAM and PTAM attempt to simultaneously map world geometry and localise a camera within that geometry.  The question here is slightly different: we seek to identify where one might be relative to previous journeys taken along the same route, either by ourselves or other people.  Thus, I introduce the idea of the \textit{visual path}, a stream of descriptions captured from visual information as we traverse from location $A$ to location $B$, or from location $C$ to $D$. Such streams could be captured from the cameras of other users moving in the same physical space.
 
@@ -55,11 +55,11 @@ I first studied the distribution of a similarity metric, $\gamma$, based on a mo
 For the preliminary work described in this chapter, \textit{sparse}\footnote{Also known as keypoint-based SIFT, or more frequently, just SIFT.} SIFT descriptors are used. For a detailed description of how these descriptors, or feature vectors, are computed, refer to Chapter \ref{ch:chapter4}.
 
 
-\subsection{Visual Path Descriptions} First, consider a number $M_p^{(i)}$ of descriptor vectors, $\mathbf{v}_m^{(i)}, m=1,2,\ldots,M^{(i)}$ produced from an image, $\mathbf{I}^{(i)}_p$, with each vector being of  dimension $L \times 1$.  These descriptors are stacked into the rows of an $M^{(i)}\times L$ descriptor matrix, $\mathbf{V}^{(i)}_p$ associated with image $\mathbf{I}^{(i)}_p$.  A \textit{set} of images, $\lbrace \mathbf{I}^{(i)}_p\rbrace_{i=1,2,\ldots\,N_p}$ is now collected for path $C_p$, and for each of these, a descriptor matrix is produced.  A visual path $C_p$ is then encoded by the set of matrices of descriptors, denoted $\mathcal{M}_p=\lbrace \mathbf{V}^{(i)}_p \rbrace_{i=1,2,\ldots,N_p}$ generated from the set of images taken along that path.
+\subsection{Visual path descriptions} First, consider a number $M_p^{(i)}$ of descriptor vectors, $\mathbf{v}_m^{(i)}, m=1,2,\ldots,M^{(i)}$ produced from an image, $\mathbf{I}^{(i)}_p$, with each vector being of  dimension $L \times 1$.  These descriptors are stacked into the rows of an $M^{(i)}\times L$ descriptor matrix, $\mathbf{V}^{(i)}_p$ associated with image $\mathbf{I}^{(i)}_p$.  A \textit{set} of images, $\lbrace \mathbf{I}^{(i)}_p\rbrace_{i=1,2,\ldots\,N_p}$ is now collected for path $C_p$, and for each of these, a descriptor matrix is produced.  A visual path $C_p$ is then encoded by the set of matrices of descriptors, denoted $\mathcal{M}_p=\lbrace \mathbf{V}^{(i)}_p \rbrace_{i=1,2,\ldots,N_p}$ generated from the set of images taken along that path.
  
 Query images, $\mathbf{J}^{(j)}$, $j=1,2,\ldots,N_q$ are now acquired, separately.  A particular query image is also mapped to matrix of descriptors $\mathbf{Q}^{(j)}$. We wish to know which of the $P$ paths the query image $\mathbf{J}^{(j)}$ has been taken on; this is answered by comparing the query descriptor matrix against the set of path descriptors for all paths, $\lbrace \mathcal{M}_p \rbrace_{p=1,2,\ldots, P}$.
 
-\subsection{Pairwise Descriptor Comparisons} \label{subsec:pairwise}
+\subsection{Pairwise descriptor comparisons} \label{subsec:pairwise}
 
 Let us first consider the comparison of individual query descriptors, $\mathbf{v}_n^{(j)}, n=1,2,\ldots,N^{(j)}$ arising from a single query image.  The Euclidean distance metric in $L$-dimensional space is widely used in assessing descriptor distances in computer vision.  Let $\mathbf{D}^{(i|n)}$ be the $M^{(i)}\times L$ matrix defined by
 
@@ -78,7 +78,7 @@ Then, the elements along the diagonal of
 
 are collated into a vector, $\mathbf{d}^{(i|n)}_p \in [0,\mathbb{R}^+]^{M^{(i)}}$ of squared Euclidean distances between the $n^{th}$ descriptor from a query image and each of the $M^{(i)}$ descriptors derived from the $i^{th}$ image along the path $C_p$. 
 
-\subsection{Query Descriptor Rejection} \label{subsec:querydescrejection}
+\subsection{Query descriptor rejection} \label{subsec:querydescrejection}
 Many descriptors in the query image will not be sufficiently distinct to be useful in matching.  The distribution of distances contained in vector $\mathbf{d}^{(i|n)}_p$ is used in a first stage filtering for distinctiveness by order-statistic filtering.  A query descriptor $\mathbf{v}_n^{(j)}$ is considered suitable for use in assessing similarity between a pair of images only if $d^{(i|n)}_{[1]} < \alpha \cdot d^{(i|n)}_{[2]}$ where $d^{(i|n)}_{[1]}, d^{(i|n)}_{[2]},\ldots $ denotes the sorted elements of the vector $\mathbf{d}^{(i|n)}_p$ in increasing order (the path subscript $p$ is temporarily suppressed to include the order-statistic of elements).  $0<\alpha<1$ is set to around 0.7, and any \textit{query} descriptors that do not satisfy this condition is discarded. This ``uniqueness criterion'' was chosen by Lowe as the ratio of closest to second-closest neighbours of each descriptor that provides the best ratio of probabilities for correct versus incorrect matches~\cite{lowe2004distinctive}. All image query vectors are subjected to the same test.  Those that pass the test allow an ``average'' distance based on best matching descriptors to be used to determine how close a single query image is to a single database image. That is, for a single image query 
 
 \begin{equation}
@@ -88,7 +88,7 @@ Many descriptors in the query image will not be sufficiently distinct to be usef
 
 is calculated where $\mathcal{D}$ is the set of query descriptors that pass the distinctiveness test, as described here. Again, note that path subscript $p$ has been omitted from the right-hand side of this expression to represent the sorted distances.
 
-\subsection{The $\gamma$ Score} I calculated  $\mu_p^{(i,j)}$ across all query images $\mathbf{J}^{(j)}$, $j=1,2,\ldots,N_q$ and all path images $\lbrace\lbrace I^{(i)}_p\rbrace_{i=1,2,\ldots,N_p}\rbrace_{p=1,2,\ldots P}$.   A score is then defined to produce a measure of similarity $\gamma^{(i,j)}$ between image pairs $(i,j)$ relative to path $p$ such that $0 < \gamma \le 1$. 
+\subsection{The $\gamma$ score} I calculated  $\mu_p^{(i,j)}$ across all query images $\mathbf{J}^{(j)}$, $j=1,2,\ldots,N_q$ and all path images $\lbrace\lbrace I^{(i)}_p\rbrace_{i=1,2,\ldots,N_p}\rbrace_{p=1,2,\ldots P}$.   A score is then defined to produce a measure of similarity $\gamma^{(i,j)}$ between image pairs $(i,j)$ relative to path $p$ such that $0 < \gamma \le 1$. 
 
 
 \begin{equation}
@@ -122,7 +122,7 @@ A second type of score, $\rho$, was created with a slightly different normalisat
 
 %% WHAT AM I HOLDING?
 
-\section{What Am I Holding?}
+\section{What am I holding?}
 
 An increasing use for smartphones involves using \textit{visual search} in which a photograph taken with the phone is used as a query into a catalogue of database items.  Common items include paperbacks (books), compact-disc sleeves and art.  A closely related approach is the use of bar codes on items to look up both prices and more detailed product information.  
 
@@ -141,7 +141,7 @@ The dataset contains a mixture of stills and video clips, including nearly 135,0
 
 
 
-\section{Initial experimental Results} \label{sec:expResults}
+\section{Initial experimental results} \label{sec:expResults}
 
 \subsection{Navigation}
 
@@ -168,7 +168,7 @@ In the case of the $\rho$ metric, these bootstrapped measurements have revealed 
 
 %%  Discussion \& Conclusions
 
-\section{Discussion \& Conclusions}
+\section{Discussion \& conclusions}
 
 In this chapter I have presented the preliminary studies that laid the foundations for the work described in the remainder of this dissertation. The motivation was the same for both navigation and object recognition applications: mobile, appearance-based solutions with an emphasis in the assistive case. As we will see, the results presented in the following chapters are also applicable to sighted users. However, the design of the experiments always had the blind and partially sighted user in mind, as I believe that all serious design should be inclusive and therefore usable for both sighted and visually impaired. 
 
