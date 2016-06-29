@@ -269,7 +269,7 @@ To the best of our knowledge, with the exception of NAVVIS \cite{Huitl2012}, SLA
 
 I have previously defined a \textit{visual path} as the video sequence captured by a moving person in executing a journey along a particular physical path. For the construction of our dataset, the \textit{RSM dataset of visual paths}, a total of 60 videos were acquired from 6 corridors of a large building, the Royal School of Mines at Imperial College London. A layout of the trajectories is reproduced in Figure \ref{fig:map_and_legend}. In total, 3.05 km of data is contained in this dataset at natural indoor walking speeds.  For each corridor, ten passes (i.e.\ 10 separate visual paths) are obtained. These are acquired with two different devices with 30 videos each. One device was an LG Google Nexus 4 phone running Android 4.4.2.  The video data was acquired at approximately 24-30 fps at two different resolutions, $1280 \times 720$ and $1920\times 1080$ pixels.  The second device was a Google Glass (Explorer edition) acquiring at a resolution of $1280 \times 720$, and at a frame rate of 30 fps. Table~\ref{tbl:Datasets} summarises the acquisition.  As can be seen, the length of the sequences varies within some corridors, due to a combination of different walking speeds and/or different frame rates. Lighting also varied, due to a combination of daylight/night-time acquisitions, and occasional prominent windows that represent strong lighting sources in certain parts of some corridors.  Changes were also observable in some videos from one pass to another, due to the presence of changes and occasional appearance from people. In total, more than 90,000 frames of video are labelled with positional ground truth in a path relative manner. 
 
-\subsection{Ground truth Acquisition}
+\subsection{Ground truth acquisition}
 
 A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$ was used to record distance, but was modified by wiring its encoder to a Raspberry Pi model B running a number of measurement processes. The Pi was synchronised to network time using the network time protocol (NTP) enabling synchronisation with timestamps in the video sequence.  Because of the variable-frame rate of acquisition, timestamp data from the video was used to align ground-truth measurements with frames. This data was used to access the accuracy of associating positions along journeys through frame indexing and comparison.
 
@@ -327,7 +327,7 @@ A surveyor's wheel (Silverline) with a precision of 10 cm and error of $\pm 5\%$
 \section{Experiments}
 \label{sec:exp_methods}
 
-\subsection{Performance Evaluation}
+\subsection{Performance evaluation}
 
 The methods for a) describing spatial or space-time structure, b) indexing and comparing the data are summarised in Table~\ref{tbl:Methods}. The choice of parameters was selected to allow a) as consistent a combination of methods as possible, allowing fair comparisons of the effect of one type of encoding or spatio-temporal operator to be isolated from others b) to select parameter choices close to other research in the area, e.g.\ for image categorisation, the chosen \footnote{Large dictionary sizes for an ambiguous dataset such as RSM might not seem adequate. However, internal experiments with smaller dictionary sizes (64 for VLAD and 400 for HA) showed poorer results and were not included in the comparison.} dictionary sizes of $\approx 256$, $\approx 400$ and $\approx 4000$ words are common. 
 
@@ -487,7 +487,7 @@ As described in the previous section, by permuting the database paths and select
 \end{figure}
 
 
-\subsection{Performance Summaries}
+\subsection{Performance summaries}
 \label{visloc_perf}
 I calculated the average of the absolute positional error (in m) and the standard deviation of the absolute positional error in a subset of the complete RSM dataset (Table~\ref{Table:summaries}). I  used a leave-one-journey-out approach (all the frames from an entire journey are excluded from the database).  Also using bootstrap sampling, I also estimated the cumulative density functions of the error distributions in position, which are plotted separately in Figure \ref{fig:CDFglobal} and in the same graph in Figure~\ref{fig:CDFall}. The variability in these curves is shown, although it is hard to appreciate. It has been therefore summarised in the last two columns of Table~\ref{Table:summaries} through the area-under-curve (AUC) values. In the best case (SF-GABOR), AUCs of the order of $~96\%$ would mean errors generally below 2 m; in the worst (HOG3D), AUCs $\approx$ 90\% would mean errors of around 5 m.  These  mean absolute error estimates are obtained as the queries, the dictionary and the paths in the database are permuted. 
 
