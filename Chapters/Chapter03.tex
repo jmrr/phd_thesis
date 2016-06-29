@@ -252,7 +252,7 @@ Several metrics exist for evaluating a classifier's performance. When testing fo
 %\end{itemize}
 
 %%------------------------------------------------------------------------
-\section{Results and Discussion} \label{sec:analysis} \label{sec:results}
+\section{Results and discussion} \label{sec:analysis} \label{sec:results}
 
 
 In order to facilitate performance comparisons, I organised the queries in the SHORT dataset into the four groups in Table~\ref{table:testData}: Still images acquired by sighted users (ST-SG) and blindfolded users (ST-BF); and videoframes acquired by sighted (VF-SG) or blindfolded users (VF-BF). From Table~\ref{table:sightedVSblindfolded} we appreciate that these groups showed differences in average quality of recognition. Still-image queries outperform single-frame queries taken from unfiltered video: video frames typically include images which are blurred due to an object being rotated during capture. However, the pilot work to be described in Section \ref{subsec:evaluationframes} suggests that multiple frames from video can enhance accuracy. Queries from sighted users led to better performance than those from blindfolded users. The ``blindfolded'' queries appeared less susceptible to some forms of  capture-bias: some images contained inadvertent partial object occlusions, making categorisation more challenging. This makes SHORT arguably a better dataset for designing technology for vision-based assistive systems for hand-held and wearable camera recognition of hand-held objects.
@@ -390,7 +390,7 @@ The range of training images in the database -- covering almost all faces of a p
 \end{figure}
 
 
-\subsection{Evaluation of Sequential Video Frames} \label{subsec:evaluationframes}
+\subsection{Evaluation of sequential video frames} \label{subsec:evaluationframes}
 
 In this section I analyse how sequential frames from a video of an object can be used in order to improve classification accuracy. First, multiple sequential frames from a video were queried, and each frame was matched to one of the categories of the SHORT database using the descriptor matching method described in Sections~\ref{subsec:pairwise} and \ref{subsec:querydescrejection}. A histogram of the matches was computed for several videos of the same object, as shown in Figure~\ref{fig:prd003a}. Even though the total number of incorrect matches (the blue bins) increases as we query more video frames, they are distributed across a range of object categories in the database. 
 
@@ -417,7 +417,7 @@ The above analyses were undertaken for several videos and object categories unde
 \end{figure}
 
 
-\subsection{Classification Accuracy Based on Sequential Video Frames} \label{sec:expResults2}
+\subsection{Classification accuracy based on sequential video frames} \label{sec:expResults2}
 
 Classification accuracy using the individual voting metric was computed for seven categories of SHORT dataset (Table~\ref{table:vfAnalysis7prods}). As we saw in Section~\ref{subsec:evaluationframes}, a video $\mathbf{Q}$, comprising of query frames $Q_i, i = 1,2,...,N$, is classified as the $k$-th category, $C_k$, to which the majority of query frames, $Q_i$, were matched to. The accuracy was calculated for twelve videos of each object based on different limits for the number of queries allowed, $N$.
 
@@ -479,7 +479,7 @@ ID & Acc (\%) & Acc & Std & Acc & Std & Acc & Std & Acc & Std & Acc & Std \\
 
 
 %%------------------------------------------------------------------------
-\section{Conclusion and Future Work} \label{sec:conclusions}
+\section{Conclusion and future work} \label{sec:conclusions}
 
 I have presented a new publicly available  dataset containing queries consisting of single images and video frames of hand-held objects.  These were captured by multiple users using a variety of smartphones. The purpose of this dataset is to have a more realistic view of variability in acquisition across images taken of hand-held objects. Unlike other datasets, SHORT also contains a great disparity in the image resolution and quality of its object and query items, which I feel is more representative of the conditions of use we would expect for high-quality, curated models being used to service queries from wearable or hand-held cameras.
 
